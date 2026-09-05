@@ -689,6 +689,7 @@ p:last-child { margin-bottom: 0; }
 }
 .cap-card--wide { grid-column: span 6; }
 .cap-card--std  { grid-column: span 3; }
+.cap-card--third { grid-column: span 4; }
 .cap-card--tall { grid-column: span 4; grid-row: span 2; aspect-ratio: 4 / 5; padding: 0; overflow: hidden; }
 .cap-card--tall img { width: 100%; height: 100%; object-fit: cover; }
 .cap-card--tall .cap-tall-meta {
@@ -1211,3 +1212,142 @@ p:last-child { margin-bottom: 0; }
   .hero-headline { font-size: var(--text-4xl); }
   .closing-cta h2 { font-size: var(--text-4xl); }
 }
+
+/* ============================================================================
+   Client index grid — compact small cards (name · country · services)
+   ============================================================================ */
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.client-card {
+  background: var(--bg-card);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.client-card:hover { background: var(--bg-elev); }
+.client-logo {
+  width: 72px;
+  height: 72px;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: var(--ink);
+  aspect-ratio: 1 / 1;
+}
+.client-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.client-id {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--fg-deep);
+  letter-spacing: 0.08em;
+}
+.client-country {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fg-mute);
+}
+.client-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  line-height: 1.25;
+  color: var(--fg);
+}
+.client-card:hover .client-name { color: var(--lime); }
+.client-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding: 0;
+  list-style: none;
+}
+.client-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--paper-soft);
+  border: 1px solid var(--ink-line);
+  background: var(--ink);
+  border-radius: var(--radius-full);
+  padding: 3px 9px;
+  line-height: 1.4;
+}
+.client-tag svg, .client-tag img { width: 11px; height: 11px; }
+.client-tag[data-accent] { border-color: var(--rule-lime); }
+
+/* Accent spans usable outside the hero (generic lime + legible on light tiles) */
+.lime { color: var(--lime); }
+.tile-section .lime { color: #648A08; }
+
+/* Minimal footer variant (brand + one link column) */
+.site-footer .footer-top--minimal { grid-template-columns: 1.4fr 1fr; align-items: end; }
+.site-footer .footer-top--minimal ul {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  max-width: 28ch;
+}
+@media (max-width: 720px) {
+  .site-footer .footer-top--minimal { grid-template-columns: 1fr; align-items: start; }
+  .site-footer .footer-top--minimal ul { max-width: none; }
+}
+
+/* Direct-contact list rows */
+.contact-list { list-style: none; margin: 0 0 var(--space-5); padding: 0; border-top: 1px solid var(--rule); }
+.contact-list li { border-bottom: 1px solid var(--rule); }
+.contact-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  color: var(--fg);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.contact-list a:hover { color: var(--lime); }
+.contact-list .c-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-list a:hover .c-label { color: var(--fg-soft); }
+.contact-list .c-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--fg-soft);
+}
+.contact-list .c-handle .arrow { opacity: 0; transform: translateX(-6px); transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.contact-list a:hover .c-handle .arrow { opacity: 1; transform: translateX(0); }
+
