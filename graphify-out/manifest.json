@@ -1,0 +1,212 @@
+{
+  "assets/js/site.js": {
+    "mtime": 1780979101.0,
+    "ast_hash": "4936c56938bad8fec9e57db9c702ffa8",
+    "semantic_hash": "4936c56938bad8fec9e57db9c702ffa8"
+  },
+  "README.md": {
+    "mtime": 1780979101.0,
+    "ast_hash": "006e3cb2adb60dbd9bd9de876c91af64",
+    "semantic_hash": "006e3cb2adb60dbd9bd9de876c91af64"
+  },
+  "assets/img/CREDITS.md": {
+    "mtime": 1780979101.0,
+    "ast_hash": "1b47efa0bc9873417b328e63985ba25f",
+    "semantic_hash": "1b47efa0bc9873417b328e63985ba25f"
+  },
+  "contact.html": {
+    "mtime": 1780979101.0,
+    "ast_hash": "68aa6439354513ea03ac880f20d027ec",
+    "semantic_hash": "68aa6439354513ea03ac880f20d027ec"
+  },
+  "index.html": {
+    "mtime": 1780979101.0,
+    "ast_hash": "fe912894d82f4586473e231ebd60831d",
+    "semantic_hash": "fe912894d82f4586473e231ebd60831d"
+  },
+  "services.html": {
+    "mtime": 1780979101.0,
+    "ast_hash": "28a2a0751825fb373674d87e49186b35",
+    "semantic_hash": "28a2a0751825fb373674d87e49186b35"
+  },
+  "studio.html": {
+    "mtime": 1780979101.0,
+    "ast_hash": "c8d7c5ba3bcd6f3e0f200b70ec8c1382",
+    "semantic_hash": "c8d7c5ba3bcd6f3e0f200b70ec8c1382"
+  },
+  "work.html": {
+    "mtime": 1780979101.0,
+    "ast_hash": "290204a636e33b2c035c4e76159f975b",
+    "semantic_hash": "290204a636e33b2c035c4e76159f975b"
+  },
+  "assets/img/cap-tall.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "50d9f7182308927aeb526adb9d8b8ce9",
+    "semantic_hash": "50d9f7182308927aeb526adb9d8b8ce9"
+  },
+  "assets/img/contact-hero.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "4e274b9baaa28d05316d7b9a0d5c3c3e",
+    "semantic_hash": "4e274b9baaa28d05316d7b9a0d5c3c3e"
+  },
+  "assets/img/contact-room.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "16a8cfe70231cd7065bb8e59262312b5",
+    "semantic_hash": "16a8cfe70231cd7065bb8e59262312b5"
+  },
+  "assets/img/hero-archive.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "8269682149c6eb9fbb2ca823cc1eab03",
+    "semantic_hash": "8269682149c6eb9fbb2ca823cc1eab03"
+  },
+  "assets/img/hero-portrait.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "600d1f9bc7edd8c8e1804fa98fda1adf",
+    "semantic_hash": "600d1f9bc7edd8c8e1804fa98fda1adf"
+  },
+  "assets/img/journal-archive.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "f1ea685ad75267acc9fa2e83531bb662",
+    "semantic_hash": "f1ea685ad75267acc9fa2e83531bb662"
+  },
+  "assets/img/journal-colour.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "8eea7ed2b74917500c2194a4e23304c9",
+    "semantic_hash": "8eea7ed2b74917500c2194a4e23304c9"
+  },
+  "assets/img/journal-light.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "bea5f4f050aedc51396ae1a9874f36c0",
+    "semantic_hash": "bea5f4f050aedc51396ae1a9874f36c0"
+  },
+  "assets/img/process-shoot.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "035c63e5197fdb2c33bd14329784ca09",
+    "semantic_hash": "035c63e5197fdb2c33bd14329784ca09"
+  },
+  "assets/img/services-hero.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "022e94322fae2cb95580e62c7b4cf3a3",
+    "semantic_hash": "022e94322fae2cb95580e62c7b4cf3a3"
+  },
+  "assets/img/studio-berlin.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "8fc156b0994cfa69e629d4b3ea599eab",
+    "semantic_hash": "8fc156b0994cfa69e629d4b3ea599eab"
+  },
+  "assets/img/studio-brooklyn.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "9aa00376b9da68b3f6a7bec53956a63d",
+    "semantic_hash": "9aa00376b9da68b3f6a7bec53956a63d"
+  },
+  "assets/img/studio-hero.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "23d36680ff4c71e7a420c6959cfc63be",
+    "semantic_hash": "23d36680ff4c71e7a420c6959cfc63be"
+  },
+  "assets/img/studio-room.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "1bc943397d68b541b2f9489154075a19",
+    "semantic_hash": "1bc943397d68b541b2f9489154075a19"
+  },
+  "assets/img/team-anya.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "eea0949d32ebb2d65b40dbf39b054205",
+    "semantic_hash": "eea0949d32ebb2d65b40dbf39b054205"
+  },
+  "assets/img/team-eli.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "c3c55f9a069bc88bac7280ad40e59098",
+    "semantic_hash": "c3c55f9a069bc88bac7280ad40e59098"
+  },
+  "assets/img/team-felix.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "d884c68d35bcda7f30f4dd0e52c81d68",
+    "semantic_hash": "d884c68d35bcda7f30f4dd0e52c81d68"
+  },
+  "assets/img/team-iris.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "1a1bd6a8e5016f9566775acbd61b71a4",
+    "semantic_hash": "1a1bd6a8e5016f9566775acbd61b71a4"
+  },
+  "assets/img/team-joon.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "78d243997b29ccf59ecd072da38f34db",
+    "semantic_hash": "78d243997b29ccf59ecd072da38f34db"
+  },
+  "assets/img/team-mira.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "8b6f0a8e85ce2527eff55c90324074f8",
+    "semantic_hash": "8b6f0a8e85ce2527eff55c90324074f8"
+  },
+  "assets/img/team-rosa.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "193f6d9bbe777c357c2d7793e085db8d",
+    "semantic_hash": "193f6d9bbe777c357c2d7793e085db8d"
+  },
+  "assets/img/team-tomas.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "62b59eaf4f603b116a3ac46dd03ee325",
+    "semantic_hash": "62b59eaf4f603b116a3ac46dd03ee325"
+  },
+  "assets/img/work-arch-2.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "515c65d38c959c806d63f9408d7ca3f5",
+    "semantic_hash": "515c65d38c959c806d63f9408d7ca3f5"
+  },
+  "assets/img/work-arch.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "b475f847c7c76f84b22a60ec789fc379",
+    "semantic_hash": "b475f847c7c76f84b22a60ec789fc379"
+  },
+  "assets/img/work-atrium.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "b708ac3c68ab1a876fbcb12177a2db08",
+    "semantic_hash": "b708ac3c68ab1a876fbcb12177a2db08"
+  },
+  "assets/img/work-doc.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "bf1fe66081a7783bce7f5f8db5f845f9",
+    "semantic_hash": "bf1fe66081a7783bce7f5f8db5f845f9"
+  },
+  "assets/img/work-fashion.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "32bd954bdc6cff4cf66484c02db25f71",
+    "semantic_hash": "32bd954bdc6cff4cf66484c02db25f71"
+  },
+  "assets/img/work-food-2.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "b57bf22fd9204841fd8eeb1c948dabb2",
+    "semantic_hash": "b57bf22fd9204841fd8eeb1c948dabb2"
+  },
+  "assets/img/work-food.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "d0e7efe1faa007ec7d2b2dfe1579434e",
+    "semantic_hash": "d0e7efe1faa007ec7d2b2dfe1579434e"
+  },
+  "assets/img/work-portrait-1.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "0463c8f781f7753705dcd16117945f0f",
+    "semantic_hash": "0463c8f781f7753705dcd16117945f0f"
+  },
+  "assets/img/work-portrait-2.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "8aea5944ca485516f0cbaa549ececd33",
+    "semantic_hash": "8aea5944ca485516f0cbaa549ececd33"
+  },
+  "assets/img/work-product.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "dd1b6d6e5a3f82908a2be92060d70fae",
+    "semantic_hash": "dd1b6d6e5a3f82908a2be92060d70fae"
+  },
+  "assets/img/work-still-1.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "18bbd4c99576add4911da91379fef692",
+    "semantic_hash": "18bbd4c99576add4911da91379fef692"
+  },
+  "assets/img/work-still-2.jpg": {
+    "mtime": 1780979101.0,
+    "ast_hash": "aee9d2877504479f101665ede5b2e27e",
+    "semantic_hash": "aee9d2877504479f101665ede5b2e27e"
+  }
+}
