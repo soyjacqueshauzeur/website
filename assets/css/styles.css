@@ -1188,13 +1188,18 @@ p:last-child { margin-bottom: 0; }
   .award-cell:nth-child(2) { border-inline-end: 0; }
   .award-cell:nth-child(1), .award-cell:nth-child(2) { border-bottom: 1px solid var(--rule); }
   .footer-top { grid-template-columns: 1fr 1fr; }
-  .chapter-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+  .chapter-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
   .faq-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .nav-toggle { display: inline-flex; }
+  .nav { flex-wrap: wrap; row-gap: var(--space-3); }
+  .nav-cta-row { width: 100%; justify-content: space-between; }
+  .nav-cta-row .lang-switch { margin-inline-start: 0; }
+  .press-row { font-size: var(--text-lg); gap: var(--space-4) var(--space-5); }
+  .press-row span { white-space: normal; }
   .form-row { grid-template-columns: 1fr; }
   .stat-strip { grid-template-columns: 1fr; }
   .stat-cell { border-inline-end: 0; border-bottom: 1px solid var(--rule); }
@@ -1238,12 +1243,16 @@ p:last-child { margin-bottom: 0; }
   width: 72px;
   height: 72px;
   max-width: 100%;
-  object-fit: cover;
-  border-radius: var(--radius);
+  object-fit: contain;
+  padding: 6px;
+  background: var(--paper);
   border: 1px solid var(--rule);
-  background: var(--ink);
+  border-radius: var(--radius);
   aspect-ratio: 1 / 1;
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
+a.client-logo-link { display: inline-block; line-height: 0; border-radius: var(--radius); }
+a.client-logo-link:hover .client-logo { border-color: var(--lime); transform: translateY(-2px); }
 .client-top {
   display: flex;
   align-items: center;
@@ -1415,4 +1424,13 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 }
 .mobile-drawer .lang-switch .flag { width: 28px; height: 18px; opacity: 0.8; }
 .mobile-drawer .lang-switch .lang-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute); margin-inline-end: var(--space-2); }
+
+/* Extra-narrow screens (min 300px): shrink display type and brand so nothing overflows */
+@media (max-width: 420px) {
+  h1, h2, .section-head h2 { font-size: var(--text-3xl); }
+  .hero-headline { font-size: var(--text-3xl); }
+  .closing-cta h2 { font-size: var(--text-3xl); }
+  .brand { font-size: 1rem; }
+  h1, h2, h3, p, .lede { overflow-wrap: break-word; }
+}
 

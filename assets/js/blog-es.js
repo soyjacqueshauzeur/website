@@ -3,7 +3,7 @@
   'use strict';
 
   // ---------- Article Data ----------
-  const articles = (window.BLOG_POSTS || []).slice();
+  const articles = (window.BLOG_POSTS_ES || []).slice();
 
   const MONTHS_BLOG = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
   function blogDate(str) {
@@ -19,6 +19,8 @@
   const perPage = 4;
 
   // ---------- DOM Elements ----------
+  const categoryLabels = { setup: 'Configuración', process: 'Proceso', business: 'Negocio', archive: 'Archivo', philosophy: 'Filosofía', gear: 'Equipo' };
+
   const grid = document.getElementById('blog-grid');
   const filterBtns = document.querySelectorAll('.filter-btn');
   const loadMoreBtn = document.getElementById('load-more');
@@ -41,11 +43,11 @@
 
       return `
         <article class="blog-card blog-card--${size} reveal reveal-${(i % 6) + 1}" data-slug="${article.slug}">
-          <a class="blog-link" href="2026/07/${article.slug}.html" aria-label="Read: ${article.title}">
+          <a class="blog-link" href="2026/07/${article.slug}.html" aria-label="Leer: ${article.title}">
             <div class="bm">
               <img src="${article.image}" alt="${article.title}" loading="lazy" />
-              <span class="bm-pill">${capitalize(article.category)}</span>
-              ${article.featured ? '<span class="bm-featured">Featured</span>' : ''}
+              <span class="bm-pill">${categoryLabels[article.category] || capitalize(article.category)}</span>
+              ${article.featured ? '<span class="bm-featured">Destacado</span>' : ''}
             </div>
             <div class="blog-meta">
               <div>
