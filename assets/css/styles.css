@@ -1351,3 +1351,68 @@ p:last-child { margin-bottom: 0; }
 .contact-list .c-handle .arrow { opacity: 0; transform: translateX(-6px); transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
 .contact-list a:hover .c-handle .arrow { opacity: 1; transform: translateX(0); }
 
+/* Flip an image horizontally (mirror left/right) */
+.flip-x { transform: scaleX(-1); }
+
+/* Hero portrait A/B toggle */
+.hero-photo-toggle {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: rgba(10, 10, 12, 0.62);
+  border: 1px solid rgba(244, 244, 240, 0.18);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.hero-photo-toggle:hover { background: var(--ink-elev); color: var(--lime); border-color: rgba(212, 255, 61, 0.4); }
+.hero-photo-toggle .hpt-current { color: var(--lime); }
+.hero-photo-toggle .hpt-sep { opacity: 0.6; }
+
+/* Language switch — flag buttons (EN default, ES under /es/) */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: var(--space-3);
+}
+.lang-switch .flag {
+  display: inline-block;
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
+  overflow: hidden;
+  line-height: 0;
+  opacity: 0.55;
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
+.lang-switch .flag.is-active { opacity: 1; cursor: default; }
+.lang-switch .visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.mobile-drawer .lang-switch {
+  margin-inline-start: 0;
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--rule);
+}
+.mobile-drawer .lang-switch .flag { width: 28px; height: 18px; opacity: 0.8; }
+.mobile-drawer .lang-switch .lang-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute); margin-inline-end: var(--space-2); }
+

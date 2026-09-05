@@ -67,3 +67,61 @@
     }, { passive: true });
   }
 })();
+
+/* Language preference (EN default · ES under /es/) */
+(function () {
+  'use strict';
+
+  function setLang(lang) {
+    try {
+      document.cookie = 'lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
+    } catch (e) {}
+  }
+
+  document.addEventListener('click', function (e) {
+    var link = e.target && e.target.closest ? e.target.closest('.lang-switch a[data-lang]') : null;
+    if (!link) return;
+    setLang(link.getAttribute('data-lang'));
+  });
+
+  function getLang() {
+    var m = document.cookie.match(/(?:^|;\s*)lang=([^;]+)/);
+    return m ? m[1] : null;
+  }
+
+  // Remembered Spanish users landing on the EN homepage go straight to /es/.
+  if (getLang() === 'es') {
+    var path = location.pathname.replace(/\/+$/, '') || '/';
+    if (path === '/' || path === '/index.html') {
+      location.replace('/es/');
+    }
+  }
+})();
+
+/* Hero portrait A/B toggle */
+(function () {
+  'use strict';
+
+  document.querySelectorAll('.hero-photo-toggle').forEach(function (btn) {
+    var target = document.querySelector(btn.getAttribute('data-target'));
+    if (!target) return;
+
+    var first = target.getAttribute('data-first');
+
+    function updateLabel() {
+      var num = first && target.getAttribute('src') === first ? '1' : '2';
+      var current = btn.querySelector('.hpt-current');
+      if (current) current.textContent = num;
+    }
+
+    btn.addEventListener('click', function () {
+      var alt = target.getAttribute('data-alternate');
+      var cur = target.getAttribute('src');
+      target.setAttribute('src', alt);
+      target.setAttribute('data-alternate', cur);
+      updateLabel();
+    });
+
+    updateLabel();
+  });
+})();

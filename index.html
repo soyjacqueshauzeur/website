@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="alternate" hreflang="en" href="/" />
+  <link rel="alternate" hreflang="es" href="/es/" />
+  <link rel="alternate" hreflang="x-default" href="/" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,6 +32,10 @@
           <a href="contact.html" class="btn btn--primary btn--sm">Book a call
             <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
+          <nav class="lang-switch" aria-label="Language">
+            <span class="flag is-active" title="English"><img src="assets/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></span>
+            <a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="assets/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>
+          </nav>
           <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>
         </div>
       </nav>
@@ -43,6 +50,11 @@
     <a href="studio.html">1:1</a>
     <a href="blog.html">Journal</a>
     <a href="contact.html">Contact</a>
+    <div class="lang-switch" aria-label="Language">
+      <span class="lang-label">Language</span>
+      <span class="flag is-active" title="English"><img src="assets/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></span>
+      <a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="assets/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>
+    </div>
   </div>
 
   <main id="main">
@@ -76,14 +88,17 @@
             </div>
           </div>
           <div class="hero-media reveal">
-            <img src="assets/img/hero-portrait.jpg" alt="Portrait — placeholder to be replaced with a real photo of Jacques Hauzeur." />
+            <img id="hero-photo" class="flip-x" src="assets/img/meCity.jpeg" alt="Portrait of Jacques Hauzeur." data-first="assets/img/meCity.jpeg" data-alternate="assets/img/me.jpeg" />
             <div class="floating-tag ft-top">
-              <span class="pill">New cohort</span>
-              Spring 2026 · now open
+              <span class="pill">Jacques Hauzeur</span>
+              Technology educator and mentor
             </div>
             <div class="floating-tag ft-bottom">
               Web · Marketing · AI · No-code
             </div>
+            <button class="hero-photo-toggle" type="button" data-target="#hero-photo" aria-label="Toggle portrait photo">
+              <span class="hpt-current">1</span><span class="hpt-sep"> / 2</span>
+            </button>
           </div>
         </div>
 
@@ -146,7 +161,7 @@
               <li class="client-tag"><span aria-hidden="true">🌎</span>Website</li>
               <li class="client-tag"><span aria-hidden="true">📊</span>Ads</li>
               <li class="client-tag"><span aria-hidden="true">📸</span>Social</li>
-              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat</li>
+              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat Marketing</li>
             </ul>
           </article>
 
@@ -177,7 +192,7 @@
             <img class="client-logo" src="assets/img/clients/odontoexpress.svg" alt="" width="96" height="96" loading="lazy" />
             <h3 class="client-name">OdontoExpress</h3>
             <ul class="client-tags">
-              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat</li>
+              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat Marketing</li>
             </ul>
           </article>
 
@@ -248,7 +263,7 @@
             <h3 class="client-name">Carlos Castillo</h3>
             <ul class="client-tags">
               <li class="client-tag"><span aria-hidden="true">✏️</span>Education</li>
-              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat</li>
+              <li class="client-tag"><span aria-hidden="true">🤖</span>Chat Marketing</li>
             </ul>
           </article>
 
@@ -383,7 +398,8 @@
             </a>
           </div>
           <div class="split-img">
-            <img src="assets/img/jacques-about.svg" alt="Jacques Hauzeur — portrait placeholder to be replaced with a real photo." />
+            <!-- mirror horizontal disabled: <img ... class="flip-x" /> -->
+            <img src="assets/img/me.jpeg" alt="Portrait of Jacques Hauzeur." />
             <span class="ft-corner">Argentina + Colombia · online worldwide</span>
           </div>
         </div>
