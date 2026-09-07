@@ -125,3 +125,24 @@
     updateLabel();
   });
 })();
+
+/* Footer date line — © {year} {month} </> … localized */
+(function () {
+  'use strict';
+  if (!document.querySelector('.ft-year')) return;
+
+  var d = new Date();
+  var lang = (document.documentElement.lang || 'en').toLowerCase();
+  var locale = lang === 'es' || lang === 'ru' ? lang : 'en';
+  var month;
+  try {
+    month = new Intl.DateTimeFormat(locale, { month: 'long' }).format(d);
+  } catch (e) {
+    month = 'september';
+  }
+  month = month.charAt(0).toUpperCase() + month.slice(1);
+  var year = String(d.getFullYear());
+
+  document.querySelectorAll('.ft-year').forEach(function (el) { el.textContent = year; });
+  document.querySelectorAll('.ft-month').forEach(function (el) { el.textContent = month; });
+})();

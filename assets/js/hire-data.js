@@ -156,7 +156,7 @@
       tg: 'Send order via Telegram',
       waNote: 'Opens WhatsApp with the order ready',
       monthWord: 'mo',
-      cancel: 'Cancel',
+      cancel: 'Close',
       continue: 'Keep browsing',
       added: 'Added to your hire',
       monthsChips: ['1 mo', '3 mo', '6 mo', '12 mo'],

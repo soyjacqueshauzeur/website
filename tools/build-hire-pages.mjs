@@ -27,6 +27,8 @@ async function loadData(file) {
 const EN = await loadData('assets/js/hire-data.js');
 const ES = await loadData('assets/js/hire-data-es.js');
 
+const WA = 'https://wa.me/573507402009';
+
 /* ---- per-language copy that does not live in the runtime data ---- */
 const COPY = {
   en: {
@@ -39,10 +41,9 @@ const COPY = {
       ['studio.html', '1:1'],
       ['services.html', 'Services'],
       ['index.html#about', 'About me'],
-      ['blog.html', 'Blog'],
-      ['contact.html', 'Contact']
+      ['blog.html', 'Blog']
     ],
-    cta: 'Book a call',
+    cta: 'WhatsApp',
     navAria: 'Primary',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
@@ -92,10 +93,9 @@ const COPY = {
       ['studio.html', '1:1'],
       ['services.html', 'Servicios'],
       ['index.html#about', 'Sobre mí'],
-      ['blog.html', 'Blog'],
-      ['contact.html', 'Contacto']
+      ['blog.html', 'Blog']
     ],
-    cta: 'Reservar una llamada',
+    cta: 'WhatsApp',
     navAria: 'Principal',
     menuOpen: 'Abrir menú',
     menuClose: 'Cerrar menú',
@@ -175,7 +175,7 @@ function shell(lang, copy, data, title, desc, active, body) {
 ${navLinks}
         </div>
         <div class="nav-cta-row">
-          <a href="contact.html" class="btn btn--primary btn--sm">${copy.cta}
+          <a href="${WA}" target="_blank" rel="noopener" class="btn btn--primary btn--sm">${copy.cta}
             <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <nav class="lang-switch" aria-label="${copy.langLabel}">
@@ -221,7 +221,7 @@ ${copy.nav.map(([h, l]) => '            <li><a href="' + h + '">' + l + '</a></l
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 Jacques Hauzeur · SoyJacquesHauzeur</span>
+        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>
         <div class="footer-meta-links">
           <a href="#">${lang === 'es' ? 'Privacidad' : 'Privacy'}</a>
           <a href="#">${lang === 'es' ? 'Aviso legal' : 'Imprint'}</a>
@@ -261,7 +261,7 @@ function hubBody(lang, copy, data) {
               <a class="btn btn--primary btn--lg" href="#hire-catalogue">${L.ctaPrimary}
                 <svg class="arrow" width="16" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
-              <a class="btn btn--ghost btn--lg" href="contact.html">${L.ctaSecondary}</a>
+              <a class="btn btn--ghost btn--lg" href="${WA}" target="_blank" rel="noopener">${L.ctaSecondary}</a>
             </div>
           </div>
           <div class="hire-hero-side">
@@ -307,7 +307,7 @@ ${side}
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${L.closePrimary}
             <svg class="arrow" width="16" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <a class="btn btn--ghost btn--lg" href="contact.html">${L.closeSecondary}</a>
+          <a class="btn btn--ghost btn--lg" href="${WA}" target="_blank" rel="noopener">${L.closeSecondary}</a>
         </div>
       </div>
     </section>`;

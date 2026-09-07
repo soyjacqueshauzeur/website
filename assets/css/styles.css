@@ -1996,5 +1996,53 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 .hire-pay-title { display: block; }
 .hire-foot-note--pay { margin: 0; text-align: center; }
 
+/* Social links in the About fact list */
+.split-fact-list li .social-flex { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.split-fact-list li a { color: var(--fg); border-bottom: 1px solid transparent; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out); }
+.split-fact-list li a:hover { color: var(--lime); border-bottom-color: var(--lime); }
+.split-fact-list li a:focus-visible { outline-offset: 2px; }
+.social-follow {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 14px;
+  border-radius: var(--radius-full);
+  border-bottom: 0 !important;
+  background: var(--lime);
+  color: var(--ink-000) !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  box-shadow: var(--shadow-xs);
+}
+.social-follow:hover {
+  background: var(--lime-soft);
+  border-bottom: 0 !important;
+  color: var(--ink-000) !important;
+}
+.social-follow .arrow { transition: transform var(--dur-fast) var(--ease-out); }
+.social-follow:hover .arrow { transform: translateX(2px); }
+.split-fact-list li .social-link { border-bottom: 1px solid transparent; }
+.split-fact-list li .social-link:hover { border-bottom-color: var(--lime); }
+
+/* WhatsApp / Telegram brand icons in the direct-contact list */
+.contact-list .c-label,
+.contact-list .c-handle,
+.contact-list .c-brand { color: var(--lime); }
+.contact-list a:hover .c-label,
+.contact-list a:hover .c-handle,
+.contact-list a:hover .c-brand,
+.contact-list a:focus-visible .c-label,
+.contact-list a:focus-visible .c-handle,
+.contact-list a:focus-visible .c-brand { color: var(--lime-soft); }
+
+/* Footer dynamic date line */
+.footer-copy { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.35em; }
+.footer-copy .ft-month { text-transform: capitalize; }
+.footer-copy .ft-code { color: var(--lime); font-family: var(--font-mono); font-weight: 500; }
+
 
 

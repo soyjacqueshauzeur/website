@@ -156,7 +156,7 @@
       tg: 'Enviar pedido por Telegram',
       waNote: 'Abre WhatsApp con el pedido listo',
       monthWord: 'mes',
-      cancel: 'Cancelar',
+      cancel: 'Cerrar',
       continue: 'Seguir mirando',
       added: 'Añadido a tu contratación',
       monthsChips: ['1 mes', '3 meses', '6 meses', '12 meses'],

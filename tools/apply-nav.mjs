@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
  * Applies the redesigned top navigation to the static top-level pages
- * (EN root + /es/). Nav order: Home · Clients · 1:1 · Services · About · Blog · Contact.
+ * (EN root + /es/). Nav order: Home · Clients · 1:1 · Services · About · Blog.
  * Rewrites the desktop nav-links, the mobile drawer anchors and the site footer.
  * The hire pages (services.html + 6 service pages) are regenerated separately by
  * build-hire-pages.mjs and must NOT be passed to this script.
@@ -16,8 +16,7 @@ const EN = [
   ['studio.html', '1:1'],
   ['services.html', 'Services'],
   ['index.html#about', 'About me'],
-  ['blog.html', 'Blog'],
-  ['contact.html', 'Contact']
+  ['blog.html', 'Blog']
 ];
 
 const ES = [
@@ -26,8 +25,7 @@ const ES = [
   ['studio.html', '1:1'],
   ['services.html', 'Servicios'],
   ['index.html#about', 'Sobre mí'],
-  ['blog.html', 'Blog'],
-  ['contact.html', 'Contacto']
+  ['blog.html', 'Blog']
 ];
 
 const FOOTER_BRAND_EN =
@@ -65,7 +63,7 @@ function canonicalFooter(list, brand, metaLinks) {
     '        </div>\n' +
     '      </div>\n' +
     '      <div class="footer-bottom">\n' +
-    '        <span>© 2026 Jacques Hauzeur · SoyJacquesHauzeur</span>\n' +
+    '        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>\n' +
     '        <div class="footer-meta-links">\n' +
     (metaLinks === 'es'
       ? '          <a href="#">Privacidad</a>\n          <a href="#">Aviso legal</a>\n          <a href="#">Mapa del sitio</a>\n'
@@ -131,12 +129,10 @@ const FILES = [
   'clients.html',
   'studio.html',
   'blog.html',
-  'contact.html',
   'es/index.html',
   'es/clients.html',
   'es/studio.html',
-  'es/blog.html',
-  'es/contact.html'
+  'es/blog.html'
 ];
 
 for (const f of FILES) transform(f);
