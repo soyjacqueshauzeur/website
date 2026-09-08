@@ -372,6 +372,12 @@ p:last-child { margin-bottom: 0; }
   border-color: rgba(10,10,12,0.2);
 }
 .btn--ghost-on-tile:hover { border-color: var(--ink-000); }
+.btn--ghost.btn--ghost-green {
+  background: var(--lime);
+  color: var(--ink-000);
+  border-color: var(--lime);
+}
+.btn--ghost.btn--ghost-green:hover { background: #648A08; border-color: #648A08; color: #fff; transform: translateY(-1px); }
 .btn--dark {
   background: var(--ink-000);
   color: var(--paper);
@@ -619,6 +625,8 @@ p:last-child { margin-bottom: 0; }
 .tile-section .mono  { color: #2A2A28; }
 .tile-section .btn--ghost { color: var(--ink-000); border-color: rgba(10,10,12,0.25); }
 .tile-section .btn--ghost:hover { border-color: var(--ink-000); }
+.tile-section .btn--ghost.btn--ghost-green { color: var(--ink-000); border-color: var(--lime); background: var(--lime); }
+.tile-section .btn--ghost.btn--ghost-green:hover { color: #fff; border-color: #648A08; background: #648A08; }
 .tile-section hr { border: 0; border-top: 1px solid rgba(10,10,12,0.15); }
 
 /* ---------- 12. Chapter opener ----------------------------------------- */
@@ -1324,6 +1332,36 @@ a.client-logo-link:hover .client-logo { border-color: var(--lime); transform: tr
 .slash { color: var(--lime); font-weight: 400; }
 .tile-section .lime { color: #648A08; }
 .tile-section .slash { color: #648A08; }
+
+/* Neon marker highlight (legible on light tiles and dark sections alike) */
+.hl {
+  background: rgb(192, 202, 51);
+  color: var(--ink-000);
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Hour stepper / numeric input for 1:1 class booking */
+.class-step-input {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-align: center;
+  padding: 8px 10px;
+}
+.class-step-input:focus-visible {
+  outline: none;
+  border-color: var(--lime);
+  box-shadow: 0 0 0 3px var(--lime-glow);
+}
+.class-step-input::-webkit-outer-spin-button,
+.class-step-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.class-step-input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
 
 /* Minimal footer variant (brand + one link column) */
 .site-footer .footer-top--minimal { grid-template-columns: 1.4fr 1fr; align-items: end; }
