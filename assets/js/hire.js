@@ -36,6 +36,21 @@
     return null;
   }
   function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+  function AX(n) { return (window.JH_FX && window.JH_FX.approxNode) ? window.JH_FX.approxNode(n) : ''; }
+  function AXID(n, id) {
+    if (!(window.JH_FX && window.JH_FX.approxNode)) return '';
+    return '<span class="price-approx" data-approx="' + n + '" data-approx-id="' + id + '"></span>';
+  }
+  function renderFX() {
+    if (window.JH_FX && window.JH_FX.renderApproxNodes) window.JH_FX.renderApproxNodes();
+  }
+  function renderNodeFX(id, amount) {
+    if (!window.JH_FX) return;
+    var el = document.querySelector('[data-approx-id="' + id + '"]');
+    if (!el) return;
+    el.setAttribute('data-approx', amount);
+    window.JH_FX.renderApproxNodes();
+  }
   function payLabel() {
     for (var i = 0; i < D.payments.length; i++) if (D.payments[i].id === state.payId) return D.payments[i].label;
     return '';
@@ -89,7 +104,7 @@
         '<h3 class="cat-card-title"><a href="' + s.file + '">' + s.cardTitle + '</a></h3>' +
         '<p class="cat-card-desc">' + s.cardDesc + '</p>' +
         '<div class="cat-card-foot">' +
-          '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span></div>' +
+          '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
           '<button type="button" class="btn btn--hire" data-hire-add="' + s.id + '" aria-label="' + L.hire + ' ' + s.category + '">' + L.hire + arrow() + '</button>' +
         '</div>' +
         '<span class="label cat-card-tags">' + s.tags + '</span>' +
@@ -108,6 +123,7 @@
       }
       roots[r].innerHTML = html;
     }
+    renderFX();
   }
 
   /* ---------------- price panel (service page) ---------------- */
@@ -121,10 +137,12 @@
       '<div class="hire-panel">' +
         '<div class="hire-panel-head"><span class="cap-num">' + s.num + ' / ' + s.category + '</span><span class="pay-chip">' + L.everyMonth + '</span></div>' +
         '<div class="hire-panel-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span></div>' +
+        AX(s.price) +
         '<p class="hire-panel-desc">' + s.cardDesc + '</p>' +
         '<span class="label" style="color: var(--fg-mute);">' + L.durationPick + '</span>' +
         '<div class="hire-months" role="group" aria-label="' + L.duration + '">' + chips + '</div>' +
         '<div class="hire-panel-total"><span>' + L.total + '</span><b data-panel-total>' + fmt(s.price * sel) + '</b></div>' +
+        AXID(s.price * sel, 'panel-' + s.id) +
         '<button type="button" class="btn btn--primary btn--lg" data-panel-add="' + s.id + '">' + L.add + arrow() + '</button>' +
         '<p class="hire-mini-note">' + L.billingNote + '</p>' +
       '</div>'
@@ -140,6 +158,7 @@
       if (state.panelSel[id] === undefined) state.panelSel[id] = D.months[0];
       roots[r].innerHTML = panelHTML(s, state.panelSel[id]);
     }
+    renderFX();
   }
 
   function setPanelMonths(id, m) {
@@ -151,6 +170,7 @@
     var s = svc(id);
     var tot = root.querySelector('[data-panel-total]');
     if (s && tot) tot.textContent = fmt(s.price * m);
+    renderNodeFX('panel-' + id, s ? s.price * m : 0);
   }
 
   /* ---------------- floating bubble + drawer chrome ---------------- */
@@ -235,15 +255,15 @@
           '</div>' +
           '<div class="hire-line-dur" role="group" aria-label="' + L.duration + '">' + monthChipsHTML(l) + '</div>' +
           '<div class="hire-line-meta">' +
-            '<span class="hlm-rate">' + fmt(s.price) + '<i>' + L.priceMonth + '</i></span>' +
+            '<span class="hlm-rate">' + fmt(s.price) + '<i>' + L.priceMonth + '</i>' + AX(s.price) + '</span>' +
             '<span class="hlm-mid">' + monthLabel(l.months) + '</span>' +
-            '<b class="hlm-total">' + fmt(lineTotal(l)) + '</b>' +
+            '<b class="hlm-total">' + fmt(lineTotal(l)) + AX(lineTotal(l)) + '</b>' +
           '</div>' +
         '</div>';
     }
     html +=
       '<div class="hire-summary-total">' +
-        '<div class="hire-sum-row total"><span>' + L.total + '</span><b data-cart-total>' + fmt(total()) + '</b></div>' +
+        '<div class="hire-sum-row total"><span>' + L.total + '</span><b data-cart-total>' + fmt(total()) + AX(total()) + '</b></div>' +
         '<p class="hire-foot-note">' + L.billingNote + '</p>' +
       '</div>';
     return html;
@@ -283,6 +303,27 @@
     if (body) body.innerHTML = cartBodyHTML();
     var foot = document.getElementById('hire-cart-foot');
     if (foot) foot.innerHTML = cartFootHTML();
+    renderFX();
+    saveQuoteFX();
+  }
+
+  /* Persist a structured quote (jh-pay-quote) for later gateway calls. */
+  function saveQuoteFX() {
+    if (!window.JH_FX || !window.JH_FX.saveQuote) return;
+    var items = [];
+    for (var i = 0; i < state.cart.length; i++) {
+      var l = state.cart[i];
+      var s = svc(l.id);
+      if (!s) continue;
+      items.push({
+        id: s.id,
+        name: s.category,
+        qty: l.months,
+        usdTotal: lineTotal(l)
+      });
+    }
+    if (items.length) window.JH_FX.saveQuote(items);
+    else window.JH_FX.clearQuote();
   }
 
   function popBubble() {
@@ -433,5 +474,9 @@
     updateUI();
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', onKey);
+    if (window.JH_FX) {
+      window.JH_FX.ready(function () { renderFX(); saveQuoteFX(); });
+      document.addEventListener('jh:fxchange', function () { renderFX(); saveQuoteFX(); });
+    }
   });
 })();

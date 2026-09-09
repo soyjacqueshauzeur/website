@@ -14,6 +14,7 @@
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { writeFile, mkdir } from 'node:fs/promises';
+import { headerHTML, drawerHTML, footerHTML } from './site-shell.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
 
@@ -141,17 +142,9 @@ function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function shell(lang, copy, data, title, desc, active, body) {
+function shell(lang, copy, data, title, desc, active, pageBasename, body) {
   const A = lang === 'es' ? '../assets' : 'assets';
-  const navLinks = copy.nav
-    .map(([href, label]) => {
-      const current = active === href ? ' aria-current="page"' : '';
-      return `          <a href="${href}"${current}>${label}</a>`;
-    })
-    .join('\n');
-  const navDrawer = copy.nav
-    .map(([href, label]) => `    <a href="${href}">${label}</a>`)
-    .join('\n');
+  const page = pageBasename || 'services.html';
   return `<!doctype html>
 <html lang="${copy.htmlLang}">
 <head>
@@ -167,70 +160,17 @@ function shell(lang, copy, data, title, desc, active, body) {
 <body>
   <a class="skip-link" href="#main">${copy.skip}</a>
 
-  <header class="site-header">
-    <div class="container container--wide">
-      <nav class="nav" aria-label="${copy.navAria}">
-        <a class="brand" href="index.html">${copy.brand}</a>
-        <div class="nav-links" role="navigation">
-${navLinks}
-        </div>
-        <div class="nav-cta-row">
-          <a href="${WA}" target="_blank" rel="noopener" class="btn btn--primary btn--sm">${copy.cta}
-            <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <nav class="lang-switch" aria-label="${copy.langLabel}">
-            <a class="flag lang-flag" href="/" hreflang="en" lang="en" data-lang="en" title="English"><img src="${A}/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></a>
-            ${lang === 'es' ? `<span class="flag is-active" title="Español"><img src="${A}/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></span>` : `<a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="${A}/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>`}
-            <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="${A}/img/flags/ru.svg" alt="Русский" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
-          </nav>
-          <button class="nav-toggle" aria-label="${copy.menuOpen}" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>
-        </div>
-      </nav>
-    </div>
-  </header>
+${headerHTML(lang, active, page)}
 
-  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
-    <button class="drawer-close" aria-label="${copy.menuCloseLabel}">${copy.menuClose}</button>
-${navDrawer}
-    <div class="lang-switch" aria-label="${copy.langLabel}">
-      <span class="lang-label">${copy.langLabel}</span>
-      <a class="flag lang-flag" href="/" hreflang="en" lang="en" data-lang="en" title="English"><img src="${A}/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></a>
-      ${lang === 'es' ? `<span class="flag is-active" title="Español"><img src="${A}/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></span>` : `<a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="${A}/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>`}
-      <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="${A}/img/flags/ru.svg" alt="Русский" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
-    </div>
-  </div>
+${drawerHTML(lang, page)}
 
   <main id="main">
 ${body}
   </main>
 
-  <footer class="site-footer">
-    <div class="container container--wide">
-      <div class="footer-top footer-top--minimal">
-        <div class="footer-brand">
-          <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          ${lang === 'es'
-            ? '<p>Educación en tecnología y web y marketing llave en mano para fundadores, equipos y empresas — hechos para entregarte, no para tenerte de rehén.</p><span class="label">Enseño · construyo · acompaño · en todo el mundo</span>'
-            : '<p>Technology education and done-for-you web &amp; marketing for founders, teams and companies — built to hand over, not to hold hostage.</p><span class="label">Teaching · building · mentoring · worldwide</span>'}
-        </div>
-        <div>
-          <h4>${lang === 'es' ? 'Explorar' : 'Explore'}</h4>
-          <ul>
-${copy.nav.map(([h, l]) => '            <li><a href="' + h + '">' + l + '</a></li>').join('\n')}
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>
-        <div class="footer-meta-links">
-          <a href="#">${lang === 'es' ? 'Privacidad' : 'Privacy'}</a>
-          <a href="#">${lang === 'es' ? 'Aviso legal' : 'Imprint'}</a>
-          <a href="#">${lang === 'es' ? 'Mapa del sitio' : 'Sitemap'}</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+${footerHTML(lang)}
 
+  <script src="${A}/js/fx.js" defer></script>
   <script src="${A}/js/hire-data${lang === 'es' ? '-es' : ''}.js" defer></script>
   <script src="${A}/js/hire.js" defer></script>
   <script src="${A}/js/site.js" defer></script>
@@ -288,6 +228,7 @@ ${side}
           </div>
           <p class="lede">${L.catLede}</p>
         </div>
+        <div class="fx-anchor-row" data-fx-anchor></div>
         <div class="cap-bento hire-cat" data-hire-catalogue><!-- rendered by hire.js --></div>
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${data.labels.openCart}
@@ -336,6 +277,7 @@ function serviceBody(lang, copy, data, svc) {
           </div>
           <div class="hire-hero-side">
             <div class="hire-side-card" id="hire-panel" data-hire-panel="${svc.id}"><!-- rendered by hire.js --></div>
+            <div class="fx-anchor-row" data-fx-anchor style="margin-top: var(--space-4); justify-content: flex-end;"></div>
           </div>
         </div>
       </div>
@@ -392,12 +334,12 @@ function servicePage(lang, copy, data, svc) {
     ? `Hire mensual de ${svc.category} — desde $${svc.price}/mes · Jacques Hauzeur`
     : `${svc.category} monthly hire — from $${svc.price}/month · Jacques Hauzeur`;
   const desc = svc.pageSub.slice(0, 160);
-  return shell(lang, copy, data, title, desc, 'services.html', serviceBody(lang, copy, data, svc));
+  return shell(lang, copy, data, title, desc, 'services.html', svc.file, serviceBody(lang, copy, data, svc));
 }
 
 function hubPage(lang, copy, data) {
   const desc = COPY[lang].hub.desc;
-  return shell(lang, copy, data, COPY[lang].hub.title, desc, 'services.html', hubBody(lang, copy, data));
+  return shell(lang, copy, data, COPY[lang].hub.title, desc, 'services.html', 'services.html', hubBody(lang, copy, data));
 }
 
 async function main() {

@@ -1343,12 +1343,131 @@ a.client-logo-link:hover .client-logo { border-color: var(--lime); transform: tr
   box-decoration-break: clone;
 }
 
-/* Hour stepper / numeric input for 1:1 class booking */
-.class-step-input {
+/* FX — secondary-currency equivalent under USD prices */
+.price-approx {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--fg-mute);
+}
+.price-approx .pa-tilde { color: inherit; }
+.price-approx .pa-val { color: var(--lime); }
+.hire-line-meta .price-approx,
+.hire-sum-row.total .price-approx,
+.cat-card-price .price-approx {
+  display: block;
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--fg-mute);
+}
+.hire-line-meta .price-approx .pa-val,
+.hire-sum-row.total .price-approx .pa-val,
+.cat-card-price .price-approx .pa-val { color: var(--lime); }
+.hire-panel-price .price-approx { margin-left: 0; }
+.hire-panel .price-approx { display: block; margin-top: -6px; }
+
+/* FX equivalent on light (tile/paper) backgrounds → dark green */
+.tile-section .price-approx { color: var(--fg-on-tile-mute); }
+.tile-section .price-approx .pa-val,
+.tile-section .hire-line-meta .price-approx .pa-val,
+.tile-section .hire-sum-row.total .price-approx .pa-val,
+.tile-section .cat-card-price .price-approx .pa-val,
+.tile-section .hire-panel .price-approx .pa-val,
+.tile-section .hire-panel-price .price-approx .pa-val { color: #648A08; }
+
+/* FX currency picker */
+.fx-anchor-row { display: flex; justify-content: center; margin: var(--space-2) 0 var(--space-4); }
+.fx-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.fx-pick-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-mute);
+}
+.tile-section .fx-pick-label { color: var(--fg-on-tile-mute); }
+
+/* FX dropdown (flag + country) */
+.fx-flag {
+  display: inline-block;
+  border-radius: 2px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+}
+.fx-dropdown { position: relative; display: inline-block; }
+.fx-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--bg-card);
+  color: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+  padding: 6px 14px 6px 8px;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.fx-dropdown-btn:hover { border-color: var(--rule-lime); }
+.fx-dropdown-btn[aria-expanded="true"] { border-color: var(--lime); }
+.fx-dropdown-btn:focus-visible { outline: none; border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime-glow); }
+.fx-dd-chevron { font-size: 9px; color: var(--fg-mute); margin-inline-start: 2px; }
+.fx-listbox {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  min-width: 240px;
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: var(--ink);
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);
-  color: var(--paper);
+  box-shadow: var(--shadow-lg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+.fx-listbox[hidden] { display: none; }
+.fx-listbox li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--fg-soft);
+  cursor: pointer;
+}
+.fx-listbox li:hover,
+.fx-listbox li:focus { background: var(--bg-card); color: var(--paper); outline: none; }
+.fx-listbox li[aria-selected="true"] { background: var(--lime); color: var(--ink-000); }
+.fx-listbox li[aria-selected="true"] .fx-flag { box-shadow: 0 0 0 1px rgba(0,0,0,0.25); }
+.tile-section .fx-dropdown-btn { background: #fff; color: var(--ink); border-color: rgba(10,10,12,0.25); }
+.tile-section .fx-listbox { background: #fff; color: var(--ink); border-color: rgba(10,10,12,0.2); }
+.tile-section .fx-listbox li { color: var(--ink-soft, #2A2A28); }
+.tile-section .fx-listbox li:hover,
+.tile-section .fx-listbox li:focus { background: var(--bg-tile); color: var(--ink-000); }
+
+/* Hour stepper / numeric input for 1:1 class booking */
+.class-step-input {
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   text-align: center;
