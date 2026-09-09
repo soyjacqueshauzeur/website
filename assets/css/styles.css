@@ -1671,6 +1671,10 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
   flex-wrap: wrap;
 }
 .cat-card-price { display: flex; flex-direction: column; line-height: 1.1; }
+
+/* Home offer cards (#servicios) only — the hire catalogue cards
+   (services / marketing.html etc.) keep the line-height: 1.1 above. */
+#servicios .cat-card-price { line-height: normal; }
 .cat-card-price b {
   font-family: var(--font-display);
   font-weight: 400;
@@ -1807,6 +1811,11 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
   font-size: 11px;
   color: var(--fg-mute);
   line-height: 1.5;
+}
+/* FX currency picker — sits inside the hire panel, above the description text */
+.hire-panel .hire-panel-fx {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .hire-scope-grid {

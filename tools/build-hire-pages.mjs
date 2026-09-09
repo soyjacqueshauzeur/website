@@ -276,8 +276,7 @@ function serviceBody(lang, copy, data, svc) {
             </div>
           </div>
           <div class="hire-hero-side">
-            <div class="hire-side-card" id="hire-panel" data-hire-panel="${svc.id}"><!-- rendered by hire.js --></div>
-            <div class="fx-anchor-row" data-fx-anchor style="margin-top: var(--space-4); justify-content: flex-end;"></div>
+            <div class="hire-side-card" id="hire-panel" data-hire-panel="${svc.id}"><!-- rendered by hire.js; includes the FX currency picker above the description --></div>
           </div>
         </div>
       </div>

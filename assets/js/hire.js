@@ -105,7 +105,7 @@
         '<p class="cat-card-desc">' + s.cardDesc + '</p>' +
         '<div class="cat-card-foot">' +
           '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
-          '<button type="button" class="btn btn--hire" data-hire-add="' + s.id + '" aria-label="' + L.hire + ' ' + s.category + '">' + L.hire + arrow() + '</button>' +
+          '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '" aria-label="' + L.hire + ' ' + s.category + '">' + L.hire + arrow() + '</a>' +
         '</div>' +
         '<span class="label cat-card-tags">' + s.tags + '</span>' +
       '</article>'
@@ -138,6 +138,7 @@
         '<div class="hire-panel-head"><span class="cap-num">' + s.num + ' / ' + s.category + '</span><span class="pay-chip">' + L.everyMonth + '</span></div>' +
         '<div class="hire-panel-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span></div>' +
         AX(s.price) +
+        '<div class="hire-panel-fx" data-fx-anchor></div>' +
         '<p class="hire-panel-desc">' + s.cardDesc + '</p>' +
         '<span class="label" style="color: var(--fg-mute);">' + L.durationPick + '</span>' +
         '<div class="hire-months" role="group" aria-label="' + L.duration + '">' + chips + '</div>' +
@@ -159,6 +160,7 @@
       roots[r].innerHTML = panelHTML(s, state.panelSel[id]);
     }
     renderFX();
+    if (roots.length && window.JH_FX && window.JH_FX.picker) window.JH_FX.picker();
   }
 
   function setPanelMonths(id, m) {

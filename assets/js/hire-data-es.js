@@ -96,7 +96,7 @@
         num: '05',
         category: 'Planificación financiera',
         price: 397,
-        cardTitle: 'El dinero, con<br/>tecnología.',
+        cardTitle: 'El juego de los números<br/>en tu negocio.',
         cardDesc: 'Los fundadores casi nunca quiebran por mal producto — quiebran por números a ciegas. Presupuestos, flujo de caja y proyecciones en herramientas que mantienen la parte del dinero honesta.',
         tags: 'Flujo de caja · presupuestos · proyecciones',
         pageTitle: 'Tu dinero,<br/><span class="lime">con</span><br/>tecnología.',

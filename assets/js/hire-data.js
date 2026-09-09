@@ -96,7 +96,7 @@
         num: '05',
         category: 'Financial planning',
         price: 397,
-        cardTitle: 'Money, run<br/>on technology.',
+        cardTitle: 'The Game of numbers<br/>running on your business.',
         cardDesc: 'Founders rarely go broke from bad products — they go broke from blind numbers. Budgets, cash flow and forecasts in tools that keep the money side honest.',
         tags: 'Cash flow · budgets · forecasts',
         pageTitle: 'Your money,<br/><span class="lime">run on</span><br/>technology.',
