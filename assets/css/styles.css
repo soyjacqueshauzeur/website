@@ -1,5 +1,5 @@
 /* ============================================================================
-   Brivon — Modern Photography Studio HTML Template
+   SoyJacquesHauzeur — Modern Photography Studio HTML Template
    Free template by html.design.
    Visual direction: editorial-brutalist photography studio. Near-black ground
    throughout (#0A0A0C), paper-ivory text (#F4F4F0), one electric lime accent
@@ -1107,6 +1107,8 @@ p:last-child { margin-bottom: 0; }
   max-width: 22ch;
 }
 .closing-cta .lede { color: rgba(10,10,12,0.75); max-width: 52ch; }
+.closing-cta h2 .lime,
+.closing-cta .lime { color: #648A08; }
 .closing-cta .cta-row { display: flex; flex-wrap: wrap; gap: var(--space-4); }
 .closing-cta .btn--dark { background: var(--ink-000); color: var(--lime); }
 .closing-cta .btn--dark:hover { background: var(--ink-elev); }
@@ -1259,6 +1261,7 @@ p:last-child { margin-bottom: 0; }
   transition: background var(--dur-fast) var(--ease-out);
 }
 .client-card:hover { background: var(--bg-elev); }
+.client-card.is-hidden { display: none; }
 .client-logo {
   width: 72px;
   height: 72px;

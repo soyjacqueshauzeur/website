@@ -1,4 +1,4 @@
-/* Brivon — free HTML template. Minimal vanilla JS: mobile drawer + scroll-reveal. */
+/* SoyJacquesHauzeur — free HTML template. Minimal vanilla JS: mobile drawer + scroll-reveal. */
 (function () {
   'use strict';
 

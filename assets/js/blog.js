@@ -1,4 +1,4 @@
-/* Brivon Blog — vanilla JS: category filter, infinite scroll, newsletter, reveal, share, lightbox */
+/* SoyJacquesHauzeur Blog — vanilla JS: category filter, infinite scroll, reveal, share, lightbox */
 (function () {
   'use strict';
 
@@ -15,117 +15,114 @@
 
   // ---------- State ----------
   let currentCategory = 'all';
-  let visibleCount = 8;
+  const INITIAL = 8;
   const perPage = 4;
+  let visibleCount = INITIAL;
 
   // ---------- DOM Elements ----------
   const grid = document.getElementById('blog-grid');
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const loadMoreBtn = document.getElementById('load-more');
-  const newsletterForm = document.getElementById('newsletter-form');
+
+  // Infinite-scroll sentinel (just after the grid)
+  const sentinel = document.createElement('div');
+  sentinel.className = 'blog-sentinel';
+  sentinel.setAttribute('aria-hidden', 'true');
+  if (grid && grid.parentNode) grid.parentNode.insertBefore(sentinel, grid.nextSibling);
+
+  let filtered = [];
+  let rendered = 0;
 
   // ---------- Render Articles ----------
-  function renderArticles() {
+  function cardHTML(article, i) {
+    return `
+        <a class="featured-article reveal reveal-${(i % 6) + 1}" href="${article.url}" data-slug="${article.slug}" aria-label="Read: ${article.title}">
+          <div class="featured-media">
+            <img src="${article.image}" alt="${article.title}" loading="lazy" decoding="async" />
+            <span class="featured-pill">${capitalize(article.category)} · ${article.date}</span>
+          </div>
+          <div class="featured-content">
+            <h2>${article.title}</h2>
+            <p>${article.excerpt}</p>
+            <div class="featured-meta">
+              <span class="author">${article.author}</span>
+              <span aria-hidden="true">·</span>
+              <span class="read-time">${article.readTime}</span>
+            </div>
+          </div>
+        </a>`;
+  }
+
+  function renderArticles(reset) {
     if (!grid) return;
-
-    const sorted = articles.slice().sort((a, b) => blogDate(b.date) - blogDate(a.date));
-    const filtered = currentCategory === 'all'
-      ? sorted
-      : sorted.filter(a => a.category === currentCategory);
-
-    const toShow = filtered.slice(0, visibleCount);
-
-    grid.innerHTML = toShow.map((article, i) => {
-      const sizes = ['xl', 'lg', 'md', 'sm', 'xs'];
-      const size = sizes[i % sizes.length];
-
-      return `
-        <article class="blog-card blog-card--${size} reveal reveal-${(i % 6) + 1}" data-slug="${article.slug}">
-          <a class="blog-link" href="2026/07/${article.slug}.html" aria-label="Read: ${article.title}">
-            <div class="bm">
-              <img src="${article.image}" alt="${article.title}" loading="lazy" />
-              <span class="bm-pill">${capitalize(article.category)}</span>
-              ${article.featured ? '<span class="bm-featured">Featured</span>' : ''}
-            </div>
-            <div class="blog-meta">
-              <div>
-                <div class="bm-title">${article.title}</div>
-                <div class="bm-cap">${article.author} · ${article.readTime} · ${article.date}</div>
-              </div>
-            </div>
-          </a>
-        </article>
-      `;
-    }).join('');
-
-    // Re-observe reveal elements
+    if (reset) {
+      const sorted = articles.slice().sort((a, b) => blogDate(b.date) - blogDate(a.date));
+      filtered = currentCategory === 'all' ? sorted : sorted.filter(a => a.category === currentCategory);
+      grid.innerHTML = '';
+      rendered = 0;
+      visibleCount = INITIAL;
+    }
+    const end = Math.min(visibleCount, filtered.length);
+    let html = '';
+    for (let i = rendered; i < end; i++) html += cardHTML(filtered[i], i);
+    if (html) grid.insertAdjacentHTML('beforeend', html);
+    rendered = end;
     observeReveals();
-    updateLoadMoreBtn(filtered.length);
+    if (sentinel) sentinel.hidden = rendered >= filtered.length;
+  }
+
+  function loadMore() {
+    if (rendered >= filtered.length) return;
+    visibleCount = Math.min(visibleCount + perPage, filtered.length);
+    renderArticles(false);
+  }
+
+  function fillViewport() {
+    requestAnimationFrame(function again() {
+      if (rendered >= filtered.length || !sentinel) return;
+      if (sentinel.getBoundingClientRect().top < window.innerHeight + 500) {
+        loadMore();
+        requestAnimationFrame(again);
+      }
+    });
   }
 
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  // ---------- Filter counts (from data) ----------
+  function updateFilterCounts() {
+    filterBtns.forEach(btn => {
+      const cat = btn.dataset.category;
+      const n = cat === 'all' ? articles.length : articles.filter(a => a.category === cat).length;
+      const label = btn.textContent.split('\u00b7')[0].trim();
+      btn.textContent = label + ' \u00b7 ' + n;
+      btn.style.display = (!n && cat !== 'all') ? 'none' : '';
+    });
+  }
+
+
   // ---------- Category Filter ----------
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const cat = btn.dataset.category;
       currentCategory = cat;
-      visibleCount = 8;
-
       filterBtns.forEach(b => {
         b.classList.toggle('btn--primary', b.dataset.category === cat);
         b.classList.toggle('btn--ghost', b.dataset.category !== cat);
       });
-
-      renderArticles();
+      renderArticles(true);
+      fillViewport();
     });
   });
 
-  // ---------- Load More ----------
-  function updateLoadMoreBtn(total) {
-    if (!loadMoreBtn) return;
-    if (visibleCount >= total) {
-      loadMoreBtn.style.display = 'none';
-    } else {
-      loadMoreBtn.style.display = 'inline-flex';
-    }
-  }
-
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      visibleCount += perPage;
-      renderArticles();
-    });
-  }
-
-  // ---------- Newsletter Form ----------
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const btn = newsletterForm.querySelector('button[type="submit"]');
-      const originalText = btn.innerHTML;
-
-      btn.innerHTML = 'Subscribing...';
-      btn.disabled = true;
-
-      // Simulate API call
-      await new Promise(r => setTimeout(r, 1200));
-
-      btn.innerHTML = 'Subscribed! ✓';
-      btn.style.background = 'var(--lime)';
-      btn.style.color = 'var(--ink-000)';
-
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-        btn.style.color = '';
-        btn.disabled = false;
-        newsletterForm.reset();
-      }, 2500);
-    });
+  // ---------- Infinite scroll ----------
+  if ('IntersectionObserver' in window && sentinel) {
+    new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { loadMore(); fillViewport(); }
+    }, { rootMargin: '800px 0px' }).observe(sentinel);
+  } else {
+    visibleCount = Infinity;
   }
 
   // ---------- Reveal on Scroll ----------
@@ -163,7 +160,9 @@
   }
 
   // ---------- Initial Render ----------
-  renderArticles();
+  updateFilterCounts();
+  renderArticles(true);
+  fillViewport();
 
   // ---------- Smooth Scroll for Anchor Links ----------
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -264,29 +263,6 @@ if (document.querySelector('.article-body')) {
         }
       });
     });
-
-    // Article newsletter form
-    const articleNewsletter = document.querySelector('.article-newsletter form');
-    if (articleNewsletter) {
-      articleNewsletter.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = articleNewsletter.querySelector('button[type="submit"]');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = 'Subscribing...';
-        btn.disabled = true;
-        await new Promise(r => setTimeout(r, 1200));
-        btn.innerHTML = 'Subscribed! ✓';
-        btn.style.background = 'var(--lime)';
-        btn.style.color = 'var(--ink-000)';
-        setTimeout(() => {
-          btn.innerHTML = originalText;
-          btn.style.background = '';
-          btn.style.color = '';
-          btn.disabled = false;
-          articleNewsletter.reset();
-        }, 2500);
-      });
-    }
 
     // Reading progress indicator
     const progressBar = document.createElement('div');

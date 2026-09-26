@@ -19,6 +19,7 @@ const PAGES = [
   ['index.html', 'en', 'index.html'],
   ['clients.html', 'en', 'clients.html'],
   ['sessions.html', 'en', 'sessions.html'],
+  ['blog.html', 'en', 'blog.html'],
   ['es/index.html', 'es', 'index.html'],
   ['es/clients.html', 'es', 'clients.html'],
   ['es/sesiones.html', 'es', 'sesiones.html'],

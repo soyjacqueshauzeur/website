@@ -33,6 +33,16 @@ const ES_NAV = [
 
 export const NAV = { en: EN_NAV, es: ES_NAV };
 
+/* Favicon links — asset is the per-page relative assets prefix
+   ('assets' at the root, '../assets' in /es/, '../../assets' in nested dirs). */
+export function faviconHTML(asset) {
+  return (
+    '  <link rel="icon" href="' + asset + '/favicon.svg" type="image/svg+xml" />\n' +
+    '  <link rel="icon" href="' + asset + '/favicon.ico" sizes="any" />\n' +
+    '  <link rel="apple-touch-icon" href="' + asset + '/apple-touch-icon.png" />'
+  );
+}
+
 /* Basenames that differ across languages (EN ↔ ES). */
 const ALT_PAGE = {
   'sessions.html': 'sesiones.html',

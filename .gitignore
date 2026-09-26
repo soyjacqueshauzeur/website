@@ -1,3 +1,5 @@
 .playwright-mcp/
 # Panel de precios local (no publicar / no versionar)
 price-board.html
+# Generador local de posts (herramienta interna, no publicar)
+blog-generator-template.html

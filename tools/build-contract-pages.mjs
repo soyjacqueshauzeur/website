@@ -17,7 +17,7 @@
  */
 import { pathToFileURL } from 'node:url';
 import { writeFile, mkdir } from 'node:fs/promises';
-import { headerHTML, drawerHTML, footerHTML } from './site-shell.mjs';
+import { headerHTML, drawerHTML, footerHTML, faviconHTML } from './site-shell.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
 
@@ -86,6 +86,7 @@ function layout(lang, copy, name, title, desc, body, scripts) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}" />
+${faviconHTML(A)}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />

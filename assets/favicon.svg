@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#050507"/>
+  <rect x="76" y="76" width="360" height="360" rx="52" fill="#D4FF3D"/>
+  <text x="256" y="256" text-anchor="middle" dominant-baseline="central"
+        font-family="'Geist Mono','DejaVu Sans Mono','Liberation Mono',ui-monospace,Menlo,Consolas,monospace"
+        font-weight="700" font-size="196" letter-spacing="-8" fill="#050507">{}</text>
+</svg>

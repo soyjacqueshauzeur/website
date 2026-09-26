@@ -12,7 +12,7 @@ If you're shipping a real Brivon-based site, replace these placeholders with you
 | services-hero.jpg | 7335420 | https://www.pexels.com/photo/7335420/ |
 | contact-hero.jpg | 35877676 | https://www.pexels.com/photo/35877676/ |
 | contact-room.jpg | 7205893 | https://www.pexels.com/photo/7205893/ |
-| work-atrium.jpg | 11067991 | https://www.pexels.com/photo/11067991/ |
+| work-atrium.webp | 11067991 | https://www.pexels.com/photo/11067991/ |
 | work-still-1.jpg | 5710046 | https://www.pexels.com/photo/5710046/ |
 | work-arch.jpg | 33827335 | https://www.pexels.com/photo/33827335/ |
 | work-food.jpg | 4051730 | https://www.pexels.com/photo/4051730/ |
@@ -25,13 +25,13 @@ If you're shipping a real Brivon-based site, replace these placeholders with you
 | work-food-2.jpg | 9962880 | https://www.pexels.com/photo/9962880/ |
 | work-doc.jpg | 19407155 | https://www.pexels.com/photo/19407155/ |
 | cap-tall.jpg | 31735034 | https://www.pexels.com/photo/31735034/ |
-| process-shoot.jpg | 7778897 | https://www.pexels.com/photo/7778897/ |
-| studio-room.jpg | 33714920 | https://www.pexels.com/photo/33714920/ |
+| process-shoot.webp | 7778897 | https://www.pexels.com/photo/7778897/ |
+| studio-room.webp | 33714920 | https://www.pexels.com/photo/33714920/ |
 | studio-brooklyn.jpg | 17094504 | https://www.pexels.com/photo/17094504/ |
 | studio-berlin.jpg | 30600482 | https://www.pexels.com/photo/30600482/ |
-| journal-light.jpg | 17094503 | https://www.pexels.com/photo/17094503/ |
-| journal-colour.jpg | 36182838 | https://www.pexels.com/photo/36182838/ |
-| journal-archive.jpg | 18448409 | https://www.pexels.com/photo/18448409/ |
+| journal-light.webp | 17094503 | https://www.pexels.com/photo/17094503/ |
+| journal-colour.webp | 36182838 | https://www.pexels.com/photo/36182838/ |
+| journal-archive.webp | 18448409 | https://www.pexels.com/photo/18448409/ |
 | team-mira.jpg | 36363694 | https://www.pexels.com/photo/36363694/ |
 | team-joon.jpg | 28442317 | https://www.pexels.com/photo/28442317/ |
 | team-tomas.jpg | 31880922 | https://www.pexels.com/photo/31880922/ |

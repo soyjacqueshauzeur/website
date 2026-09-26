@@ -168,6 +168,10 @@
       out += '<section class="contract-section">';
       if (sec.h) out += '<h3>' + esc(sec.h) + '</h3>';
       if (sec.p) out += '<p>' + fill(sec.p, ctx) + '</p>';
+      if (sec.price) {
+        var pnote = C.services && C.services[id] ? C.services[id].priceNote : '';
+        if (pnote) out += '<p>' + esc(pnote) + '</p>';
+      }
       if (sec.scope && s.includes && s.includes.length) {
         out += '<ul class="contract-scope">';
         for (var j = 0; j < s.includes.length; j++) out += '<li>' + esc(s.includes[j]) + '</li>';

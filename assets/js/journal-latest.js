@@ -41,9 +41,7 @@
   grid.innerHTML = recent.map(function (a) {
     var when = formatDate(parseDate(a.date));
     var cat = CAT[a.category] || cap(a.category);
-    var link = lang === 'es'
-      ? '/es/2026/07/' + a.slug + '.html'
-      : '/2026/07/' + a.slug + '.html';
+    var link = a.url;
     var label = lang === 'es' ? 'Leer nota' : 'Read note';
     return (
       '<article class="journal-card">' +
