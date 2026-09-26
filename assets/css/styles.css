@@ -2251,3 +2251,46 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 
 
 
+
+/* ---------- Términos con definición (dfn + tooltip) ---------- */
+dfn {
+  position: relative;
+  font-style: normal;
+  border-bottom: 1px dotted var(--fg-mute);
+  cursor: help;
+}
+dfn:hover, dfn:focus-visible { border-bottom-color: var(--lime); }
+dfn::after {
+  content: attr(data-def);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  min-width: 200px;
+  max-width: 280px;
+  padding: 10px 12px;
+  background: var(--ink-elev);
+  color: var(--fg);
+  border: 1px solid var(--rule-lime);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out), visibility var(--dur-fast);
+  z-index: 80;
+}
+dfn:hover::after,
+dfn:focus-visible::after,
+dfn:active::after {
+  opacity: 1;
+  visibility: visible;
+}

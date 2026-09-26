@@ -35,7 +35,7 @@
     for (var i = 0; i < D.services.length; i++) if (D.services[i].id === id) return D.services[i];
     return null;
   }
-  function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+  function fmt(n) { return 'USD $' + n.toLocaleString('en-US'); }
   function AX(n) { return (window.JH_FX && window.JH_FX.approxNode) ? window.JH_FX.approxNode(n) : ''; }
   function AXID(n, id) {
     if (!(window.JH_FX && window.JH_FX.approxNode)) return '';
@@ -105,7 +105,7 @@
           '<h3>' + s.cardTitle + '</h3>' +
           '<p>' + s.cardDesc + '</p>' +
           '<div class="cat-card-foot">' +
-            '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span></div>' +
+            '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
             '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '">' + L.hire + arrow() + '</a>' +
           '</div>' +
           '<span class="label">' + s.tags + '</span>' +

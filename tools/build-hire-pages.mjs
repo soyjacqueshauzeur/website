@@ -174,7 +174,7 @@ ${footerHTML(lang)}
   <script src="${A}/js/hire-data${lang === 'es' ? '-es' : ''}.js" defer></script>
   <script src="${A}/js/hire.js" defer></script>
   <script src="${A}/js/site.js" defer></script>
-</body>
+${lang === 'es' ? '  <script src="' + A + '/js/terms.js" defer></script>\n' : ''}</body>
 </html>
 `;
 }
@@ -330,8 +330,8 @@ ${bullets}
 
 function servicePage(lang, copy, data, svc) {
   const title = lang === 'es'
-    ? `Hire mensual de ${svc.category} — desde $${svc.price}/mes · Jacques Hauzeur`
-    : `${svc.category} monthly hire — from $${svc.price}/month · Jacques Hauzeur`;
+    ? `Hire mensual de ${svc.category} — desde USD $${svc.price}/mes · Jacques Hauzeur`
+    : `${svc.category} monthly hire — from USD $${svc.price}/month · Jacques Hauzeur`;
   const desc = svc.pageSub.slice(0, 160);
   return shell(lang, copy, data, title, desc, 'services.html', svc.file, serviceBody(lang, copy, data, svc));
 }

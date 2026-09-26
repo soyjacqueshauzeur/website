@@ -108,7 +108,7 @@
   }
 
   /* ---------------- formatting ---------------- */
-  function fmtUSD(n) { return '$' + Number(n).toLocaleString('en-US'); }
+  function fmtUSD(n) { return 'USD $' + Number(n).toLocaleString('en-US'); }
 
   var nfCache = {};
   function nf(code) {

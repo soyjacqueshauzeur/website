@@ -50,7 +50,7 @@
     payId: D.payments[0] ? D.payments[0].id : null
   };
 
-  function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+  function fmt(n) { return 'USD $' + n.toLocaleString('en-US'); }
   function AX(n) { return (window.JH_FX && window.JH_FX.approxNode) ? window.JH_FX.approxNode(n) : ''; }
   function AXID(n, id) {
     if (!(window.JH_FX && window.JH_FX.approxNode)) return '';
