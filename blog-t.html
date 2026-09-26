@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <title>Blog generator template — SoyJacquesHauzeur</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+  <style>
+    :root{
+      --lime:#D4FF3D; --lime-soft:#E2FF73; --lime-glow:rgba(212,255,61,.18);
+      --ink:#0a0a0c; --ink-000:#050507; --ink-elev:#1c1c22; --card:#141419;
+      --paper:#F4F4F0; --soft:#C9C9C2; --mute:#8a8a83;
+      --rule:rgba(244,244,240,.14); --rule-lime:rgba(212,255,61,.35);
+      --mono:'Geist Mono',ui-monospace,Menlo,Consolas,monospace;
+      --sans:'Inter Tight',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+      --display:'Boldonse',var(--sans);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:15px;line-height:1.5}
+    a{color:inherit}
+    .top{border-bottom:1px solid var(--rule);padding:14px 24px;display:flex;align-items:center;gap:14px}
+    .top .brandmark{width:26px;height:26px;border-radius:5px;background:var(--lime);display:inline-flex;align-items:center;justify-content:center;color:var(--ink-000);font-family:var(--mono);font-weight:700;font-size:15px}
+    .top h1{font-size:15px;Margin:0;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
+    .top .spacer{flex:1}
+    .top .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border:1px solid var(--rule);padding:4px 10px;border-radius:999px}
+    .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:24px;padding:24px;max-width:1500px;margin:0 auto;align-items:start}
+    @media(max-width:1100px){.wrap{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:20px}
+    .card + .card{margin-top:18px}
+    .card h2{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);margin:0 0 14px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+    label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+    input[type=text],input[type=date],input[type=number],select,textarea{width:100%;background:var(--ink-000);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;color:var(--paper);font:inherit;font-size:14px}
+    textarea{resize:vertical;min-height:120px;font-family:var(--mono);font-size:13px;line-height:1.6}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime)}
+    .field{margin-bottom:14px}
+    .hint{font-size:12px;color:var(--mute);margin-top:4px}
+    .row{display:flex;flex-wrap:wrap;gap:8px}
+    .btn{border:1px solid transparent;border-radius:999px;padding:9px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:var(--lime);color:var(--ink-000)}
+    .btn:hover{background:var(--lime-soft)}
+    .btn.ghost{background:transparent;border-color:var(--rule);color:var(--paper)}
+    .btn.ghost:hover{border-color:var(--lime);color:var(--lime)}
+    .btn.sm{padding:6px 11px;font-size:11px}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .chip{border:1px solid var(--rule);border-radius:999px;padding:4px 10px;font-family:var(--mono);font-size:11px;color:var(--soft);cursor:pointer;user-select:none}
+    .chip:hover{border-color:var(--lime);color:var(--lime)}
+    .chip.on{background:var(--rule-lime);border-color:var(--lime);color:var(--paper)}
+    .chip .x{margin-left:6px;color:var(--mute)}
+    .drop{border:1.5px dashed var(--rule);border-radius:12px;padding:18px;text-align:center;color:var(--mute);cursor:pointer;transition:border-color .15s}
+    .drop.over{border-color:var(--lime);color:var(--paper)}
+    .thumb{margin-top:12px;display:flex;gap:12px;align-items:center}
+    .thumb img{width:96px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--rule)}
+    .thumb .meta{font-family:var(--mono);font-size:11px;color:var(--mute);line-height:1.7}
+    details{border:1px solid var(--rule);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+    details summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+    details[open] summary{color:var(--lime);margin-bottom:12px}
+    .related{max-height:190px;overflow:auto;border:1px solid var(--rule);border-radius:10px;padding:8px 10px}
+    .related label{display:flex;gap:9px;align-items:flex-start;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--soft);margin:0;padding:6px 0;cursor:pointer}
+    .related input{width:auto;margin-top:3px}
+    .side{position:sticky;top:78px}
+    .preview{background:var(--paper);color:var(--ink-000);border-radius:14px;padding:22px;max-height:520px;overflow:auto}
+    .preview h1{font-family:var(--display);font-size:26px;line-height:1.15;margin:.2em 0 .5em}
+    .preview h2{font-size:21px;margin:1em 0 .4em}
+    .preview h3{font-size:17px;margin:1em 0 .35em}
+    .preview h4{font-size:15px;margin:1em 0 .3em;text-transform:uppercase;letter-spacing:.06em}
+    .preview h5,.preview h6{font-size:13px;margin:.9em 0 .25em;text-transform:uppercase;letter-spacing:.08em;color:#4a4a44}
+    .preview p{margin:0 0 .8em}
+    .preview ul,.preview ol{margin:0 0 .8em;padding-left:1.3em}
+    .preview blockquote{margin:.8em 0;padding-left:12px;border-left:3px solid #648A08;color:#3a3a34}
+    .preview code{background:rgba(5,5,7,.08);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:.9em}
+    .preview pre{background:#0a0a0c;color:var(--paper);padding:12px;border-radius:8px;overflow:auto}
+    .preview img{max-width:100%;border-radius:8px}
+    .preview a{color:#5a7a06;text-decoration:underline}
+    .json{background:var(--ink-000);border:1px solid var(--rule);border-radius:12px;padding:14px;font-family:var(--mono);font-size:12px;line-height:1.55;max-height:360px;overflow:auto;white-space:pre;margin-top:12px}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--lime);color:var(--ink-000);padding:9px 16px;border-radius:999px;font-family:var(--mono);font-size:12px;opacity:0;pointer-events:none;transition:all .2s}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .foot{padding:18px 24px;color:var(--mute);font-size:12px;text-align:center}
+    .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  </style>
+  <style>
+    /* --- Nav de herramientas (consistente entre price-t y blog-t) --- */
+    .toolnav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:12px;padding:11px 20px;background:rgba(8,8,10,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(244,244,240,.14);font-family:ui-monospace,Menlo,Consolas,monospace}
+    .toolnav-brand{display:inline-flex;align-items:center;gap:9px;color:#F4F4F0;text-decoration:none;font-weight:600}
+    .toolnav-mark{width:26px;height:26px;border-radius:5px;background:#D4FF3D;color:#050507;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+    .toolnav-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8a8a83;border:1px solid rgba(244,244,240,.14);padding:3px 9px;border-radius:999px}
+    .toolnav-links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+    .toolnav-links a{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#C9C9C2;text-decoration:none;border:1px solid rgba(244,244,240,.14);border-radius:999px;padding:7px 13px}
+    .toolnav-links a:hover{border-color:#D4FF3D;color:#D4FF3D}
+    .toolnav-links a[aria-current="page"]{background:#D4FF3D;border-color:#D4FF3D;color:#050507}
+    @media(max-width:600px){.toolnav-tag{display:none}.toolnav-links a{padding:6px 10px}}
+  </style>
+</head>
+<body>
+<nav class="toolnav" aria-label="Herramientas internas">
+  <a class="toolnav-brand" href="index.html" target="_blank" rel="noopener"><span class="toolnav-mark" aria-hidden="true">{}</span> SoyJacquesHauzeur</a>
+  <span class="toolnav-tag">Herramientas</span>
+  <div class="toolnav-links">
+    <a href="price-t.html" target="_blank" rel="noopener">Panel de precios</a>
+    <a href="blog-t.html" target="_blank" rel="noopener" aria-current="page">Blog generator</a>
+    <a href="index.html" target="_blank" rel="noopener">Ver sitio ↗</a>
+  </div>
+</nav>
+  <header class="top">
+    <span class="brandmark" aria-hidden="true">{}</span>
+    <h1>Blog generator template</h1>
+    <span class="spacer"></span>
+    <span class="tag">SoyJacquesHauzeur</span>
+  </header>
+
+  <main class="wrap">
+    <!-- ===================== FORM ===================== -->
+    <form id="gen-form" class="col" autocomplete="off">
+      <div class="card">
+        <h2>1 · Contenido</h2>
+        <div class="field">
+          <label for="title">Título *</label>
+          <input type="text" id="title" required placeholder="El juego de los números" />
+        </div>
+        <div class="field">
+          <label for="slug">Slug (URL)</label>
+          <input type="text" id="slug" placeholder="se-genera-del-titulo" />
+          <p class="hint">Se genera automáticamente desde el título; puedes editarlo.</p>
+        </div>
+        <div class="field">
+          <label for="excerpt">Resumen / excerpt *</label>
+          <textarea id="excerpt" required style="min-height:70px" placeholder="Una o dos frases que resuman la nota."></textarea>
+        </div>
+        <div class="field">
+          <label for="body">Texto (Markdown) *</label>
+          <textarea id="body" required style="min-height:240px" placeholder="# Título&#10;&#10;Párrafo...&#10;&#10;## Sección&#10;&#10;- punto uno&#10;- punto dos"></textarea>
+          <p class="hint">Markdown: <code>#</code>…<code>######</code> headings, <code>**negrita**</code>, <code>*cursiva*</code>, <code>- listas</code>, <code>&gt; cita</code>, <code>`código`</code>, <code>[link](url)</code>, <code>![alt](img)</code>.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2 · Imagen</h2>
+        <label class="drop" id="drop" for="image">
+          Arrastra una imagen aquí o haz clic para subirla
+          <input type="file" id="image" accept="image/*" class="sr" />
+        </label>
+        <div class="thumb" id="thumb" hidden>
+          <img id="thumb-img" alt="Previsualización de la imagen" />
+          <div class="meta" id="thumb-meta"></div>
+        </div>
+        <p class="hint">Guarda el archivo en <code>assets/img/</code>. El JSON incluye el nombre sugerido.</p>
+        <label style="margin-top:12px;display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--soft)">
+          <input type="checkbox" id="embedImg" style="width:auto" /> Incluir la imagen en base64 dentro del JSON (pesado)
+        </label>
+      </div>
+
+      <div class="card">
+        <h2>3 · Taxonomía</h2>
+        <div class="field">
+          <label for="category">Categoría *</label>
+          <input list="cat-list" id="category" placeholder="process" />
+          <datalist id="cat-list"></datalist>
+          <div class="chips" id="cat-chips"></div>
+        </div>
+        <div class="field">
+          <label for="tag-input">Tags</label>
+          <input type="text" id="tag-input" placeholder="Escribe y pulsa Enter" />
+          <div class="chips" id="tag-chips"></div>
+          <p class="hint">Sugerencias (clic para añadir):</p>
+          <div class="chips" id="tag-suggest"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4 · Meta</h2>
+        <div class="grid2">
+          <div class="field"><label for="date">Fecha *</label><input type="date" id="date" required /></div>
+          <div class="field"><label for="readTime">Tiempo de lectura</label><input type="text" id="readTime" placeholder="5 min" /></div>
+          <div class="field"><label for="author">Autor *</label><input type="text" id="author" value="Jacques Hauzeur" /></div>
+          <div class="field"><label for="collaborator">Colaborador (opcional)</label><input type="text" id="collaborator" /></div>
+        </div>
+        <label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--soft)">
+          <input type="checkbox" id="featured" style="width:auto" /> Marcar como destacado
+        </label>
+      </div>
+
+      <div class="card">
+        <h2>5 · Temas relacionados</h2>
+        <div class="related" id="related"></div>
+        <p class="hint">Selecciona notas existentes para enlazarlas.</p>
+      </div>
+
+      <details>
+        <summary>Traducción al español (opcional)</summary>
+        <div class="field"><label for="title-es">Título (ES)</label><input type="text" id="title-es" /></div>
+        <div class="field"><label for="excerpt-es">Resumen (ES)</label><textarea id="excerpt-es" style="min-height:60px"></textarea></div>
+        <div class="field"><label for="body-es">Texto markdown (ES)</label><textarea id="body-es" style="min-height:160px"></textarea></div>
+      </details>
+
+      <div class="card">
+        <div class="row">
+          <button type="button" class="btn" id="gen">Generar JSON</button>
+          <button type="button" class="btn ghost" id="copy">Copiar JSON</button>
+          <button type="button" class="btn ghost" id="download">Descargar .json</button>
+          <button type="button" class="btn ghost" id="reset">Reiniciar</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- ===================== SIDE ===================== -->
+    <aside class="side">
+      <div class="card">
+        <h2>Preview (markdown)</h2>
+        <div class="preview" id="preview"><p style="color:#5a5a55">Escribe el texto para ver la previsualización con jerarquías.</p></div>
+      </div>
+      <div class="card">
+        <h2>JSON</h2>
+        <p class="hint">Pégalo en una IA para crear el artículo.</p>
+        <pre class="json" id="json">{}</pre>
+        <div class="row" style="margin-top:12px">
+          <button type="button" class="btn sm" id="copy2">Copiar</button>
+          <button type="button" class="btn ghost sm" id="prompt">Copiar prompt + JSON</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="foot">Herramienta interna · no indexada · SoyJacquesHauzeur</div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/blog-data.js"></script>
+  <script src="assets/js/blog-data-es.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var $ = function (id) { return document.getElementById(id); };
+    var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    /* ---------- existing data (suggestions) ---------- */
+    var en = window.BLOG_POSTS || [];
+    var es = window.BLOG_POSTS_ES || [];
+    var all = en.concat(es);
+    var categories = uniq(all.map(function (p) { return p.category; }).filter(Boolean));
+    var tagSug = uniq(categories.concat(all.reduce(function (a, p) { return a.concat(p.tags || []); }, [])));
+
+    function uniq(a) { var s = {}, o = []; a.forEach(function (x) { if (!s[x]) { s[x] = 1; o.push(x); } }); return o; }
+
+    // category datalist + chips
+    var catList = $('cat-list');
+    categories.forEach(function (c) { var o = document.createElement('option'); o.value = c; catList.appendChild(o); });
+    var catChips = $('cat-chips');
+    categories.forEach(function (c) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = c;
+      b.addEventListener('click', function () { $('category').value = c; });
+      catChips.appendChild(b);
+    });
+
+    // tag suggestions
+    var tagSuggest = $('tag-suggest');
+    tagSug.forEach(function (t) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = '+ ' + t;
+      b.addEventListener('click', function () { addTag(t); });
+      tagSuggest.appendChild(b);
+    });
+
+    // related topics
+    var related = $('related');
+    en.forEach(function (p) {
+      var l = document.createElement('label');
+      l.innerHTML = '<input type="checkbox" value="' + p.slug + '" /> <span>' + p.title + ' <span style="color:#8a8a83">· ' + p.slug + '</span></span>';
+      related.appendChild(l);
+    });
+
+    /* ---------- tags ---------- */
+    var tags = [];
+    function addTag(t) {
+      t = String(t || '').trim();
+      if (!t || tags.indexOf(t) !== -1) return;
+      tags.push(t); renderTags();
+    }
+    function renderTags() {
+      var wrap = $('tag-chips'); wrap.innerHTML = '';
+      tags.forEach(function (t, i) {
+        var c = document.createElement('span'); c.className = 'chip on';
+        c.innerHTML = t + '<span class="x">×</span>';
+        c.title = 'Quitar';
+        c.addEventListener('click', function () { tags.splice(i, 1); renderTags(); });
+        wrap.appendChild(c);
+      });
+    }
+    $('tag-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(this.value.replace(/,$/, '')); this.value = ''; }
+    });
+
+    /* ---------- slug ---------- */
+    function slugify(s) {
+      return String(s).normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+    }
+    var slugTouched = false;
+    $('slug').addEventListener('input', function () { slugTouched = true; });
+    $('title').addEventListener('input', function () { if (!slugTouched) $('slug').value = slugify(this.value); });
+
+    /* ---------- date default ---------- */
+    (function () {
+      var d = new Date();
+      $('date').value = d.toISOString().slice(0, 10);
+    })();
+
+    /* ---------- image ---------- */
+    var imgData = { dataUrl: null, name: '', type: '', size: 0, width: 0, height: 0 };
+    var drop = $('drop'), fileInput = $('image');
+    ['dragover', 'dragenter'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+    drop.addEventListener('drop', function (e) { if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+    fileInput.addEventListener('change', function () { if (this.files[0]) handleFile(this.files[0]); });
+
+    function handleFile(f) {
+      imgData.name = f.name; imgData.type = f.type; imgData.size = f.size;
+      var r = new FileReader();
+      r.onload = function () {
+        imgData.dataUrl = r.result;
+        var im = new Image();
+        im.onload = function () { imgData.width = im.naturalWidth; imgData.height = im.naturalHeight; renderThumb(); };
+        im.src = r.result;
+      };
+      r.readAsDataURL(f);
+    }
+    function renderThumb() {
+      $('thumb').hidden = false;
+      $('thumb-img').src = imgData.dataUrl;
+      var ext = (imgData.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg');
+      $('thumb-meta').innerHTML = imgData.name + '<br/>' + imgData.width + '×' + imgData.height + ' · ' + Math.round(imgData.size / 1024) + ' KB' +
+        '<br/>sugerido: assets/img/' + ($('slug').value || 'slug') + '.' + ext;
+    }
+
+    /* ---------- markdown ---------- */
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function inline(s) {
+      s = esc(s);
+      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+      s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />');
+      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+      return s;
+    }
+    function md(mdText) {
+      var lines = String(mdText || '').replace(/\r\n/g, '\n').split('\n');
+      var out = [], i = 0, list = null;
+      function closeList() { if (list) { out.push('</' + list + '>'); list = null; } }
+      while (i < lines.length) {
+        var line = lines[i];
+        if (/^```/.test(line)) {
+          closeList();
+          var buf = []; i++;
+          while (i < lines.length && !/^```/.test(lines[i])) { buf.push(lines[i]); i++; }
+          i++;
+          out.push('<pre><code>' + esc(buf.join('\n')) + '</code></pre>');
+          continue;
+        }
+        var h = /^(#{1,6})\s+(.*)$/.exec(line);
+        if (h) { closeList(); out.push('<h' + h[1].length + '>' + inline(h[2]) + '</h' + h[1].length + '>'); i++; continue; }
+        if (/^\s*>\s?/.test(line)) { closeList(); out.push('<blockquote>' + inline(line.replace(/^\s*>\s?/, '')) + '</blockquote>'); i++; continue; }
+        if (/^\s*[-*]\s+/.test(line)) {
+          if (list !== 'ul') { closeList(); out.push('<ul>'); list = 'ul'; }
+          out.push('<li>' + inline(line.replace(/^\s*[-*]\s+/, '')) + '</li>'); i++; continue;
+        }
+        if (/^\s*\d+\.\s+/.test(line)) {
+          if (list !== 'ol') { closeList(); out.push('<ol>'); list = 'ol'; }
+          out.push('<li>' + inline(line.replace(/^\s*\d+\.\s+/, '')) + '</li>'); i++; continue;
+        }
+        if (/^\s*(-{3,}|\*{3,})\s*$/.test(line)) { closeList(); out.push('<hr/>'); i++; continue; }
+        if (!line.trim()) { closeList(); i++; continue; }
+        closeList();
+        var para = [line]; i++;
+        while (i < lines.length && lines[i].trim() && !/^(#{1,6}\s|\s*[-*]\s|\s*\d+\.\s|\s*>|```)/.test(lines[i])) { para.push(lines[i]); i++; }
+        out.push('<p>' + inline(para.join(' ')) + '</p>');
+      }
+      closeList();
+      return out.join('\n');
+    }
+    function renderPreview() { $('preview').innerHTML = md($('body').value) || '<p style="color:#5a5a55">Escribe el texto para ver la previsualización.</p>'; }
+    $('body').addEventListener('input', renderPreview);
+
+    /* ---------- read time ---------- */
+    function words(s) { return (String(s).trim().match(/\S+/g) || []).length; }
+    function estimate() {
+      if ($('readTime').value.trim()) return $('readTime').value.trim();
+      var mins = Math.max(1, Math.round(words($('body').value) / 200));
+      return mins + ' min';
+    }
+
+    /* ---------- JSON ---------- */
+    function fmtDate(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso); if (!m) return ''; return Number(m[3]) + ' ' + MON[Number(m[2]) - 1] + ' ' + m[1]; }
+    function buildJSON() {
+      var slug = $('slug').value || slugify($('title').value);
+      var ext = imgData.type ? (imgData.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg') : 'jpg';
+      var relatedArr = [].slice.call(document.querySelectorAll('#related input:checked')).map(function (i) { return i.value; });
+      var obj = {
+        slug: slug,
+        title: $('title').value.trim(),
+        excerpt: $('excerpt').value.trim(),
+        category: $('category').value.trim(),
+        tags: tags.slice(),
+        date: fmtDate($('date').value),
+        dateISO: $('date').value,
+        author: $('author').value.trim(),
+        collaborator: $('collaborator').value.trim(),
+        readTime: estimate(),
+        featured: $('featured').checked,
+        image: {
+          file: 'assets/img/' + slug + '.' + ext,
+          name: imgData.name, type: imgData.type, size: imgData.size,
+          width: imgData.width, height: imgData.height,
+          dataUrl: $('embedImg').checked ? imgData.dataUrl : null
+        },
+        related: relatedArr,
+        bodyMarkdown: $('body').value
+      };
+      var esTitle = $('title-es').value.trim(), esExcerpt = $('excerpt-es').value.trim(), esBody = $('body-es').value;
+      if (esTitle || esExcerpt || esBody.trim()) obj.es = { title: esTitle, excerpt: esExcerpt, bodyMarkdown: esBody };
+      return obj;
+    }
+    function update() {
+      var obj = buildJSON();
+      $('json').textContent = JSON.stringify(obj, null, 2);
+    }
+    ['input', 'change'].forEach(function (ev) { $('gen-form').addEventListener(ev, update); });
+    $('gen').addEventListener('click', update);
+
+    /* ---------- copy / download / reset / toast ---------- */
+    function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(function () { t.classList.remove('show'); }, 1800); }
+    function copyText(txt, msg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { toast(msg); }, function () { toast('No se pudo copiar'); });
+      else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(msg); } catch (e) {} ta.remove(); }
+    }
+    $('copy').addEventListener('click', function () { copyText($('json').textContent, 'JSON copiado'); });
+    $('copy2').addEventListener('click', function () { copyText($('json').textContent, 'JSON copiado'); });
+    $('prompt').addEventListener('click', function () {
+      var prompt = 'Usa este JSON para crear un artículo de blog bilingüe (EN/ES) de SoyJacquesHauzeur. Respeta el markdown y sus jerarquías, genera el HTML del artículo, define og/canonical/JSON-LD y añade la entrada a blog-data.js y blog-data-es.js. Si falta la traducción ES, propónla. JSON:\n\n' + $('json').textContent;
+      copyText(prompt, 'Prompt copiado');
+    });
+    $('download').addEventListener('click', function () {
+      var slug = $('slug').value || slugify($('title').value) || 'post';
+      var blob = new Blob([$('json').textContent], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = slug + '.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      toast('Descargando ' + slug + '.json');
+    });
+    $('reset').addEventListener('click', function () {
+      $('gen-form').reset(); tags = []; renderTags(); imgData = { dataUrl: null, name: '', type: '', size: 0, width: 0, height: 0 };
+      $('thumb').hidden = true; slugTouched = false; renderPreview();
+      var d = new Date(); $('date').value = d.toISOString().slice(0, 10);
+      update(); toast('Formulario reiniciado');
+    });
+
+    renderPreview();
+    update();
+  })();
+  </script>
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
