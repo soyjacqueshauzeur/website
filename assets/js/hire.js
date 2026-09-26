@@ -102,7 +102,7 @@
       return (
         '<article class="cap-card cap-card--third">' +
           '<span class="cap-num">' + s.num + ' / ' + s.category + '</span>' +
-          '<h3>' + s.cardTitle + '</h3>' +
+          '<h3><a href="' + s.file + '" data-hire-goto="' + s.id + '">' + s.cardTitle + '</a></h3>' +
           '<p>' + s.cardDesc + '</p>' +
           '<div class="cat-card-foot">' +
             '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
@@ -399,12 +399,18 @@
     lines.push(MSG.sendLink);
     return lines.join('\n');
   }
+  function goToContract() {
+    var page = D.lang === 'es' ? 'contrato.html' : 'contract.html';
+    setTimeout(function () { window.location.href = page; }, 120);
+  }
   function sendWhatsApp() {
     var text = encodeURIComponent(buildMessage());
     window.open('https://wa.me/' + D.whatsapp + '?text=' + text, '_blank', 'noopener');
+    goToContract();
   }
   function sendTelegram() {
     window.open('https://t.me/' + D.telegram, '_blank', 'noopener');
+    goToContract();
   }
 
   /* ---------------- events (delegated) ---------------- */

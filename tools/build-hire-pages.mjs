@@ -73,7 +73,9 @@ const COPY = {
       closeTitle: 'Start a<br/><span class="lime">monthly</span> hire.',
       closeSub: 'Still deciding? Tell me where you are stuck — a website, a campaign, a chatbot that should be booking, or numbers you cannot see clearly — and I will tell you honestly if it is a one-hour fix or a monthly hire.',
       closePrimary: 'Review your hire',
-      closeSecondary: 'Ask me a question first'
+      closeSecondary: 'Ask me a question first',
+      contractHubLabel: 'Download the service contract',
+      contractUnifiedLabel: 'Contracts for your cart'
     },
     service: {
       secYouGet: 'What you get each month',
@@ -81,7 +83,9 @@ const COPY = {
       closerEyebrow: 'Hire · 2026',
       closeTitle: 'Run it as a<br/><span class="lime">system</span>, not a<br/>one-off.',
       closeSub: 'Add this service to a monthly hire — or bundle it with others above and run them as one system. I confirm the same day and send the payment link.',
-      heroPill: 'Hire this service'
+      heroPill: 'Hire this service',
+      contractBullet: 'Download our work contract here',
+      contractBtn: 'Open contract'
     }
   },
   es: {
@@ -125,7 +129,9 @@ const COPY = {
       closeTitle: 'Empieza un<br/><span class="lime">hire</span> mensual.',
       closeSub: '¿Aún decides? Cuéntame dónde estás atascado — una web, una campaña, un chatbot que debería agendar, o números que no ves con claridad — y te digo con honestidad si es un arreglo de una hora o un hire mensual.',
       closePrimary: 'Revisar tu contratación',
-      closeSecondary: 'Hazme una pregunta primero'
+      closeSecondary: 'Hazme una pregunta primero',
+      contractHubLabel: 'Descarga el contrato del servicio',
+      contractUnifiedLabel: 'Contratos de tu carrito'
     },
     service: {
       secYouGet: 'Qué recibes cada mes',
@@ -133,7 +139,9 @@ const COPY = {
       closerEyebrow: 'Hire · 2026',
       closeTitle: 'Llévalo como<br/><span class="lime">sistema</span>, no<br/>como un gasto suelto.',
       closeSub: 'Añade este servicio a un hire mensual — o combínalo con otros arriba y llévalos como un solo sistema. Confirmo el mismo día y te envío el link de pago.',
-      heroPill: 'Contratar este servicio'
+      heroPill: 'Contratar este servicio',
+      contractBullet: 'Descarga aquí nuestro contrato de trabajo',
+      contractBtn: 'Abrir contrato'
     }
   }
 };
@@ -230,6 +238,10 @@ ${side}
         </div>
         <div class="fx-anchor-row" data-fx-anchor></div>
         <div class="cap-bento hire-cat" data-hire-catalogue><!-- rendered by hire.js --></div>
+        <div class="contract-hub">
+          <span class="label">${L.contractHubLabel}</span>
+          <div class="contract-hub-links"><a class="btn btn--primary btn--sm" href="${lang === 'es' ? 'contrato.html' : 'contract.html'}">${L.contractUnifiedLabel}</a>${data.services.map((s) => `<a class="btn btn--ghost btn--sm" href="${s.file.replace(/\.html$/, '')}-hire.html">${s.category}</a>`).join('')}</div>
+        </div>
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${data.labels.openCart}
             <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -257,6 +269,8 @@ ${side}
 function serviceBody(lang, copy, data, svc) {
   const S = copy.service;
   const bullets = svc.includes.map((b) => `          <li>${b}</li>`).join('\n');
+  const contractFile = svc.file.replace(/\.html$/, '') + '-hire.html';
+  const contractLi = `          <li class="hire-contract"><a class="hire-contract-link" href="${contractFile}">${S.contractBullet}</a><a class="btn btn--hire btn--sm" href="${contractFile}">${S.contractBtn}</a></li>`;
   const isES = lang === 'es';
   return `
     <!-- Service hero + price panel -->
@@ -293,6 +307,7 @@ function serviceBody(lang, copy, data, svc) {
           </div>
           <ul class="hire-includes">
 ${bullets}
+${contractLi}
           </ul>
         </div>
       </div>

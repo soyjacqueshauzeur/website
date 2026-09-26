@@ -47,7 +47,7 @@
           'Ad creative and copy that speaks to the target',
           'Budget and bid management, week by week',
           'Conversion tracking and funnel setup',
-          'A monthly report tied to a number you chose'
+          'Ads on Meta, Google, TikTok and LinkedIn'
         ]
       },
       {
@@ -96,7 +96,7 @@
         num: '05',
         category: 'Financial planning',
         price: 197,
-        cardTitle: 'Numbers that<br/>don\u2019t surprise you.',
+        cardTitle: 'The numbers game.',
         cardDesc: 'Founders rarely go broke from a bad product — they go broke from blind numbers. Budgets, cash flow and forecasts that keep the money side honest.',
         tags: 'Cash flow · budgets · forecasts',
         pageTitle: 'Your money,<br/><span class="lime">run on</span><br/>technology.',

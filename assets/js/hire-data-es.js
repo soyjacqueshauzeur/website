@@ -47,7 +47,7 @@
           'Creativos y textos de anuncios que hablan al objetivo',
           'Gestión de presupuestos y pujas, semana a semana',
           'Medición de conversiones y embudos',
-          'Un reporte mensual atado al número que elegiste'
+          'Ads en Meta, Google, TikTok y LinkedIn'
         ]
       },
       {
@@ -96,7 +96,7 @@
         num: '05',
         category: 'Planificación financiera',
         price: 197,
-        cardTitle: 'Números que<br/>no te sorprenden.',
+        cardTitle: 'El juego de los números.',
         cardDesc: 'Los fundadores casi nunca quiebran por mal producto — quiebran por números a ciegas. Presupuestos, flujo de caja y proyecciones que mantienen la parte del dinero honesta.',
         tags: 'Flujo de caja · presupuestos · proyecciones',
         pageTitle: 'Tu dinero,<br/><span class="lime">con</span><br/>tecnología.',
