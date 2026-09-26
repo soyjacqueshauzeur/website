@@ -159,10 +159,7 @@
     }
     return opts;
   }
-  function ensurePicker() {
-    if (document.querySelector('.fx-dropdown')) return;
-    var anchors = document.querySelectorAll('[data-fx-anchor]');
-    if (!anchors.length) return;
+  function createPicker(host) {
     var es = isEsPage();
     var current = currencyByCode(state.sel);
     var wrap = document.createElement('div');
@@ -170,17 +167,14 @@
     wrap.innerHTML =
       '<span class="fx-pick-label">' + (es ? 'Moneda local (referencia)' : 'Local currency (reference)') + '</span>' +
       '<div class="fx-dropdown">' +
-        '<button type="button" class="fx-dropdown-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="fx-listbox">' +
+        '<button type="button" class="fx-dropdown-btn" aria-haspopup="listbox" aria-expanded="false">' +
           flagImg(current, 22) + '<span class="fx-dd-current">' + current.country + '</span>' +
           '<span class="fx-dd-chevron" aria-hidden="true">\u25be</span>' +
         '</button>' +
-        '<ul class="fx-listbox" id="fx-listbox" role="listbox" aria-label="' +
+        '<ul class="fx-listbox" role="listbox" aria-label="' +
           (es ? 'Moneda secundaria' : 'Secondary currency') + '" hidden>' + menuHTML() + '</ul>' +
       '</div>';
-    for (var a = 0; a < anchors.length; a++) {
-      var host = anchors[a];
-      if (a === 0) host.appendChild(wrap);
-    }
+    host.appendChild(wrap);
 
     var dd = wrap.querySelector('.fx-dropdown');
     var btn = wrap.querySelector('.fx-dropdown-btn');
@@ -188,6 +182,7 @@
     var opts = list.querySelectorAll('[data-fx-code]');
 
     function openMenu() {
+      closeAllMenus();
       list.hidden = false;
       btn.setAttribute('aria-expanded', 'true');
       var selEl = list.querySelector('[aria-selected="true"]');
@@ -241,10 +236,37 @@
       else if (e.key === 'End') { e.preventDefault(); focusOpt(opts.length - 1); }
       else if (e.key === 'Escape') { e.preventDefault(); closeMenu(); btn.focus(); }
     });
-    document.addEventListener('click', function (e) {
-      if (!dd.contains(e.target)) closeMenu();
-    });
   }
+
+  function closeAllMenus() {
+    var dds = document.querySelectorAll('.fx-dropdown');
+    for (var i = 0; i < dds.length; i++) {
+      var list = dds[i].querySelector('.fx-listbox');
+      var btn = dds[i].querySelector('.fx-dropdown-btn');
+      if (list) list.hidden = true;
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function ensurePicker() {
+    var anchors = document.querySelectorAll('[data-fx-anchor]');
+    for (var a = 0; a < anchors.length; a++) {
+      var host = anchors[a];
+      if (host.querySelector('.fx-dropdown')) continue;
+      createPicker(host);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var dds = document.querySelectorAll('.fx-dropdown');
+    for (var i = 0; i < dds.length; i++) {
+      if (dds[i].contains(e.target)) continue;
+      var list = dds[i].querySelector('.fx-listbox');
+      var btn = dds[i].querySelector('.fx-dropdown-btn');
+      if (list) list.hidden = true;
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   function setSel(code) {
     if (!currencyByCode(code)) code = DEFAULT_SEL;

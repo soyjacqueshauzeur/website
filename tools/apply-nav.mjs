@@ -18,10 +18,10 @@ const PAGES = [
   // [path, lang, activeNavItem, pageBasenameForLangLink]
   ['index.html', 'en', 'index.html'],
   ['clients.html', 'en', 'clients.html'],
-  ['studio.html', 'en', 'studio.html'],
+  ['sessions.html', 'en', 'sessions.html'],
   ['es/index.html', 'es', 'index.html'],
   ['es/clients.html', 'es', 'clients.html'],
-  ['es/studio.html', 'es', 'studio.html'],
+  ['es/sesiones.html', 'es', 'sesiones.html'],
   ['es/blog.html', 'es', 'blog.html']
 ];
 

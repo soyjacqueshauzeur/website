@@ -1,1 +1,3 @@
 .playwright-mcp/
+# Panel de precios local (no publicar / no versionar)
+price-board.html

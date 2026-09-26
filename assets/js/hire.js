@@ -97,7 +97,21 @@
     return '<svg class="arrow" width="13" height="9" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 
-  function cardHTML(s) {
+  function cardHTML(s, variant) {
+    if (variant === 'third') {
+      return (
+        '<article class="cap-card cap-card--third">' +
+          '<span class="cap-num">' + s.num + ' / ' + s.category + '</span>' +
+          '<h3>' + s.cardTitle + '</h3>' +
+          '<p>' + s.cardDesc + '</p>' +
+          '<div class="cat-card-foot">' +
+            '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span></div>' +
+            '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '">' + L.hire + arrow() + '</a>' +
+          '</div>' +
+          '<span class="label">' + s.tags + '</span>' +
+        '</article>'
+      );
+    }
     return (
       '<article class="cap-card cat-card">' +
         '<a class="cat-card-link" href="' + s.file + '"><span class="cap-num">' + s.num + ' / ' + s.category + '</span></a>' +
@@ -116,10 +130,11 @@
     var roots = document.querySelectorAll('[data-hire-catalogue]');
     for (var r = 0; r < roots.length; r++) {
       var exclude = roots[r].getAttribute('data-exclude');
+      var variant = roots[r].getAttribute('data-variant');
       var html = '';
       for (var i = 0; i < D.services.length; i++) {
         if (D.services[i].id === exclude) continue;
-        html += cardHTML(D.services[i]);
+        html += cardHTML(D.services[i], variant);
       }
       roots[r].innerHTML = html;
     }
@@ -142,8 +157,11 @@
         '<p class="hire-panel-desc">' + s.cardDesc + '</p>' +
         '<span class="label" style="color: var(--fg-mute);">' + L.durationPick + '</span>' +
         '<div class="hire-months" role="group" aria-label="' + L.duration + '">' + chips + '</div>' +
+        '<div class="hire-panel-conv">' +
+          '<span class="hpc-label">' + L.approxTotal + '</span>' +
+          AXID(s.price * sel, 'panel-' + s.id) +
+        '</div>' +
         '<div class="hire-panel-total"><span>' + L.total + '</span><b data-panel-total>' + fmt(s.price * sel) + '</b></div>' +
-        AXID(s.price * sel, 'panel-' + s.id) +
         '<button type="button" class="btn btn--primary btn--lg" data-panel-add="' + s.id + '">' + L.add + arrow() + '</button>' +
         '<p class="hire-mini-note">' + L.billingNote + '</p>' +
       '</div>'
@@ -264,8 +282,13 @@
         '</div>';
     }
     html +=
+      '<div class="hire-summary-fx" data-fx-anchor></div>' +
+      '<div class="hire-sum-conv">' +
+        '<span class="hsc-label">' + L.approxTotal + '</span>' +
+        AX(total()) +
+      '</div>' +
       '<div class="hire-summary-total">' +
-        '<div class="hire-sum-row total"><span>' + L.total + '</span><b data-cart-total>' + fmt(total()) + AX(total()) + '</b></div>' +
+        '<div class="hire-sum-row total"><span>' + L.total + '</span><b data-cart-total>' + fmt(total()) + '</b></div>' +
         '<p class="hire-foot-note">' + L.billingNote + '</p>' +
       '</div>';
     return html;
@@ -306,6 +329,7 @@
     var foot = document.getElementById('hire-cart-foot');
     if (foot) foot.innerHTML = cartFootHTML();
     renderFX();
+    if (window.JH_FX && window.JH_FX.picker) window.JH_FX.picker();
     saveQuoteFX();
   }
 
@@ -401,6 +425,14 @@
     if (add) {
       e.preventDefault();
       addToCart(add.getAttribute('data-hire-add'), D.months[0]);
+      return;
+    }
+
+    var addOpen = t.closest('[data-hire-add-open]');
+    if (addOpen) {
+      e.preventDefault();
+      addToCart(addOpen.getAttribute('data-hire-add-open'), D.months[0], { silent: true });
+      openCart();
       return;
     }
 

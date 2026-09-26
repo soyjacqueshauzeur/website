@@ -39,7 +39,7 @@ const COPY = {
     nav: [
       ['index.html', 'Home'],
       ['clients.html', 'Clients'],
-      ['studio.html', '1:1'],
+      ['sessions.html', '1:1'],
       ['services.html', 'Services'],
       ['index.html#about', 'About me'],
       ['blog.html', 'Blog']
@@ -91,7 +91,7 @@ const COPY = {
     nav: [
       ['index.html', 'Inicio'],
       ['clients.html', 'Clientes'],
-      ['studio.html', '1:1'],
+      ['sesiones.html', '1:1'],
       ['services.html', 'Servicios'],
       ['index.html#about', 'Sobre mí'],
       ['blog.html', 'Blog']
@@ -269,9 +269,9 @@ function serviceBody(lang, copy, data, svc) {
             <p class="hero-sub">${svc.pageSub}</p>
             <p class="mono" style="margin-top: var(--space-2); color: var(--fg-mute);">${svc.pageMeta}</p>
             <div class="hero-cta-row">
-              <a class="btn btn--primary btn--lg" href="#hire-panel">${S.heroPill}
+              <button type="button" class="btn btn--primary btn--lg" data-hire-add-open="${svc.id}">${S.heroPill}
                 <svg class="arrow" width="16" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
+              </button>
               <a class="btn btn--ghost btn--lg" href="#hire-scope">${data.labels.youGet}</a>
             </div>
           </div>

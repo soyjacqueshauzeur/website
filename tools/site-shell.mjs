@@ -17,7 +17,7 @@ export const WA = 'https://wa.me/573507402009';
 const EN_NAV = [
   ['index.html', 'Home'],
   ['clients.html', 'Clients'],
-  ['studio.html', '1:1'],
+  ['sessions.html', '1:1'],
   ['services.html', 'Services'],
   ['index.html#about', 'About me'],
   ['blog.html', 'Blog']
@@ -25,7 +25,7 @@ const EN_NAV = [
 const ES_NAV = [
   ['index.html', 'Inicio'],
   ['clients.html', 'Clientes'],
-  ['studio.html', '1:1'],
+  ['sesiones.html', '1:1'],
   ['services.html', 'Servicios'],
   ['index.html#about', 'Sobre mí'],
   ['blog.html', 'Blog']
@@ -33,10 +33,17 @@ const ES_NAV = [
 
 export const NAV = { en: EN_NAV, es: ES_NAV };
 
+/* Basenames that differ across languages (EN ↔ ES). */
+const ALT_PAGE = {
+  'sessions.html': 'sesiones.html',
+  'sesiones.html': 'sessions.html'
+};
+
 /* Page basename -> cross-language absolute URL ('' = language index). */
 export function otherLangHref(lang, page) {
   const base = lang === 'en' ? '/es/' : '/';
-  const name = page && page !== 'index.html' ? page : '';
+  let name = page && page !== 'index.html' ? page : '';
+  if (name) name = ALT_PAGE[name] || name;
   return base + name;
 }
 
