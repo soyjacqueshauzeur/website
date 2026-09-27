@@ -141,7 +141,7 @@
       duration: 'Duration',
       durationPick: 'How many months?',
       remove: 'Remove',
-      cartTitle: 'Your hire',
+      cartTitle: "Summary of what you're hiring",
       cartOpen: 'Open your hire',
       bubbleLabel: 'services selected',
       empty: 'Nothing selected yet — pick a service above and it will appear here.',

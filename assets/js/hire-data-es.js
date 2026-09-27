@@ -141,7 +141,7 @@
       duration: 'Duración',
       durationPick: '¿Cuántos meses?',
       remove: 'Quitar',
-      cartTitle: 'Tu contratación',
+      cartTitle: 'Resumen de lo que estás contratando',
       cartOpen: 'Abrir tu contratación',
       bubbleLabel: 'servicios seleccionados',
       empty: 'Aún no has elegido nada — elige un servicio arriba y aparecerá aquí.',
