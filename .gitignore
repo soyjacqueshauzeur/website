@@ -1,1 +1,5 @@
 .playwright-mcp/
+# Salida del grafo de conocimiento (caché/análisis interno)
+graphify-out/
+# Hojas de cálculo internas (planificación, no publicar)
+*.xlsx
