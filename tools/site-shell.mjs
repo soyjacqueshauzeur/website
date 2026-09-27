@@ -160,6 +160,7 @@ export function footerHTML(lang) {
     '          <h4>' + (isEs ? 'Explorar' : 'Explore') + '</h4>\n' +
     '          <ul>\n' +
     footerLinks(NAV[lang]) + '\n' +
+    '            <li><a class="footer-hidden-link" href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +
     '      </div>\n' +
