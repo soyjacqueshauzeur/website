@@ -45,12 +45,12 @@ node tools/new-post.mjs --slug mi-nota --title "Título" --excerpt "Resumen" \
 ## Despliegue (GitHub Pages)
 
 - Remote: `git@github.com:soyjacqueshauzeur/website.git` (SSH).
-- Publish: **GitHub Actions** (`.github/workflows/deploy.yml`) al hacer push a `master`; también se puede lanzar a mano (`workflow_dispatch`).
+- Publish: **GitHub Actions** (`.github/workflows/deploy.yml`) al hacer push a `main`; también se puede lanzar a mano (`workflow_dispatch`).
 - Dominio: `CNAME` = `soyjacqueshauzeur.com` (configúralo también en *Settings → Pages → Custom domain*).
 - `.nojekyll` evita que Jekyll procese los archivos.
 
 ```bash
-git push -u origin master
+git push -u origin main
 ```
 
 ## Licencia y assets
