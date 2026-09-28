@@ -378,6 +378,17 @@ p:last-child { margin-bottom: 0; }
   border-color: var(--lime);
 }
 .btn--ghost.btn--ghost-green:hover { background: #648A08; border-color: #648A08; color: #fff; transform: translateY(-1px); }
+.btn--ghost.btn--ghost-lime {
+  background: transparent;
+  color: var(--lime);
+  border-color: var(--lime);
+}
+.btn--ghost.btn--ghost-lime:hover {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+  transform: translateY(-1px);
+}
 .btn--dark {
   background: var(--ink-000);
   color: var(--paper);

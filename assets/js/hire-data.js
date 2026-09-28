@@ -115,7 +115,7 @@
         file: 'ecommerce.html',
         num: '06',
         category: 'Web & e-commerce',
-        price: 397,
+        price: 297,
         cardTitle: 'Your website and store,<br/>ready to sell.',
         cardDesc: 'Websites and e-commerce built to convert — design, product pages and analytics that show what moves the number.',
         tags: 'Websites · stores · analytics',
@@ -133,7 +133,7 @@
     ],
 
     labels: {
-      hire: 'Hire',
+      hire: 'View this service',
       add: 'Hire',
       priceMonth: '/month',
       everyMonth: 'every month, no lock-in',

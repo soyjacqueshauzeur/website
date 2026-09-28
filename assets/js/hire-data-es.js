@@ -115,7 +115,7 @@
         file: 'ecommerce.html',
         num: '06',
         category: 'Web y e-commerce',
-        price: 397,
+        price: 297,
         cardTitle: 'Tu web y tu tienda,<br/>listas para vender.',
         cardDesc: 'Webs y e-commerce hechos para convertir — diseño, fichas de producto y analítica que te dicen qué mueve el número.',
         tags: 'Webs · tiendas · analítica',
@@ -133,7 +133,7 @@
     ],
 
     labels: {
-      hire: 'Contratar',
+      hire: 'Ver este servicio',
       add: 'Contratar',
       priceMonth: '/mes',
       everyMonth: 'cada mes, sin permanencia',
