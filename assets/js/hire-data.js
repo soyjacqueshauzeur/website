@@ -76,7 +76,7 @@
         num: '04',
         category: 'AI',
         price: 497,
-        cardTitle: 'An assistant that<br/>does the work, not promises.',
+        cardTitle: 'An Artificial intelligence assistant<br/>that does the work,<br/>not promises.',
         cardDesc: 'Answers your email, schedules meetings and fills in your reports — hours you get back this very week.',
         tags: 'Assistants · automations · workflows',
         pageTitle: 'AI that does<br/><span class="lime">real work</span><br/>this week.',

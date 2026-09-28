@@ -76,7 +76,7 @@
         num: '04',
         category: 'IA',
         price: 497,
-        cardTitle: 'Un asistente que<br/>hace el trabajo, no promesas.',
+        cardTitle: 'Un asistente de inteligencia artificial<br/>que hace el trabajo,<br/>no promesas.',
         cardDesc: 'Responde correos, agenda reuniones y llena tus reportes — horas que recuperas esta misma semana.',
         tags: 'Asistentes · automatizaciones · flujos',
         pageTitle: 'IA que hace<br/><span class="lime">trabajo real</span><br/>esta semana.',
