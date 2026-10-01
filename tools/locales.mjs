@@ -52,7 +52,7 @@ export const LOCALES = {
     langLabel: 'Language',
     footerExplore: 'Explore',
     footerBrand:
-      '<p>Technology education and done-for-you web &amp; marketing for founders, teams and companies — built to hand over, not to hold hostage.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
+      '<p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
     footerMeta: ['Privacy', 'Imprint', 'Sitemap'],
     nav: [
       ['index.html', 'Home'],
@@ -86,7 +86,7 @@ export const LOCALES = {
     langLabel: 'Idioma',
     footerExplore: 'Explorar',
     footerBrand:
-      '<p>Educación en tecnología y web y marketing llave en mano para fundadores, equipos y empresas — hechos para entregarte, no para tenerte de rehén.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
+      '<p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
     footerMeta: ['Privacidad', 'Aviso legal', 'Mapa del sitio'],
     nav: [
       ['index.html', 'Inicio'],
