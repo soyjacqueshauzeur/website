@@ -15,6 +15,7 @@ import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { headerHTML, drawerHTML, footerHTML, faviconHTML } from './site-shell.mjs';
+import { locale, availableLangs, assetPrefix, LANG_FILES } from './locales.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
 
@@ -33,28 +34,9 @@ const WA = 'https://wa.me/573507402009';
 /* ---- per-language copy that does not live in the runtime data ---- */
 const COPY = {
   en: {
-    htmlLang: 'en',
-    skip: 'Skip to content',
-    brand: '<span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur',
-    nav: [
-      ['index.html', 'Home'],
-      ['clients.html', 'Clients'],
-      ['sessions.html', '1:1'],
-      ['services.html', 'Services'],
-      ['index.html#about', 'About me'],
-      ['blog.html', 'Blog']
-    ],
-    cta: 'WhatsApp',
-    navAria: 'Primary',
-    menuOpen: 'Open menu',
-    menuClose: 'Close menu',
-    menuCloseLabel: 'Close menu',
-    langLabel: 'Language',
-    langLabelShort: 'Español',
-    flagEn: 'English',
     hub: {
       title: 'Hire Jacques Hauzeur — monthly services & rates',
-      desc: 'Hire Jacques Hauzeur by the month — marketing, paid campaigns, chatbots, AI, financial planning and e-commerce. Choose one service or bundle several. 1, 3, 6 or 12 months.',
+      desc: 'Hire Jacques Hauzeur by the month — marketing, paid campaigns, chatbots, AI, financial planning and e-commerce. One service or several, 1–12 months.',
       eyebrow: 'Monthly hire · no lock-in',
       h1: 'Hire me by the<br/><span class="lime">month</span>.<br/>No lock-in <span class="slash">//</span>',
       sub: 'Pick one service or bundle several. Each hire runs monthly for the duration you choose — 1, 3, 6 or 12 months. Send the order, I confirm the same day and get you set up. Pause or cancel anytime.',
@@ -75,9 +57,14 @@ const COPY = {
       closePrimary: 'Review your hire',
       closeSecondary: 'Ask me a question first',
       contractHubLabel: 'Download the service contract',
-      contractUnifiedLabel: 'Contracts for your cart'
+      contractUnifiedLabel: 'Contracts for your cart',
+      payLabel: 'Payment',
+      payNote: 'Mercado Pago, PayPal, local bank or another method — the link arrives when I confirm the order.'
     },
     service: {
+      metaTitle: (svc) => `${svc.category} — monthly hire from $${svc.price}/mo`,
+      hireLabel: 'monthly hire',
+      seeAll: 'See all services',
       secYouGet: 'What you get each month',
       secMoreEyebrow: 'Bundle · hire another',
       closerEyebrow: 'Hire · 2026',
@@ -89,28 +76,9 @@ const COPY = {
     }
   },
   es: {
-    htmlLang: 'es',
-    skip: 'Saltar al contenido',
-    brand: '<span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur',
-    nav: [
-      ['index.html', 'Inicio'],
-      ['clients.html', 'Clientes'],
-      ['sesiones.html', '1:1'],
-      ['services.html', 'Servicios'],
-      ['index.html#about', 'Sobre mí'],
-      ['blog.html', 'Blog']
-    ],
-    cta: 'WhatsApp',
-    navAria: 'Principal',
-    menuOpen: 'Abrir menú',
-    menuClose: 'Cerrar menú',
-    menuCloseLabel: 'Cerrar menú',
-    langLabel: 'Idioma',
-    langLabelShort: 'Español',
-    flagEn: 'Español',
     hub: {
       title: 'Contrata a Jacques Hauzeur — servicios y tarifas mensuales',
-      desc: 'Contrata a Jacques Hauzeur por mes — marketing, campañas pagadas, chatbots, IA, planificación financiera y e-commerce. Elige un servicio o combina varios. 1, 3, 6 o 12 meses.',
+      desc: 'Contrata a Jacques Hauzeur por mes — marketing, campañas, chatbots, IA, finanzas y e-commerce. Un servicio o varios, de 1 a 12 meses.',
       eyebrow: 'Hire mensual · sin permanencia',
       h1: 'Contrátame por<br/><span class="lime">mes</span>.<br/>Sin permanencia <span class="slash">//</span>',
       sub: 'Elige un servicio o combina varios. Cada hire es mensual por la duración que elijas — 1, 3, 6 o 12 meses. Envía el pedido, confirmo el mismo día y te dejo todo funcionando. Pausa o cancela cuando quieras.',
@@ -131,9 +99,14 @@ const COPY = {
       closePrimary: 'Revisar tu contratación',
       closeSecondary: 'Hazme una pregunta primero',
       contractHubLabel: 'Descarga el contrato del servicio',
-      contractUnifiedLabel: 'Contratos de tu carrito'
+      contractUnifiedLabel: 'Contratos de tu carrito',
+      payLabel: 'Pago',
+      payNote: 'Mercado Pago, PayPal, banco local u otro medio — te envío el link al confirmar el pedido.'
     },
     service: {
+      metaTitle: (svc) => `${svc.category} — hire mensual desde $${svc.price}/mes`,
+      hireLabel: 'hire mensual',
+      seeAll: 'Ver todos los servicios',
       secYouGet: 'Qué recibes cada mes',
       secMoreEyebrow: 'Combina · contrata otro',
       closerEyebrow: 'Hire · 2026',
@@ -151,10 +124,11 @@ function esc(s) {
 }
 
 function shell(lang, copy, data, title, desc, active, pageBasename, body) {
-  const A = lang === 'es' ? '../assets' : 'assets';
+  const A = assetPrefix(lang);
+  const L = locale(lang);
   const page = pageBasename || 'services.html';
   return `<!doctype html>
-<html lang="${copy.htmlLang}">
+<html lang="${L.htmlLang}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -167,7 +141,7 @@ ${faviconHTML(A)}
   <link rel="stylesheet" href="${A}/css/styles.css" />
 </head>
 <body>
-  <a class="skip-link" href="#main">${copy.skip}</a>
+  <a class="skip-link" href="#main">${L.skip}</a>
 
 ${headerHTML(lang, active, page)}
 
@@ -180,10 +154,10 @@ ${body}
 ${footerHTML(lang)}
 
   <script src="${A}/js/fx.js" defer></script>
-  <script src="${A}/js/hire-data${lang === 'es' ? '-es' : ''}.js" defer></script>
+  <script src="${A}/js/hire-data${L.dataSuffix}.js" defer></script>
   <script src="${A}/js/hire.js" defer></script>
   <script src="${A}/js/site.js" defer></script>
-${lang === 'es' ? '  <script src="' + A + '/js/terms.js" defer></script>\n' : ''}</body>
+${L.terms ? '  <script src="' + A + '/js/terms.js" defer></script>\n' : ''}</body>
 </html>
 `;
 }
@@ -219,8 +193,8 @@ function hubBody(lang, copy, data) {
               <ul class="hire-steps">
 ${side}
               </ul>
-              <span class="label hire-pay-label">${data.lang === 'es' ? 'Pago' : 'Payment'} · ${payChips(data)}</span>
-              <p class="mono hire-pay-note">${data.lang === 'es' ? 'Mercado Pago, PayPal, banco local u otro medio — te envío el link al confirmar el pedido.' : 'Mercado Pago, PayPal, local bank or another method — the link arrives when I confirm the order.'}</p>
+              <span class="label hire-pay-label">${L.payLabel} · ${payChips(data)}</span>
+              <p class="mono hire-pay-note">${L.payNote}</p>
             </div>
           </div>
         </div>
@@ -241,7 +215,7 @@ ${side}
         <div class="cap-bento hire-cat" data-hire-catalogue><!-- rendered by hire.js --></div>
         <div class="contract-hub">
           <span class="label">${L.contractHubLabel}</span>
-          <div class="contract-hub-links"><a class="btn btn--primary btn--sm" href="${lang === 'es' ? 'contrato.html' : 'contract.html'}">${L.contractUnifiedLabel}</a>${data.services.map((s) => `<a class="btn btn--ghost btn--sm" href="${s.file.replace(/\.html$/, '')}-hire.html">${s.category}</a>`).join('')}</div>
+          <div class="contract-hub-links"><a class="btn btn--primary btn--sm" href="${LANG_FILES.contract[lang]}">${L.contractUnifiedLabel}</a>${data.services.map((s) => `<a class="btn btn--ghost btn--sm" href="${s.file.replace(/\.html$/, '')}-hire.html">${s.category}</a>`).join('')}</div>
         </div>
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${data.labels.openCart}
@@ -272,14 +246,13 @@ function serviceBody(lang, copy, data, svc) {
   const bullets = svc.includes.map((b) => `          <li>${b}</li>`).join('\n');
   const contractFile = svc.file.replace(/\.html$/, '') + '-hire.html';
   const contractLi = `          <li class="hire-contract"><a class="hire-contract-link" href="${contractFile}">${S.contractBullet}</a><a class="btn btn--hire btn--sm" href="${contractFile}">${S.contractBtn}</a></li>`;
-  const isES = lang === 'es';
   return `
     <!-- Service hero + price panel -->
     <section class="hero">
       <div class="container container--wide">
         <div class="hero-grid">
           <div class="hero-text">
-            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>${svc.num} / ${svc.category} · ${isES ? 'hire mensual' : 'monthly hire'}</span>
+            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>${svc.num} / ${svc.category} · ${S.hireLabel}</span>
             <h1 class="hero-headline">${svc.pageTitle}</h1>
             <p class="hero-sub">${svc.pageSub}</p>
             <p class="mono" style="margin-top: var(--space-2); color: var(--fg-mute);">${svc.pageMeta}</p>
@@ -338,16 +311,14 @@ ${contractLi}
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${data.labels.openCart}
             <svg class="arrow" width="16" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <a class="btn btn--ghost btn--lg" href="services.html">${isES ? 'Ver todos los servicios' : 'See all services'}</a>
+          <a class="btn btn--ghost btn--lg" href="services.html">${S.seeAll}</a>
         </div>
       </div>
     </section>`;
 }
 
 function servicePage(lang, copy, data, svc) {
-  const title = lang === 'es'
-    ? `Hire mensual de ${svc.category} — desde USD $${svc.price}/mes · Jacques Hauzeur`
-    : `${svc.category} monthly hire — from USD $${svc.price}/month · Jacques Hauzeur`;
+  const title = copy.service.metaTitle(svc);
   const desc = svc.pageSub.slice(0, 160);
   return shell(lang, copy, data, title, desc, 'services.html', svc.file, serviceBody(lang, copy, data, svc));
 }
@@ -357,9 +328,13 @@ function hubPage(lang, copy, data) {
   return shell(lang, copy, data, COPY[lang].hub.title, desc, 'services.html', 'services.html', hubBody(lang, copy, data));
 }
 
+const DATA = { en: EN, es: ES };
+
 async function main() {
-  for (const [lang, copy, data] of [['en', COPY.en, EN], ['es', COPY.es, ES]]) {
-    const dir = lang === 'es' ? ROOT + 'es/' : ROOT;
+  for (const lang of availableLangs()) {
+    const copy = COPY[lang];
+    const data = DATA[lang];
+    const dir = ROOT + locale(lang).dir;
     await mkdir(dir, { recursive: true });
     const pages = [hubPage(lang, copy, data)];
     for (const svc of data.services) {

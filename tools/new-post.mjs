@@ -9,15 +9,16 @@
  *     [--author "Jacques Hauzeur"] [--read "5 min"] [--date "26 Sep 2026"] \
  *     [--body "…"] [--body-es "…"] [--featured]
  *
- * Output:
- *   2026/07/<slug>.html      (EN)
- *   es/2026/07/<slug>.html   (ES)
+ * Output (fecha derivada de --date, p.ej. 2026/07):
+ *   blog/<year>/<month>/<slug>.html      (EN)
+ *   es/blog/<year>/<month>/<slug>.html   (ES)
  * and prepends the entry to assets/js/blog-data.js + blog-data-es.js.
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
+import { locale, availableLangs, assetPrefix, DEFAULT_LANG } from './locales.mjs';
 
-const ORIGIN = 'https://soyjacqueshauzeur.com';
+const ORIGIN = 'https://soyjacqueshauzeur.dev';
 
 function parseArgs(argv) {
   const out = { featured: false };
@@ -54,6 +55,7 @@ const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','
 const now = new Date();
 const date = args.date || `${String(now.getDate()).padStart(2,'0')} ${MON[now.getMonth()]} ${now.getFullYear()}`;
 const iso = (() => { const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(date).trim()); if (!m) return now.toISOString().slice(0,10); return `${m[3]}-${String(MON.indexOf(m[2].replace(/^./,c=>c.toUpperCase())) + 1).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`; })();
+const ym = `${iso.slice(0,4)}/${iso.slice(5,7)}`; // p.ej. 2026/07
 
 const body = args.body || 'Escribe aquí el contenido de la nota.';
 const bodyEs = args['body-es'] || args.body || 'Escribe aquí el contenido de la nota.';
@@ -63,7 +65,9 @@ function esc(s) {
 }
 
 function html({ lang, title: t, excerpt: ex, cat, body: b, prefix, url, imagePath }) {
-  const isEs = lang === 'es';
+  const alts = availableLangs()
+    .map((k) => `  <link rel="alternate" hreflang="${locale(k).hreflang}" href="${ORIGIN}${locale(k).base}blog/${ym}/${slug}.html" />`)
+    .join('\n');
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -72,9 +76,11 @@ function html({ lang, title: t, excerpt: ex, cat, body: b, prefix, url, imagePat
   <link rel="icon" href="${prefix}/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="${prefix}/favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="${prefix}/apple-touch-icon.png" />
-  <title>${esc(t)} · SoyJacquesHauzeur Journal</title>
+  <title>${esc(t)} · SoyJacquesHauzeur Blog</title>
   <meta name="description" content="${esc(ex)}" />
   <link rel="canonical" href="${url}" />
+${alts}
+  <link rel="alternate" hreflang="x-default" href="${ORIGIN}${locale(DEFAULT_LANG).base}blog/${ym}/${slug}.html" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${esc(t)}" />
   <meta property="og:description" content="${esc(ex)}" />
@@ -110,6 +116,7 @@ function html({ lang, title: t, excerpt: ex, cat, body: b, prefix, url, imagePat
     </article>
   </main>
   <script src="${prefix}/js/site.js" defer></script>
+  <script src="${prefix}/js/blog${locale(lang).dataSuffix}.js" defer></script>
 </body>
 </html>
 `;
@@ -122,22 +129,24 @@ function writePost(file, content) {
   console.log('wrote ' + file);
 }
 
-writePost(`2026/07/${slug}.html`, html({
-  lang: 'en', title, excerpt, cat: category, body, prefix: '../../assets',
-  url: `${ORIGIN}/2026/07/${slug}.html`, imagePath: '../../' + image
+writePost(`${locale('en').dir}blog/${ym}/${slug}.html`, html({
+  lang: 'en', title, excerpt, cat: category, body, prefix: assetPrefix('en', 3),
+  url: `${ORIGIN}/blog/${ym}/${slug}.html`, imagePath: '../../../' + image
 }));
-writePost(`es/2026/07/${slug}.html`, html({
-  lang: 'es', title: titleEs, excerpt: excerptEs, cat: category, body: bodyEs, prefix: '../../../assets',
-  url: `${ORIGIN}/es/2026/07/${slug}.html`, imagePath: '../../../' + image
+writePost(`${locale('es').dir}blog/${ym}/${slug}.html`, html({
+  lang: 'es', title: titleEs, excerpt: excerptEs, cat: category, body: bodyEs, prefix: assetPrefix('es', 3),
+  url: `${ORIGIN}/es/blog/${ym}/${slug}.html`, imagePath: '../../../../' + image
 }));
 
-function prependEntry(file, obj) {
+function prependEntry(lang, obj) {
+  const suffix = locale(lang).dataSuffix;               // '' | '-es'
+  const file = `assets/js/blog-data${suffix}.js`;
+  const globalName = 'BLOG_POSTS' + (suffix ? '_' + suffix.slice(1).toUpperCase() : '');
+  const marker = `window.${globalName} = [`;
   const src = readFileSync(file, 'utf8');
-  const isEs = file.includes('-es');
-  const marker = isEs ? 'window.BLOG_POSTS_ES = [' : 'window.BLOG_POSTS = [';
   const at = src.indexOf(marker) + marker.length;
   if (at < marker.length) { console.error('No encuentro ' + marker + ' en ' + file); process.exit(1); }
-  const indent = isEs ? '  ' : '    ';
+  const indent = src.match(/=\s*\[\s*\n(\s+)/)?.[1] || '    ';
   const json = JSON.stringify(obj, null, 2).replace(/\n/g, '\n' + indent);
   const entry = '\n' + indent + json + ',';
   writeFileSync(file, src.slice(0, at) + entry + src.slice(at));
@@ -145,7 +154,7 @@ function prependEntry(file, obj) {
 }
 
 const base = { slug, title, excerpt, category, date, author, readTime: read, image, featured: !!args.featured };
-prependEntry('assets/js/blog-data.js', { ...base, url: `2026/07/${slug}.html` });
-prependEntry('assets/js/blog-data-es.js', { ...base, title: titleEs, excerpt: excerptEs, url: `2026/07/${slug}.html` });
+prependEntry('en', { ...base, url: `blog/${ym}/${slug}.html` });
+prependEntry('es', { ...base, title: titleEs, excerpt: excerptEs, url: `blog/${ym}/${slug}.html` });
 
 console.log('Listo. Edita los HTML para escribir el contenido y revisa blog-data*.js.');

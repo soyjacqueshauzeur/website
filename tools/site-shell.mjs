@@ -5,33 +5,19 @@
  * (top-level static pages) and build-hire-pages.mjs (services hub + 6 hire
  * pages) so the nav can never drift between generators again.
  *
- * Canon (mirrors index.html EN / es/index.html ES):
- *   nav: Home/Inicio · Clients/Clientes · 1:1 · Services/Servicios ·
- *        About me/Sobre mí (index.html#about) · Blog
- *   CTA: Book a call / Reservar una llamada
- *   lang-switch: US · CO · RU (current language marked active)
+ * All language dimensions (dirs, asset prefix, cross-language links, nav and
+ * footer copy) come from tools/locales.mjs — this file no longer branches on
+ * `lang === 'es'`.
  */
+
+import { LOCALES, LANG_ORDER, locale, otherLangHref } from './locales.mjs';
 
 export const WA = 'https://wa.me/573507402009';
 
-const EN_NAV = [
-  ['index.html', 'Home'],
-  ['clients.html', 'Clients'],
-  ['sessions.html', '1:1'],
-  ['services.html', 'Services'],
-  ['index.html#about', 'About me'],
-  ['blog.html', 'Blog']
-];
-const ES_NAV = [
-  ['index.html', 'Inicio'],
-  ['clients.html', 'Clientes'],
-  ['sesiones.html', '1:1'],
-  ['services.html', 'Servicios'],
-  ['index.html#about', 'Sobre mí'],
-  ['blog.html', 'Blog']
-];
-
-export const NAV = { en: EN_NAV, es: ES_NAV };
+/* Per-language nav is the registry's `nav` (single source for header/footer). */
+export const NAV = Object.fromEntries(
+  Object.entries(LOCALES).map(([k, l]) => [k, l.nav])
+);
 
 /* Favicon links — asset is the per-page relative assets prefix
    ('assets' at the root, '../assets' in /es/, '../../assets' in nested dirs). */
@@ -43,37 +29,36 @@ export function faviconHTML(asset) {
   );
 }
 
-/* Basenames that differ across languages (EN ↔ ES). */
-const ALT_PAGE = {
-  'sessions.html': 'sesiones.html',
-  'sesiones.html': 'sessions.html'
-};
+/* Cross-language href for `page` (kept public for other generators). */
+export { otherLangHref };
 
-/* Page basename -> cross-language absolute URL ('' = language index). */
-export function otherLangHref(lang, page) {
-  const base = lang === 'en' ? '/es/' : '/';
-  let name = page && page !== 'index.html' ? page : '';
-  if (name) name = ALT_PAGE[name] || name;
-  return base + name;
-}
+/* One flag of the language switch, driven by the registry. */
+function flag(asset, lang, page, targetLang) {
+  const t = locale(targetLang);
+  const iso = t.flag;
+  const label = t.flagLabel;
+  const title = t.flagTitle;
 
-function flag(asset, lang, current, label, iso, title, isActive) {
-  if (isActive) {
+  if (targetLang === lang) {
     return (
       '            <span class="flag is-active" title="' + title + '"><img src="' + asset + '/img/flags/' +
       iso + '.svg" alt="' + label + '" width="24" height="16" loading="lazy" /><span class="visually-hidden">' +
       label + '</span></span>'
     );
   }
-  const href = lang === 'en'
-    ? (iso === 'co' ? otherLangHref(lang, current === 'index.html' ? null : current) : '/')
-    : (iso === 'us' ? otherLangHref(lang, current === 'index.html' ? null : current) : '/');
+
+  const href = otherLangHref(targetLang, page === 'index.html' ? null : page);
+  const code = t.hreflang; // 'en' | 'es' | 'ru' (valid hreflang/lang/data-lang)
   return (
-    '            <a class="flag lang-flag" href="' + href + '" hreflang="' + iso + '" lang="' + iso +
-    '" data-lang="' + iso + '" title="' + title + '"><img src="' + asset + '/img/flags/' + iso +
+    '            <a class="flag lang-flag" href="' + href + '" hreflang="' + code + '" lang="' + code +
+    '" data-lang="' + code + '" title="' + title + '"><img src="' + asset + '/img/flags/' + iso +
     '.svg" alt="' + label + '" width="24" height="16" loading="lazy" /><span class="visually-hidden">' +
     label + '</span></a>'
   );
+}
+
+function langSwitch(asset, lang, page) {
+  return LANG_ORDER.map((k) => flag(asset, lang, page, k)).join('\n');
 }
 
 function desktopLinks(nav, active) {
@@ -95,28 +80,26 @@ function arrow() {
    active: nav item marked aria-current ('index.html', 'services.html', …)
    page:   current file basename, used for the cross-language flag link. */
 export function headerHTML(lang, active, page) {
-  const A = lang === 'en' ? 'assets' : '../assets';
-  const nav = NAV[lang];
+  const L = locale(lang);
+  const A = L.asset;
+  const nav = L.nav;
   const cur = page || active || 'index.html';
-  const isEs = lang === 'es';
   return (
     '  <header class="site-header">\n' +
     '    <div class="container container--wide">\n' +
-    '      <nav class="nav" aria-label="' + (isEs ? 'Principal' : 'Primary') + '">\n' +
+    '      <nav class="nav" aria-label="' + L.navAria + '">\n' +
     '        <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>\n' +
     '        <div class="nav-links" role="navigation">\n' +
     desktopLinks(nav, active) + '\n' +
     '        </div>\n' +
     '        <div class="nav-cta-row">\n' +
-    '          <a href="' + WA + '" target="_blank" rel="noopener" class="btn btn--primary btn--sm">' + (isEs ? 'Reservar una llamada' : 'Book a call') + '\n' +
+    '          <a href="' + WA + '" target="_blank" rel="noopener" class="btn btn--primary btn--sm">' + L.cta + '\n' +
     '            ' + arrow() + '\n' +
     '          </a>\n' +
-    '          <nav class="lang-switch" aria-label="' + (isEs ? 'Idioma' : 'Language') + '">\n' +
-    flag(A, lang, cur, 'English', 'us', 'English', lang === 'en') + '\n' +
-    flag(A, lang, cur, 'Español', 'co', 'Español', lang === 'es') + '\n' +
-    flag(A, lang, cur, 'Русский', 'ru', 'Русский', false) + '\n' +
+    '          <nav class="lang-switch" aria-label="' + L.langLabel + '">\n' +
+    langSwitch(A, lang, cur) + '\n' +
     '          </nav>\n' +
-    '          <button class="nav-toggle" aria-label="' + (isEs ? 'Abrir menú' : 'Open menu') + '" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>\n' +
+    '          <button class="nav-toggle" aria-label="' + L.menuOpen + '" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>\n' +
     '        </div>\n' +
     '      </nav>\n' +
     '    </div>\n' +
@@ -125,41 +108,36 @@ export function headerHTML(lang, active, page) {
 }
 
 export function drawerHTML(lang, page) {
-  const A = lang === 'en' ? 'assets' : '../assets';
-  const nav = NAV[lang];
+  const L = locale(lang);
+  const A = L.asset;
+  const nav = L.nav;
   const cur = page || 'index.html';
-  const isEs = lang === 'es';
   return (
     '  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">\n' +
-    '    <button class="drawer-close" aria-label="' + (isEs ? 'Cerrar menú' : 'Close menu') + '">' + (isEs ? 'Cerrar' : 'Close') + '</button>\n' +
+    '    <button class="drawer-close" aria-label="' + L.menuClose + '">' + L.menuCloseShort + '</button>\n' +
     drawerLinks(nav) + '\n' +
-    '    <div class="lang-switch" aria-label="' + (isEs ? 'Idioma' : 'Language') + '">\n' +
-    '      <span class="lang-label">' + (isEs ? 'Idioma' : 'Language') + '</span>\n' +
-    flag(A, lang, cur, 'English', 'us', 'English', lang === 'en') + '\n' +
-    flag(A, lang, cur, 'Español', 'co', 'Español', lang === 'es') + '\n' +
-    flag(A, lang, cur, 'Русский', 'ru', 'Русский', false) + '\n' +
+    '    <div class="lang-switch" aria-label="' + L.langLabel + '">\n' +
+    '      <span class="lang-label">' + L.langLabel + '</span>\n' +
+    langSwitch(A, lang, cur) + '\n' +
     '    </div>\n' +
     '  </div>'
   );
 }
 
 export function footerHTML(lang) {
-  const isEs = lang === 'es';
-  const brand = isEs
-    ? '<p>Educación en tecnología y web y marketing llave en mano para fundadores, equipos y empresas — hechos para entregarte, no para tenerte de rehén.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>'
-    : '<p>Technology education and done-for-you web &amp; marketing for founders, teams and companies — built to hand over, not to hold hostage.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>';
+  const L = locale(lang);
   return (
     '  <footer class="site-footer">\n' +
     '    <div class="container container--wide">\n' +
     '      <div class="footer-top footer-top--minimal">\n' +
     '        <div class="footer-brand">\n' +
     '          <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>\n' +
-    '          ' + brand + '\n' +
+    '          ' + L.footerBrand + '\n' +
     '        </div>\n' +
     '        <div>\n' +
-    '          <h4>' + (isEs ? 'Explorar' : 'Explore') + '</h4>\n' +
+    '          <h4>' + L.footerExplore + '</h4>\n' +
     '          <ul>\n' +
-    footerLinks(NAV[lang]) + '\n' +
+    footerLinks(L.nav) + '\n' +
     '            <li><a class="footer-hidden-link" href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +
@@ -167,9 +145,7 @@ export function footerHTML(lang) {
     '      <div class="footer-bottom">\n' +
     '        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>\n' +
     '        <div class="footer-meta-links">\n' +
-    (isEs
-      ? '          <a href="#">Privacidad</a>\n          <a href="#">Aviso legal</a>\n          <a href="#">Mapa del sitio</a>\n'
-      : '          <a href="#">Privacy</a>\n          <a href="#">Imprint</a>\n          <a href="#">Sitemap</a>\n') +
+    L.footerMeta.map((t) => '          <a href="#">' + t + '</a>').join('\n') + '\n' +
     '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +

@@ -13,6 +13,16 @@
     return new Date(Number(m[3]), isNaN(mon) ? 0 : mon, Number(m[1]));
   }
 
+  // ---------- Category labels (ES) ----------
+  const categoryLabels = {
+    setup: 'Setup',
+    process: 'Proceso',
+    business: 'Negocio',
+    archive: 'Archivo',
+    philosophy: 'Filosofía',
+    gear: 'Equipo'
+  };
+
   // ---------- State ----------
   let currentCategory = 'all';
   const INITIAL = 8;

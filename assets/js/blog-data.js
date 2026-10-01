@@ -2,7 +2,7 @@
 window.BLOG_POSTS = [
   {
     "slug": "why-4x6-silk",
-    "url": "2026/07/why-4x6-silk.html",
+    "url": "blog/2026/07/why-4x6-silk.html",
     "title": "Why we still use a 4×6 silk.",
     "excerpt": "Soft does not have to mean flat. A working note about why a hard silk still beats a soft box for portrait work on a clear day — and the one modification we make to every silk that ships.",
     "category": "setup",
@@ -14,7 +14,7 @@ window.BLOG_POSTS = [
   },
   {
     "slug": "calibration-cheapest-hire",
-    "url": "2026/07/calibration-cheapest-hire.html",
+    "url": "blog/2026/07/calibration-cheapest-hire.html",
     "title": "Calibration is the cheapest hire.",
     "excerpt": "An argument for hiring your printer before you hire your retoucher. A note for studios scaling from solo into a working team.",
     "category": "process",
@@ -26,7 +26,7 @@ window.BLOG_POSTS = [
   },
   {
     "slug": "third-frame",
-    "url": "2026/07/third-frame.html",
+    "url": "blog/2026/07/third-frame.html",
     "title": "The third frame is usually the one.",
     "excerpt": "From the Atrium SS25 shoot — why the third frame in any sequence almost always reads the best, and what to do about it.",
     "category": "archive",

@@ -18,22 +18,38 @@ es/…                                                                    ES
 assets/js/…        datos y lógica (hire-data*.js, contract-data*.js, blog-data*.js, fx.js, hire.js …)
 assets/css/…       styles.css, blog.css
 assets/img/…       logos de clientes, fotos, flags
-2026/07/…          posts del blog
+assets/logo.png, assets/logo-1920.png, assets/og-default.png   marca (schema.org / Open Graph)
+assets/og/<servicio>.<idioma>.png    tarjeta Open Graph por servicio (12)
+blog/<año>/<mes>/…      posts del blog EN (p.ej. blog/2026/07/…)
+es/blog/<año>/<mes>/…   posts del blog ES (mismo slug; p.ej. es/blog/2026/07/…)
+robots.txt, sitemap.xml generados
 tools/…            generadores y verificación (Node)
 .github/workflows/deploy.yml   despliegue a GitHub Pages
 ```
 
 ## Generadores y verificación
 
-Tras cambios de nav, textos de servicios/contratos o favicons, ejecuta:
+Tras cambios de nav, textos de servicios/contratos, favicons o SEO, ejecuta en orden:
 
 ```bash
 node tools/apply-nav.mjs          # header/footer canónico en páginas top-level
 node tools/build-hire-pages.mjs   # hub de servicios + 6 páginas de servicio (EN/ES)
 node tools/build-contract-pages.mjs # contratos por servicio + contrato del carrito
 node tools/apply-favicons.mjs     # enlaces de favicon en todas las páginas
+node tools/apply-seo.mjs          # canonical, hreflang, robots, OG/Twitter y JSON-LD
+node tools/build-sitemap.mjs      # sitemap.xml + robots.txt
 node tools/i18n-sync-check.mjs    # verifica EN vs ES (debe terminar en PASS)
+node tools/seo-check.mjs          # verifica canonical/robots/JSON-LD/hreflang/sitemap
 ```
+
+La marca (`assets/logo.png`, `logo-1920.png`, `og-default.png`) se regenera desde `assets/favicon.svg`, y las tarjetas OG por servicio desde `hire-data*.js`:
+
+```bash
+node tools/build-logo.mjs         # requiere Inkscape
+node tools/build-og.mjs           # 12 tarjetas OG (6 servicios × EN/ES) · requiere Inkscape
+```
+
+SEO: el dominio canónico y la entidad de marca viven en `tools/seo.mjs`; los idiomas en `tools/locales.mjs`.
 
 Nuevo post del blog (crea el HTML EN/ES y registra la entrada en `blog-data*.js`):
 
@@ -46,7 +62,7 @@ node tools/new-post.mjs --slug mi-nota --title "Título" --excerpt "Resumen" \
 
 - Remote: `git@github.com:soyjacqueshauzeur/website.git` (SSH).
 - Publish: **GitHub Actions** (`.github/workflows/deploy.yml`) al hacer push a `main`; también se puede lanzar a mano (`workflow_dispatch`).
-- Dominio: `CNAME` = `soyjacqueshauzeur.com` (configúralo también en *Settings → Pages → Custom domain*).
+- Dominio: `CNAME` = `soyjacqueshauzeur.dev` (configúralo también en *Settings → Pages → Custom domain*).
 - `.nojekyll` evita que Jekyll procese los archivos.
 
 ```bash

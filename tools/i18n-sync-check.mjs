@@ -7,12 +7,12 @@
  * Text may differ (translation), structure must not.
  */
 import { existsSync, readFileSync } from 'node:fs';
+import { locale, LANG_ORDER, DEFAULT_LANG } from './locales.mjs';
 
-const EN = 'index.html';
-const LOCALES = [
-  { dir: 'es/', label: 'ES' },
-  { dir: 'ru/', label: 'RU' },
-];
+const EN = locale(DEFAULT_LANG).dir + 'index.html';
+const TARGETS = LANG_ORDER
+  .filter((k) => k !== DEFAULT_LANG)
+  .map((k) => ({ lang: k, dir: locale(k).dir, label: k.toUpperCase() }));
 
 function read(p) {
   return readFileSync(p, 'utf8');
@@ -52,7 +52,7 @@ function fail(msg) {
 const en = read(EN);
 const enImgs = imgAssets(en);
 
-const active = LOCALES.filter((l) => existsSync(l.dir + 'index.html'));
+const active = TARGETS.filter((l) => existsSync(l.dir + 'index.html'));
 
 for (const l of active) {
   const loc = read(l.dir + 'index.html');
@@ -74,7 +74,7 @@ for (const l of active) {
   }
 }
 
-for (const l of LOCALES) {
+for (const l of TARGETS) {
   if (!active.includes(l)) {
     console.log(`\n— ${l.label}: /${l.dir} aún no existe (se revisará automáticamente cuando se cree).`);
   }

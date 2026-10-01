@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { faviconHTML } from './site-shell.mjs';
+import { locale, langForPath, assetPrefix } from './locales.mjs';
 
 const FAVICON_RE = /^[ \t]*<link rel="icon"[^\n]*\n/gm;
 const APPLE_RE = /^[ \t]*<link rel="apple-touch-icon"[^\n]*\n/gm;
@@ -19,9 +20,11 @@ const files = execSync(
 ).trim().split('\n').filter(Boolean);
 
 function prefixFor(file) {
-  const parts = file.replace(/^\.\//, '').split('/');
-  const depth = parts.length - 1;
-  return depth === 0 ? 'assets' : '../'.repeat(depth) + 'assets';
+  const clean = file.replace(/^\.\//, '').replace(/^\/+/, '');
+  const lang = langForPath(clean);
+  const within = clean.slice(locale(lang).dir.length);
+  const depth = within.split('/').length - 1;
+  return assetPrefix(lang, depth);
 }
 
 let changed = 0;

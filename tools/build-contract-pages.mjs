@@ -18,6 +18,7 @@
 import { pathToFileURL } from 'node:url';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { headerHTML, drawerHTML, footerHTML, faviconHTML } from './site-shell.mjs';
+import { locale, availableLangs, assetPrefix, LANG_FILES } from './locales.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
 
@@ -33,8 +34,6 @@ const ES = await loadHire('assets/js/hire-data-es.js');
 
 const COPY = {
   en: {
-    htmlLang: 'en',
-    skip: 'Skip to content',
     title: (c) => c + ' contract — Jacques Hauzeur',
     desc: (c) => 'Generate the ' + c + ' service contract with Jacques Hauzeur — fill in your details, print or save as PDF.',
     eyebrow: 'Contract · 2026',
@@ -49,8 +48,6 @@ const COPY = {
     }
   },
   es: {
-    htmlLang: 'es',
-    skip: 'Saltar al contenido',
     title: (c) => 'Contrato de ' + c + ' — Jacques Hauzeur',
     desc: (c) => 'Genera el contrato de servicio de ' + c + ' con Jacques Hauzeur — completa tus datos, imprime o guarda como PDF.',
     eyebrow: 'Contrato · 2026',
@@ -74,13 +71,14 @@ function contractFile(svc) {
   return svc.file.replace(/\.html$/, '') + '-hire.html';
 }
 function unifiedFile(lang) {
-  return lang === 'es' ? 'contrato.html' : 'contract.html';
+  return LANG_FILES.contract[lang];
 }
 
 function layout(lang, copy, name, title, desc, body, scripts) {
-  const A = lang === 'es' ? '../assets' : 'assets';
+  const A = assetPrefix(lang);
+  const L = locale(lang);
   return `<!doctype html>
-<html lang="${copy.htmlLang}">
+<html lang="${L.htmlLang}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -93,7 +91,7 @@ ${faviconHTML(A)}
   <link rel="stylesheet" href="${A}/css/styles.css" />
 </head>
 <body>
-  <a class="skip-link" href="#main">${copy.skip}</a>
+  <a class="skip-link" href="#main">${L.skip}</a>
 
 ${headerHTML(lang, '', name)}
 
@@ -116,8 +114,8 @@ ${scripts}
 }
 
 function scripts(lang, app) {
-  const A = lang === 'es' ? '../assets' : 'assets';
-  const suffix = lang === 'es' ? '-es' : '';
+  const A = assetPrefix(lang);
+  const suffix = locale(lang).dataSuffix;
   return [
     '  <script src="' + A + '/js/hire-data' + suffix + '.js" defer></script>',
     '  <script src="' + A + '/js/contract-data' + suffix + '.js" defer></script>',
@@ -152,9 +150,13 @@ function unifiedPage(lang, copy) {
   return layout(lang, copy, name, M.title, M.desc, body, scripts(lang, 'contract-multi.js'));
 }
 
+const DATA = { en: EN, es: ES };
+
 async function main() {
-  for (const [lang, copy, data] of [['en', COPY.en, EN], ['es', COPY.es, ES]]) {
-    const dir = lang === 'es' ? ROOT + 'es/' : ROOT;
+  for (const lang of availableLangs()) {
+    const copy = COPY[lang];
+    const data = DATA[lang];
+    const dir = ROOT + locale(lang).dir;
     await mkdir(dir, { recursive: true });
     for (const svc of data.services) {
       const file = dir + contractFile(svc);
