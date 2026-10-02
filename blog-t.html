@@ -78,9 +78,6 @@
     details{border:1px solid var(--rule);border-radius:12px;padding:12px 14px;margin-bottom:14px}
     details summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
     details[open] summary{color:var(--lime);margin-bottom:12px}
-    .related{max-height:190px;overflow:auto;border:1px solid var(--rule);border-radius:10px;padding:8px 10px}
-    .related label{display:flex;gap:9px;align-items:flex-start;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--soft);margin:0;padding:6px 0;cursor:pointer}
-    .related input{width:auto;margin-top:3px}
     .side{position:sticky;top:78px}
     .preview{background:var(--paper);color:var(--ink-000);border-radius:14px;padding:22px;max-height:520px;overflow:auto}
     .preview h1{font-family:var(--display);font-size:26px;line-height:1.15;margin:.2em 0 .5em}
@@ -202,12 +199,6 @@
         </label>
       </div>
 
-      <div class="card">
-        <h2>5 · Temas relacionados</h2>
-        <div class="related" id="related"></div>
-        <p class="hint">Selecciona notas existentes para enlazarlas.</p>
-      </div>
-
       <details>
         <summary>Traducción al español (opcional)</summary>
         <div class="field"><label for="title-es">Título (ES)</label><input type="text" id="title-es" /></div>
@@ -279,14 +270,6 @@
       var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = '+ ' + t;
       b.addEventListener('click', function () { addTag(t); });
       tagSuggest.appendChild(b);
-    });
-
-    // related topics
-    var related = $('related');
-    en.forEach(function (p) {
-      var l = document.createElement('label');
-      l.innerHTML = '<input type="checkbox" value="' + p.slug + '" /> <span>' + p.title + ' <span style="color:#8a8a83">· ' + p.slug + '</span></span>';
-      related.appendChild(l);
     });
 
     /* ---------- tags ---------- */
@@ -414,7 +397,6 @@
     function buildJSON() {
       var slug = $('slug').value || slugify($('title').value);
       var ext = imgData.type ? (imgData.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg') : 'jpg';
-      var relatedArr = [].slice.call(document.querySelectorAll('#related input:checked')).map(function (i) { return i.value; });
       var obj = {
         slug: slug,
         title: $('title').value.trim(),
@@ -433,7 +415,6 @@
           width: imgData.width, height: imgData.height,
           dataUrl: $('embedImg').checked ? imgData.dataUrl : null
         },
-        related: relatedArr,
         bodyMarkdown: $('body').value
       };
       var esTitle = $('title-es').value.trim(), esExcerpt = $('excerpt-es').value.trim(), esBody = $('body-es').value;

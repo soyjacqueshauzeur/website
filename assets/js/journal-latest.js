@@ -45,9 +45,9 @@
     var label = lang === 'es' ? 'Leer nota' : 'Read note';
     return (
       '<article class="journal-card">' +
-        '<div class="j-img"><img src="' + a.image + '" alt="' + a.title + '" loading="lazy" /></div>' +
+        '<a class="j-img" href="' + link + '" tabindex="-1" aria-hidden="true"><img src="' + a.image + '" alt="" loading="lazy" /></a>' +
         '<div class="j-meta"><span>' + cat + '</span><span aria-hidden="true">·</span><span>' + when + '</span></div>' +
-        '<h3>' + a.title + '</h3>' +
+        '<h3><a href="' + link + '">' + (a.titleHtml || a.title) + '</a></h3>' +
         '<p>' + a.excerpt + '</p>' +
         '<a class="btn btn--ghost btn--sm" href="' + link + '">' + label + '</a>' +
       '</article>'

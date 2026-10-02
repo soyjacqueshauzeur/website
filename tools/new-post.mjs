@@ -12,9 +12,10 @@
  * Output (fecha derivada de --date, p.ej. 2026/07):
  *   blog/<year>/<month>/<slug>.html      (EN)
  *   es/blog/<year>/<month>/<slug>.html   (ES)
+ *   assets/img/blog/<year>/<month>/<slug>/<year>-<month>-<slug>-top.<ext>  (imagen copiada)
  * and prepends the entry to assets/js/blog-data.js + blog-data-es.js.
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { locale, availableLangs, assetPrefix, DEFAULT_LANG } from './locales.mjs';
 
@@ -46,7 +47,7 @@ if (!title || !excerpt) {
 }
 const titleEs = args['title-es'] || title;
 const excerptEs = args['excerpt-es'] || excerpt;
-const image = (args.image || 'assets/img/journal-light.webp').replace(/^\.\.\//, '');
+const srcImage = (args.image || 'assets/img/journal-light.webp').replace(/^\.\.\//, '');
 const category = args.category || 'process';
 const author = args.author || 'Jacques Hauzeur';
 const read = args.read || '5 min';
@@ -56,6 +57,16 @@ const now = new Date();
 const date = args.date || `${String(now.getDate()).padStart(2,'0')} ${MON[now.getMonth()]} ${now.getFullYear()}`;
 const iso = (() => { const m = /^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/.exec(String(date).trim()); if (!m) return now.toISOString().slice(0,10); return `${m[3]}-${String(MON.indexOf(m[2].replace(/^./,c=>c.toUpperCase())) + 1).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`; })();
 const ym = `${iso.slice(0,4)}/${iso.slice(5,7)}`; // p.ej. 2026/07
+
+// Media root: imágenes en assets/img/blog/<año>/<mes>/<slug>/, con nombre
+// autodescriptivo <año>-<mes>-<slug>-<rol>.<ext> (rol: top | thumbnail | fig-01…)
+const imgExt = ((/\.[a-z0-9]+$/i.exec(srcImage) || ['.webp'])[0] || '.webp').toLowerCase();
+const image = `assets/img/blog/${ym}/${slug}/${ym.replace('/', '-')}-${slug}-top${imgExt}`;
+if (existsSync(srcImage) && srcImage !== image) {
+  mkdirSync(dirname(image), { recursive: true });
+  copyFileSync(srcImage, image);
+  console.log('image -> ' + image);
+}
 
 const body = args.body || 'Escribe aquí el contenido de la nota.';
 const bodyEs = args['body-es'] || args.body || 'Escribe aquí el contenido de la nota.';
@@ -155,6 +166,6 @@ function prependEntry(lang, obj) {
 
 const base = { slug, title, excerpt, category, date, author, readTime: read, image, featured: !!args.featured };
 prependEntry('en', { ...base, url: `blog/${ym}/${slug}.html` });
-prependEntry('es', { ...base, title: titleEs, excerpt: excerptEs, url: `blog/${ym}/${slug}.html` });
+prependEntry('es', { ...base, image: '../' + image, title: titleEs, excerpt: excerptEs, url: `blog/${ym}/${slug}.html` });
 
 console.log('Listo. Edita los HTML para escribir el contenido y revisa blog-data*.js.');

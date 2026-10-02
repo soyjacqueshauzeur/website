@@ -20,6 +20,8 @@ assets/css/…       styles.css, blog.css
 assets/img/…       logos de clientes, fotos, flags
 assets/logo.png, assets/logo-1920.png, assets/og-default.png   marca (schema.org / Open Graph)
 assets/og/<servicio>.<idioma>.png    tarjeta Open Graph por servicio (12)
+assets/img/blog/<año>/<mes>/<slug>/  imágenes del post, nombre <año>-<mes>-<slug>-<rol>.<ext> (top, fig-01…, thumbnail), compartidas EN/ES
+assets/blog-vault/   vault de Obsidian: una nota por post, interlinks/outlinks, tags y canales (telegram, youtube, meet)
 blog/<año>/<mes>/…      posts del blog EN (p.ej. blog/2026/07/…)
 es/blog/<año>/<mes>/…   posts del blog ES (mismo slug; p.ej. es/blog/2026/07/…)
 robots.txt, sitemap.xml generados

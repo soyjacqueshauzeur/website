@@ -41,7 +41,7 @@
             <span class="featured-pill">${capitalize(article.category)} · ${article.date}</span>
           </div>
           <div class="featured-content">
-            <h2>${article.title}</h2>
+            <h2>${article.titleHtml || article.title}</h2>
             <p>${article.excerpt}</p>
             <div class="featured-meta">
               <span class="author">${article.author}</span>
@@ -181,8 +181,8 @@ if (document.querySelector('.article-body')) {
   (function () {
     'use strict';
 
-    // Lightbox for gallery images
-    const galleryImages = document.querySelectorAll('.article-gallery img');
+    // Lightbox for article images (top figure / hero, gallery) — click to enlarge
+    const galleryImages = document.querySelectorAll('.article-hero-media img, .article-content figure img, .article-gallery img');
     if (galleryImages.length) {
       const lightbox = document.createElement('div');
       lightbox.className = 'lightbox';
@@ -202,6 +202,10 @@ if (document.querySelector('.article-body')) {
 
       let currentIndex = 0;
       const images = Array.from(galleryImages);
+      if (images.length < 2) {
+        lightbox.querySelector('.lightbox-prev').style.display = 'none';
+        lightbox.querySelector('.lightbox-next').style.display = 'none';
+      }
 
       function openLightbox(index) {
         currentIndex = index;

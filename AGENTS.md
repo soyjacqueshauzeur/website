@@ -24,6 +24,51 @@ Ambos deben terminar en `PASS`. Si alguno da `FAIL`, corregir (imagen/sección q
 - La `url` en `blog-data*.js` es el mismo string relativo (`blog/<año>/<mes>/<slug>.html`) en EN y ES: desde `/es/` resuelve bajo `/es/blog/…`.
 - Cada artículo lleva `canonical` + `hreflang` EN/ES/x-default + JSON-LD `BlogPosting` (los inyecta `tools/apply-seo.mjs`).
 
+## Blog — diseño, funciones y CSS
+### Estructura y URLs
+- Listado: `blog.html` (EN) / `es/blog.html` (ES). Artículos: `blog/<año>/<mes>/<slug>.html` (EN) y `es/blog/<año>/<mes>/<slug>.html` (ES), **mismo slug**. Archivo mensual: `.../<mes>/index.html`.
+- Datos: `assets/js/blog-data.js` (`window.BLOG_POSTS`) y `blog-data-es.js` (`window.BLOG_POSTS_ES`). Campos por post: `slug, title, excerpt, category, date` (p. ej. `"02 Oct 2026"`), `author, readTime` (`"7 min"`), `image, featured, url`.
+- La `url` es el mismo string relativo (`blog/<año>/<mes>/<slug>.html`) en ambos idiomas; desde `/es/` resuelve bajo `/es/blog/…`. **En ES la `image` lleva `../assets/…`.**
+- **Imágenes del blog = media root** (Screaming Architecture: grilla el dominio `blog → año → mes → artículo`): carpeta `assets/img/blog/<año>/<mes>/<slug>/` con nombres **autodescriptivos** `<año>-<mes>-<slug>-<rol>.<ext>`, donde `<rol>` = `top` (imagen top/lead), `fig-01`, `fig-02`… y `thumbnail` si aplica. Ej.: `assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-top.webp`. Se **comparten EN y ES** (una sola copia): EN referencia `assets/img/blog/…`, ES `../assets/img/blog/…`. **NUNCA** volver a dejar imágenes de post sueltas en `assets/img/` ni dentro de `blog/<año>/<mes>/` (solo va el `.html`).
+- **Categorías válidas** (botones de filtro): `all, setup, process, business, archive, philosophy, gear`. `blog.js`/`blog-es.js` recalculan los conteos desde el data (`updateFilterCounts`); no hay que mantener los números a mano.
+- Home: `assets/js/journal-latest.js` pinta los **3 posts más recientes** (`#journal-grid`) leyendo el data del idioma según `<html lang>`.
+
+### Estructura de un artículo (HTML)
+- `header.site-header` + `div.mobile-drawer` (header/footer **“demo” del blog**, distinto del shell del sitio — pendiente unificarlos con `site-shell.mjs`) → `main#main`.
+- `section.article-hero` > `.article-hero-grid` (2 columnas): `.article-hero-text` (con `.eyebrow` —de ahí `apply-seo` saca la fecha—, `h1`, `.article-meta-row` con `.author`/`.category`/`.read-time`) y `.article-hero-media` (imagen). Si no hay imagen hero: `style="grid-template-columns: minmax(0,1fr)"` y se omite `.article-hero-media`.
+- `section.article-body` > `.article-container` > `.article-content`:
+  - `.article-content` es un **grid** (`1fr / 320px`): `.article-main` (texto) + `.article-sidebar` (`.sidebar-card`/`.sidebar-link`).
+  - **Imagen top**: `<figure class="article-figure article-figure--wide">` como **hijo directo de `.article-content`** (antes de `.article-main`), para ocupar el ancho completo (`grid-column: 1/-1`). Dentro de `.article-main` quedaría limitada a la columna.
+  - Bloques: `p.article-lead`, `h2` (uppercase), `p`, `ul`/`ol`, `blockquote`, `div.article-pull`, `div.tech-spec` (`.tech-spec-list`), `figure.article-figure` (`--wide`/`--full`) + `figcaption`.
+  - **Bibliografía**: `<h2 id="bibliography">` + `<ol class="article-references">` con `<li id="ref-N">`; las citas inline son `<a href="#ref-N">[N]</a>` (clicables).
+  - `footer.article-footer`: `.article-tags` + `.share-row` (`.share-btn[data-share="twitter|linkedin|email|copy"]`).
+
+### CSS
+- `assets/css/blog.css` — todo lo del blog: `.hero--blog`, `.featured-strip`/`.featured-article`/`.featured-media`/`.featured-pill`/`.featured-content`/`.featured-meta` (destacado), `.blog-grid`, `.filter-row`/`.filter-btn`; y en artículos `.article-hero*`, `.article-body`, `.article-container` (**`max-width: 1440px`**), `.article-content` (grid), `.article-main`, `.article-lead`, `.article-sidebar`/`.sidebar-card`/`.sidebar-link`, `.article-figure*`, `.tech-spec*`, `.article-pull`, `.article-footer`, `.article-tags`, `.share-row`, `.lightbox`, `.reading-progress`.
+- `assets/css/styles.css` — **tokens** en `:root` + componentes globales (nav, botones, secciones, hire, footer). **No duplicar tokens en `blog.css`: usar `var(--…)`.**
+- **Paleta dark-only**: carbón (`--ink-000 … --ink-elev`), marfil/grises (`--paper*`), acento lima en 6 tonos (`--lime`, `--lime-soft`, `--lime-deep`, `--lime-ink`, `--lime-ink-deep`, `--lime-olive`), cobalto `--cobalt`, rojos `--danger`/`--danger-soft`; secciones “tile” en modo inverso (`.tile-section`, `--bg-tile`). **No meter colores hardcodeados**: todo sale de `:root`.
+
+### JavaScript
+- `assets/js/blog.js` (EN) / `blog-es.js` (ES):
+  - Listado: filtro por categoría, **scroll infinito** (sentinel + IntersectionObserver), reveal on-scroll, conteos.
+  - Artículo: **lightbox**, botones de compartir, **barra de progreso de lectura** y resaltado del sidebar (`sidebar-link.active`).
+- **Lightbox**: al hacer click en la imagen top (`.article-hero-media img`, `.article-content figure img`, `.article-gallery img`) se abre `.lightbox` a tamaño completo (`max-width: 96vw; max-height: 88vh`). Se cierra con el botón `.lightbox-close`, clic en el fondo o `Esc`; con varias imágenes hay flechas ‹ ›.
+- `assets/js/site.js`: nav/drawer, preferencia de idioma (cookie `lang`), hero A/B, sombra del header.
+
+### Vault de Obsidian (escritura y vínculos)
+- En `assets/blog-vault/` vive un **vault de Obsidian** (abrirlo con “Open folder as vault”): una nota por artículo en `blog/<año>/<mes>/<slug>.md` (espejo de la web).
+- Frontmatter por nota: `title, slug, lang, category, tags[], date, author, readTime, image, en, es` + canales propios `telegram`, `youtube`, `meet` (agenda Google Meet) — **estos reemplazan el antiguo “Del archivo”**.
+- **Interlinks** con wikilinks `[[<slug>]]` (notas relacionadas) y **outlinks** (fuentes/bibliografía) como enlaces markdown. Los tags del frontmatter alimentan el panel de tags.
+- Plantilla: `_templates/Blog post.md` (estructura de `blog-t.html`: 1 Contenido · 2 Imagen · 3 Taxonomía · 4 Meta). Índice/MOC: `Blog.md`. Referente de escritura: [blog-t.html](http://localhost:8080/blog-t.html).
+- `blog-t.html` **ya no tiene** el punto 5 “Temas relacionados”: los relacionados se crean en Obsidian.
+
+### Añadir un post (flujo)
+1. `node tools/new-post.mjs --slug <slug> --title "…" --excerpt "…" --title-es "…" --excerpt-es "…" --image assets/img/<img> --category <cat> --read "7 min" --date "02 Oct 2026" [--featured]` → crea los HTML EN/ES y añade entradas en `blog-data*.js`.
+2. Escribir el cuerpo en ambos HTML con la estructura de arriba (imagen top como figura full-width; citas `#ref-N`).
+3. Si es destacado, actualizar el `.featured-strip` (estático) en `blog.html` y `es/blog.html` — el flag `featured` del data **no** lo usa el JS.
+4. Imagen: `new-post.mjs` **copia** el `--image` a `assets/img/blog/<año>/<mes>/<slug>/<año>-<mes>-<slug>-top.<ext>` y ajusta las rutas solo. Guarda el archivo optimizado (`.webp`) y, si añades figuras, ponlas en esa misma carpeta como `<año>-<mes>-<slug>-fig-01.webp`, `…-fig-02.webp`…
+5. Re-correr la secuencia (`apply-seo` → `build-sitemap` → `i18n-sync-check` → `seo-check`) e idempotencia.
+
 ## Navegación y páginas generadas
 La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me · Blog` (ES: `Inicio · Clientes · 1:1 · Servicios · Sobre mí · Blog`). "1:1" apunta a `sessions.html` (EN) / `sesiones.html` (ES). "About me / Sobre mí" apunta a `index.html#about` (sección `id="about"` en la home). El CTA del header es `Book a call` / `Reservar una llamada`, y el lang-switch es US/CO/RU.
 - **Fuente única de idiomas: `tools/locales.mjs`** (registro por locale: `dir`, prefijo de `assets`, `base`, hreflang/bandera, sufijo de data, nav y textos de footer). NINGÚN tool debe volver a escribir `lang === 'es'` ni prefijos (`../assets`, `'es/'`) a mano: se derivan del registro. Añadir un idioma = agregar una entrada aquí (p. ej. `ru` con `available: true`) + su contenido.

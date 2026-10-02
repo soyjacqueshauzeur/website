@@ -139,7 +139,9 @@ function toSitePath(page, src) {
 /* Blog post metadata parsed from the page itself (robust across re-runs). */
 function blogMeta(page, html, info) {
   const headline = info.title.replace(/\s*·\s*SoyJacquesHauzeur.*$/, '').trim() || info.title;
-  const hero = (html.match(/<div class="article-hero-media">\s*<img[^>]*src="([^"]+)"/) || [])[1];
+  const hero = (html.match(/<div class="article-hero-media">\s*<img[^>]*src="([^"]+)"/) || [])[1]
+    || (html.match(/<figure class="article-figure[^"]*">\s*<img[^>]*src="([^"]+)"/) || [])[1]
+    || (html.match(/<article class="article-main">[\s\S]*?<img[^>]*src="([^"]+)"/) || [])[1];
   const eyebrow = (html.match(/<span class="eyebrow">[\s\S]*?<\/span>([^<]*)<\/span>/) || [, ''])[1];
   const author = (html.match(/class="author"[^>]*>\s*(?:By|Por)\s*([^<]+?)\s*</) || [, ''])[1];
   return {

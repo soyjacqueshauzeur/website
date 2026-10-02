@@ -106,6 +106,9 @@
 
 .featured-meta .author { font-weight: 500; color: var(--fg); }
 
+/* Space between the meta row (author · read time) and the "Read note" button */
+.featured-content .featured-meta + .btn { margin-top: var(--space-4); }
+
 /* ---------- Filter Row -------------------------------------------------- */
 .filter-row {
   flex-wrap: wrap;
@@ -250,7 +253,7 @@
 }
 
 .article-container {
-  max-width: var(--container-narrow);
+  max-width: 1440px;
   margin: 0 auto;
   padding-inline: var(--gutter);
 }
@@ -686,3 +689,57 @@
 .reveal-4 { transition-delay: 320ms; }
 .reveal-5 { transition-delay: 400ms; }
 .reveal-6 { transition-delay: 480ms; }
+
+/* ---------- Lightbox (article images: click to enlarge) ----------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: var(--ink-deep-85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+
+.lightbox-img {
+  max-width: 96vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  cursor: default;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-elev);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.lightbox-close { top: clamp(1rem, 4vw, 3rem); right: clamp(1rem, 4vw, 3rem); }
+.lightbox-prev { left: clamp(1rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: clamp(1rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); }
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover { background: var(--lime); color: var(--ink-000); }
+
+@media (max-width: 768px) {
+  .lightbox-prev,
+  .lightbox-next { display: none !important; }
+}

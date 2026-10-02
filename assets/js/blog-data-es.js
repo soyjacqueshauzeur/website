@@ -1,6 +1,19 @@
 /* Entradas de blog (ES) — fuente compartida para listado y portada */
 window.BLOG_POSTS_ES = [
   {
+    "slug": "ia-en-el-trabajo",
+    "title": "Inteligencia artificial en el trabajo: ¿cómo está transformando tu profesión?",
+    "titleHtml": "Inteligencia artificial en el trabajo: <span class=\"lime\">¿cómo está transformando tu profesión?</span>",
+    "excerpt": "Internet entra en pánico con la IA y el empleo, pero los datos dicen otra cosa: 13% de refuerzo frente a 2,3% de automatización. Lo que cambia es el nivel del trabajo — y las competencias que importan.",
+    "category": "business",
+    "date": "02 Oct 2026",
+    "author": "Jacques Hauzeur",
+    "readTime": "7 min",
+    "image": "../assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-thumbnail.jpeg",
+    "featured": true,
+    "url": "blog/2026/10/ia-en-el-trabajo.html"
+  },
+  {
     "slug": "why-4x6-silk",
     "url": "blog/2026/07/why-4x6-silk.html",
     "title": "Por qué seguimos usando un panel 4×6.",

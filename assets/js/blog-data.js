@@ -1,6 +1,19 @@
 /* Blog posts data (EN) — source of truth shared by blog list and home */
 window.BLOG_POSTS = [
   {
+    "slug": "ia-en-el-trabajo",
+    "title": "Artificial intelligence at work: how is it transforming your profession?",
+    "titleHtml": "Artificial intelligence at work: <span class=\"lime\">how is it transforming your profession?</span>",
+    "excerpt": "The internet panics about AI wiping out jobs, but the data tells a different story: 13% reinforcement versus 2.3% pure automation. What really changes is the level of the work — and the skills that matter.",
+    "category": "business",
+    "date": "02 Oct 2026",
+    "author": "Jacques Hauzeur",
+    "readTime": "7 min",
+    "image": "assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-thumbnail.jpeg",
+    "featured": true,
+    "url": "blog/2026/10/ia-en-el-trabajo.html"
+  },
+  {
     "slug": "why-4x6-silk",
     "url": "blog/2026/07/why-4x6-silk.html",
     "title": "Why we still use a 4×6 silk.",
