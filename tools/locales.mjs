@@ -48,7 +48,7 @@ export const LOCALES = {
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
     menuCloseShort: 'Close',
-    cta: 'Book a call',
+    cta: 'Book a video call',
     langLabel: 'Language',
     footerExplore: 'Explore',
     footerBrand:
@@ -82,7 +82,7 @@ export const LOCALES = {
     menuOpen: 'Abrir menú',
     menuClose: 'Cerrar menú',
     menuCloseShort: 'Cerrar',
-    cta: 'Reservar una llamada',
+    cta: 'Agenda video-llamada',
     langLabel: 'Idioma',
     footerExplore: 'Explorar',
     footerBrand:

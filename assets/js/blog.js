@@ -97,7 +97,6 @@
       const n = cat === 'all' ? articles.length : articles.filter(a => a.category === cat).length;
       const label = btn.textContent.split('\u00b7')[0].trim();
       btn.textContent = label + ' \u00b7 ' + n;
-      btn.style.display = (!n && cat !== 'all') ? 'none' : '';
     });
   }
 
@@ -254,16 +253,19 @@ if (document.querySelector('.article-body')) {
         const url = window.location.href;
         const title = document.title;
 
-        if (btn.dataset.share === 'copy') {
+        const kind = btn.dataset.share;
+        if (kind === 'copy') {
           await navigator.clipboard.writeText(url);
-          btn.textContent = 'Copied!';
-          setTimeout(() => btn.textContent = 'Copy', 2000);
-        } else if (btn.dataset.share === 'twitter') {
+          btn.classList.add('is-copied');
+          setTimeout(() => btn.classList.remove('is-copied'), 1600);
+        } else if (kind === 'x') {
           window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
-        } else if (btn.dataset.share === 'linkedin') {
+        } else if (kind === 'linkedin') {
           window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
-        } else if (btn.dataset.share === 'email') {
-          window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
+        } else if (kind === 'whatsapp') {
+          window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+        } else if (kind === 'telegram') {
+          window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
         }
       });
     });

@@ -1629,6 +1629,9 @@ a.client-logo-link:hover .client-logo { border-color: var(--lime); transform: tr
 }
 a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 .lang-switch .flag.is-active { opacity: 1; cursor: default; }
+/* RU not built yet — hide the Russian flag for now */
+.lang-switch [lang="ru"],
+.lang-switch [data-lang="ru"] { display: none; }
 .lang-switch .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

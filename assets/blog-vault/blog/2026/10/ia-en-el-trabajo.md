@@ -7,7 +7,7 @@ tags: [ia, trabajo, empleo, habilidades, productividad]
 date: 2026-10-02
 author: Jacques Hauzeur
 collaborator: 
-readTime: 7 min
+readTime: 5 min
 featured: true
 image: assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-top.webp
 thumbnail: assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-thumbnail.jpeg
@@ -15,14 +15,14 @@ en: blog/2026/10/ia-en-el-trabajo.html
 es: es/blog/2026/10/ia-en-el-trabajo.html
 telegram: https://t.me/soyjacqueshauzeur
 youtube: https://www.youtube.com/@soyjacqueshauzeur
-meet: "TODO — enlace de agenda (Google Meet)"
+meet: https://calendar.app.google/DyS8yXtsb85ZD7kJ7
 template: "[[Blog post]]"
 reference: http://localhost:8080/blog-t.html
 status: published
 ---
 
 > [!info] Referente de escritura
-> Estructura basada en [blog-t.html](http://localhost:8080/blog-t.html). Canales propios (reemplazan “Del archivo”): [Telegram](https://t.me/soyjacqueshauzeur) · [YouTube](https://www.youtube.com/@soyjacqueshauzeur) · Agenda Google Meet _TODO_.
+> Estructura basada en [blog-t.html](http://localhost:8080/blog-t.html). Canales propios (reemplazan “Del archivo”): [Telegram](https://t.me/soyjacqueshauzeur) · [YouTube](https://www.youtube.com/@soyjacqueshauzeur) · [Agenda Google Meet](https://calendar.app.google/DyS8yXtsb85ZD7kJ7).
 
 # Inteligencia artificial en el trabajo: ¿cómo está transformando tu profesión?
 
@@ -51,9 +51,9 @@ Las profesiones no desaparecen: cambian de nivel. Quedarse haciendo lo mismo que
 La IA no va a reemplazar a los humanos. Pero los humanos que aprendan a usar IA van a reemplazar a los que no lo hagan. La tecnología es un copiloto increíble, pero el capitán de tu carrera sigues siendo tú. **Nunca pares de aprender.**
 
 ## 🔗 Notas relacionadas
-- [[why-4x6-silk]]
-- [[calibration-cheapest-hire]]
-- [[third-frame]]
+- [[ia-vida-moderna]]
+- [[webs-2026]]
+- [[chat-marketing]]
 - [[Blog]]
 
 ## ↪️ Outlinks (fuentes / bibliografía)

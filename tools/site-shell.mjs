@@ -13,6 +13,8 @@
 import { LOCALES, LANG_ORDER, locale, otherLangHref } from './locales.mjs';
 
 export const WA = 'https://wa.me/573507402009';
+/* Booking link (Google Meet agenda) — main "Book a call" CTA */
+export const CAL = 'https://calendar.app.google/DyS8yXtsb85ZD7kJ7';
 
 /* Per-language nav is the registry's `nav` (single source for header/footer). */
 export const NAV = Object.fromEntries(
@@ -61,16 +63,18 @@ function langSwitch(asset, lang, page) {
   return LANG_ORDER.map((k) => flag(asset, lang, page, k)).join('\n');
 }
 
-function desktopLinks(nav, active) {
+/* `P` is the relative prefix to the locale root ('', '../../..', …) so the same
+   shell works on top-level and nested pages (e.g. blog/<year>/<month>/<slug>.html). */
+function desktopLinks(nav, active, P) {
   return nav
-    .map(([href, label]) => '          <a href="' + href + '"' + (href === active ? ' aria-current="page"' : '') + '>' + label + '</a>')
+    .map(([href, label]) => '          <a href="' + P + href + '"' + (href === active ? ' aria-current="page"' : '') + '>' + label + '</a>')
     .join('\n');
 }
-function drawerLinks(nav) {
-  return nav.map(([href, label]) => '    <a href="' + href + '">' + label + '</a>').join('\n');
+function drawerLinks(nav, P) {
+  return nav.map(([href, label]) => '    <a href="' + P + href + '">' + label + '</a>').join('\n');
 }
-function footerLinks(nav) {
-  return nav.map(([href, label]) => '            <li><a href="' + href + '">' + label + '</a></li>').join('\n');
+function footerLinks(nav, P) {
+  return nav.map(([href, label]) => '            <li><a href="' + P + href + '">' + label + '</a></li>').join('\n');
 }
 function arrow() {
   return '<svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -78,22 +82,24 @@ function arrow() {
 
 /* lang: 'en' | 'es'
    active: nav item marked aria-current ('index.html', 'services.html', …)
-   page:   current file basename, used for the cross-language flag link. */
-export function headerHTML(lang, active, page) {
+   page:   locale-relative path, used for the cross-language flag link.
+   depth:  levels below the locale root ('', or 3 for blog/<y>/<m>/<slug>.html). */
+export function headerHTML(lang, active, page, depth = 0) {
   const L = locale(lang);
-  const A = L.asset;
+  const P = '../'.repeat(depth);
+  const A = P + L.asset;
   const nav = L.nav;
   const cur = page || active || 'index.html';
   return (
     '  <header class="site-header">\n' +
     '    <div class="container container--wide">\n' +
     '      <nav class="nav" aria-label="' + L.navAria + '">\n' +
-    '        <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>\n' +
+    '        <a class="brand" href="' + P + 'index.html"><span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>\n' +
     '        <div class="nav-links" role="navigation">\n' +
-    desktopLinks(nav, active) + '\n' +
+    desktopLinks(nav, active, P) + '\n' +
     '        </div>\n' +
     '        <div class="nav-cta-row">\n' +
-    '          <a href="' + WA + '" target="_blank" rel="noopener" class="btn btn--primary btn--sm">' + L.cta + '\n' +
+    '          <a href="' + CAL + '" target="_blank" rel="noopener" class="btn btn--primary btn--sm">' + L.cta + '\n' +
     '            ' + arrow() + '\n' +
     '          </a>\n' +
     '          <nav class="lang-switch" aria-label="' + L.langLabel + '">\n' +
@@ -107,15 +113,16 @@ export function headerHTML(lang, active, page) {
   );
 }
 
-export function drawerHTML(lang, page) {
+export function drawerHTML(lang, page, depth = 0) {
   const L = locale(lang);
-  const A = L.asset;
+  const P = '../'.repeat(depth);
+  const A = P + L.asset;
   const nav = L.nav;
   const cur = page || 'index.html';
   return (
     '  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">\n' +
     '    <button class="drawer-close" aria-label="' + L.menuClose + '">' + L.menuCloseShort + '</button>\n' +
-    drawerLinks(nav) + '\n' +
+    drawerLinks(nav, P) + '\n' +
     '    <div class="lang-switch" aria-label="' + L.langLabel + '">\n' +
     '      <span class="lang-label">' + L.langLabel + '</span>\n' +
     langSwitch(A, lang, cur) + '\n' +
@@ -124,8 +131,9 @@ export function drawerHTML(lang, page) {
   );
 }
 
-export function footerHTML(lang) {
+export function footerHTML(lang, depth = 0) {
   const L = locale(lang);
+  const P = '../'.repeat(depth);
   return (
     '  <footer class="site-footer">\n' +
     '    <div class="container container--wide">\n' +
@@ -137,7 +145,7 @@ export function footerHTML(lang) {
     '        <div>\n' +
     '          <h4>' + L.footerExplore + '</h4>\n' +
     '          <ul>\n' +
-    footerLinks(L.nav) + '\n' +
+    footerLinks(L.nav, P) + '\n' +
     '            <li><a class="footer-hidden-link" href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +

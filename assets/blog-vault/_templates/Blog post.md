@@ -14,7 +14,7 @@ en:
 es: 
 telegram: https://t.me/soyjacqueshauzeur
 youtube: https://www.youtube.com/@soyjacqueshauzeur
-meet: "TODO — enlace de agenda (Google Meet)"
+meet: https://calendar.app.google/DyS8yXtsb85ZD7kJ7
 template: "[[Blog post]]"
 reference: http://localhost:8080/blog-t.html
 status: draft
