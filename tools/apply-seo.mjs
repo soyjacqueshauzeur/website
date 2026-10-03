@@ -54,6 +54,10 @@ for (const lang of availableLangs()) {
   for (const s of HIRE[lang].services) SERVICE_BY_BASE[lang][s.file.split('/').pop()] = s;
 }
 
+/* Session price, kept in sync with the booking cart (single source: class-booking.js). */
+const SESSION_PRICE = Number((readFileSync(join(ROOT, 'assets/js/class-booking.js'), 'utf8')
+  .match(/PRICE\s*=\s*(\d+(?:\.\d+)?)/) || [])[1]) || undefined;
+
 /* ---------------- labels ---------------- */
 const T = {
   en: { home: 'Home', services: 'Services', sessions: 'Sessions', clients: 'Clients', blog: 'Blog',
@@ -144,12 +148,21 @@ function blogMeta(page, html, info) {
     || (html.match(/<article class="article-main">[\s\S]*?<img[^>]*src="([^"]+)"/) || [])[1];
   const eyebrow = (html.match(/<span class="eyebrow">[\s\S]*?<\/span>([^<]*)<\/span>/) || [, ''])[1];
   const author = (html.match(/class="author"[^>]*>\s*(?:By|Por)\s*([^<]+?)\s*</) || [, ''])[1];
+  const category = (html.match(/<span class="category">([^<]+)<\/span>/) || [, ''])[1].trim() || undefined;
+  const tags = [...new Set([...html.matchAll(/<div class="article-tags">([\s\S]*?)<\/div>/g)]
+    .flatMap((m) => [...m[1].matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map((x) => decode(x[1]).trim()))
+    .filter(Boolean))];
+  const body = (html.match(/<article class="article-main">([\s\S]*?)<\/article>/) || [, ''])[1];
+  const wordCount = body ? (SEO.plain(body).split(/\s+/).filter(Boolean).length || undefined) : undefined;
   return {
     headline,
     description: info.desc,
     image: toSitePath(page, hero),
     datePublished: isoDate(eyebrow),
-    author: author.trim() || undefined
+    author: author.trim() || undefined,
+    category,
+    tags,
+    wordCount
   };
 }
 
@@ -162,8 +175,8 @@ function pageNodes(page, html, info) {
   const desc = info.desc;
   const wp = () => SEO.webPage(lang, page, { title, description: desc });
 
-  if (isNoindex(base)) return [wp()];
-  if (logical === 'index.html') return [wp()];
+  if (isNoindex(base)) return [];
+  if (logical === 'index.html') return [SEO.profilePage(lang, page, { title, description: desc })];
 
   if (logical === 'services.html') {
     const svcs = HIRE[lang].services;
@@ -196,7 +209,7 @@ function pageNodes(page, html, info) {
 
   if (/^(sessions|sesiones)\.html$/.test(base)) {
     return [wp(), SEO.breadcrumb(lang, page, [{ name: t.home, path: 'index.html' }, { name: t.sessions }]),
-      SEO.course(lang, page, { title, description: desc })];
+      SEO.course(lang, page, { title, description: desc, price: SESSION_PRICE })];
   }
 
   if (base === 'clients.html') {
@@ -273,7 +286,7 @@ function buildBlock(page, html, info) {
   L.push(`  <meta name="twitter:title" content="${attr(info.title)}" />`);
   L.push(`  <meta name="twitter:description" content="${attr(info.desc)}" />`);
   L.push(`  <meta name="twitter:image" content="${image}" />`);
-  L.push(SEO.scriptLD(SEO.graph(nodes)));
+  if (!noindex) L.push(SEO.scriptLD(SEO.graph(nodes)));
   L.push('  <!-- seo:end -->');
   return L.join('\n');
 }

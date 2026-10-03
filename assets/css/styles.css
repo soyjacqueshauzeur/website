@@ -1187,10 +1187,6 @@ p:last-child { margin-bottom: 0; }
 .footer-top ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }
 .footer-top ul a { color: var(--fg-soft); font-size: var(--text-sm); }
 .footer-top ul a:hover { color: var(--lime); }
-/* Enlace oculto (mismo color del fondo) — clickeable pero invisible */
-.footer-top ul a.footer-hidden-link,
-.footer-top ul a.footer-hidden-link:hover,
-.footer-top ul a.footer-hidden-link:focus-visible { color: var(--bg-alt); }
 .footer-brand {
   display: flex;
   flex-direction: column;

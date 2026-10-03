@@ -1,82 +1,126 @@
 #!/usr/bin/env node
 /*
- * Generates sitemap.xml (with hreflang alternates) and robots.txt from the
- * locale registry + the page inventory. Excludes noindex/utility pages.
+ * Sitemap + robots.txt generator, aligned with Google Search Central:
+ *   - https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+ *   - https://developers.google.com/search/docs/crawling-indexing/sitemaps/large-sitemaps
+ *
+ * Rules implemented:
+ *   - Only canonical, indexable URLs (noindex/utility pages are excluded).
+ *   - Fully-qualified absolute URLs, UTF-8, XML entity escaping.
+ *   - Each URL declares its en / es / x-default alternates (xhtml:link).
+ *   - <lastmod> is verifiable: last git commit that touched the page, with the
+ *     file mtime as fallback. Google ignores <priority>/<changefreq>, so they
+ *     are not emitted.
+ *   - If the inventory exceeds 50,000 URLs or 50 MB, it is split into
+ *     sitemap-N.xml parts and sitemap.xml becomes a <sitemapindex>.
  *
  *   node tools/build-sitemap.mjs
  */
-import { readFileSync, writeFileSync, statSync, existsSync } from 'node:fs';
-import { execSync } from 'node:child_process';
+import { writeFileSync, statSync } from 'node:fs';
+import { execSync, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { langForPath, availableLangs, locale, DEFAULT_LANG } from './locales.mjs';
 import * as SEO from './seo.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html']);
 const isNoindex = (base) => NOINDEX_BASES.has(base) || /-hire\.html$/.test(base);
 
+const MAX_URLS = Number(process.env.SITEMAP_MAX_URLS) || 50000;   // sitemaps.org limit
+const MAX_BYTES = Number(process.env.SITEMAP_MAX_BYTES) || 50 * 1024 * 1024; // 50 MB uncompressed
+
 const files = execSync(
-  "find . -name '*.html' -not -path './.git/*' -not -path './.playwright-mcp/*' -not -path './graphify-out/*'",
+  "find . -name '*.html' -not -path './.git/*' -not -path './.playwright-mcp/*' -not -path './graphify-out/*' -not -path './node_modules/*'",
   { encoding: 'utf8' }
-).trim().split('\n').map((f) => f.replace(/^\.\//, '')).filter(Boolean);
+).trim().split('\n').map((f) => f.replace(/^\.\//, '')).filter(Boolean).sort();
 
-function priority(logical) {
-  if (logical === 'index.html') return ['1.0', 'weekly'];
-  if (logical === 'services.html') return ['0.9', 'monthly'];
-  if (/^(marketing|campaigns|chatbots|ai|financial-planning|ecommerce)\.html$/.test(logical)) return ['0.9', 'monthly'];
-  if (/^(sessions|sesiones|clients)\.html$/.test(logical)) return ['0.8', 'monthly'];
-  if (logical === 'blog.html') return ['0.7', 'weekly'];
-  if (/^blog\/\d{4}\/\d{2}\/[^/]+\.html$/.test(logical)) return ['0.6', 'yearly'];
-  if (/^blog\/\d{4}\/\d{2}\/index\.html$/.test(logical)) return ['0.5', 'monthly'];
-  return ['0.6', 'monthly'];
+function esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
-// Unique logical pages (EN naming) that are indexable.
-const logicals = new Map(); // logical -> { file }
-for (const f of files) {
-  const base = f.split('/').pop();
-  if (isNoindex(base)) continue;
-  const logical = SEO.logicalOf(f);
-  if (!logicals.has(logical)) logicals.set(logical, { file: f });
+/* Verifiable lastmod: last commit that touched the page, else file mtime. */
+function lastMod(file) {
+  try {
+    const d = execFileSync('git', ['log', '-1', '--format=%cs', '--', file], { cwd: ROOT, encoding: 'utf8' }).trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+  } catch { /* not a git repo or untracked file */ }
+  try { return statSync(join(ROOT, file)).mtime.toISOString().slice(0, 10); } catch { return undefined; }
 }
 
-const today = new Date().toISOString().slice(0, 10);
-const urls = [];
-for (const [logical, { file }] of [...logicals.entries()].sort()) {
-  const alt = SEO.alternates(file);
-  const [prio, freq] = priority(logical);
-  for (const lang of availableLangs()) {
-    const loc = SEO.urlFor(lang, logical);
-    let lastmod = today;
-    const langFile = join(ROOT, locale(lang).dir + logical);
-    try { lastmod = statSync(langFile).mtime.toISOString().slice(0, 10); } catch { /* ignore */ }
-    urls.push(
-      '  <url>\n' +
-      `    <loc>${loc}</loc>\n` +
-      `    <lastmod>${lastmod}</lastmod>\n` +
-      `    <changefreq>${freq}</changefreq>\n` +
-      `    <priority>${prio}</priority>\n` +
-      `    <xhtml:link rel="alternate" hreflang="en" href="${alt.en}" />\n` +
-      `    <xhtml:link rel="alternate" hreflang="es" href="${alt.es}" />\n` +
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${alt.x}" />\n` +
-      '  </url>'
-    );
+/* One entry per real, indexable file — guarantees only existing URLs. */
+const entries = [];
+for (const file of files) {
+  if (isNoindex(file.split('/').pop())) continue;
+  entries.push({ loc: SEO.canonicalUrl(file), lastmod: lastMod(file), alt: SEO.alternates(file) });
+}
+
+function urlset(list) {
+  const body = list.map((e) => {
+    const lines = ['  <url>', `    <loc>${esc(e.loc)}</loc>`];
+    if (e.lastmod) lines.push(`    <lastmod>${e.lastmod}</lastmod>`);
+    for (const [hl, href] of [['en', e.alt.en], ['es', e.alt.es], ['x-default', e.alt.x]]) {
+      lines.push(`    <xhtml:link rel="alternate" hreflang="${hl}" href="${esc(href)}" />`);
+    }
+    lines.push('  </url>');
+    return lines.join('\n');
+  }).join('\n');
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+    body + '\n</urlset>\n';
+}
+
+function sitemapIndex(parts) {
+  const body = parts.map((p) => {
+    const lines = ['  <sitemap>', `    <loc>${esc(SEO.SITE.origin + '/' + p.file)}</loc>`];
+    if (p.lastmod) lines.push(`    <lastmod>${p.lastmod}</lastmod>`);
+    lines.push('  </sitemap>');
+    return lines.join('\n');
+  }).join('\n');
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    body + '\n</sitemapindex>\n';
+}
+
+/* Split into parts respecting both limits. */
+function chunk(list) {
+  const parts = [];
+  let cur = [];
+  let bytes = 0;
+  for (const e of list) {
+    const size = Buffer.byteLength(urlset([e]), 'utf8');
+    if (cur.length && (cur.length >= MAX_URLS || bytes + size > MAX_BYTES)) {
+      parts.push(cur); cur = []; bytes = 0;
+    }
+    cur.push(e); bytes += size;
   }
+  if (cur.length) parts.push(cur);
+  return parts;
 }
 
-const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
-  urls.join('\n') + '\n</urlset>\n';
-writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
-console.log(`wrote sitemap.xml (${urls.length} URLs)`);
+const parts = chunk(entries);
+if (parts.length <= 1) {
+  writeFileSync(join(ROOT, 'sitemap.xml'), urlset(entries));
+  console.log(`wrote sitemap.xml (${entries.length} URLs)`);
+} else {
+  const refs = parts.map((p, i) => {
+    const file = `sitemap-${i + 1}.xml`;
+    writeFileSync(join(ROOT, file), urlset(p));
+    return { file, lastmod: p.map((x) => x.lastmod).filter(Boolean).sort().pop() };
+  });
+  writeFileSync(join(ROOT, 'sitemap.xml'), sitemapIndex(refs));
+  console.log(`wrote sitemap.xml index + ${parts.length} parts (${entries.length} URLs)`);
+}
 
+/*
+ * robots.txt: crawl everything; removal from the index is handled by the
+ * per-page `<meta name="robots" content="noindex, nofollow">` (blocking those
+ * URLs here would prevent Google from ever seeing the noindex).
+ */
 const robots = [
   'User-agent: *',
   'Allow: /',
-  'Disallow: /blog-t.html',
-  'Disallow: /gallery.html',
-  'Disallow: /price-t.html',
   '',
   `Sitemap: ${SEO.SITE.origin}/sitemap.xml`,
   ''

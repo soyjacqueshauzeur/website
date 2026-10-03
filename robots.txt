@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /blog-t.html
-Disallow: /gallery.html
-Disallow: /price-t.html
 
 Sitemap: https://soyjacqueshauzeur.dev/sitemap.xml

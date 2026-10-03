@@ -100,7 +100,9 @@ export function person() {
   return {
     '@type': 'Person', '@id': ID.person,
     name: SITE.name, jobTitle: 'Technology educator', url: abs('/'),
+    description: 'Technology educator helping businesses and professionals adopt AI, chatbots, marketing and web.',
     image: abs(SITE.personImage), sameAs: SITE.sameAs,
+    mainEntityOfPage: { '@id': ID.person },
     knowsAbout: ['Marketing', 'Paid campaigns', 'Chatbots', 'Artificial intelligence', 'Financial planning', 'Web & e-commerce']
   };
 }
@@ -179,6 +181,17 @@ export function webPage(lang, page, { title, description }) {
   };
 }
 
+export function profilePage(lang, page, { title, description }) {
+  const url = canonicalUrl(page);
+  return {
+    '@type': 'ProfilePage', '@id': url + '#webpage', url,
+    name: title, description, inLanguage: lang,
+    isPartOf: { '@id': ID.website },
+    about: { '@id': ID.person },
+    mainEntity: { '@id': ID.person }
+  };
+}
+
 export function faq(lang, page, faqs) {
   return {
     '@type': 'FAQPage', '@id': canonicalUrl(page) + '#faq',
@@ -206,29 +219,56 @@ export function blog(lang, page, posts) {
 
 export function blogPosting(lang, page, meta) {
   const url = canonicalUrl(page);
+  const imgUrl = meta.image ? abs(meta.image) : abs(SITE.ogImage);
   return {
     '@type': 'BlogPosting',
     '@id': url + '#article',
     headline: meta.headline,
     description: meta.description,
-    image: meta.image ? abs(meta.image) : abs(SITE.ogImage),
+    image: {
+      '@type': 'ImageObject',
+      url: imgUrl,
+      creator: { '@id': ID.person },
+      creditText: SITE.name,
+      copyrightNotice: `© ${SITE.name}`,
+      ...(meta.image ? { license: url, acquireLicensePage: url } : {})
+    },
     datePublished: meta.datePublished,
     dateModified: meta.dateModified || meta.datePublished,
     inLanguage: lang,
-    author: { '@type': 'Person', name: meta.author || SITE.name },
+    author: { '@type': 'Person', '@id': ID.person, name: meta.author || SITE.name, url: abs('/') },
     publisher: { '@id': ID.org },
     isPartOf: { '@id': ID.website },
-    mainEntityOfPage: { '@id': url }
+    mainEntityOfPage: { '@id': url },
+    ...(meta.category ? { articleSection: meta.category } : {}),
+    ...(meta.tags && meta.tags.length ? { keywords: meta.tags.join(', ') } : {}),
+    ...(meta.wordCount ? { wordCount: meta.wordCount } : {}),
+    isAccessibleForFree: true,
+    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.article-lead'] }
   };
 }
 
-export function course(lang, page, { title, description }) {
+export function course(lang, page, { title, description, price }) {
   const url = canonicalUrl(page);
-  return {
+  const node = {
     '@type': 'Course', '@id': url + '#course', url,
     name: title, description, inLanguage: lang,
-    provider: { '@id': ID.org }
+    provider: { '@id': ID.org },
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      courseWorkload: 'PT90M',
+      instructor: { '@id': ID.person },
+      location: { '@type': 'VirtualLocation', url }
+    }
   };
+  if (price) {
+    node.offers = {
+      '@type': 'Offer', price, priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock', url
+    };
+  }
+  return node;
 }
 
 export function collectionPage(lang, page, { title, description, items }) {

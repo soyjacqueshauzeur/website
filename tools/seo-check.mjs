@@ -65,13 +65,39 @@ for (const f of files) {
     if (canonical) titles.set(title, (titles.get(title) || 0) + 1);
   }
 
+  const isHome = f === 'index.html' || f === 'es/index.html';
   if (ld) {
     try {
       const obj = JSON.parse(ld);
       const graph = obj['@graph'] || [obj];
+      if (noindex) fail(`${f}: página noindex no debe llevar JSON-LD`);
       if (!graph.some((n) => n['@type'] === 'Organization')) fail(`${f}: JSON-LD sin Organization`);
+      if (isHome) {
+        const profile = graph.find((n) => n['@type'] === 'ProfilePage');
+        if (!profile) fail(`${f}: la home debe declarar ProfilePage`);
+        else if ((profile.mainEntity || {})['@id'] !== SEO.SITE.origin + '/#person') {
+          fail(`${f}: ProfilePage.mainEntity debe apuntar a #person`);
+        }
+      }
+      if (/^blog\/\d{4}\/\d{2}\/[^/]+\.html$/.test(SEO.logicalOf(f))) {
+        const post = graph.find((n) => n['@type'] === 'BlogPosting');
+        if (!post) fail(`${f}: falta BlogPosting`);
+        else {
+          if (!post.image || post.image['@type'] !== 'ImageObject' || !post.image.url) fail(`${f}: BlogPosting sin image (ImageObject)`);
+          if (!post.author || !post.author.url) fail(`${f}: BlogPosting author sin url`);
+          if (!post.articleSection) fail(`${f}: BlogPosting sin articleSection`);
+          if (!post.keywords) fail(`${f}: BlogPosting sin keywords`);
+          if (!post.wordCount) fail(`${f}: BlogPosting sin wordCount`);
+          if (post.isAccessibleForFree !== true) fail(`${f}: BlogPosting sin isAccessibleForFree`);
+        }
+      }
+      if (/^(sessions|sesiones)\.html$/.test(base)) {
+        const course = graph.find((n) => n['@type'] === 'Course');
+        if (!course) fail(`${f}: falta Course`);
+        else if (!course.hasCourseInstance) fail(`${f}: Course sin hasCourseInstance`);
+      }
     } catch (e) { fail(`${f}: JSON-LD inválido (${e.message})`); }
-  } else {
+  } else if (!noindex) {
     fail(`${f}: sin JSON-LD`);
   }
 }
@@ -94,10 +120,19 @@ for (const { f, canonical, html } of indexable) {
   }
 }
 
-/* sitemap coverage */
+/* sitemap coverage (supports both a single urlset and a sitemap index) */
 if (!existsSync(`${ROOT}/sitemap.xml`)) fail('falta sitemap.xml');
 else {
-  const sm = readFileSync(`${ROOT}/sitemap.xml`, 'utf8');
+  let sm = readFileSync(`${ROOT}/sitemap.xml`, 'utf8');
+  if (sm.includes('<sitemapindex')) {
+    let combined = '';
+    for (const m of sm.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+      const rel = m[1].replace(SEO.SITE.origin + '/', '');
+      if (!existsSync(join(ROOT, rel))) { fail(`sitemap index referencia ${rel} inexistente`); continue; }
+      combined += readFileSync(join(ROOT, rel), 'utf8');
+    }
+    sm = combined;
+  }
   for (const c of canonicals) {
     if (!sm.includes(`<loc>${c}</loc>`)) fail(`sitemap.xml no incluye ${c}`);
   }
