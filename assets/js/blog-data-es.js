@@ -45,7 +45,7 @@ window.BLOG_POSTS_ES = [
     "titleHtml": "Chat marketing: <span class=\"lime\">convierte tus canales en vendedores</span>",
     "excerpt": "WhatsApp, Telegram, Instagram y Messenger no son solo bandejas de entrada: son pisos de venta. Cómo automatizar el chat marketing con ManyChat y n8n — y qué no deberías automatizar nunca.",
     "category": "chatbots",
-    "date": "18 Sep 2026",
+    "date": "01 Oct 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
     "image": "../assets/img/blog/2026/09/chat-marketing/2026-09-chat-marketing-thumbnail.webp",

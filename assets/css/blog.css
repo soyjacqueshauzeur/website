@@ -412,6 +412,7 @@
 .article-video iframe,
 .article-video video {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   display: block;
 }

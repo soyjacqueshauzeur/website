@@ -45,7 +45,7 @@ window.BLOG_POSTS = [
     "titleHtml": "Chat marketing: <span class=\"lime\">turn your channels into salespeople</span>",
     "excerpt": "WhatsApp, Telegram, Instagram and Messenger are not just inboxes — they are sales floors. How to automate chat marketing with ManyChat and n8n, and what you should never automate.",
     "category": "chatbots",
-    "date": "18 Sep 2026",
+    "date": "01 Oct 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
     "image": "assets/img/blog/2026/09/chat-marketing/2026-09-chat-marketing-thumbnail.webp",

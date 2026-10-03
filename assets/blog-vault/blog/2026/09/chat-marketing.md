@@ -4,7 +4,7 @@ slug: chat-marketing
 lang: es
 category: chatbots
 tags: [chatbots, marketing, negocios]
-date: 2026-09-18
+date: 2026-10-01
 author: Jacques Hauzeur
 readTime: 5 min
 image: assets/img/blog/2026/09/chat-marketing/2026-09-chat-marketing-top.webp
@@ -55,6 +55,9 @@ Bien hecho, el chat marketing hace tres cosas: responde al instante, cualifica e
 - Elige **ManyChat** por velocidad, funciones de marketing y un equipo no técnico.
 - Elige **n8n** por lógica personalizada, propiedad del dato e integraciones entre muchas apps.
 - Muchos equipos usan ambos: ManyChat para la conversación, n8n para los datos que la sostienen.
+
+## 🎬 Vídeo
+[Utiliza un chatbot para que trabaje y facture 24/7](https://youtu.be/Ew2Y55oSGjw) — serie completa: [playlist de chat marketing en YouTube](https://youtube.com/playlist?list=PLNiyCgTRKjrBujeEhitZ3eR6nl8ZXNpTW).
 
 ## Tres flujos que se pagan solos
 1. **Lead magnet:** una palabra clave de un anuncio abre un hilo de WhatsApp; el bot entrega la guía y hace dos preguntas de cualificación.[^3]
