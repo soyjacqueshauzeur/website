@@ -180,7 +180,7 @@
 
 /* ---------- Article Page Specific (for article pages) ------------------- */
 .article-hero {
-  padding-block: var(--space-10) var(--space-8);
+  padding-block: var(--space-2) var(--space-6);
   background:
     radial-gradient(900px 460px at 88% 0%, var(--lime-glow), transparent 60%),
     radial-gradient(900px 520px at 0% 100%, rgba(26, 46, 255, 0.08), transparent 60%),
@@ -253,7 +253,7 @@
 
 /* Article Body */
 .article-body {
-  padding-block: var(--space-9);
+  padding-block: var(--space-5) var(--space-9);
 }
 
 .article-container {
@@ -377,6 +377,9 @@
 .article-figure--wide {
   grid-column: 1 / -1;
 }
+
+/* Top figure (direct child of the grid) hugs the article start. */
+.article-content > .article-figure { margin-top: var(--space-4); }
 
 .article-figure--full {
   margin-inline: calc(-1 * var(--gutter));
@@ -671,7 +674,8 @@
 /* ---------- Responsive -------------------------------------------------- */
 @media (max-width: 1024px) {
 
-  .article-content { grid-template-columns: 1fr; }
+  .article-content { grid-template-columns: 1fr; row-gap: 0; }
+  .article-content > .article-figure { margin-bottom: var(--space-2); }
   .article-sidebar { position: static; margin-top: var(--space-8); }
   .tech-spec { position: static; margin-top: var(--space-6); grid-column: 1 / -1; }
 
