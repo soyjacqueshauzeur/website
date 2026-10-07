@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago no completado — Bio-Rest</title>
+  <meta name="description" content="No pudimos completar tu pago. Puedes intentarlo de nuevo o pedir con pago contra entrega." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0A0A0C" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink-000:#050507;--ink-deep:#0A0A0C;--ink:#111114;--ink-card:#18181C;
+      --paper:#F4F4F0;--paper-soft:#C9C9C2;--paper-mute:#80807A;
+      --lime:#D4FF3D;--lime-soft:#E2FF73;--danger:#FF6B6B;--ink-line:rgba(244,244,240,.08);--ink-rule:rgba(244,244,240,.16);
+      --bg:var(--ink-deep);--surface:var(--ink);--line:var(--ink-line);--line-strong:var(--ink-rule);
+      --text:var(--paper);--muted:var(--paper-mute);--accent-text:var(--lime);
+      --radius-full:999px;--radius-xl:28px;
+      --font-display:'Boldonse','Inter Tight',system-ui,sans-serif;
+      --font-body:'Inter Tight',system-ui,sans-serif;
+      --font-mono:'Geist Mono',ui-monospace,monospace;
+    }
+    html[data-theme="light"]{
+      --bg:#F4F4F0;--surface:#FFFFFF;--line:rgba(10,10,12,.10);--line-strong:rgba(10,10,12,.18);
+      --text:#0A0A0C;--muted:#6A6A65;--paper-soft:#3F3F3A;
+      --accent-text:#5F7D00;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;-webkit-font-smoothing:antialiased}
+    .card{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-xl);padding:clamp(28px,6vw,48px);text-align:center}
+    .bad{width:76px;height:76px;border-radius:50%;background:rgba(255,107,107,.12);color:var(--danger);display:grid;place-items:center;margin:0 auto 22px}
+    h1{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:1.25;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 12px}
+    p{color:var(--paper-soft);margin:0 0 18px}
+    .box{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;margin:20px 0;font-size:.9rem;color:var(--muted)}
+    .box b{color:var(--text)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:.8125rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:14px 24px;border-radius:var(--radius-full);border:1px solid transparent;text-decoration:none;transition:background .18s ease,transform .18s ease}
+    .btn--primary{background:var(--lime);color:var(--ink-000)}
+    .btn--primary:hover{background:var(--lime-soft);transform:translateY(-1px)}
+    .btn--ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+    .btn--ghost:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    .actions{display:flex;flex-direction:column;gap:10px}
+    .brand{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
+    .brand .dot{width:20px;height:20px;border-radius:6px;background:var(--lime)}
+    .demo{color:var(--muted);font-family:var(--font-mono);font-size:.72rem;margin-top:22px}
+    .theme-toggle{position:fixed;top:18px;right:18px;z-index:90;width:42px;height:42px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:border-color .18s ease,color .18s ease}
+    .theme-toggle:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    .theme-toggle svg{display:none}
+    html[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+    html[data-theme="light"] .theme-toggle .icon-moon{display:block}
+  </style>
+  <!-- Tema: claro de 4:00 a 18:00; oscuro el resto. La preferencia manual se guarda en localStorage. -->
+  <script>
+  (function(){
+    var t;
+    try { t = localStorage.getItem('jh-theme'); } catch(e) {}
+    if (t !== 'light' && t !== 'dark') {
+      var h = new Date().getHours();
+      t = (h >= 4 && h < 18) ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+  })();
+  </script>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"/></svg>
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+  </button>
+  <div class="card">
+    <a class="brand" href="product.html"><span class="dot" aria-hidden="true"></span> Bio-Rest</a>
+    <div class="bad" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+    <h1>No pudimos completar tu pago</h1>
+    <p>La transacción no se finalizó o fue rechazada. No se hizo ningún cobro. Puedes reintentar o elegir <b>pago contra entrega</b>.</p>
+
+    <div class="box">
+      <b>¿Qué pudo pasar?</b><br />
+      · Datos de tarjeta incorrectos o sin fondos.<br />
+      · Cerraste la ventana del checkout.<br />
+      · Problema temporal con la pasarela.
+    </div>
+
+    <div class="actions">
+      <a class="btn btn--primary" href="product.html#pedido">Reintentar el pedido</a>
+      <a class="btn btn--ghost" href="product.html#pedido">Elegir pago por WhatsApp</a>
+    </div>
+    <p class="demo">DEMO (test) · Código de error de ejemplo: <b>PENDIENTE</b></p>
+  </div>
+  <script>
+  (function(){var r=document.documentElement;var b=document.getElementById('themeToggle');if(b){b.addEventListener('click',function(){var n=(r.getAttribute('data-theme')==='dark')?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('jh-theme',n);}catch(e){}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',n==='dark'?'#0A0A0C':'#F4F4F0');});}})();
+  </script>
+</body>
+</html>
