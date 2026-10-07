@@ -190,6 +190,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://soyjacqueshauzeur.dev/" />
   </url>
   <url>
+    <loc>https://soyjacqueshauzeur.dev/index2.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://soyjacqueshauzeur.dev/index2.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://soyjacqueshauzeur.dev/es/index2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://soyjacqueshauzeur.dev/index2.html" />
+  </url>
+  <url>
     <loc>https://soyjacqueshauzeur.dev/marketing.html</loc>
     <lastmod>2026-10-03</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://soyjacqueshauzeur.dev/marketing.html" />

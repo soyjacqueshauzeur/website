@@ -16,7 +16,7 @@
  *
  *   node tools/build-sitemap.mjs
  */
-import { writeFileSync, statSync } from 'node:fs';
+import { writeFileSync, statSync, readFileSync } from 'node:fs';
 import { execSync, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -25,6 +25,15 @@ import * as SEO from './seo.mjs';
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html']);
 const isNoindex = (base) => NOINDEX_BASES.has(base) || /-hire\.html$/.test(base);
+
+/* Además de la lista fija, respeta el <meta name="robots" content="noindex"> de cada página. */
+function pageIsNoindex(file) {
+  try {
+    const src = readFileSync(join(ROOT, file), 'utf8');
+    const metas = src.match(/<meta\b[^>]*name=["']robots["'][^>]*>/gi) || [];
+    return metas.some((m) => /noindex/i.test(m));
+  } catch { return false; }
+}
 
 const MAX_URLS = Number(process.env.SITEMAP_MAX_URLS) || 50000;   // sitemaps.org limit
 const MAX_BYTES = Number(process.env.SITEMAP_MAX_BYTES) || 50 * 1024 * 1024; // 50 MB uncompressed
@@ -52,7 +61,7 @@ function lastMod(file) {
 /* One entry per real, indexable file — guarantees only existing URLs. */
 const entries = [];
 for (const file of files) {
-  if (isNoindex(file.split('/').pop())) continue;
+  if (isNoindex(file.split('/').pop()) || pageIsNoindex(file)) continue;
   entries.push({ loc: SEO.canonicalUrl(file), lastmod: lastMod(file), alt: SEO.alternates(file) });
 }
 

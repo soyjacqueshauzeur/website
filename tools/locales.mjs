@@ -54,6 +54,7 @@ export const LOCALES = {
     footerBrand:
       '<p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
     footerMeta: ['Privacy', 'Imprint', 'Sitemap'],
+    store: { href: 'es/tienda/tienda.html', label: 'Store' },
     nav: [
       ['index.html', 'Home'],
       ['clients.html', 'Clients'],
@@ -88,6 +89,7 @@ export const LOCALES = {
     footerBrand:
       '<p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
     footerMeta: ['Privacidad', 'Aviso legal', 'Mapa del sitio'],
+    store: { href: 'tienda/tienda.html', label: 'Tienda' },
     nav: [
       ['index.html', 'Inicio'],
       ['clients.html', 'Clientes'],

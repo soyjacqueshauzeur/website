@@ -146,6 +146,7 @@ export function footerHTML(lang, depth = 0) {
     '          <h4>' + L.footerExplore + '</h4>\n' +
     '          <ul>\n' +
     footerLinks(L.nav, P) + '\n' +
+    (L.store ? '            <li><a href="' + P + L.store.href + '">' + L.store.label + '</a></li>\n' : '') +
     '            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +
