@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../../assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" />
+  <title>Tienda online — catálogo de productos con envío a Colombia</title>
+  <meta name="description" content="Hogar, bienestar, tecnología, herramientas, mascotas y mucho más. Miles de productos, al mejor precio y con envío a todo Colombia." />
+  <meta name="theme-color" content="#0A0A0C" />
+  <!-- Tema: claro de 4:00 a 18:00; oscuro el resto. La preferencia manual se guarda en localStorage. -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('jh-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        var h = new Date().getHours();
+        t = (h >= 4 && h < 18) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../../assets/css/styles.css" />
+
+  <style>
+    /* ---------- Tienda (Pinterest) — solo tokens de Jacques ---------- */
+    .store-hero{padding:var(--space-8) 0 var(--space-4)}
+    .store-title{
+      font-family:var(--font-display);font-weight:400;
+      font-size:var(--text-4xl);line-height:1.02;letter-spacing:-.02em;margin-top:var(--space-4)
+    }
+    .store-sub{margin-top:var(--space-4);color:var(--fg-soft);max-width:52ch;font-size:var(--text-lg)}
+    .store-sub b{color:var(--fg);font-weight:600}
+
+    .store-hero-grid{display:grid;gap:var(--space-7)}
+
+    .store-toolbar{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);
+      flex-wrap:wrap;padding-top:var(--space-6)
+    }
+    .store-filters{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .store-count{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--fg-mute);letter-spacing:.04em;white-space:nowrap}
+
+    .store-filters{display:flex;flex-wrap:wrap;gap:12px}
+    .store-select-wrap{display:flex;align-items:center;gap:10px}
+    .store-select-label{font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-mute)}
+    .store-select{
+      appearance:none;-webkit-appearance:none;-moz-appearance:none;
+      background:var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23C9C9C2' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 15px center;
+      color:var(--fg);border:1px solid var(--rule);border-radius:var(--radius-full);
+      font-family:var(--font-body);font-size:var(--text-sm);font-weight:500;
+      padding:10px 42px 10px 16px;cursor:pointer;min-width:230px;
+      transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)
+    }
+    .store-select:hover{border-color:var(--rule-strong)}
+    .store-select:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px var(--lime-glow)}
+    .store-select option{background:var(--ink-deep);color:var(--fg)}
+
+    .store-wall{columns:260px;column-gap:18px;padding:var(--space-5) 0 var(--space-8)}
+    .store-card{break-inside:avoid;margin:0 0 18px;opacity:0;animation:store-rise .6s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes store-rise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+    .store-card:nth-child(1){animation-delay:.03s}.store-card:nth-child(2){animation-delay:.07s}
+    .store-card:nth-child(3){animation-delay:.11s}.store-card:nth-child(4){animation-delay:.15s}
+    .store-card:nth-child(5){animation-delay:.19s}.store-card:nth-child(6){animation-delay:.23s}
+    .store-card:nth-child(7){animation-delay:.27s}.store-card:nth-child(8){animation-delay:.31s}
+    .store-card:nth-child(9){animation-delay:.35s}
+    .store-card.is-hidden{display:none}
+
+    .store-pin{
+      position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;
+      background:var(--ink-card);border:1px solid var(--rule);box-shadow:var(--shadow);
+      transition:transform var(--dur-mid) var(--ease-out),box-shadow var(--dur-mid) var(--ease-out)
+    }
+    .store-pin:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
+    .store-media{display:block;width:100%;background:var(--ink)}
+    .store-media svg,.store-media img{display:block;width:100%;height:auto}
+
+    .store-badge{
+      position:absolute;top:12px;left:12px;z-index:2;
+      background:var(--lime);color:var(--ink-000);
+      font-family:var(--font-body);font-weight:700;font-size:11px;letter-spacing:.1em;
+      text-transform:uppercase;padding:5px 10px;border-radius:var(--radius-full);
+      box-shadow:var(--shadow-sm)
+    }
+    .store-tag{
+      position:absolute;top:12px;right:12px;z-index:2;
+      font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;
+      color:var(--fg);background:rgba(5,5,7,.55);backdrop-filter:blur(4px);
+      border:1px solid var(--rule);padding:4px 9px;border-radius:var(--radius-full)
+    }
+    .store-overlay{
+      position:absolute;inset:0;display:flex;align-items:flex-end;padding:14px;
+      background:linear-gradient(180deg,rgba(5,5,7,.05) 40%,rgba(5,5,7,.72) 100%);
+      opacity:0;transition:opacity var(--dur-mid) var(--ease-out)
+    }
+    .store-pin:hover .store-overlay,.store-pin:focus-visible .store-overlay{opacity:1}
+    .store-cta{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--lime);color:var(--ink-000);font-weight:600;font-size:var(--text-sm);
+      padding:10px 16px;border-radius:var(--radius-full)
+    }
+    .store-caption{padding:13px 2px 0}
+    .store-caption h3{
+      font-family:var(--font-display);font-weight:400;font-size:var(--text-lg);
+      letter-spacing:-.01em;line-height:1.15;color:var(--fg)
+    }
+    .store-price{margin-top:6px;font-family:var(--font-mono);font-weight:500;color:var(--lime);font-size:var(--text-base)}
+    .store-price span{color:var(--fg-mute);font-size:var(--text-xs);margin-left:6px}
+
+    .store-empty{display:none;padding:var(--space-7) 0;color:var(--fg-mute);text-align:center}
+    .store-empty.is-on{display:block}
+
+    /* ---------- Barra de la tienda (marca + switch de tema) ---------- */
+    :root{--store-head-bg:rgba(10,10,12,.78)}
+    .store-header{
+      position:sticky;top:0;z-index:60;
+      background:var(--store-head-bg);
+      backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);
+      border-bottom:1px solid var(--rule)
+    }
+    .store-head-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+    .store-theme{
+      display:inline-flex;align-items:center;gap:9px;
+      background:var(--lime);color:var(--ink-000);border:0;
+      border-radius:var(--radius-full);padding:10px 18px;cursor:pointer;
+      font-family:var(--font-body);font-size:var(--text-sm);font-weight:600;
+      transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);
+      white-space:nowrap
+    }
+    .store-theme:hover{background:var(--lime-soft);transform:translateY(-1px)}
+    .store-theme svg{display:none}
+    .store-theme::after{content:"Modo claro"}
+    html[data-theme="dark"] .store-theme .icon-sun{display:block}
+    html[data-theme="light"] .store-theme .icon-moon{display:block}
+    html[data-theme="light"] .store-theme::after{content:"Modo oscuro"}
+
+    /* ---------- Tema claro (toda la página) ---------- */
+    html[data-theme="light"]{
+      --ink-000:#ECECE6;--ink-deep:#F4F4F0;--ink:#FFFFFF;--ink-card:#FFFFFF;--ink-elev:#EFEFE9;
+      --ink-soft:#D9D9D1;
+      --ink-line:rgba(10,10,12,.10);--ink-line-soft:rgba(10,10,12,.05);--ink-rule:rgba(10,10,12,.18);
+      --paper:#0A0A0C;--paper-soft:#3F3F3A;--paper-mute:#6A6A65;--paper-deep:#8A8A85;--paper-bright:#FFFFFF;
+      --ink-deep-78:rgba(244,244,240,.85);--ink-deep-62:rgba(244,244,240,.62);
+      --rule:var(--ink-line);--rule-strong:var(--ink-rule);
+      --lime-ink:#3F5A05;--lime-glow:rgba(95,125,0,.20);
+      --shadow-xs:0 1px 2px rgba(10,10,12,.08);
+      --shadow-sm:0 2px 8px rgba(10,10,12,.08);
+      --shadow:0 14px 30px -14px rgba(10,10,12,.18);
+      --shadow-md:0 20px 44px -18px rgba(10,10,12,.20);
+      --shadow-lg:0 30px 60px -24px rgba(10,10,12,.22);
+      --store-head-bg:rgba(244,244,240,.85)
+    }
+    html[data-theme="light"] .store-theme{color:#0A0A0C}
+    html[data-theme="light"] .store-header{--store-head-bg:rgba(10,10,12,.82);border-bottom-color:rgba(244,244,240,.08)}
+    html[data-theme="light"] .store-header .brand{color:#F4F4F0}
+    html[data-theme="light"] .store-header .brand-mark::after{color:#0A0A0C}
+    html[data-theme="light"] .site-footer{--ink-000:#050507;--ink-deep:#0A0A0C;--ink-line:rgba(244,244,240,.08);--ink-line-soft:rgba(244,244,240,.04);--ink-rule:rgba(244,244,240,.16);--bg-alt:#050507;--fg:#F4F4F0;--fg-soft:#C9C9C2;--fg-mute:#80807A;--fg-deep:#5A5A55;--rule:rgba(244,244,240,.08);--rule-strong:rgba(244,244,240,.16);background:#050507;color:#F4F4F0}
+    html[data-theme="light"] .store-title .lime,
+    html[data-theme="light"] .store-price{color:#5F7D00}
+    html[data-theme="light"] .store-badge{color:#0A0A0C}
+    html[data-theme="light"] .store-media{background:#ECECE6}
+    html[data-theme="light"] .store-tag{background:rgba(255,255,255,.72);color:#0A0A0C}
+    html[data-theme="light"] .store-select option{background:#FFFFFF;color:#0A0A0C}
+    html[data-theme="light"] .store-cta{color:#0A0A0C}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="store-header">
+    <div class="container container--wide store-head-inner">
+      <a class="brand" href="tienda.html"><span class="brand-mark" aria-hidden="true"></span> Electric Shadows</a>
+      <button class="store-theme" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Librería de ilustraciones (SVG) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="gBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7f4f2"/><stop offset="1" stop-color="#ece7e3"/></linearGradient>
+        <linearGradient id="gWhite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e9e7e3"/></linearGradient>
+        <linearGradient id="gTeal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ad0e0"/><stop offset="1" stop-color="#3b93ab"/></linearGradient>
+        <linearGradient id="gAmber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0be6f"/><stop offset="1" stop-color="#b26f1c"/></linearGradient>
+        <linearGradient id="gMist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f5ee"/><stop offset="1" stop-color="#a9d6c2"/></linearGradient>
+        <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8935a"/><stop offset="1" stop-color="#9a6a37"/></linearGradient>
+        <linearGradient id="gRedTool" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e0574f"/><stop offset="1" stop-color="#a82c2a"/></linearGradient>
+        <linearGradient id="gOlive" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#556a41"/><stop offset="1" stop-color="#2f3a24"/></linearGradient>
+        <linearGradient id="gSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9dde2"/><stop offset="1" stop-color="#9aa2ac"/></linearGradient>
+        <linearGradient id="gGlow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6ff63"/><stop offset="1" stop-color="#D4FF3D"/></linearGradient>
+      </defs>
+
+      <!-- Almohada cervical -->
+      <symbol id="p-almohada" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="78" rx="30" ry="6" fill="#000" opacity=".07"/>
+        <path d="M14 66 q0 -26 24 -26 h24 q24 0 24 26 v2 q0 18 -18 18 h-36 q-18 0 -18 -18 z" fill="url(#gWhite)" stroke="#e0ddd8" stroke-width="2"/>
+        <path d="M30 44 q20 16 40 0" fill="none" stroke="#e0ddd8" stroke-width="2"/>
+        <path d="M50 42 q-7 9 0 18 q7 -9 0 -18" fill="#eceae6"/>
+        <path d="M66 22 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3 z" fill="url(#gGlow)"/>
+      </symbol>
+
+      <!-- Kit de aseo -->
+      <symbol id="p-aseo" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="82" rx="30" ry="6" fill="#000" opacity=".07"/>
+        <rect x="40" y="34" width="22" height="46" rx="8" fill="url(#gTeal)"/>
+        <rect x="46" y="25" width="10" height="10" rx="2" fill="#33333b"/>
+        <rect x="44" y="17" width="16" height="5" rx="2.5" fill="#33333b"/>
+        <rect x="58" y="18" width="11" height="3.4" rx="1.7" fill="#33333b"/>
+        <rect x="43" y="50" width="16" height="17" rx="3" fill="#fff" opacity=".85"/>
+        <rect x="18" y="70" width="20" height="13" rx="4" fill="#f0d9a8"/>
+        <rect x="18" y="70" width="20" height="4" rx="2" fill="#fff" opacity=".5"/>
+      </symbol>
+
+      <!-- Sérum facial -->
+      <symbol id="p-belleza" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="82" rx="22" ry="6" fill="#000" opacity=".07"/>
+        <rect x="39" y="40" width="22" height="40" rx="9" fill="url(#gAmber)"/>
+        <rect x="43" y="26" width="14" height="15" rx="3" fill="#26262c"/>
+        <rect x="47" y="19" width="6" height="8" rx="3" fill="#3a3a43"/>
+        <rect x="43" y="52" width="14" height="15" rx="3" fill="#fff" opacity=".82"/>
+        <rect x="44" y="44" width="3" height="30" rx="1.5" fill="#fff" opacity=".35"/>
+      </symbol>
+
+      <!-- Difusor / aroma -->
+      <symbol id="p-bienestar" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="84" rx="26" ry="6" fill="#000" opacity=".07"/>
+        <path d="M35 52 q-5 28 15 28 q20 0 15 -28 z" fill="url(#gMist)"/>
+        <rect x="39" y="77" width="22" height="7" rx="3" fill="url(#gWood)"/>
+        <rect x="46" y="43" width="8" height="11" rx="2" fill="#cbd6d0"/>
+        <circle cx="58" cy="30" r="6" fill="#bfe3d3" opacity=".65"/>
+        <circle cx="66" cy="22" r="4" fill="#bfe3d3" opacity=".5"/>
+        <circle cx="60" cy="18" r="3" fill="#bfe3d3" opacity=".4"/>
+      </symbol>
+
+      <!-- Set de herramientas -->
+      <symbol id="p-herramientas" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="82" rx="30" ry="6" fill="#000" opacity=".07"/>
+        <path d="M40 47 q10 -13 20 0" fill="none" stroke="#2a2a31" stroke-width="3.4"/>
+        <rect x="22" y="50" width="56" height="28" rx="5" fill="url(#gRedTool)"/>
+        <rect x="20" y="44" width="60" height="10" rx="5" fill="#c13935"/>
+        <rect x="44" y="44" width="12" height="10" rx="2" fill="#8f2422"/>
+        <circle cx="33" cy="64" r="4" fill="#fff" opacity=".28"/>
+        <path d="M62 58 l8 8" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+      </symbol>
+
+      <!-- Powerbank / tecnología -->
+      <symbol id="p-tecnologia" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="82" rx="22" ry="6" fill="#000" opacity=".08"/>
+        <rect x="32" y="28" width="36" height="50" rx="8" fill="#26262c" stroke="#3a3a43" stroke-width="1.5"/>
+        <path d="M52 38 l-9 15 h6 l-4 13 12 -17 h-6 l4 -11 z" fill="url(#gGlow)"/>
+        <circle cx="40" cy="32" r="2" fill="#D4FF3D"/><circle cx="46" cy="32" r="2" fill="#4a4a52"/>
+        <circle cx="52" cy="32" r="2" fill="#4a4a52"/><circle cx="58" cy="32" r="2" fill="#4a4a52"/>
+        <path d="M38 30 L52 74" stroke="#fff" stroke-width="3" opacity=".12"/>
+        <rect x="44" y="74" width="12" height="4" rx="2" fill="#3a3a43"/>
+      </symbol>
+
+      <!-- Cama para mascotas -->
+      <symbol id="p-mascotas" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="80" rx="30" ry="6" fill="#000" opacity=".07"/>
+        <ellipse cx="50" cy="64" rx="31" ry="17" fill="#2f3b5c"/>
+        <ellipse cx="50" cy="60" rx="23" ry="12" fill="#f4e9d8"/>
+        <g fill="#8a6a45">
+          <ellipse cx="50" cy="62" rx="6" ry="5"/>
+          <circle cx="42" cy="55" r="2.6"/><circle cx="48" cy="52" r="2.6"/>
+          <circle cx="55" cy="52" r="2.6"/><circle cx="60" cy="56" r="2.6"/>
+        </g>
+      </symbol>
+
+      <!-- Lámpara LED -->
+      <symbol id="p-lampara" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="82" rx="24" ry="6" fill="#000" opacity=".07"/>
+        <rect x="36" y="78" width="28" height="7" rx="3.5" fill="#2a2a31"/>
+        <path d="M50 78 V54" stroke="#2a2a31" stroke-width="4" stroke-linecap="round"/>
+        <path d="M50 56 L64 40" stroke="#2a2a31" stroke-width="4" stroke-linecap="round"/>
+        <path d="M60 32 l16 7 -9 13 z" fill="#2a2a31"/>
+        <ellipse cx="66" cy="52" rx="13" ry="8" fill="#D4FF3D" opacity=".45"/>
+        <circle cx="64" cy="52" r="3" fill="#f4ffab"/>
+      </symbol>
+
+      <!-- Mochila -->
+      <symbol id="p-mochila" viewBox="0 0 100 100">
+        <rect width="100" height="100" fill="url(#gBg)"/>
+        <ellipse cx="50" cy="84" rx="24" ry="6" fill="#000" opacity=".07"/>
+        <path d="M32 40 q0 -15 18 -15 q18 0 18 15 v36 q0 8 -8 8 h-20 q-8 0 -8 -8 z" fill="url(#gOlive)"/>
+        <path d="M32 44 h36 v12 h-36 z" fill="#3a4a2e"/>
+        <path d="M40 44 q10 8 20 0" fill="none" stroke="#6b7f52" stroke-width="1.6"/>
+        <rect x="44" y="48" width="12" height="6" rx="2" fill="url(#gGlow)"/>
+        <path d="M50 25 v8" stroke="#3a4a2e" stroke-width="2"/>
+        <path d="M36 52 v28 M64 52 v28" stroke="#fff" stroke-width="1.2" opacity=".18"/>
+      </symbol>
+    </svg>
+
+    <!-- Hero -->
+    <section class="store-hero">
+      <div class="container container--wide">
+        <div class="store-hero-grid">
+          <div class="store-hero-text">
+            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Tienda online · Envío a todo Colombia</span>
+            <h1 class="store-title">Todo lo que buscas, <span class="lime">al mejor precio</span>.</h1>
+            <p class="store-sub">Hogar, bienestar, tecnología, herramientas, mascotas y mucho más. <b>Miles de productos</b> con envío a todo Colombia. Filtra por categoría, precio u orden y pide en segundos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section aria-label="Catálogo">
+      <div class="container container--wide">
+        <div class="store-toolbar">
+          <div class="store-filters">
+          <div class="store-select-wrap">
+            <label class="store-select-label" for="store-cat">Categoría</label>
+            <select class="store-select" id="store-cat" aria-label="Filtrar por categoría">
+              <option value="todo" selected>Todo</option>
+              <option value="aseo">Aseo</option>
+              <option value="bebe">Bebé</option>
+              <option value="belleza">Belleza</option>
+              <option value="bienestar">Bienestar</option>
+              <option value="bisuteria">Bisutería</option>
+              <option value="camping">Camping</option>
+              <option value="cocina">Cocina</option>
+              <option value="defensa-personal">Defensa personal</option>
+              <option value="deportes">Deportes</option>
+              <option value="halloween">Halloween</option>
+              <option value="herramientas">Herramientas</option>
+              <option value="hogar">Hogar</option>
+              <option value="jugueteria">Juguetería</option>
+              <option value="libros">Libros</option>
+              <option value="mad">Mad</option>
+              <option value="mascotas">Mascotas</option>
+              <option value="moda">Moda</option>
+              <option value="natural-home">Natural Home</option>
+              <option value="navidad">Navidad</option>
+              <option value="otro">Otro</option>
+              <option value="papeleria">Papelería</option>
+              <option value="pesca">Pesca</option>
+              <option value="pinateria">Piñatería</option>
+              <option value="ropa-deportiva">Ropa Deportiva</option>
+              <option value="salud">Salud</option>
+              <option value="sex-shop">Sex Shop</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="vaporizadores">Vaporizadores</option>
+              <option value="vehiculos">Vehículos</option>
+            </select>
+          </div>
+          <div class="store-select-wrap">
+            <label class="store-select-label" for="store-price">Precio</label>
+            <select class="store-select" id="store-price" aria-label="Filtrar por precio">
+              <option value="all" selected>Todos</option>
+            </select>
+          </div>
+          <div class="store-select-wrap">
+            <label class="store-select-label" for="store-sort">Orden</label>
+            <select class="store-select" id="store-sort" aria-label="Ordenar">
+              <option value="new" selected>Más recientes</option>
+              <option value="old">Más antiguos</option>
+              <option value="price-asc">Precio: menor a mayor</option>
+              <option value="price-desc">Precio: mayor a menor</option>
+            </select>
+          </div>
+          </div>
+          <span class="store-count" id="store-count">01 producto</span>
+        </div>
+
+        <div class="store-wall" id="store-wall">
+          <article class="store-card" data-cat="hogar" data-price="84000" data-date="2026-09-28">
+            <a class="store-pin" href="./synaptic-sleep-5-z/index.html" aria-label="Almohada Cervical SYNAPTIC SLEEP 5-Z, $84.000">
+              <span class="store-badge">Top ventas</span>
+              <span class="store-tag">Hogar</span>
+              <span class="store-media"><img src="./synaptic-sleep-5-z/images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="Almohada cervical ergonómica SYNAPTIC SLEEP 5-Z" loading="lazy" /></span>
+              <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
+            </a>
+            <div class="store-caption"><h3>Almohada Cervical SYNAPTIC SLEEP 5-Z</h3><p class="store-price">$ 84.000</p></div>
+          </article>
+        </div>
+
+        <p class="store-empty" id="store-empty">No hay productos en esta categoría todavía.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container container--wide">
+      <div class="footer-top footer-top--minimal">
+        <div class="footer-brand">
+          <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
+          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
+        </div>
+        <div>
+          <h4>Explorar</h4>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="../clients.html">Clientes</a></li>
+            <li><a href="../sesiones.html">1:1</a></li>
+            <li><a href="../services.html">Servicios</a></li>
+            <li><a href="../index.html#about">Sobre mí</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · Electric Shadows</span>
+        <div class="footer-meta-links">
+          <a href="envios.html">Envíos</a>
+          <a href="devoluciones.html">Devoluciones</a>
+          <a href="privacidad.html">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var wall = document.getElementById('store-wall');
+      var catSel = document.getElementById('store-cat');
+      var priceSel = document.getElementById('store-price');
+      var sortSel = document.getElementById('store-sort');
+      var count = document.getElementById('store-count');
+      var empty = document.getElementById('store-empty');
+      function pad(n){ return (n < 10 ? '0' : '') + n; }
+      function money(n){ return '$' + n.toLocaleString('es-CO'); }
+
+      // ---- Rangos de precio dinámicos ----
+      // Paso base 50.000. Si el precio máximo genera más rangos que productos
+      // publicados, el paso crece en múltiplos de 50.000 hasta que
+      // nº de rangos <= nº de productos.
+      var cards = Array.prototype.slice.call(wall.querySelectorAll('.store-card'));
+      var prices = cards.map(function (c) { return +c.getAttribute('data-price'); })
+                        .filter(function (n) { return !isNaN(n); });
+      var maxPrice = prices.length ? Math.max.apply(null, prices) : 0;
+      var step = 50000;
+      while (Math.ceil(maxPrice / step) > cards.length) { step += 50000; }
+      priceSel.innerHTML = '';
+      var optAll = document.createElement('option');
+      optAll.value = 'all'; optAll.textContent = 'Todos'; optAll.selected = true;
+      priceSel.appendChild(optAll);
+      var buckets = [];
+      for (var start = 0; start <= maxPrice; start += step) { buckets.push([start, start + step]); }
+      buckets.forEach(function (b, i) {
+        var last = i === buckets.length - 1;
+        var o = document.createElement('option');
+        o.value = b[0] + '-' + (last ? 'max' : b[1]);
+        if (i === 0) o.textContent = 'Menos de ' + money(b[1]);
+        else if (last) o.textContent = 'Más de ' + money(b[0]);
+        else o.textContent = money(b[0]) + ' – ' + money(b[1]);
+        priceSel.appendChild(o);
+      });
+
+      function apply() {
+        var cat = catSel.value;
+        var range = priceSel.value;
+        var sort = sortSel.value;
+        var lo = 0, hi = Infinity;
+        if (range !== 'all') {
+          var parts = range.split('-');
+          lo = +parts[0];
+          hi = parts[1] === 'max' ? Infinity : +parts[1];
+        }
+        var shown = 0;
+        var list = Array.prototype.slice.call(wall.querySelectorAll('.store-card'));
+        list.forEach(function (card) {
+          var okCat = cat === 'todo' || card.getAttribute('data-cat') === cat;
+          var price = +card.getAttribute('data-price');
+          var okPrice = range === 'all' || (price >= lo && price < hi);
+          var ok = okCat && okPrice;
+          card.classList.toggle('is-hidden', !ok);
+          if (ok) shown++;
+        });
+        list.sort(function (a, b) {
+          if (sort === 'price-asc') return (+a.getAttribute('data-price')) - (+b.getAttribute('data-price'));
+          if (sort === 'price-desc') return (+b.getAttribute('data-price')) - (+a.getAttribute('data-price'));
+          var da = a.getAttribute('data-date') || '';
+          var db = b.getAttribute('data-date') || '';
+          if (da === db) return 0;
+          if (sort === 'old') return da < db ? -1 : 1;
+          return da > db ? -1 : 1;
+        }).forEach(function (card) { wall.appendChild(card); });
+        count.textContent = pad(shown) + (shown === 1 ? ' producto' : ' productos');
+        empty.classList.toggle('is-on', shown === 0);
+      }
+      var params = new URLSearchParams(window.location.search);
+      var initialCat = params.get('cat');
+      if (initialCat && catSel.querySelector('option[value="' + initialCat + '"]')) {
+        catSel.value = initialCat;
+      }
+      catSel.addEventListener('change', function () {
+        var url = new URL(window.location.href);
+        if (catSel.value === 'todo') { url.searchParams.delete('cat'); }
+        else { url.searchParams.set('cat', catSel.value); }
+        history.replaceState(null, '', url);
+      });
+      [catSel, priceSel, sortSel].forEach(function (s) { s.addEventListener('change', apply); });
+      apply();
+    })();
+  </script>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      function sync() {
+        var t = root.getAttribute('data-theme') || 'dark';
+        btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+      }
+      sync();
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('jh-theme', next); } catch (e) {}
+        sync();
+      });
+    })();
+  </script>
+  <script src="../../assets/js/fx.js" defer></script>
+  <script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

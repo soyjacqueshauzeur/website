@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¡Pedido recibido! — Bio-Rest</title>
-  <meta name="description" content="Recibimos tu pedido de la almohada SYNAPTIC SLEEP 5-Z. Te contactaremos por WhatsApp para confirmar el envío." />
+  <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../../../assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../../../assets/apple-touch-icon.png" />
+  <title>Pago no completado — Electric Shadows</title>
+  <meta name="description" content="No pudimos completar tu pago. Puedes intentarlo de nuevo o pedir con pago contra entrega." />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#0A0A0C" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,10 +17,10 @@
     :root{
       --ink-000:#050507;--ink-deep:#0A0A0C;--ink:#111114;--ink-card:#18181C;
       --paper:#F4F4F0;--paper-soft:#C9C9C2;--paper-mute:#80807A;
-      --lime:#D4FF3D;--lime-soft:#E2FF73;--ink-line:rgba(244,244,240,.08);--ink-rule:rgba(244,244,240,.16);
+      --lime:#D4FF3D;--lime-soft:#E2FF73;--danger:#FF6B6B;--ink-line:rgba(244,244,240,.08);--ink-rule:rgba(244,244,240,.16);
       --bg:var(--ink-deep);--surface:var(--ink);--line:var(--ink-line);--line-strong:var(--ink-rule);
       --text:var(--paper);--muted:var(--paper-mute);--accent-text:var(--lime);
-      --radius:12px;--radius-lg:20px;--radius-xl:28px;--radius-full:999px;
+      --radius-full:999px;--radius-xl:28px;
       --font-display:'Boldonse','Inter Tight',system-ui,sans-serif;
       --font-body:'Inter Tight',system-ui,sans-serif;
       --font-mono:'Geist Mono',ui-monospace,monospace;
@@ -31,24 +34,20 @@
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;-webkit-font-smoothing:antialiased}
     .card{width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-xl);padding:clamp(28px,6vw,48px);text-align:center}
-    .ok{width:76px;height:76px;border-radius:50%;background:rgba(212,255,61,.12);color:var(--accent-text);display:grid;place-items:center;margin:0 auto 22px}
+    .bad{width:76px;height:76px;border-radius:50%;background:rgba(255,107,107,.12);color:var(--danger);display:grid;place-items:center;margin:0 auto 22px}
     h1{font-family:var(--font-display);font-weight:400;text-transform:uppercase;line-height:1.25;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 12px}
     p{color:var(--paper-soft);margin:0 0 18px}
-    .summary{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:22px 0}
-    .row{display:flex;justify-content:space-between;gap:16px;font-size:.95rem;padding:7px 0;color:var(--muted)}
-    .row b{color:var(--text);font-weight:600}
-    .row.total{border-top:1px solid var(--line);margin-top:6px;padding-top:12px;color:var(--text);font-family:var(--font-display);font-size:1.15rem}
+    .box{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;margin:20px 0;font-size:.9rem;color:var(--muted)}
+    .box b{color:var(--text)}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:.8125rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:14px 24px;border-radius:var(--radius-full);border:1px solid transparent;text-decoration:none;transition:background .18s ease,transform .18s ease}
     .btn--primary{background:var(--lime);color:var(--ink-000)}
     .btn--primary:hover{background:var(--lime-soft);transform:translateY(-1px)}
-    .btn--wa{background:#25D366;color:#062;margin-top:10px}
+    .btn--ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+    .btn--ghost:hover{border-color:var(--accent-text);color:var(--accent-text)}
     .actions{display:flex;flex-direction:column;gap:10px}
-    .steps{margin:24px 0 8px;text-align:left;font-size:.9rem;color:var(--muted)}
-    .steps li{margin-bottom:8px}
     .brand{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
     .brand .dot{width:20px;height:20px;border-radius:6px;background:var(--lime)}
-    .demo{color:var(--accent-text);font-family:var(--font-mono);font-size:.72rem}
-    [hidden]{display:none !important}
+    .demo{color:var(--muted);font-family:var(--font-mono);font-size:.72rem;margin-top:22px}
     .theme-toggle{position:fixed;top:18px;right:18px;z-index:90;width:42px;height:42px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:border-color .18s ease,color .18s ease}
     .theme-toggle:hover{border-color:var(--accent-text);color:var(--accent-text)}
     .theme-toggle svg{display:none}
@@ -76,53 +75,24 @@
     <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
   </button>
   <div class="card">
-    <a class="brand" href="product.html"><span class="dot" aria-hidden="true"></span> Bio-Rest</a>
-    <div class="ok" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
-    <h1>¡Pedido recibido!</h1>
-    <p>Gracias por tu compra. Te contactaremos por <b>WhatsApp</b> para confirmar tus datos antes del envío.</p>
+    <a class="brand" href="product.html"><span class="dot" aria-hidden="true"></span> Electric Shadows</a>
+    <div class="bad" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+    <h1>No pudimos completar tu pago</h1>
+    <p>La transacción no se finalizó o fue rechazada. No se hizo ningún cobro. Puedes reintentar o elegir <b>pago contra entrega</b>.</p>
 
-    <!-- Resumen del pedido (se rellena desde sessionStorage) -->
-    <div class="summary" id="summary" hidden>
-      <div class="row"><span>Producto</span><b data-field="combo">—</b></div>
-      <div class="row"><span>Envío</span><b style="color:var(--accent-text)">Gratis</b></div>
-      <div class="row"><span>Ciudad</span><b data-field="ciudad">—</b></div>
-      <div class="row"><span>Método de pago</span><b data-field="pago">—</b></div>
-      <div class="row total"><span>Total</span><span data-field="total">—</span></div>
+    <div class="box">
+      <b>¿Qué pudo pasar?</b><br />
+      · Datos de tarjeta incorrectos o sin fondos.<br />
+      · Cerraste la ventana del checkout.<br />
+      · Problema temporal con la pasarela.
     </div>
-
-    <ul class="steps">
-      <li>1. Te escribimos por WhatsApp para confirmar tus datos.</li>
-      <li>2. Coordinamos el pago seguro (tarjeta, PSE, Nequi, Daviplata o NuBank).</li>
-      <li>3. Despachamos y te compartimos la guía de seguimiento.</li>
-    </ul>
 
     <div class="actions">
-      <!-- PERSONALIZAR: número real de WhatsApp -->
-      <a class="btn btn--primary" id="waFollow" href="https://wa.me/570000000000" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-      <a class="btn" style="background:transparent;border-color:var(--line-strong);color:var(--text)" href="product.html">Volver a la tienda</a>
+      <a class="btn btn--primary" href="product.html#pedido">Reintentar el pedido</a>
+      <a class="btn btn--ghost" href="product.html#pedido">Elegir pago por WhatsApp</a>
     </div>
-    <p class="demo" style="margin-top:22px">DEMO · página de ejemplo para pruebas</p>
+    <p class="demo">DEMO (test) · Código de error de ejemplo: <b>PENDIENTE</b></p>
   </div>
-
-  <script>
-    (function () {
-      var WHATSAPP_NUMBER = '573507402009'; // PERSONALIZAR
-      var raw;
-      try { raw = sessionStorage.getItem('jh-order'); } catch (e) {}
-      if (!raw) return;
-      var o = JSON.parse(raw);
-      document.getElementById('summary').hidden = false;
-      var set = function (f, v) { var el = document.querySelector('[data-field="' + f + '"]'); if (el) el.textContent = v; };
-      set('combo', o.combo);
-      set('ciudad', o.ciudad);
-      set('pago', o.pago === 'whatsapp' ? 'Confirmado por WhatsApp' : (o.pago === 'mercadopago' ? 'Tarjeta / PSE' : 'Pago online (Tarjeta/PSE/Nequi)'));
-      set('total', '$' + Number(o.total).toLocaleString('es-CO'));
-      var wa = document.getElementById('waFollow');
-      if (wa) wa.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(
-        'Hola, acabo de hacer un pedido (' + o.combo + ' — $' + Number(o.total).toLocaleString('es-CO') + ')'
-      );
-    })();
-  </script>
   <script>
   (function(){var r=document.documentElement;var b=document.getElementById('themeToggle');if(b){b.addEventListener('click',function(){var n=(r.getAttribute('data-theme')==='dark')?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('jh-theme',n);}catch(e){}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',n==='dark'?'#0A0A0C':'#F4F4F0');});}})();
   </script>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../../assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" />
+  <title>Política de privacidad — Tienda</title>
+  <meta name="description" content="Política de privacidad y tratamiento de datos personales: qué datos recolectamos, con qué finalidad y cómo ejercer tus derechos (Ley 1581 de 2012)." />
+  <meta name="theme-color" content="#0A0A0C" />
+  <!-- Tema: claro de 4:00 a 18:00; oscuro el resto. La preferencia manual se guarda en localStorage. -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('jh-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        var h = new Date().getHours();
+        t = (h >= 4 && h < 18) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../../assets/css/styles.css" />
+
+  <style>
+    :root{--store-head-bg:rgba(10,10,12,.78)}
+    .store-header{position:sticky;top:0;z-index:60;background:var(--store-head-bg);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--rule)}
+    .store-head-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+    .store-theme{display:inline-flex;align-items:center;gap:9px;background:var(--lime);color:var(--ink-000);border:0;border-radius:var(--radius-full);padding:10px 18px;cursor:pointer;font-family:var(--font-body);font-size:var(--text-sm);font-weight:600;transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);white-space:nowrap}
+    .store-theme:hover{background:var(--lime-soft);transform:translateY(-1px)}
+    .store-theme svg{display:none}
+    .store-theme::after{content:"Modo claro"}
+    html[data-theme="dark"] .store-theme .icon-sun{display:block}
+    html[data-theme="light"] .store-theme .icon-moon{display:block}
+    html[data-theme="light"] .store-theme::after{content:"Modo oscuro"}
+
+    html[data-theme="light"]{--ink-000:#ECECE6;--ink-deep:#F4F4F0;--ink:#FFFFFF;--ink-card:#FFFFFF;--ink-elev:#EFEFE9;--ink-soft:#D9D9D1;--ink-line:rgba(10,10,12,.10);--ink-line-soft:rgba(10,10,12,.05);--ink-rule:rgba(10,10,12,.18);--paper:#0A0A0C;--paper-soft:#3F3F3A;--paper-mute:#6A6A65;--paper-deep:#8A8A85;--paper-bright:#FFFFFF;--ink-deep-78:rgba(244,244,240,.85);--ink-deep-62:rgba(244,244,240,.62);--rule:var(--ink-line);--rule-strong:var(--ink-rule);--lime-ink:#3F5A05;--lime-glow:rgba(95,125,0,.20);--shadow-sm:0 2px 8px rgba(10,10,12,.08);--shadow:0 14px 30px -14px rgba(10,10,12,.18);--shadow-md:0 20px 44px -18px rgba(10,10,12,.20);--shadow-lg:0 30px 60px -24px rgba(10,10,12,.22);--store-head-bg:rgba(244,244,240,.85)}
+    html[data-theme="light"] .store-theme{color:#0A0A0C}
+    html[data-theme="light"] .store-header{--store-head-bg:rgba(10,10,12,.82);border-bottom-color:rgba(244,244,240,.08)}
+    html[data-theme="light"] .store-header .brand{color:#F4F4F0}
+    html[data-theme="light"] .store-header .brand-mark::after{color:#0A0A0C}
+    html[data-theme="light"] .site-footer{--ink-000:#050507;--ink-deep:#0A0A0C;--ink-line:rgba(244,244,240,.08);--ink-line-soft:rgba(244,244,240,.04);--ink-rule:rgba(244,244,240,.16);--bg-alt:#050507;--fg:#F4F4F0;--fg-soft:#C9C9C2;--fg-mute:#80807A;--fg-deep:#5A5A55;--rule:rgba(244,244,240,.08);--rule-strong:rgba(244,244,240,.16);background:#050507;color:#F4F4F0}
+
+    .legal{padding:var(--space-7) 0 var(--space-9)}
+    .breadcrumb{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.04em;text-transform:uppercase;color:var(--fg-mute);padding-top:var(--space-5)}
+    .breadcrumb a{color:var(--fg-mute)}
+    .breadcrumb a:hover{color:var(--lime)}
+    .breadcrumb .sep{opacity:.5}
+    .legal h1{font-family:var(--font-display);font-weight:400;font-size:var(--text-4xl);line-height:1.05;letter-spacing:-.02em;margin:var(--space-4) 0 var(--space-2)}
+    .legal .updated{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--fg-mute);margin-bottom:var(--space-6)}
+    .legal h2{font-family:var(--font-display);font-weight:400;font-size:var(--text-xl);letter-spacing:-.01em;margin:var(--space-6) 0 var(--space-3)}
+    .legal p{color:var(--fg-soft);line-height:1.7;margin:0 0 14px}
+    .legal ul{color:var(--fg-soft);line-height:1.7;margin:0 0 14px;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+    .legal strong{color:var(--fg)}
+    .legal a{color:var(--lime);text-decoration:underline;text-underline-offset:3px}
+    .legal .intro{color:var(--fg);font-size:var(--text-lg);line-height:1.5;margin-bottom:var(--space-5)}
+    .legal .box{border:1px solid var(--rule);border-radius:var(--radius-lg);background:var(--ink-card);padding:var(--space-5);margin:0 0 var(--space-5)}
+    .legal .box p:last-child{margin-bottom:0}
+    .legal .muted{color:var(--fg-mute)}
+    html[data-theme="light"] .legal a{color:#5F7D00}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="store-header">
+    <div class="container container--wide store-head-inner">
+      <a class="brand" href="tienda.html"><span class="brand-mark" aria-hidden="true"></span> Electric Shadows</a>
+      <button class="store-theme" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="legal">
+      <div class="container container--narrow">
+        <nav class="breadcrumb" aria-label="Ruta de navegación">
+          <a href="tienda.html">Tienda</a><span class="sep" aria-hidden="true">›</span>
+          <span aria-current="page">Privacidad</span>
+        </nav>
+
+        <h1>Política de privacidad</h1>
+        <p class="updated">Última actualización: [día] de [mes] de [año] · Vigencia: [fecha]</p>
+
+        <p class="intro">Esta política explica qué datos personales recolectamos, para qué los usamos, con quién los compartimos y cómo puedes ejercer tus derechos, conforme a la Ley 1581 de 2012 y demás normas colombianas de protección de datos.</p>
+
+        <h2>1. Responsable del tratamiento</h2>
+        <p>El responsable del tratamiento de tus datos es <strong>[Razón social]</strong>, identificada con NIT <strong>[NIT]</strong>, con domicilio en <strong>[dirección, ciudad, Colombia]</strong>. Para cualquier asunto relacionado con tus datos puedes escribir a <a href="mailto:hola@electricshadows.com">hola@electricshadows.com</a>.</p>
+
+        <h2>2. Datos que recolectamos</h2>
+        <ul>
+          <li><strong>Datos de contacto y envío:</strong> nombre, teléfono/WhatsApp, correo, ciudad, departamento y dirección.</li>
+          <li><strong>Datos del pedido:</strong> productos, cantidades, complementos y valor total.</li>
+          <li><strong>Datos de pago:</strong> los procesa la pasarela de pago habilitada; nosotros no almacenamos los datos completos de tu tarjeta.</li>
+          <li><strong>Datos de navegación:</strong> información técnica y de uso del sitio (por ejemplo, mediante cookies y tecnologías similares).</li>
+          <li><strong>Datos que nos das voluntariamente:</strong> mensajes, indicaciones de entrega o comentarios que envíes.</li>
+        </ul>
+
+        <h2>3. Finalidades del tratamiento</h2>
+        <ul>
+          <li>Gestionar, procesar, confirmar y despachar tus pedidos.</li>
+          <li>Contactarte para validar datos y coordinar la entrega.</li>
+          <li>Atender solicitudes de soporte, garantías, cambios y devoluciones.</li>
+          <li>Enviarte información sobre tu pedido y, con tu autorización, comunicaciones comerciales.</li>
+          <li>Medir y mejorar el sitio, la experiencia de compra y nuestras campañas.</li>
+          <li>Cumplir obligaciones legales, contables y tributarias.</li>
+        </ul>
+
+        <h2>4. Base legal y autorización</h2>
+        <p>Tratamos tus datos con base en la <strong>autorización previa, expresa e informada</strong> que otorgas al usar el formulario de compra, y en las demás causales legales (ejecución de un contrato, cumplimiento de obligaciones legales e interés legítimo cuando aplica). Puedes revocar la autorización en cualquier momento, salvo cuando exista un deber legal de conservar los datos.</p>
+
+        <h2>5. Cookies y tecnologías similares</h2>
+        <p>Usamos cookies y tecnologías similares para que el sitio funcione, recordar tus preferencias (por ejemplo, el tema claro/oscuro) y medir el uso del sitio. Puedes gestionar o rechazar las cookies no esenciales desde el aviso de cookies o la configuración de tu navegador. La desactivación de ciertas cookies puede afectar algunas funciones.</p>
+
+        <h2>6. Terceros que pueden tratar tus datos</h2>
+        <p>Para operar, podemos compartir datos con <strong>encargados y aliados</strong> que los tratan por cuenta nuestra o de forma independiente, como:</p>
+        <ul>
+          <li>Pasarelas de pago para procesar las transacciones.</li>
+          <li>Transportadoras y mensajería para la entrega.</li>
+          <li>Proveedores de hosting, correo y herramientas de analítica o publicidad.</li>
+          <li>Servicios de mensajería (por ejemplo, WhatsApp) cuando eliges ese canal.</li>
+        </ul>
+        <p>Exigimos a estos terceros un uso adecuado de la información y, cuando corresponde, la firma de acuerdos de tratamiento de datos.</p>
+
+        <h2>7. Transferencias y transmisiones</h2>
+        <p>Algunos proveedores pueden estar ubicados fuera de Colombia. En esos casos, procuramos que el tratamiento cumpla estándares adecuados de protección, conforme a la normativa aplicable y a las instrucciones de la autoridad de protección de datos.</p>
+
+        <h2>8. Tus derechos como titular</h2>
+        <p>De acuerdo con la Ley 1581 de 2012, tienes derecho a:</p>
+        <ul>
+          <li><strong>Conocer</strong> tus datos personales y el tratamiento que les damos.</li>
+          <li><strong>Actualizar y rectificar</strong> la información.</li>
+          <li><strong>Suprimir</strong> tus datos cuando proceda.</li>
+          <li><strong>Revocar</strong> la autorización otorgada.</li>
+          <li><strong>Presentar quejas</strong> ante la Superintendencia de Industria y Comercio (SIC).</li>
+          <li>Acceder de forma gratuita a tus datos.</li>
+        </ul>
+
+        <h2>9. Cómo ejercer tus derechos</h2>
+        <p>Envía tu solicitud a <a href="mailto:hola@electricshadows.com">hola@electricshadows.com</a> indicando tu nombre, un medio de contacto y el derecho que deseas ejercer. Atenderemos consultas y reclamos dentro de los plazos legales. Si no quedas conforme, puedes acudir a la SIC.</p>
+
+        <h2>10. Seguridad de la información</h2>
+        <p>Adoptamos medidas técnicas, humanas y administrativas razonables para proteger tus datos y evitar su pérdida, acceso o uso no autorizado. Aun así, ningún sistema es 100% infalible; si detectamos un incidente relevante, actuaremos para mitigarlo y te informaremos cuando corresponda.</p>
+
+        <h2>11. Conservación de los datos</h2>
+        <p>Conservamos tus datos durante el tiempo necesario para cumplir las finalidades descritas y las obligaciones legales aplicables. Cuando ya no sean necesarios, los eliminamos o anonimizamos de forma segura.</p>
+
+        <h2>12. Menores de edad</h2>
+        <p>Nuestros servicios no están dirigidos a menores de edad sin la autorización de sus representantes legales. Si detectamos datos de menores sin la debida autorización, procederemos a eliminarlos.</p>
+
+        <h2>13. Cambios a esta política</h2>
+        <p>Podemos actualizar esta política para reflejar cambios normativos u operativos. Publicaremos la versión vigente en esta página con su fecha de actualización. Te recomendamos revisarla periódicamente.</p>
+
+        <h2>14. Contacto</h2>
+        <ul>
+          <li>Correo: <a href="mailto:hola@electricshadows.com">hola@electricshadows.com</a></li>
+          <li>WhatsApp: <a href="https://wa.me/573507402009" target="_blank" rel="noopener">+57 350 740 2009</a></li>
+        </ul>
+
+        <p class="muted">Nota: este texto es una plantilla de ejemplo y debe revisarse y ajustarse con los datos reales del responsable y su operación, idealmente con asesoría legal.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container container--wide">
+      <div class="footer-top footer-top--minimal">
+        <div class="footer-brand">
+          <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
+          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
+        </div>
+        <div>
+          <h4>Explorar</h4>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="../clients.html">Clientes</a></li>
+            <li><a href="../sesiones.html">1:1</a></li>
+            <li><a href="../services.html">Servicios</a></li>
+            <li><a href="../index.html#about">Sobre mí</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · Electric Shadows</span>
+        <div class="footer-meta-links">
+          <a href="envios.html">Envíos</a>
+          <a href="devoluciones.html">Devoluciones</a>
+          <a href="privacidad.html">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      function sync() {
+        var t = root.getAttribute('data-theme') || 'dark';
+        btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+      }
+      sync();
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('jh-theme', next); } catch (e) {}
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

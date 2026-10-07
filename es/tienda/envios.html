@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../../assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png" />
+  <title>Envíos y entregas — Tienda</title>
+  <meta name="description" content="Tiempos, cobertura, costos y seguimiento de envíos de la tienda. Envío gratis a todo Colombia en 2 a 5 días hábiles." />
+  <meta name="theme-color" content="#0A0A0C" />
+  <!-- Tema: claro de 4:00 a 18:00; oscuro el resto. La preferencia manual se guarda en localStorage. -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('jh-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        var h = new Date().getHours();
+        t = (h >= 4 && h < 18) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../../assets/css/styles.css" />
+
+  <style>
+    :root{--store-head-bg:rgba(10,10,12,.78)}
+    .store-header{position:sticky;top:0;z-index:60;background:var(--store-head-bg);backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--rule)}
+    .store-head-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+    .store-theme{display:inline-flex;align-items:center;gap:9px;background:var(--lime);color:var(--ink-000);border:0;border-radius:var(--radius-full);padding:10px 18px;cursor:pointer;font-family:var(--font-body);font-size:var(--text-sm);font-weight:600;transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);white-space:nowrap}
+    .store-theme:hover{background:var(--lime-soft);transform:translateY(-1px)}
+    .store-theme svg{display:none}
+    .store-theme::after{content:"Modo claro"}
+    html[data-theme="dark"] .store-theme .icon-sun{display:block}
+    html[data-theme="light"] .store-theme .icon-moon{display:block}
+    html[data-theme="light"] .store-theme::after{content:"Modo oscuro"}
+
+    html[data-theme="light"]{--ink-000:#ECECE6;--ink-deep:#F4F4F0;--ink:#FFFFFF;--ink-card:#FFFFFF;--ink-elev:#EFEFE9;--ink-soft:#D9D9D1;--ink-line:rgba(10,10,12,.10);--ink-line-soft:rgba(10,10,12,.05);--ink-rule:rgba(10,10,12,.18);--paper:#0A0A0C;--paper-soft:#3F3F3A;--paper-mute:#6A6A65;--paper-deep:#8A8A85;--paper-bright:#FFFFFF;--ink-deep-78:rgba(244,244,240,.85);--ink-deep-62:rgba(244,244,240,.62);--rule:var(--ink-line);--rule-strong:var(--ink-rule);--lime-ink:#3F5A05;--lime-glow:rgba(95,125,0,.20);--shadow-sm:0 2px 8px rgba(10,10,12,.08);--shadow:0 14px 30px -14px rgba(10,10,12,.18);--shadow-md:0 20px 44px -18px rgba(10,10,12,.20);--shadow-lg:0 30px 60px -24px rgba(10,10,12,.22);--store-head-bg:rgba(244,244,240,.85)}
+    html[data-theme="light"] .store-theme{color:#0A0A0C}
+    html[data-theme="light"] .store-header{--store-head-bg:rgba(10,10,12,.82);border-bottom-color:rgba(244,244,240,.08)}
+    html[data-theme="light"] .store-header .brand{color:#F4F4F0}
+    html[data-theme="light"] .store-header .brand-mark::after{color:#0A0A0C}
+    html[data-theme="light"] .site-footer{--ink-000:#050507;--ink-deep:#0A0A0C;--ink-line:rgba(244,244,240,.08);--ink-line-soft:rgba(244,244,240,.04);--ink-rule:rgba(244,244,240,.16);--bg-alt:#050507;--fg:#F4F4F0;--fg-soft:#C9C9C2;--fg-mute:#80807A;--fg-deep:#5A5A55;--rule:rgba(244,244,240,.08);--rule-strong:rgba(244,244,240,.16);background:#050507;color:#F4F4F0}
+
+    .legal{padding:var(--space-7) 0 var(--space-9)}
+    .breadcrumb{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.04em;text-transform:uppercase;color:var(--fg-mute);padding-top:var(--space-5)}
+    .breadcrumb a{color:var(--fg-mute)}
+    .breadcrumb a:hover{color:var(--lime)}
+    .breadcrumb .sep{opacity:.5}
+    .legal h1{font-family:var(--font-display);font-weight:400;font-size:var(--text-4xl);line-height:1.05;letter-spacing:-.02em;margin:var(--space-4) 0 var(--space-2)}
+    .legal .updated{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--fg-mute);margin-bottom:var(--space-6)}
+    .legal h2{font-family:var(--font-display);font-weight:400;font-size:var(--text-xl);letter-spacing:-.01em;margin:var(--space-6) 0 var(--space-3)}
+    .legal p{color:var(--fg-soft);line-height:1.7;margin:0 0 14px}
+    .legal ul{color:var(--fg-soft);line-height:1.7;margin:0 0 14px;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+    .legal strong{color:var(--fg)}
+    .legal a{color:var(--lime);text-decoration:underline;text-underline-offset:3px}
+    .legal .intro{color:var(--fg);font-size:var(--text-lg);line-height:1.5;margin-bottom:var(--space-5)}
+    .legal .box{border:1px solid var(--rule);border-radius:var(--radius-lg);background:var(--ink-card);padding:var(--space-5);margin:0 0 var(--space-5)}
+    .legal .box p:last-child{margin-bottom:0}
+    .legal .muted{color:var(--fg-mute)}
+    html[data-theme="light"] .legal a{color:#5F7D00}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="store-header">
+    <div class="container container--wide store-head-inner">
+      <a class="brand" href="tienda.html"><span class="brand-mark" aria-hidden="true"></span> Electric Shadows</a>
+      <button class="store-theme" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="legal">
+      <div class="container container--narrow">
+        <nav class="breadcrumb" aria-label="Ruta de navegación">
+          <a href="tienda.html">Tienda</a><span class="sep" aria-hidden="true">›</span>
+          <span aria-current="page">Envíos</span>
+        </nav>
+
+        <h1>Envíos y entregas</h1>
+        <p class="updated">Última actualización: [día] de [mes] de [año] · Vigencia: [fecha]</p>
+
+        <p class="intro">Enviamos a todo Colombia. Aquí encuentras los tiempos, el costo, la cobertura y cómo hacer seguimiento de tu pedido.</p>
+
+        <div class="box">
+          <h2>Resumen rápido</h2>
+          <ul>
+            <li><strong>Cobertura:</strong> nacional (Colombia).</li>
+            <li><strong>Costo:</strong> envío <strong>gratis</strong> en todos los combos.</li>
+            <li><strong>Tiempo:</strong> 2 a 5 días hábiles después de confirmar tu pedido.</li>
+            <li><strong>Seguimiento:</strong> recibes el número de guía por WhatsApp o correo.</li>
+          </ul>
+        </div>
+
+        <h2>1. Cobertura</h2>
+        <p>Hacemos envíos a la mayoría de municipios de Colombia a través de transportadoras aliadas. Algunas zonas de difícil acceso pueden tener una cobertura limitada o tiempos mayores; si tu dirección está en una de ellas, te lo avisamos antes de despachar.</p>
+
+        <h2>2. Tiempos de entrega</h2>
+        <p>El tiempo de entrega estimado es de <strong>2 a 5 días hábiles</strong> contados a partir de la confirmación del pedido. Los tiempos son estimados y pueden variar por la transportadora, la ciudad de destino, temporadas de alta demanda (fiestas, promociones) o causas externas.</p>
+        <p>Los pedidos se preparan y despachan en días hábiles. Un pedido confirmado después de la hora de corte o en fin de semana se procesa el siguiente día hábil.</p>
+
+        <h2>3. Costo de envío</h2>
+        <p>El envío es <strong>gratis</strong> a todo Colombia en todos los combos publicados. No hay costos ocultos: el total que ves al confirmar tu pedido es el que pagas.</p>
+
+        <h2>4. Preparación y despacho</h2>
+        <p>Una vez confirmas tu pedido, validamos tus datos y la dirección de entrega. Si algo no está claro, te escribimos por WhatsApp antes de despachar. Cuando el paquete sale, te compartimos la transportadora y el número de guía.</p>
+
+        <h2>5. Seguimiento de tu pedido</h2>
+        <p>Con el número de guía puedes consultar el estado directamente en el sitio de la transportadora. Si tienes dudas, escríbenos por WhatsApp y te ayudamos a rastrearlo.</p>
+
+        <h2>6. Dirección e intentos de entrega</h2>
+        <p>Es tu responsabilidad indicar una <strong>dirección completa y correcta</strong> (calle/carrera, número, barrio, ciudad y departamento) y un teléfono de contacto activo. Si la transportadora no logra entregar por datos erróneos o ausencia, puede reprogramar la entrega o devolver el paquete; los costos de un nuevo envío por estos motivos pueden correr por tu cuenta.</p>
+
+        <h2>7. Zonas remotas y demoras</h2>
+        <p>En zonas rurales o de difícil acceso, la entrega puede tardar más y en algunos casos requerir que retires el paquete en la oficina de la transportadora más cercana. Te avisaremos si tu pedido entra en esta categoría.</p>
+
+        <h2>8. Pedidos y confirmación</h2>
+        <p>Puedes hacer tu pedido desde la ficha del producto. Después de confirmarlo, te contactamos para validar los datos y coordinar el pago. Para pedidos mayoristas o casos especiales, escríbenos por WhatsApp.</p>
+
+        <h2>9. Contacto</h2>
+        <p>¿Tienes preguntas sobre tu envío? Escríbenos:</p>
+        <ul>
+          <li>WhatsApp: <a href="https://wa.me/573507402009" target="_blank" rel="noopener">+57 350 740 2009</a></li>
+          <li>Correo: <a href="mailto:hola@electricshadows.com">hola@electricshadows.com</a></li>
+        </ul>
+
+        <p class="muted">Nota: este texto es una plantilla de ejemplo y debe revisarse y ajustarse con los datos reales del vendedor y su operación logística.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container container--wide">
+      <div class="footer-top footer-top--minimal">
+        <div class="footer-brand">
+          <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
+          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
+        </div>
+        <div>
+          <h4>Explorar</h4>
+          <ul>
+            <li><a href="tienda.html">Tienda</a></li>
+            <li><a href="../clients.html">Clientes</a></li>
+            <li><a href="../sesiones.html">1:1</a></li>
+            <li><a href="../services.html">Servicios</a></li>
+            <li><a href="../index.html#about">Sobre mí</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · Electric Shadows</span>
+        <div class="footer-meta-links">
+          <a href="envios.html">Envíos</a>
+          <a href="devoluciones.html">Devoluciones</a>
+          <a href="privacidad.html">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      function sync() {
+        var t = root.getAttribute('data-theme') || 'dark';
+        btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+      }
+      sync();
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('jh-theme', next); } catch (e) {}
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>
