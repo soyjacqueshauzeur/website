@@ -95,6 +95,7 @@ export function headerHTML(lang, active, page, depth = 0) {
     '    <div class="container container--wide">\n' +
     '      <nav class="nav" aria-label="' + L.navAria + '">\n' +
     '        <a class="brand" href="' + P + 'index.html"><span class="brand-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>\n' +
+    '        <button class="theme-toggle" type="button" aria-label="' + L.themeToggle + '" title="' + L.themeToggle + '" aria-pressed="false"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"/></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg></button>\n' +
     '        <div class="nav-links" role="navigation">\n' +
     desktopLinks(nav, active, P) + '\n' +
     '        </div>\n' +
@@ -146,7 +147,7 @@ export function footerHTML(lang, depth = 0) {
     '          <h4>' + L.footerExplore + '</h4>\n' +
     '          <ul>\n' +
     footerLinks(L.nav, P) + '\n' +
-    (L.store ? '            <li><a href="' + P + L.store.href + '">' + L.store.label + '</a></li>\n' : '') +
+    (L.store ? '            <li><a href="' + P + L.store.href + '" target="_blank" rel="noopener">' + L.store.label + '</a></li>\n' : '') +
     '            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +

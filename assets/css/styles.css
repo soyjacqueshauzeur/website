@@ -2567,3 +2567,99 @@ dfn:active::after {
   body:not(.printing-one) .contract-doc { break-after: page; }
   body:not(.printing-one) .contract-doc:last-child { break-after: auto; }
 }
+
+/* ============================================================
+   Theme switch — light / dark (html[data-theme])
+   Misma lógica que la tienda: preferencia en localStorage('jh-theme');
+   por defecto claro de 4:00 a 18:00 y oscuro el resto.
+   ============================================================ */
+html[data-theme="light"]{
+  --ink-000:#ECECE6; --ink-deep:#F4F4F0; --ink:#FFFFFF; --ink-card:#FFFFFF; --ink-elev:#EFEFE9;
+  --ink-soft:#D9D9D1;
+  --ink-line:rgba(10,10,12,.10); --ink-line-soft:rgba(10,10,12,.05); --ink-rule:rgba(10,10,12,.18);
+  --paper:#0A0A0C; --paper-soft:#3F3F3A; --paper-mute:#6A6A65; --paper-deep:#8A8A85; --paper-bright:#FFFFFF;
+  --ink-deep-15:rgba(255,255,255,.18); --ink-deep-20:rgba(255,255,255,.22); --ink-deep-25:rgba(255,255,255,.28);
+  --ink-deep-40:rgba(255,255,255,.42); --ink-deep-62:rgba(255,255,255,.62);
+  --ink-deep-75:rgba(244,244,240,.78); --ink-deep-78:rgba(244,244,240,.85); --ink-deep-85:rgba(244,244,240,.90);
+  --ink-000-18:rgba(255,255,255,.18); --ink-000-50:rgba(255,255,255,.5); --ink-000-60:rgba(255,255,255,.6); --ink-000-62:rgba(255,255,255,.62);
+  --rule:var(--ink-line); --rule-strong:var(--ink-rule);
+  --lime:#5F7D00; --lime-soft:#7AA300; --lime-deep:#4A6300; --lime-ink:#3F5A05; --lime-ink-deep:#2E4303; --lime-glow:rgba(95,125,0,.20); --lime-olive:#5F7D00; --lime-40:rgba(95,125,0,.4);
+  --shadow-xs:0 1px 2px rgba(10,10,12,.08);
+  --shadow-sm:0 2px 8px rgba(10,10,12,.08);
+  --shadow:0 14px 30px -14px rgba(10,10,12,.18);
+  --shadow-md:0 20px 44px -18px rgba(10,10,12,.20);
+  --shadow-lg:0 30px 60px -24px rgba(10,10,12,.22);
+  --shadow-lime:0 22px 60px -22px rgba(156,203,31,.35);
+}
+/* En claro el acento verde es #5F7D00 (root). El texto sobre superficies verdes
+   usa --ink-000 (claro), así que no se fuerza texto oscuro sobre verde. */
+
+/* Botón de tema (header) */
+.theme-toggle{
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--rule-strong); background:transparent; color:var(--fg);
+  display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex:0 0 auto;
+  transition:border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.theme-toggle:hover{ border-color:var(--lime); color:var(--lime); }
+.theme-toggle svg{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-sun{ display:block; }
+html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
+
+/* Nav y footer SIEMPRE en oscuro (aunque el tema sea claro).
+   Se re-declaran los tokens dark en .site-header/.site-footer para que todo su
+   contenido use la paleta oscura, sin afectar el resto de la página. */
+html[data-theme="light"] .site-header,
+html[data-theme="light"] .site-footer{
+  --ink-000:#050507; --ink-deep:#0A0A0C; --ink:#111114; --ink-card:#18181C; --ink-elev:#232328;
+  --ink-soft:#2A2A28;
+  --ink-line:rgba(244,244,240,.08); --ink-line-soft:rgba(244,244,240,.04); --ink-rule:rgba(244,244,240,.16);
+  --paper:#F4F4F0; --paper-soft:#C9C9C2; --paper-mute:#80807A; --paper-deep:#5A5A55; --paper-bright:#FFFFFF;
+  --ink-deep-15:rgba(5,5,7,.15); --ink-deep-20:rgba(5,5,7,.20); --ink-deep-25:rgba(5,5,7,.25);
+  --ink-deep-40:rgba(5,5,7,.40); --ink-deep-62:rgba(5,5,7,.62); --ink-deep-75:rgba(5,5,7,.75);
+  --ink-deep-78:rgba(10,10,12,.82); --ink-deep-85:rgba(5,5,7,.85);
+  --bg-alt:#050507;
+  --rule:var(--ink-line); --rule-strong:var(--ink-rule);
+  --fg:#F4F4F0; --fg-soft:#C9C9C2; --fg-mute:#80807A; --fg-deep:#5A5A55;
+  --lime:#D4FF3D; --lime-soft:#E2FF73; --lime-deep:#9CCB1F; --lime-ink:#648A08; --lime-ink-deep:#3F5A05; --lime-glow:rgba(212,255,61,.20); --lime-olive:rgb(192,202,51);
+  color:#F4F4F0;
+}
+html[data-theme="light"] .site-header{ background:rgba(10,10,12,.82); border-bottom-color:rgba(244,244,240,.08); }
+html[data-theme="light"] .site-footer{ background:#050507; border-top-color:rgba(244,244,240,.08); }
+html[data-theme="light"] .site-header .nav-links a[aria-current="page"],
+html[data-theme="light"] .site-header .nav-links a:hover{ color:var(--lime); }
+
+/* --- Contraste en tema claro: superficies lima y claras → texto oscuro --- */
+html[data-theme="light"]{ --bg-tile:#ECECE6; }
+
+/* Superficies "invertidas" (tiles, tarjeta destacada, CTA lima): tokens oscuros
+   para que el texto quede oscuro sobre claro/lima. */
+html[data-theme="light"] .tile-section,
+html[data-theme="light"] .tier-card.featured{
+  --ink-000:#050507; --ink-deep:#0A0A0C; --ink:#111114; --ink-card:#18181C; --ink-elev:#232328;
+  --ink-soft:#5A5A55;
+  --ink-line:rgba(5,5,7,.12); --ink-line-soft:rgba(5,5,7,.06); --ink-rule:rgba(5,5,7,.22);
+  --ink-deep-15:rgba(5,5,7,.15); --ink-deep-20:rgba(5,5,7,.20); --ink-deep-25:rgba(5,5,7,.25);
+  --ink-deep-40:rgba(5,5,7,.40); --ink-deep-62:rgba(5,5,7,.62); --ink-deep-75:rgba(5,5,7,.75);
+  --rule:var(--ink-line); --rule-strong:var(--ink-rule);
+  --fg-on-tile:#0A0A0C; --fg-on-tile-mute:#5A5A55;
+  --paper:#F4F4F0; --paper-soft:#5A5A55; --paper-mute:#80807A;
+  --lime-ink:#648A08;
+}
+html[data-theme="light"] .tier-card.featured{ background:#ECECE6; border-color:#ECECE6; }
+
+/* Superficies verdes oscuras (acento #5F7D00 en claro): texto sobre ellas → claro.
+   Dentro de tiles claros (scoping dark) el acento verde también necesita texto claro. */
+html[data-theme="light"] .tile-section .btn--ghost.btn--ghost-green,
+html[data-theme="light"] .tile-section .hl,
+html[data-theme="light"] .tile-section .fx-listbox li[aria-selected="true"] { color:#F4F4F0; }
+html[data-theme="light"] .closing-cta .lime,
+html[data-theme="light"] .closing-cta h2 .lime { color:#D4FF3D; }
+
+/* Hover de botones ghost-limón en claro: verde legible (no blanco invisible) */
+html[data-theme="light"] .btn--ghost.btn--ghost-lime:hover { color:#3F5A05; border-color:#3F5A05; }
+
+/* Superficies "papel" (tiles de logos, inputs y contrato): fondo claro también en claro */
+html[data-theme="light"] .client-logo { background:#F4F4F0; }
+html[data-theme="light"] .class-step-input { background:#F4F4F0; color:#0A0A0C; }
+html[data-theme="light"] .contract-doc { background:#F4F4F0; color:#0A0A0C; }

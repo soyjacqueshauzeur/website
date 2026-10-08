@@ -30,6 +30,8 @@ const canonicals = new Set();
 const indexable = [];
 
 for (const f of files) {
+  /* La tienda (es/tienda/**) es un demo noindex aparte, fuera del SEO del sitio. */
+  if (f.startsWith('es/tienda/')) continue;
   const base = f.split('/').pop();
   const html = readFileSync(f, 'utf8');
   const noindex = isNoindex(base);

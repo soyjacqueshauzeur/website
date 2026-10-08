@@ -299,6 +299,8 @@ const files = execSync(
 
 let changed = 0;
 for (const file of files) {
+  /* La tienda (es/tienda/**) tiene su propio <head>/tema y es noindex: no se gestiona aquí. */
+  if (file.startsWith('es/tienda/')) continue;
   let src = readFileSync(file, 'utf8');
   const info = readPage(src);
   const block = buildBlock(file, src, info);

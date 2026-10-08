@@ -146,3 +146,34 @@
   document.querySelectorAll('.ft-year').forEach(function (el) { el.textContent = year; });
   document.querySelectorAll('.ft-month').forEach(function (el) { el.textContent = month; });
 })();
+
+/* Theme toggle — misma lógica que la tienda (localStorage 'jh-theme').
+   El <head> ya fija data-theme; aquí se reactiva y se conecta el botón. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var KEY = 'jh-theme';
+  function apply(t) {
+    root.setAttribute('data-theme', t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', t === 'dark' ? '#0A0A0C' : '#F4F4F0');
+    document.querySelectorAll('.theme-toggle').forEach(function (b) {
+      b.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+    });
+  }
+  var current = root.getAttribute('data-theme');
+  if (current !== 'light' && current !== 'dark') {
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'light' || saved === 'dark') { current = saved; }
+    else { var h = new Date().getHours(); current = (h >= 4 && h < 18) ? 'light' : 'dark'; }
+  }
+  apply(current);
+  document.querySelectorAll('.theme-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  });
+})();

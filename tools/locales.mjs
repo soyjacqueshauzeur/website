@@ -50,6 +50,7 @@ export const LOCALES = {
     menuCloseShort: 'Close',
     cta: 'Book a video call',
     langLabel: 'Language',
+    themeToggle: 'Toggle light/dark theme',
     footerExplore: 'Explore',
     footerBrand:
       '<p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
@@ -85,6 +86,7 @@ export const LOCALES = {
     menuCloseShort: 'Cerrar',
     cta: 'Agenda video-llamada',
     langLabel: 'Idioma',
+    themeToggle: 'Cambiar tema claro/oscuro',
     footerExplore: 'Explorar',
     footerBrand:
       '<p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
