@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /*
  * apply-adsense.mjs — inserta el script de Google AdSense en el <head> de los
- * artículos del blog (EN + ES). NO toca los listados (blog.html / es/blog.html)
- * ni los archivos mensuales (…/index.html).
+ * artículos del blog (EN + ES) y del home EN (index.html). NO toca el home ES,
+ * los listados (blog.html / es/blog.html) ni los archivos mensuales (…/index.html).
  *
  * Idempotente: escribe el bloque marcado `<!-- adsense:start --> … <!-- adsense:end -->`
  * (se reemplaza, nunca se duplica). Se ancla tras `<!-- seo:end -->` si existe.
@@ -19,8 +19,9 @@ const BLOCK = `${START}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CLIENT}" crossorigin="anonymous"></script>
   ${END}`;
 
-/* Solo artículos: blog/<año>/<mes>/<slug>.html y es/blog/<año>/<mes>/<slug>.html */
-const isArticle = (f) => /^(?:es\/)?blog\/\d{4}\/\d{2}\/[^/]+\.html$/.test(f);
+/* Objetivos: artículos blog/<año>/<mes>/<slug>.html y es/blog/<año>/<mes>/<slug>.html,
+ * más el home EN (index.html). NO el home ES ni los listados/mensuales. */
+const isTarget = (f) => f === 'index.html' || /^(?:es\/)?blog\/\d{4}\/\d{2}\/[^/]+\.html$/.test(f);
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const RE_BLOCK = new RegExp(esc(START) + '[\\s\\S]*?' + esc(END));
@@ -36,7 +37,7 @@ const files = execSync(
 
 let changed = 0;
 for (const file of files) {
-  if (!isArticle(file)) continue;
+  if (!isTarget(file)) continue;
   let src;
   try { src = readFileSync(file, 'utf8'); } catch { continue; }
   const orig = src;
