@@ -54,6 +54,7 @@ Ambos deben terminar en `PASS`. Si alguno da `FAIL`, corregir (imagen/sección q
   - Artículo: **lightbox**, botones de compartir, **barra de progreso de lectura** y resaltado del sidebar (`sidebar-link.active`).
 - **Lightbox**: al hacer click en la imagen top (`.article-hero-media img`, `.article-content figure img`, `.article-gallery img`) se abre `.lightbox` a tamaño completo (`max-width: 96vw; max-height: 88vh`). Se cierra con el botón `.lightbox-close`, clic en el fondo o `Esc`; con varias imágenes hay flechas ‹ ›.
 - `assets/js/site.js`: nav/drawer, preferencia de idioma (cookie `lang`), hero A/B, sombra del header.
+- **AdSense (artículos del blog)**: el **código único** es la constante `adsense` (string) en `assets/js/adsense.js`; para cambiar de unidad basta con reemplazar ese string. El módulo se auto-monta si existen `.article-main` y `.article-footer`, e inyecta el código tras `.article-lead` (config `ANCHOR`, o `'before-footer'`), entre comentarios `<!-- adsense:unit:start/end -->`. Cada artículo solo lo referencia con un bloque comentado `<!-- adsense.js:start -->…<!-- adsense.js:end -->` que añade `node tools/apply-adsense-tag.mjs` (idempotente; también limpia unidades inline antiguas). El loader del `<head>` lo pone `node tools/apply-adsense.mjs`.
 
 ### Vault de Obsidian (escritura y vínculos)
 - En `assets/blog-vault/` vive un **vault de Obsidian** (abrirlo con “Open folder as vault”): una nota por artículo en `blog/<año>/<mes>/<slug>.md` (espejo de la web).

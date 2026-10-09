@@ -279,6 +279,19 @@
   align-items: start;
 }
 
+/* Google AdSense unit (in-body) — reserva altura para evitar CLS al cargar */
+.article-ad {
+  margin-block: var(--space-8);
+  min-height: 280px;
+  overflow: clip;
+}
+
+@media (max-width: 720px) {
+  .article-ad { min-height: 250px; }
+}
+
+.article-ad ins.adsbygoogle { display: block; }
+
 .article-main {
   min-width: 0;
 }
