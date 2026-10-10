@@ -14,7 +14,7 @@ export const SITE = {
   logo: '/assets/logo.png',
   logo1920: '/assets/logo-1920.png',
   ogImage: '/assets/og-default.png',
-  personImage: '/assets/img/me.jpeg',
+  personImage: '/assets/img/me.avif',
   telephone: '+573507402009',
   areaServed: 'Worldwide',
   sameAs: [

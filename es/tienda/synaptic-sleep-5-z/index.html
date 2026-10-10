@@ -1166,12 +1166,12 @@
       upsell:   { id:'synaptic-pro',  name:'SYNAPTIC SLEEP 5-Z Pro',  unit:118000, unitOld:159000, pendiente:true },  // upsell
       downsell: { id:'synaptic-mini', name:'SYNAPTIC SLEEP 5-Z Mini', unit:64000,  unitOld:89000,  pendiente:true },  // downsell
       addons: [  // cross-sell / productos complementarios (PENDIENTE precios reales)
-        { id:'funda',     name:'Funda de repuesto',      unit:29000, unitOld:39000, img:'images/funda-de-repuesto.jpg',    pendiente:true },
-        { id:'cojin',     name:'Cojín lumbar',           unit:49000, unitOld:69000, img:'images/cojin-lumbar.jpg',         pendiente:true },
-        { id:'antifaz',   name:'Antifaz de descanso',    unit:24000, unitOld:34000, img:'images/antifaz-descanso.jpg',     pendiente:true },
-        { id:'aroma',     name:'Aromatizante de lavanda',unit:19000, unitOld:29000, img:'images/aromatizante-lavanda.jpg', pendiente:true },
-        { id:'protector', name:'Protector impermeable',  unit:22000, unitOld:32000, img:'images/protector-impermeable.jpg',pendiente:true },
-        { id:'tapones',   name:'Tapones para dormir',    unit:15000, unitOld:25000, img:'images/tapones-dormir.jpg',       pendiente:true }
+        { id:'funda',     name:'Funda de repuesto',      unit:29000, unitOld:39000, img:'images/funda-de-repuesto.avif',    pendiente:true },
+        { id:'cojin',     name:'Cojín lumbar',           unit:49000, unitOld:69000, img:'images/cojin-lumbar.avif',         pendiente:true },
+        { id:'antifaz',   name:'Antifaz de descanso',    unit:24000, unitOld:34000, img:'images/antifaz-descanso.avif',     pendiente:true },
+        { id:'aroma',     name:'Aromatizante de lavanda',unit:19000, unitOld:29000, img:'images/aromatizante-lavanda.avif', pendiente:true },
+        { id:'protector', name:'Protector impermeable',  unit:22000, unitOld:32000, img:'images/protector-impermeable.avif',pendiente:true },
+        { id:'tapones',   name:'Tapones para dormir',    unit:15000, unitOld:25000, img:'images/tapones-dormir.avif',       pendiente:true }
       ]
     };
     var PRODUCT = CATALOG.main.name;
@@ -1454,6 +1454,31 @@
     form.querySelectorAll('input[name="pago"]').forEach(function (r) { r.addEventListener('change', updatePay); });
     updatePay();
 
+    /* Pago online: crea la preferencia en el backend serverless y redirige. */
+    function loadCheckout(cb) {
+      if (window.JH_CHECKOUT) { cb(); return; }
+      var s = document.createElement('script');
+      s.src = '/assets/js/checkout.js';
+      s.onload = function () { cb(); };
+      s.onerror = function () { alert('No se pudo cargar el checkout'); };
+      document.head.appendChild(s);
+    }
+    function startOnlinePayment(payload) {
+      if (['1', '2', '3'].indexOf(String(payload.qty)) === -1) {
+        alert('Para más de 6 unidades, pide una cotización por WhatsApp.');
+        return;
+      }
+      loadCheckout(function () {
+        window.JH_CHECKOUT.pay({
+          area: 'tienda',
+          items: [{ id: 'synaptic-sleep-5-z-' + payload.qty, qty: 1 }],
+          payer: { name: payload.nombre, email: payload.correo },
+          back: '/es/tienda/synaptic-sleep-5-z/gracias.html',
+          backFail: '/es/tienda/synaptic-sleep-5-z/pago-fallido.html'
+        }).catch(function (err) { alert(err.message || 'No se pudo iniciar el pago'); });
+      });
+    }
+
     /* Envío */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1502,7 +1527,15 @@
           'Dirección: ' + payload.direccion +
           (payload.indicaciones ? '\nIndicaciones: ' + payload.indicaciones : '');
         window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+        window.location.href = CHECKOUT_URL;
+        return;
       }
+
+      if (payload.pago === 'online') {
+        startOnlinePayment(payload);
+        return;
+      }
+
       window.location.href = CHECKOUT_URL; // demo: gracias.html
     });
 

@@ -82,3 +82,11 @@ window.location.href = r.init_point;   // Checkout Pro
   aparte (Railway/Fly/Render o funciones serverless), o todo junto con Express.
 - Cambia `noindex, nofollow` por tus metas reales y actualiza el dominio en
   `og:image`, JSON-LD y `PUBLIC_BASE_URL`.
+
+## Producción en GitHub Pages (sin exponer tokens)
+GitHub Pages solo sirve estáticos: no puede guardar el `MP_ACCESS_TOKEN`. La
+forma correcta es dejar la web en Pages y el **secreto** en un backend serverless
+que crea la preferencia y devuelve el `init_point`. Ver
+[`cloudflare/`](./cloudflare/README.md) (Cloudflare Worker listo para desplegar,
+con CORS y webhook). El mismo patrón sirve en Vercel/Netlify Functions, Deno
+Deploy, Render, etc.

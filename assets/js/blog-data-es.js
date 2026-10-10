@@ -9,7 +9,7 @@ window.BLOG_POSTS_ES = [
     "date": "02 Oct 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
-    "image": "../assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-thumbnail.jpeg",
+    "image": "../assets/img/blog/2026/10/ia-en-el-trabajo/2026-10-ia-en-el-trabajo-thumbnail.avif",
     "featured": true,
     "url": "blog/2026/10/ia-en-el-trabajo.html"
   },
@@ -22,7 +22,7 @@ window.BLOG_POSTS_ES = [
     "date": "30 Sep 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
-    "image": "../assets/img/blog/2026/09/ia-vida-moderna/2026-09-ia-vida-moderna-thumbnail.webp",
+    "image": "../assets/img/blog/2026/09/ia-vida-moderna/2026-09-ia-vida-moderna-thumbnail.avif",
     "featured": false,
     "url": "blog/2026/09/ia-vida-moderna.html"
   },
@@ -35,7 +35,7 @@ window.BLOG_POSTS_ES = [
     "date": "25 Sep 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
-    "image": "../assets/img/blog/2026/09/webs-2026/2026-09-webs-2026-thumbnail.webp",
+    "image": "../assets/img/blog/2026/09/webs-2026/2026-09-webs-2026-thumbnail.avif",
     "featured": false,
     "url": "blog/2026/09/webs-2026.html"
   },
@@ -48,7 +48,7 @@ window.BLOG_POSTS_ES = [
     "date": "01 Oct 2026",
     "author": "Jacques Hauzeur",
     "readTime": "5 min",
-    "image": "../assets/img/blog/2026/09/chat-marketing/2026-09-chat-marketing-thumbnail.webp",
+    "image": "../assets/img/blog/2026/09/chat-marketing/2026-09-chat-marketing-thumbnail.avif",
     "featured": false,
     "url": "blog/2026/09/chat-marketing.html"
   }

@@ -1175,6 +1175,27 @@
     form.querySelectorAll('input[name="pago"]').forEach(function (r) { r.addEventListener('change', updatePay); });
     updatePay();
 
+    /* Pago online: crea la preferencia en el backend serverless y redirige. */
+    function loadCheckout(cb) {
+      if (window.JH_CHECKOUT) { cb(); return; }
+      var s = document.createElement('script');
+      s.src = '/assets/js/checkout.js';
+      s.onload = function () { cb(); };
+      s.onerror = function () { alert('No se pudo cargar el checkout'); };
+      document.head.appendChild(s);
+    }
+    function startOnlinePayment(payload) {
+      loadCheckout(function () {
+        window.JH_CHECKOUT.pay({
+          area: 'tienda',
+          items: [{ id: 'synaptic-sleep-5-z-' + payload.qty, qty: 1 }],
+          payer: { name: payload.nombre, email: payload.correo },
+          back: '/es/tienda/synaptic-sleep-5-z/gracias.html',
+          backFail: '/es/tienda/synaptic-sleep-5-z/pago-fallido.html'
+        }).catch(function (err) { alert(err.message || 'No se pudo iniciar el pago'); });
+      });
+    }
+
     /* Envío */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1221,7 +1242,15 @@
           'Dirección: ' + payload.direccion +
           (payload.indicaciones ? '\nIndicaciones: ' + payload.indicaciones : '');
         window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+        window.location.href = CHECKOUT_URL;
+        return;
       }
+
+      if (payload.pago === 'online') {
+        startOnlinePayment(payload);
+        return;
+      }
+
       window.location.href = CHECKOUT_URL; // demo: gracias.html
     });
 

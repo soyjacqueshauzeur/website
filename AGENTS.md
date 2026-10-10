@@ -92,6 +92,13 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
   ```
 - Los datos del carrito (precios mensuales, monedas, meses, WhatsApp/Telegram) viven en `assets/js/hire-data.js` (EN) y `hire-data-es.js` (ES); el carrito es `assets/js/hire.js` y su CSS está en `styles.css` (bloque "Monthly hire").
 
+## Imágenes (AVIF)
+- **Imágenes de contenido = `.avif`** (clientes, blog, `me/me3/meCity/blog.jpg`, tienda). Cada avif vive en la carpeta de su gemelo; los originales (png/jpg/jpeg/webp) reemplazados se **archivaron en `assets/img/avif/`** (ya no se referencian).
+- **Incluye el blog completo**: `-top` (hero + `og:image`/`twitter:image`/JSON-LD), `-thumbnail` y `blog.jpg` son `.avif`.
+- **Excepciones que NO son avif** (por compatibilidad): `assets/og-default.png` y `assets/og/*.png` (Open Graph/Twitter de páginas no-blog), `apple-touch-icon.png`, `favicon.ico/svg`, `logo.png`/`logo-1920.png`, `flags/*.svg`, `gallery.html`, `assets/img/journal-light.webp` y 3 logos de clientes sin avif (`fedecajas`, `gustavo-ramirez`, `vive-sas`).
+- **Verificación**: `node tools/img-check.mjs` comprueba que toda imagen referenciada (src/srcset/data-img/og:image/url()/JSON-LD) exista; debe dar `PASS` (excluye `gallery.html`, demo).
+- **Nota**: `og:image` del blog ahora es `.avif` (coherente con `apply-seo`, que lo deriva del hero). Trade-off: algunas redes pueden no previsualizar avif. Las tools que generan imágenes (`build-logo`, `build-og`, `new-post`) siguen en png/webp (pendiente).
+
 ## SEO (canonical, hreflang, structured data)
 - **Dominio canónico = `https://soyjacqueshauzeur.dev`** (coincide con `CNAME`). Vive en `tools/seo.mjs` (`SITE`): no hardcodear el dominio en ningún otro sitio.
 - `tools/apply-seo.mjs` es idempotente y **dueño** del bloque `<!-- seo:start --> … <!-- seo:end -->` en cada HTML: canonical self-referencing, `hreflang` EN/ES/x-default, `robots`, Open Graph/Twitter y JSON-LD `@graph` (Organization + Person + WebSite + nodo de página). NO editar ese bloque a mano.
@@ -108,4 +115,19 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - Los precios canónicos SIEMPRE están en USD. Cada precio renderizado puede llevar un `<span class="price-approx" data-approx="<usd>">` que fx rellena con `≈ <local>`. Selector de moneda = cualquier elemento `[data-fx-anchor]` (etiquetas nativas de moneda).
 - Quote estructurado para futuras pasarelas en `localStorage['jh-pay-quote']` (moneda, items en USD + local, totales) — se escribe al cambiar carrito/horas/moneda. La llamada a PayPal/MercadoPago es una etapa futura; aquí solo se persiste.
 - `hire.js` y `class-booking.js` exponen helpers `AX(n)` (span approx) / `renderFX()` / `renderNodeFX(id, usd)` y escuchan `jh:fxchange`. En FX no hay textos por idioma: los nombres de moneda son nativos y el label del picker usa `<html lang>`.
+
+## MCP MercadoPago (dudas de checkout/pagos)
+- Para preguntas de pagos/checkout (Checkout Pro, preferencias, webhooks, credenciales, pruebas) usar las tools del MCP **`mercadopago`** (p. ej. `search-documentation`) en lugar de inventar endpoints, campos o flujos.
+- Config **personal, no va al repo**: `~/.config/opencode/opencode.jsonc` con `"mercadopago"` (`type: remote`, `url: https://mcp.mercadopago.com/mcp`, `oauth: false`) y el Access Token en `~/.config/opencode/mercadopago.token` (`chmod 600`), leído con `{file:…}`. Nunca commitear el token.
+- Con Access Token **no** están disponibles `application_list`, `create_application`, `get_credentials` (requieren OAuth).
+- El backend de ejemplo del store (`es/tienda/synaptic-sleep-5-z/server/`) es solo demo (`example-server.js` + `.env.example`).
+
+## Pagos reales (Checkout Pro) — backend serverless multi-área
+- La web es estática (GitHub Pages): **el Access Token NUNCA va en el repo/HTML/JS**. Vive como secreto en un backend serverless.
+- Backend genérico listo para desplegar: `es/tienda/synaptic-sleep-5-z/server/cloudflare/` (`worker.js` + `catalog.json` + `wrangler.toml` + `README.md`). Soporta áreas `tienda`, `services`, `sessions`; los precios salen del **catálogo del servidor** (no del navegador).
+- Cliente compartido: `assets/js/checkout.js` (`window.JH_CHECKOUT.pay({ area, items:[{id,qty}], payer?, back?, backFail? })`); se carga de forma perezosa desde `hire.js` (servicios), `class-booking.js` (1:1) y las páginas de la tienda (`product.html` / `index.html`). Edita su `BACKEND` (o define `window.JH_CHECKOUT_BACKEND`).
+- Desplegar: `wrangler secret put MP_ACCESS_TOKEN` + `wrangler deploy`. En producción, `accountCurrency` COP y los precios USD de servicios/1:1 se convierten a COP (tasa `USD_COP` o Frankfurter).
+- Endpoints: `POST /crear-preferencia` (pago único) y `POST /crear-suscripcion` (`preapproval`, mensual; cliente `JH_CHECKOUT.subscribe`). **Idempotencia** vía `X-Idempotency-Key` (el cliente la manda; anti doble-clic).
+- Webhook `POST /webhook/mercadopago`: responde **200 al instante** y procesa con `ctx.waitUntil`; persiste el pago en KV si el binding `PAYMENTS` está configurado (si no, loguea).
+- Estado/avance y pendientes: `es/tienda/synaptic-sleep-5-z/server/cloudflare/STATUS.md`.
 

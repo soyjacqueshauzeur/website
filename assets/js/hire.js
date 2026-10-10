@@ -328,6 +328,7 @@
     if (body) body.innerHTML = cartBodyHTML();
     var foot = document.getElementById('hire-cart-foot');
     if (foot) foot.innerHTML = cartFootHTML();
+    updatePayButtons();
     renderFX();
     if (window.JH_FX && window.JH_FX.picker) window.JH_FX.picker();
     saveQuoteFX();
@@ -413,6 +414,37 @@
     goToContract();
   }
 
+  /* ---------------- MercadoPago Checkout Pro ---------------- */
+  function isMP() { return state.payId === 'mercadopago'; }
+  function loadCheckout(cb) {
+    if (window.JH_CHECKOUT) { cb(); return; }
+    var s = document.createElement('script');
+    s.src = '/assets/js/checkout.js';
+    s.onload = function () { cb(); };
+    s.onerror = function () { toast('No se pudo cargar el checkout'); };
+    document.head.appendChild(s);
+  }
+  function updatePayButtons() {
+    var wa = document.querySelector('[data-wa-send]');
+    if (!wa) return;
+    wa.innerHTML = isMP()
+      ? (D.lang === 'es' ? 'Pagar con Mercado Pago' : 'Pay with Mercado Pago') + arrow()
+      : L.wa + arrow();
+  }
+  function payWithMP() {
+    if (!state.cart.length) { toast(L.empty); return; }
+    loadCheckout(function () {
+      var es = D.lang === 'es';
+      var items = state.cart.map(function (l) { return { id: l.id, qty: l.months }; });
+      window.JH_CHECKOUT.pay({
+        area: 'services',
+        items: items,
+        back: es ? '/es/services.html?pago=ok' : '/services.html?pago=ok',
+        backFail: es ? '/es/services.html?pago=error' : '/services.html?pago=error'
+      }).catch(function (err) { toast(err.message || 'No se pudo iniciar el pago'); });
+    });
+  }
+
   /* ---------------- events (delegated) ---------------- */
   function onClick(e) {
     var t = e.target;
@@ -496,10 +528,11 @@
       state.payId = input ? input.value : state.payId;
       var all = document.querySelectorAll('.hire-pay-opt');
       for (var i = 0; i < all.length; i++) all[i].classList.toggle('sel', all[i] === pay);
+      updatePayButtons();
       return;
     }
 
-    if (t.closest('[data-wa-send]')) { sendWhatsApp(); return; }
+    if (t.closest('[data-wa-send]')) { if (isMP()) payWithMP(); else sendWhatsApp(); return; }
     if (t.closest('[data-tg-send]')) { sendTelegram(); return; }
   }
 
@@ -512,6 +545,7 @@
     renderCatalogues();
     renderPanels();
     updateUI();
+    updatePayButtons();
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', onKey);
     if (window.JH_FX) {

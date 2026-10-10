@@ -1,0 +1,37 @@
+{
+  "accountCurrency": "COP",
+  "fx": { "USD": 4000 },
+  "areas": {
+    "tienda": {
+      "success": "/es/tienda/synaptic-sleep-5-z/gracias.html",
+      "pending": "/es/tienda/synaptic-sleep-5-z/gracias.html",
+      "failure": "/es/tienda/synaptic-sleep-5-z/pago-fallido.html",
+      "items": [
+        { "id": "synaptic-sleep-5-z-1", "title": "Synaptic Sleep 5-Z · 1 unidad", "price": 84000, "currency": "COP" },
+        { "id": "synaptic-sleep-5-z-2", "title": "Synaptic Sleep 5-Z · 2 unidades", "price": 159000, "currency": "COP" },
+        { "id": "synaptic-sleep-5-z-3", "title": "Synaptic Sleep 5-Z · 3 unidades", "price": 229000, "currency": "COP" }
+      ]
+    },
+    "services": {
+      "success": "/services.html?pago=ok",
+      "pending": "/services.html?pago=ok",
+      "failure": "/services.html?pago=error",
+      "items": [
+        { "id": "marketing", "title": "Marketing · monthly hire", "price": 497, "currency": "USD" },
+        { "id": "campaigns", "title": "Campaigns · monthly hire", "price": 397, "currency": "USD" },
+        { "id": "chatbots", "title": "Chatbots · monthly hire", "price": 597, "currency": "USD" },
+        { "id": "ai", "title": "AI · monthly hire", "price": 497, "currency": "USD" },
+        { "id": "money", "title": "Financial planning · monthly hire", "price": 197, "currency": "USD" },
+        { "id": "ecommerce", "title": "Web & e-commerce · monthly hire", "price": 297, "currency": "USD" }
+      ]
+    },
+    "sessions": {
+      "success": "/sessions.html?pago=ok",
+      "pending": "/sessions.html?pago=ok",
+      "failure": "/sessions.html?pago=error",
+      "items": [
+        { "id": "session-90", "title": "1:1 session · 90 min", "price": 15, "currency": "USD" }
+      ]
+    }
+  }
+}

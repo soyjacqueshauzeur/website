@@ -225,6 +225,7 @@
     if (body) body.innerHTML = cartBodyHTML();
     var foot = document.getElementById('class-cart-foot');
     if (foot) foot.innerHTML = cartFootHTML();
+    updatePayButtons();
     renderFX();
     saveQuoteFX();
   }
@@ -289,6 +290,35 @@
     window.open('https://t.me/' + D.telegram, '_blank', 'noopener');
   }
 
+  /* ---------------- MercadoPago Checkout Pro ---------------- */
+  function isMP() { return state.payId === 'mercadopago'; }
+  function loadCheckout(cb) {
+    if (window.JH_CHECKOUT) { cb(); return; }
+    var s = document.createElement('script');
+    s.src = '/assets/js/checkout.js';
+    s.onload = function () { cb(); };
+    s.onerror = function () { toast('No se pudo cargar el checkout'); };
+    document.head.appendChild(s);
+  }
+  function updatePayButtons() {
+    var wa = document.querySelector('[data-class-wa]');
+    if (!wa) return;
+    wa.innerHTML = isMP()
+      ? (ES ? 'Pagar con Mercado Pago' : 'Pay with Mercado Pago') + arrow()
+      : T.waSend + arrow();
+  }
+  function payWithMP() {
+    if (!state.hours) return;
+    loadCheckout(function () {
+      window.JH_CHECKOUT.pay({
+        area: 'sessions',
+        items: [{ id: 'session-90', qty: state.hours }],
+        back: ES ? '/es/sesiones.html?pago=ok' : '/sessions.html?pago=ok',
+        backFail: ES ? '/es/sesiones.html?pago=error' : '/sessions.html?pago=error'
+      }).catch(function (err) { toast(err.message || 'No se pudo iniciar el pago'); });
+    });
+  }
+
   function onClick(e) {
     var t = e.target;
     if (!t || !t.closest) return;
@@ -320,10 +350,11 @@
       state.payId = input ? input.value : state.payId;
       var all = document.querySelectorAll('.hire-pay-opt');
       for (var i = 0; i < all.length; i++) all[i].classList.toggle('sel', all[i] === pay);
+      updatePayButtons();
       return;
     }
 
-    if (t.closest('[data-class-wa]')) { sendWhatsApp(); return; }
+    if (t.closest('[data-class-wa]')) { if (isMP()) payWithMP(); else sendWhatsApp(); return; }
     if (t.closest('[data-class-tg]')) { sendTelegram(); return; }
   }
 
@@ -343,6 +374,7 @@
 
   ready(function () {
     updatePicker();
+    updatePayButtons();
     document.addEventListener('click', onClick);
     document.addEventListener('input', onInput);
     document.addEventListener('keydown', onKey);
