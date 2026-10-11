@@ -43,10 +43,12 @@ for (const file of files) {
   const depth = dirname(file) === '.' ? 0 : dirname(file).split('/').filter(Boolean).length;
   const prefix = m ? m[1].replace(/\/$/, '') : '../'.repeat(depth) + 'assets';
 
-  /* 1) Fuentes */
+  /* 1) Fuentes.
+     Boldonse no se precarga: va incrustada (base64) en el CSS crítico.
+     Inter Tight y Geist Mono son variables → un solo archivo por familia. */
   const fontsBlock = `${FONTS_START}
-  <link rel="preload" href="${prefix}/fonts/inter-tight-400-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="${prefix}/fonts/boldonse-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="${prefix}/fonts/inter-tight-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="${prefix}/fonts/geist-mono-var-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="${prefix}/css/fonts.css" />
   ${FONTS_END}`;
 

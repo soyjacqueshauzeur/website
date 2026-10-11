@@ -1,118 +1,71 @@
 /* Fuentes autoalojadas (generado por tools/fetch-fonts.mjs — no editar a mano). */
 
 @font-face {
-  font-family: 'Boldonse';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../fonts/boldonse-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Inter Tight';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 700;
   font-display: swap;
-  src: url('../fonts/inter-tight-400-cyrillic.woff2') format('woff2');
+  src: url('../fonts/inter-tight-var-cyrillic.woff2') format('woff2');
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
   font-family: 'Inter Tight';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 700;
   font-display: swap;
-  src: url('../fonts/inter-tight-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../fonts/inter-tight-500-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../fonts/inter-tight-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../fonts/inter-tight-600-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../fonts/inter-tight-600-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../fonts/inter-tight-700-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../fonts/inter-tight-700-latin.woff2') format('woff2');
+  src: url('../fonts/inter-tight-var-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
   font-family: 'Geist Mono';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 500;
   font-display: swap;
-  src: url('../fonts/geist-mono-400-cyrillic.woff2') format('woff2');
+  src: url('../fonts/geist-mono-var-cyrillic.woff2') format('woff2');
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
   font-family: 'Geist Mono';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 500;
   font-display: swap;
-  src: url('../fonts/geist-mono-400-latin.woff2') format('woff2');
+  src: url('../fonts/geist-mono-var-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Fallbacks con métricas (evitan CLS durante el intercambio de fuente). */
 @font-face {
-  font-family: 'Geist Mono';
+  font-family: 'Boldonse Fallback';
   font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../fonts/geist-mono-500-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+  font-weight: 100 900;
+  src: local('Arial'), local('Liberation Sans'), local('ArialMT');
+  size-adjust: 117.63%;
+  ascent-override: 129.22%;
+  descent-override: 34.01%;
+  line-gap-override: 0%;
 }
 
 @font-face {
-  font-family: 'Geist Mono';
+  font-family: 'Inter Tight Fallback';
   font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../fonts/geist-mono-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-weight: 100 900;
+  src: local('Arial'), local('Liberation Sans'), local('ArialMT');
+  size-adjust: 95.42%;
+  ascent-override: 101.65%;
+  descent-override: 25.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Geist Mono Fallback';
+  font-style: normal;
+  font-weight: 100 900;
+  src: local('Courier New'), local('Liberation Mono');
+  size-adjust: 99.98%;
+  ascent-override: 101.02%;
+  descent-override: 30%;
+  line-gap-override: 0%;
 }

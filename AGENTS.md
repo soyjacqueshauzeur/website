@@ -93,7 +93,7 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - Los datos del carrito (precios mensuales, monedas, meses, WhatsApp/Telegram) viven en `assets/js/hire-data.js` (EN) y `hire-data-es.js` (ES); el carrito es `assets/js/hire.js` y su CSS está en `styles.css` (bloque "Monthly hire").
 
 ## Imágenes (AVIF)
-- **Imágenes de contenido = `.avif`** (clientes, blog, `me/me3/meCity/blog.jpg`, tienda). Cada avif vive en la carpeta de su gemelo; los originales (png/jpg/jpeg/webp) reemplazados se **archivaron en `assets/img/avif/`** (ya no se referencian).
+- **Imágenes de contenido = `.avif`** (clientes, blog, `me/me3/meCity/blog.jpg`, tienda). Cada avif vive en **la carpeta a la que pertenece** (su ruta canónica); **no** hay carpeta central de imágenes. Los originales (png/jpg/jpeg/webp) reemplazados se eliminaron del repo.
 - **Incluye el blog completo**: `-top` (hero + `og:image`/`twitter:image`/JSON-LD), `-thumbnail` y `blog.jpg` son `.avif`.
 - **Excepciones que NO son avif** (por compatibilidad): `assets/og-default.png` y `assets/og/*.png` (Open Graph/Twitter de páginas no-blog), `apple-touch-icon.png`, `favicon.ico/svg`, `logo.png`/`logo-1920.png`, `flags/*.svg`, `gallery.html`, `assets/img/journal-light.webp` y 3 logos de clientes sin avif (`fedecajas`, `gustavo-ramirez`, `vive-sas`).
 - **Verificación**: `node tools/img-check.mjs` comprueba que toda imagen referenciada (src/srcset/data-img/og:image/url()/JSON-LD) exista; debe dar `PASS` (excluye `gallery.html`, demo).

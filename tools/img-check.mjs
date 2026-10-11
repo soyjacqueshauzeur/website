@@ -21,7 +21,7 @@ const IGNORE = new Set(['gallery.html']);
 
 const files = execSync(
   "find . -type f \\( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.mjs' -o -name '*.json' -o -name '*.xml' \\) " +
-  "-not -path './.git/*' -not -path './node_modules/*' -not -path './graphify-out/*' -not -path './.playwright-mcp/*' -not -path './assets/img/avif/*'",
+  "-not -path './.git/*' -not -path './node_modules/*' -not -path './graphify-out/*' -not -path './.playwright-mcp/*'",
   { encoding: 'utf8' }
 ).trim().split('\n').map((f) => f.replace(/^\.\//, '')).filter(Boolean);
 

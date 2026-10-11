@@ -1,0 +1,446 @@
+commit e2fc8b1fedbfaa8b21d41e71a17503ee0698d68d
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 10 20:06:29 2026 -0500
+
+    A11y (AA contrast, dialog/semantics) + llms.txt generator + critical/min refresh
+    
+    - a11y: cart is <div role=dialog>; footer <h2.footer-heading>; clients.html h2 + logo alt; blog sidebar <div>/h3; lang flag alt=""; add a11y-report.md.
+    - contrast: --paper-mute #80807A -> #9A9A94; .client-id uses --fg-mute; tile pull-quote cite; regenerate critical + min css.
+    - llms: tools/build-llms.mjs -> llms.txt + es/llms.txt; AGENTS.md.
+
+commit 4c455839c94bd87fdfee5bc4e9bc8b491b6dc6b7
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 10 19:24:07 2026 -0500
+
+    Perf mobile: self-host fonts + inline critical CSS + deferred minified CSS
+    
+    - fonts: self-hosted woff2 from fonts.gstatic.com (assets/fonts + fonts.css, swap); Google Fonts removed from all 57 pages; preload key woff2.
+    - css: critical.css inlined in <head>; styles.css/blog.css minified (styles.min.css/blog.min.css) and loaded deferred (media=print onload + noscript).
+    - tools: fetch-fonts, build-critical, minify-css, apply-assets (idempotent); generator tools emit the fonts block; AGENTS.md performance section.
+
+commit 5dc5caf8004f1a2768e249925c0dabc2f9e8a3f6
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 10 18:41:53 2026 -0500
+
+    MercadoPago Checkout Pro backend + AVIF-only images + img-check
+    
+    - payments: Cloudflare Worker (multi-area tienda/services/sessions), server-side catalog, idempotency (X-Idempotency-Key), webhook 200 + KV, preapproval endpoint; shared assets/js/checkout.js wired into hire.js, class-booking.js and the store.
+    - images: content images now .avif only (clients, blog incl. og/twitter/JSON-LD, store, me/blog); originals archived in assets/img/avif/; add tools/img-check.mjs.
+    - docs: AGENTS.md (payments + images policy), cloudflare README/STATUS.
+
+commit 9f6c3b08e53d1be67adfce0af10061e754f9fe27
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Fri Oct 9 15:44:15 2026 -0500
+
+    Add AdSense head-setup note (es/adsense.txt)
+
+commit df3128d89003af4940bdff85e3bea01e5d788cf9
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Fri Oct 9 12:26:41 2026 -0500
+
+    Blog: modular AdSense module (single editable code) for articles (EN+ES)
+    
+    - assets/js/adsense.js: one 'adsense' string + auto-mount in blog articles
+    - reserve .article-ad height and lazy-load via IntersectionObserver (CLS/LCP safe)
+    - articles reference a single module tag, added by idempotent tools/apply-adsense-tag.mjs
+    - blog.css .article-ad; AGENTS.md note
+
+commit f0608ea525b4564d53e1b83a09537174ee5a52f0
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 8 12:50:41 2026 -0500
+
+    Add ads.txt for Google AdSense (pub-3441201236960010)
+
+commit 3a0f00313e9ddffa0c1de48168b96020f3076bba
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 8 12:16:58 2026 -0500
+
+    Home EN: add Google AdSense script; apply-adsense now covers index.html; rebuild sitemap
+
+commit 06530bbc5a720065665e6bb344cbb5b0c688b225
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 8 12:15:12 2026 -0500
+
+    Blog: add Google AdSense script to article heads (EN+ES); idempotent tools/apply-adsense.mjs; rebuild sitemap
+
+commit 987eb67920248a5650da3baf7db3998aa5d06fbc
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Wed Oct 7 19:38:03 2026 -0500
+
+    Add light/dark theme site-wide (#5F7D00 accent; nav+footer always dark); store header/badge fixes; store footer link _blank; remove index2
+
+commit 761ab189295e9e62e523abdf5a55f6f46a97923f
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Wed Oct 7 18:18:38 2026 -0500
+
+    Store: modular footer (SoyJacquesHauzeur), cookies/términos pages, dynamic date; sitemap respects noindex; Store link in site footer; prune unused images
+
+commit 2d3b1595ba62d7d890dd1145a29e72d82f4fd82e
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Wed Oct 7 16:45:21 2026 -0500
+
+    Store: move to es/tienda, add envíos/devoluciones/privacidad, theme toggle, Electric Shadows branding
+
+commit e51ae66dfb2e8ed73a464dddbbe2cd07fb8a6ac4
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Tue Oct 6 22:17:07 2026 -0500
+
+    Add store landing pages (Bio-Rest) + home theme duplicate
+    
+    - store/producto3.html: MercadoLibre-style first screen; time-based light/dark theme; quantity select; monthly countdown (days 15 & last, -10% for 24h); ahorro line; 6 cross-sell addons with square thumbnails; summary + guarantee placement; cookies on scroll
+    - store/product.html & product2.html: Bio-Rest content, themes, real images
+    - store/gracias.html, pago-fallido.html, server example (MercadoPago)
+    - store/images: product + complementary images
+    - index2.html: home duplicate with time-based light/dark theme + toggle
+    - assets/audio: podcast episode (was untracked)
+
+commit 63e4de9233387a7f033f42a549a13f7e6daade43
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 14:04:25 2026 -0500
+
+    Home: 2-col stat strip and logo-first compact client cards on mobile
+
+commit 253a5fafa8bedb985e2e4ac8cc0915834f50a60e
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 13:46:56 2026 -0500
+
+    Rework sessions page: talk-about-your-business CTA, free first chat, paid-session anchor
+
+commit bc95a541bf09ba5fdc24a785dda194bb1c3d31ff
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 12:48:01 2026 -0500
+
+    Chat-marketing post: YouTube video + playlist, reschedule second, 16:9 embed
+
+commit b195d8af8a97b627212392e66adb85d62e46b191
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 11:49:46 2026 -0500
+
+    Home read-more button; tighten article start and top-image gap on mobile
+
+commit 769459140dd687811f6a92edae43c36fe37f90bc
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 11:39:25 2026 -0500
+
+    Full structured-data SEO, sitemap rebuilt per Google, visible sparrow link
+
+commit 251f0297d055ff5286f0390212f2477b62633678
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Oct 3 10:51:34 2026 -0500
+
+    Unify nav/footer site-wide, new blog posts, share + channels
+    
+    Shell
+    - site-shell/apply-nav now support nested depth: blog articles and
+      gallery.html use the canonical header + mobile drawer + footer, with
+      correct relative links at any depth.
+    - Header CTA renamed to "Agenda video-llamada" / "Book a video call"
+      (Google Meet calendar), replacing "Reservar una llamada" / "Book a call".
+    
+    Blog
+    - New posts (EN/ES): chat-marketing, webs-2026, ia-vida-moderna; removed the
+      three old photography posts. Media root images added for each.
+    - Blog listing hero copy reworked; header CTA removed; new topic filters
+      (Todas/All · Ads · AI · Chatbots · Marketing · Negocios · Tecnología · Web,
+      a-z); featured image + title are links; RU flag hidden for now.
+    - Article sidebars: "Del archivo" replaced by "Sígueme/Follow" with
+      Telegram / YouTube / Meet (icons); related notes link to each other.
+    - Share row: LinkedIn · X · WhatsApp · Telegram · Copiar (icon button).
+    
+    Obsidian vault
+    - ia-en-el-trabajo note related links + Meet link updated.
+    
+    Fixes
+    - Sessions: reduced gap between the payment note and the calendar embed.
+    - Removed 4 unused images (journal-colour, journal-archive, process-shoot,
+      studio-room) and cleaned assets/img/CREDITS.md.
+
+commit d22742eb564f1b5ed267483b72556871ce58755b
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Fri Oct 2 17:52:31 2026 -0500
+
+    Blog media root, cards/lightbox polish, Obsidian vault
+    
+    Blog hero (EN/ES)
+    - New copy: "Practical notes and news" / "Notas y noticias prácticas";
+      "The blog of relevant events //" (lime accent); sub mentions practice,
+      ideas, clients, testing and tools like Obsidian.
+    - Removed the "Latest notes" CTA (kept "Browse by discipline").
+    - Meta: 35+ notes · 06+ disciplines · 19+ years of knowledge.
+    - Blog main image is now assets/img/blog.jpg (cropped via aspect-ratio +
+      object-fit: cover).
+    
+    Media root (screaming architecture)
+    - Post images live in assets/img/blog/<year>/<month>/<slug>/ with
+      <year>-<month>-<slug>-<role>.<ext> (top, fig-01, thumbnail); EN/ES share
+      one copy. new-post.mjs now copies/normalizes the image there.
+    
+    New post: ia-en-el-trabajo (EN/ES)
+    - Featured article with infographic lead figure (full width, before reading),
+      clickable numbered citations and a single bibliography; thumbnail used in
+      listing/home cards; lime accent on the title carried into the cards.
+    - Article container max-width 1440px.
+    
+    Blog JS/CSS
+    - Lightbox for article top images (click to enlarge; close button, backdrop,
+      Esc) with styles; home journal cards now clickable via image, title and
+      "Read note"; featured strip spacing fix.
+    
+    Obsidian
+    - New vault assets/blog-vault/ (one note per post, MOC, template) with tags,
+      interlinks, outlinks and own channels (telegram, youtube, meet) replacing
+      "Del archivo"; blog-t.html dropped section 5 (related topics).
+    
+    Colors
+    - Tokenized the 54 hardcoded colors into :root (styles.css) and restored the
+      file header comment.
+
+commit 4d641dd5ba7e35fd02b9e3f14b0efb174af71304
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 1 17:54:13 2026 -0500
+
+    Rework footer brand copy with quantum-marketing line (EN/ES)
+    
+    footerBrand in tools/locales.mjs now reads (ES) 'El marketing, para mí, es
+    cuántico…' and (EN) 'To me, marketing is quantum…'; propagated to all pages via
+    apply-nav/build-hire/build-contract. gallery.html updated manually.
+
+commit 80df2e8a593b0a1bdca3115d6cb4fbe6a1c08945
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 1 17:50:58 2026 -0500
+
+    Tokenize hardcoded colors into :root (styles.css)
+    
+    Move the 54 color literals outside :root into 26 named tokens (--ink-soft,
+    --paper-bright, --lime-ink, --danger, --ink-deep-*, --ink-000-*, --black-*,
+    --paper-18, --lime-40, --cobalt-10) so every color resolves from the palette.
+    Value-preserving: no rendered color changes.
+
+commit f08239c6958c91d673f0153843e3741271333f0e
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Thu Oct 1 13:28:05 2026 -0500
+
+    Bilingual blog under /blog, locale registry, full SEO and per-service OG
+    
+    Blog
+    - Move posts to blog/<year>/<month>/ (EN) and es/blog/<year>/<month>/ (ES), same slug.
+    - Add ES article pages, monthly archives and es/blog.html listing; unify blog-data*.js URLs.
+    
+    Locales / generators
+    - Add tools/locales.mjs registry; site-shell and all generators consume it (no more lang === 'es').
+    - apply-nav is now idempotent; fix drawer close label and switch hreflang (en/es/ru).
+    
+    SEO
+    - Canonical domain soyjacqueshauzeur.dev everywhere.
+    - Add tools/seo.mjs, apply-seo.mjs (canonical, hreflang, robots, OG/Twitter, JSON-LD @graph),
+      build-sitemap.mjs (sitemap.xml + robots.txt) and seo-check.mjs.
+    - Per page: Organization/Person/WebSite + WebPage/Breadcrumb; services Service+Offer+FAQPage,
+      hub OfferCatalog+ItemList, sessions Course, clients CollectionPage+ItemList, blog Blog/BlogPosting.
+    - noindex,nofollow on contracts, *-hire, gallery, blog-t, price-t. Shorten titles/descriptions.
+    
+    Brand / social
+    - Add assets/logo.png, logo-1920.png, og-default.png and 12 per-service OG cards (build-og.mjs).
+    
+    Home
+    - Show a 6-client sample with numbers matching clients.html; add Carlos Castillo as #20.
+
+commit 662750d35260804b6dde88a86e454e47e8aaf419
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Mon Sep 28 16:30:07 2026 -0500
+
+    Rework home copy, heading slashes, lime 1:1 CTA, Telegram channel, and card CTA (EN/ES)
+
+commit e445131a8138c1b0dafa752843bd04ce82b12528
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Mon Sep 28 12:30:49 2026 -0500
+
+    Update AI card title and sync price board titles (EN/ES)
+
+commit aab32a536957bb6554042c94ae499c24fde792d3
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Mon Sep 28 12:26:44 2026 -0500
+
+    Update home hero copy and services intro (EN/ES)
+
+commit 182c838bf5ec45af00a8c4f1b5514a52e857acd6
+Author: Jacques Hauzeur <yhauzeur@gmail.com>
+Date:   Sun Sep 27 21:04:18 2026 -0500
+
+    Update CNAME
+
+commit cbd1c48d8c595e7ef5a5f3612c921d515e8b6356
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sun Sep 27 21:01:24 2026 -0500
+
+    Target main branch for deploys after consolidating on main
+
+commit e330423c2904aed9ca15b84b937bd45ed7aa8fcf
+Merge: 3e71e8a ff0671d
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sun Sep 27 21:01:15 2026 -0500
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 3e71e8ad80f9722dc2b75b242d8b95b3e9ae3fed
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 22:31:46 2026 -0500
+
+    Add hidden footer link to sparrow (invisible, background-colored)
+
+commit 67f9697cb52d14b3b1b4d54846761b0874f8e17c
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 22:28:36 2026 -0500
+
+    Configure GitHub Pages deploy (Actions workflow, .nojekyll, CNAME) and project README
+
+commit c46f4d65bb49d5c9345f5d6889cfbe95f6b39fdb
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 22:26:35 2026 -0500
+
+    Remove unused demo images (moved to Desktop)
+
+commit 08147536f6b896d3a76047733f422a1032433d48
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 22:22:42 2026 -0500
+
+    Ignore internal artifacts (graphify-out, xlsx), untrack graphify-out, add XD logo
+
+commit ff0671d87fb8fe66a1bd202fcec879c1a364b69b
+Author: Jacques Hauzeur <yhauzeur@gmail.com>
+Date:   Sat Sep 26 22:20:33 2026 -0500
+
+    Initial commit
+
+commit a6dcb8f8bc2871534c3905e82d690a15bbab480a
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 22:08:15 2026 -0500
+
+    Add Revolving Tus deudas client (home replaces Centrodiagnostica), cart head lime styling and title
+
+commit 532f6f9c6d9b3edbfac9396ba8f57277b6e5f753
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 18:03:57 2026 -0500
+
+    Publish local tools price-t and blog-t with shared tool navbar
+
+commit 1026e2e80702816e27a16a42a36537343bfa442f
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 17:59:28 2026 -0500
+
+    Rebrand journal to SoyJacquesHauzeur, blog SEO + new-post tool, optimize blog (WebP, prune, dead CSS), unify navbar
+
+commit b7baba71d19ab90aafb6349e41a3c5f7eb882e35
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 15:29:28 2026 -0500
+
+    Add service contracts (per-service + cart-wide) from template, contract bullet and hub links, home card title links
+
+commit 617be4b9bcefc95a46422cdbadd4ba097c260179
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 11:17:32 2026 -0500
+
+    Add FX picker to home, dfn glossary tooltips for ES, USD prefix on all prices
+
+commit 2cfba121860baa7b6484316acc27feb685d2c6b9
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 26 10:50:50 2026 -0500
+
+    Render home hire cards from data, open cart from service hero CTA, multi-anchor FX picker, rename studio to sessions
+
+commit f9ea5eeff88be5461c571ae6e6caf08118f4efda
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Wed Sep 9 12:49:26 2026 -0500
+
+    Add monthly prices to home hire cards, scoped FX CSS, move currency picker above panel copy, make hire cards open service page
+
+commit 8d0e299bc9db1dde415a8cc1cf41737a77cd2eae
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Tue Sep 8 19:42:42 2026 -0500
+
+    Centralize site shell and add multi-currency FX pricing
+    
+    - tools/site-shell.mjs: single source of truth for header/mobile drawer/
+      footer (EN/ES); apply-nav.mjs and build-hire-pages.mjs both consume it
+      so the nav never drifts between generators.
+    - Create studio.html (EN) as the translated mirror of es/studio.html,
+      make class-booking.js bilingual (hire-data.js EN / hire-data-es.js ES)
+      and switch the 1:1 widget to 90-minute sessions.
+    - assets/js/fx.js: Frankfurter rates (no key, 24h cache) with a flag+
+      country currency dropdown; USD stays canonical and every price renders
+      an ≈ local-equivalent line (lime on dark, dark green on light) in hire
+      and class widgets. Persists a structured jh-pay-quote for future
+      payment-gateway calls.
+
+commit 61bb7b289185befcc1b9286afd6a762f4bbd5987
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Tue Sep 8 12:37:58 2026 -0500
+
+    Add 1:1 class-booking widget and green CTA styling
+    
+    - es/studio.html: hourly class payment section with hour selector
+      (chips 1-3 + input up to 48/mo) feeding a side cart drawer that
+      reuses hire payment methods and asks for the payment receipt.
+    - assets/js/class-booking.js: standalone widget (does not depend on
+      hire.js) at 15 USD/hour.
+    - Home CTAs: green-bordered "Agenda tu sesión 1:1 / Book your 1:1
+      session here" buttons (lime bg, dark-green hover) in EN and ES.
+    - Remove Google Calendar scheduling button embed from homepages.
+    - Include gallery.html and clients page tweaks already in the tree.
+
+commit 2f06214ae4caaea62a7268fbb1ca03303498eee0
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Mon Sep 7 16:34:02 2026 -0500
+
+    Add full clients directory, link client sites, drop Contact page
+    
+    Build clients.html and es/clients.html with the complete 53-client grid (logo, country, service tags) from the Notion export, add 40 client logos, and prioritize soyjacqueshauzeur.github.io links. Remove Contact from the site nav/footer and delete the legacy contact pages; point CTAs to WhatsApp.
+
+commit e9cf61a74a29e6fd457bd1d6df2820b796229d4b
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sun Sep 6 15:33:44 2026 -0500
+
+    Add monthly-hire ecommerce pages and redesigned bilingual nav
+
+commit 802a80c8119fb06d4f8dd3830980fb8efb78ec5e
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 5 17:28:55 2026 -0500
+
+    Centralize blog data, show latest posts, real client logos
+    
+    - Home (EN/ES): Journal auto-shows 3 most recent posts from shared data
+    - Blog list sorted newest-first via blog.js/blog-es.js; data moved to
+      blog-data.js / blog-data-es.js loaded before the render scripts
+    - Client cards updated (Kargo SAFE, Jhoanna Sanchez) with real logos
+      fetched from client sites; white-backdrop logo tiles; nofollow links
+    - Localized client countries; removed obsolete SVG placeholders
+    - Blog month index scaffold (2026/07) and responsive nav fixes
+
+commit 4637a9939bd42856b136c1a16afa3d95268340ab
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 5 12:54:49 2026 -0500
+
+    Add bilingual ES site with language flag switcher
+    
+    - US/Colombia flag switcher in header and mobile drawer (EN default,
+      ES under /es/) with language cookie + homepage redirect
+    - hreflang alternates (en/es/x-default) and mirrored ES homepage
+    - ES shells for services, clients, 1:1, blog and contact
+    - flip-x utility, mirrored hero/about portraits, portrait assets
+
+commit dc4e1d0ebf2d9cd665ea7b66687e9c87125bee2b
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 5 11:38:52 2026 -0500
+
+    Personalize homepage as Jacques Hauzeur brand
+    
+    - Homepage: hero, client preview cards with logos, 1:1 pitch,
+      six teaching areas, about, direct contact (WhatsApp/Telegram),
+      press strip, CTA and minimal flex footer
+    - Rename work.html to clients.html and update links
+    - Add client logo placeholders and portrait/chat placeholders
+
+commit 4bb64ce6c691cd0b7832fb694d8b6bce2e5b5560
+Author: Jacques Hauzeur <electricshadows500@gmail.com>
+Date:   Sat Sep 5 10:31:02 2026 -0500
+
+    Zero
