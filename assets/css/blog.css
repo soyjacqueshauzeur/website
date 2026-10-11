@@ -549,6 +549,7 @@
   margin-bottom: var(--space-5);
 }
 
+.sidebar-card h3,
 .sidebar-card h4 {
   font-size: var(--text-sm);
   text-transform: uppercase;

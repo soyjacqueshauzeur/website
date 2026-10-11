@@ -1,0 +1,38 @@
+# Jacques Hauzeur (SoyJacquesHauzeur)
+
+> Jacques Hauzeur (SoyJacquesHauzeur) is a technology educator and mentor for founders and teams — web, marketing, automation and AI. Services are monthly hires priced in USD (chargeable in local currency, e.g. COP); 1:1 sessions are USD $15 per 90-minute class. The site is available in English (/) and Spanish (/es/).
+
+## Pages
+
+- [Home](https://soyjacqueshauzeur.dev/): Who I am and what I do
+- [Clients](https://soyjacqueshauzeur.dev/clients.html): Clients and the results they run on
+- [1:1](https://soyjacqueshauzeur.dev/sessions.html): Book paid 1:1 sessions (USD $15 / 90 min)
+- [Services](https://soyjacqueshauzeur.dev/services.html): The six monthly hires and rates
+- [About me](https://soyjacqueshauzeur.dev/#about): My background and approach
+- [Blog](https://soyjacqueshauzeur.dev/blog.html): Notes on AI, web, marketing and chatbots
+
+## Services (monthly hire, USD)
+
+- [Marketing](https://soyjacqueshauzeur.dev/marketing.html): USD $497/month
+- [Campaigns](https://soyjacqueshauzeur.dev/campaigns.html): USD $397/month
+- [Chatbots](https://soyjacqueshauzeur.dev/chatbots.html): USD $597/month
+- [AI](https://soyjacqueshauzeur.dev/ai.html): USD $497/month
+- [Financial planning](https://soyjacqueshauzeur.dev/financial-planning.html): USD $197/month
+- [Web & e-commerce](https://soyjacqueshauzeur.dev/ecommerce.html): USD $297/month
+
+## 1:1 sessions
+
+- [1:1 sessions](https://soyjacqueshauzeur.dev/sessions.html): USD $15 / 90-minute session
+
+## Blog
+
+- [Artificial intelligence at work: how is it transforming your profession?](https://soyjacqueshauzeur.dev/blog/2026/10/ia-en-el-trabajo.html): The internet panics about AI wiping out jobs, but the data tells a different story: 13% reinforcement versus 2.3% pure automation. What really change…
+- [AI in modern life (written 100% by AI)](https://soyjacqueshauzeur.dev/blog/2026/09/ia-vida-moderna.html): Artificial intelligence is already in your pocket, your studio, your home and your health. A practical look at what changes, what does not, and the r…
+- [Why your business needs a website in 2026](https://soyjacqueshauzeur.dev/blog/2026/09/webs-2026.html): In the AI era it is tempting to run your business from social media alone. Why a website you own is still your central asset, and what it needs to se…
+- [Chat marketing: turn your channels into salespeople](https://soyjacqueshauzeur.dev/blog/2026/09/chat-marketing.html): WhatsApp, Telegram, Instagram and Messenger are not just inboxes — they are sales floors. How to automate chat marketing with ManyChat and n8n, and w…
+
+## Optional
+
+- [Spanish site](https://soyjacqueshauzeur.dev/es/): Spanish version of the site
+- [Store](https://soyjacqueshauzeur.dev/es/tienda/tienda.html): Product store (demo)
+- [Book a video call](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Schedule a call (Google Meet)

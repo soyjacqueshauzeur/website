@@ -105,6 +105,17 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - **`tools/apply-assets.mjs`** (idempotente) aplica a cada página: bloque `<!-- fonts:start/end -->` (fonts.css + preload) y `<!-- critical:start/end -->` (crítico + CSS diferido).
 - Secuencia tras tocar CSS/fuentes: `node tools/fetch-fonts.mjs` (solo si cambian fuentes) → `node tools/build-critical.mjs` → `node tools/minify-css.mjs` → `node tools/apply-assets.mjs`. Al regenerar con `build-hire-pages`/`build-contract-pages`/`new-post` (ya emiten `fonts:start`), correr `apply-assets` después.
 
+## Accesibilidad (a11y)
+- Informe: `a11y-report.md` (axe-core). Estado: **0 violaciones** en las páginas auditadas.
+- Reglas aplicadas: el carrito es `<div role="dialog">` (no `<aside>`); footer usa `<h2 class="footer-heading">`; en `clients.html` los títulos son `h2.client-name` y los logos llevan `alt` con el nombre; en el blog `.article-sidebar` es `<div>` y sus títulos son `h3`; la bandera del idioma usa `alt=""` (nombre por texto oculto); grises terciarios (`--paper-mute`) subidos a AA.
+- Reproducir: `python3 -m http.server 8095` + axe-core en el navegador (ver `a11y-report.md`). Esperar a que aplique el CSS diferido antes de medir el contraste.
+
+## llms.txt (agentes/LLM)
+- `/llms.txt` (raíz, EN) y `/es/llms.txt` (ES) siguen el spec **llmstxt.org v2** (H1 + blockquote + `##` con listas → `## Optional`): resumen del sitio y enlaces a páginas, servicios (con precios), 1:1, blog y opcionales.
+- **Generados** con `node tools/build-llms.mjs` (lee `tools/locales.mjs` + `tools/seo.mjs` + `hire-data*.js` + `blog-data*.js`; escribe `llms.txt` y `es/llms.txt`). No editar a mano. Re-ejecutar al cambiar servicios/precios o posts.
+- Validar: `node ~/.agents/skills/llms/scripts/parse-llms-txt.mjs llms.txt` (skill `llms`). Debe parsear (H1 obligatorio).
+- Fase 2 pendiente: `.md` twins por página + `<link rel="alternate" type="text/markdown">` y `rel="describedby"`.
+
 ## SEO (canonical, hreflang, structured data)
 - **Dominio canónico = `https://soyjacqueshauzeur.dev`** (coincide con `CNAME`). Vive en `tools/seo.mjs` (`SITE`): no hardcodear el dominio en ningún otro sitio.
 - `tools/apply-seo.mjs` es idempotente y **dueño** del bloque `<!-- seo:start --> … <!-- seo:end -->` en cada HTML: canonical self-referencing, `hreflang` EN/ES/x-default, `robots`, Open Graph/Twitter y JSON-LD `@graph` (Organization + Person + WebSite + nodo de página). NO editar ese bloque a mano.

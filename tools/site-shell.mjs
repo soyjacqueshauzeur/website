@@ -54,7 +54,7 @@ function flag(asset, lang, page, targetLang) {
   return (
     '            <a class="flag lang-flag" href="' + href + '" hreflang="' + code + '" lang="' + code +
     '" data-lang="' + code + '" title="' + title + '"><img src="' + asset + '/img/flags/' + iso +
-    '.svg" alt="' + label + '" width="24" height="16" loading="lazy" /><span class="visually-hidden">' +
+    '.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">' +
     label + '</span></a>'
   );
 }
@@ -144,7 +144,7 @@ export function footerHTML(lang, depth = 0) {
     '          ' + L.footerBrand + '\n' +
     '        </div>\n' +
     '        <div>\n' +
-    '          <h4>' + L.footerExplore + '</h4>\n' +
+    '          <h2 class="footer-heading">' + L.footerExplore + '</h2>\n' +
     '          <ul>\n' +
     footerLinks(L.nav, P) + '\n' +
     (L.store ? '            <li><a href="' + P + L.store.href + '" target="_blank" rel="noopener">' + L.store.label + '</a></li>\n' : '') +

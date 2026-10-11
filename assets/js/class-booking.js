@@ -126,7 +126,7 @@
     overlay.className = 'hire-overlay';
     overlay.id = 'class-overlay';
 
-    var cart = document.createElement('aside');
+    var cart = document.createElement('div');
     cart.className = 'hire-cart';
     cart.id = 'class-cart';
     cart.setAttribute('role', 'dialog');

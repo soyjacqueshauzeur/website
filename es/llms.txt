@@ -1,0 +1,38 @@
+# Jacques Hauzeur (SoyJacquesHauzeur)
+
+> Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $15 por clase de 90 min. El sitio está en inglés (/) y español (/es/).
+
+## Páginas
+
+- [Inicio](https://soyjacqueshauzeur.dev/es/): Quién soy y qué hago
+- [Clientes](https://soyjacqueshauzeur.dev/es/clients.html): Clientes y los resultados que consiguen
+- [1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): Agenda sesiones 1:1 de pago (USD $15 / 90 min)
+- [Servicios](https://soyjacqueshauzeur.dev/es/services.html): Los seis servicios mensuales y sus tarifas
+- [Sobre mí](https://soyjacqueshauzeur.dev/es/#about): Mi trayectoria y enfoque
+- [Blog](https://soyjacqueshauzeur.dev/es/blog.html): Notas sobre IA, web, marketing y chatbots
+
+## Servicios (contratación mensual, USD)
+
+- [Marketing](https://soyjacqueshauzeur.dev/es/marketing.html): USD $497/mes
+- [Campañas](https://soyjacqueshauzeur.dev/es/campaigns.html): USD $397/mes
+- [Chatbots](https://soyjacqueshauzeur.dev/es/chatbots.html): USD $597/mes
+- [IA](https://soyjacqueshauzeur.dev/es/ai.html): USD $497/mes
+- [Planificación financiera](https://soyjacqueshauzeur.dev/es/financial-planning.html): USD $197/mes
+- [Web y e-commerce](https://soyjacqueshauzeur.dev/es/ecommerce.html): USD $297/mes
+
+## Sesiones 1:1
+
+- [Sesiones 1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): USD $15 / sesión de 90 min
+
+## Blog
+
+- [Inteligencia artificial en el trabajo: ¿cómo está transformando tu profesión?](https://soyjacqueshauzeur.dev/es/blog/2026/10/ia-en-el-trabajo.html): Internet entra en pánico con la IA y el empleo, pero los datos dicen otra cosa: 13% de refuerzo frente a 2,3% de automatización. Lo que cambia es el…
+- [La IA en la vida moderna (escrito 100% con IA)](https://soyjacqueshauzeur.dev/es/blog/2026/09/ia-vida-moderna.html): La inteligencia artificial ya está en tu bolsillo, tu estudio, tu casa y tu salud. Una mirada práctica a lo que cambia, lo que no, y los riesgos — y…
+- [Por qué tu negocio necesita una web en 2026](https://soyjacqueshauzeur.dev/es/blog/2026/09/webs-2026.html): En la era de la IA es tentador llevar el negocio solo desde redes sociales. Por qué una web propia sigue siendo tu activo central y qué debe tener pa…
+- [Chat marketing: convierte tus canales en vendedores](https://soyjacqueshauzeur.dev/es/blog/2026/09/chat-marketing.html): WhatsApp, Telegram, Instagram y Messenger no son solo bandejas de entrada: son pisos de venta. Cómo automatizar el chat marketing con ManyChat y n8n…
+
+## Opcional
+
+- [Sitio en inglés](https://soyjacqueshauzeur.dev/): Versión en inglés del sitio
+- [Tienda](https://soyjacqueshauzeur.dev/es/tienda/tienda.html): Tienda de producto (demo)
+- [Reservar videollamada](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Agendar una llamada (Google Meet)
