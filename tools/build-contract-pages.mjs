@@ -85,9 +85,11 @@ function layout(lang, copy, name, title, desc, body, scripts) {
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}" />
 ${faviconHTML(A)}
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+  <!-- fonts:start -->
+  <link rel="preload" href="${A}/fonts/inter-tight-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="${A}/fonts/boldonse-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="${A}/css/fonts.css" />
+  <!-- fonts:end -->
   <link rel="stylesheet" href="${A}/css/styles.css" />
 </head>
 <body>

@@ -99,6 +99,12 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - **Verificación**: `node tools/img-check.mjs` comprueba que toda imagen referenciada (src/srcset/data-img/og:image/url()/JSON-LD) exista; debe dar `PASS` (excluye `gallery.html`, demo).
 - **Nota**: `og:image` del blog ahora es `.avif` (coherente con `apply-seo`, que lo deriva del hero). Trade-off: algunas redes pueden no previsualizar avif. Las tools que generan imágenes (`build-logo`, `build-og`, `new-post`) siguen en png/webp (pendiente).
 
+## Rendimiento (fuentes + CSS)
+- **Fuentes autoalojadas**: los `.woff2` viven en `assets/fonts/` (descargados de **fonts.gstatic.com** con `node tools/fetch-fonts.mjs`) y se declaran en `assets/css/fonts.css`. Ninguna página debe usar Google Fonts (links ni preconnect). Para cambiar familias/pesos: editar `tools/fetch-fonts.mjs` y re-ejecutarlo.
+- **CSS crítico inline + diferido**: `assets/css/critical.css` (generado por `node tools/build-critical.mjs` desde las secciones 1–7 de `styles.css` + reglas móviles del shell) se **inlinea** en el `<head>`; `styles.css` y `blog.css` se **minifican** (`node tools/minify-css.mjs` → `styles.min.css`/`blog.min.css`) y se cargan **diferidos** (`media="print" onload`).
+- **`tools/apply-assets.mjs`** (idempotente) aplica a cada página: bloque `<!-- fonts:start/end -->` (fonts.css + preload) y `<!-- critical:start/end -->` (crítico + CSS diferido).
+- Secuencia tras tocar CSS/fuentes: `node tools/fetch-fonts.mjs` (solo si cambian fuentes) → `node tools/build-critical.mjs` → `node tools/minify-css.mjs` → `node tools/apply-assets.mjs`. Al regenerar con `build-hire-pages`/`build-contract-pages`/`new-post` (ya emiten `fonts:start`), correr `apply-assets` después.
+
 ## SEO (canonical, hreflang, structured data)
 - **Dominio canónico = `https://soyjacqueshauzeur.dev`** (coincide con `CNAME`). Vive en `tools/seo.mjs` (`SITE`): no hardcodear el dominio en ningún otro sitio.
 - `tools/apply-seo.mjs` es idempotente y **dueño** del bloque `<!-- seo:start --> … <!-- seo:end -->` en cada HTML: canonical self-referencing, `hreflang` EN/ES/x-default, `robots`, Open Graph/Twitter y JSON-LD `@graph` (Organization + Person + WebSite + nodo de página). NO editar ese bloque a mano.
