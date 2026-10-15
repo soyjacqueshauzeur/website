@@ -76,7 +76,7 @@ const T = {
 };
 
 const CALENDAR = 'https://calendar.app.google/DyS8yXtsb85ZD7kJ7';
-const STORE = ORIGIN + '/es/tienda/tienda.html';
+const STORE = ORIGIN + '/es/tienda/index.html';
 
 function excerpt(s, n = 150) {
   const t = String(s || '').replace(/\s+/g, ' ').trim();

@@ -13,15 +13,13 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { storeFooterBlock } from './store-footer.mjs';
 
 const PAGES = [
-  'es/tienda/tienda.html',
+  'es/tienda/index.html',
   'es/tienda/cookies.html',
   'es/tienda/terminos.html',
   'es/tienda/envios.html',
   'es/tienda/devoluciones.html',
   'es/tienda/privacidad.html',
   'es/tienda/synaptic-sleep-5-z/index.html',
-  'es/tienda/synaptic-sleep-5-z/product.html',
-  'es/tienda/synaptic-sleep-5-z/product2.html',
 ];
 
 const START = '<!-- sf:start -->';

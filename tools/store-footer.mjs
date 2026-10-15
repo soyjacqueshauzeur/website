@@ -19,7 +19,7 @@ export const PRODUCT = 'synaptic-sleep-5-z/index.html';
 
 /* Rutas de la tienda relativas a es/tienda/ (se les antepone `base`). */
 export const STORE_LINKS = {
-  tienda: 'tienda.html',
+  tienda: 'index.html',
   envios: 'envios.html',
   devoluciones: 'devoluciones.html',
   privacidad: 'privacidad.html',
@@ -27,8 +27,11 @@ export const STORE_LINKS = {
   terminos: 'terminos.html',
 };
 
-/* Copyright del footer (sin "Jacques Hauzeur"). */
-export const COPY = '© <span class="sf-year">2026</span> <span class="sf-month">Octubre</span> <a class="sf-copy-link" href="/home/jacques/opencode/jacques/index.html">&lt;/&gt; SoyJacquesHauzeur</a>';
+/* Copyright del footer (sin "Jacques Hauzeur"). El enlace apunta al home del
+   proyecto en español (es/index.html); `base` lo deja relativo a es/tienda/. */
+export function storeFooterCopy(base = '') {
+  return '© <span class="sf-year">2026</span> <span class="sf-month">Octubre</span> <a class="sf-copy-link" href="' + base + '../index.html">&lt;/&gt; SoyJacquesHauzeur</a>';
+}
 
 /* CSS autocontenido del footer (paleta oscura fija). */
 export function storeFooterCSS() {
@@ -99,7 +102,7 @@ export function storeFooterHTML(base = '') {
       </div>
     </div>
     <div class="sf-bottom">
-      <span class="sf-copy">${COPY}</span>
+      <span class="sf-copy">${storeFooterCopy(base)}</span>
       <div class="sf-meta">
         <a href="${base}${L.envios}">Envíos</a>
         <a href="${base}${L.devoluciones}">Devoluciones</a>

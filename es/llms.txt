@@ -34,5 +34,5 @@
 ## Opcional
 
 - [Sitio en inglés](https://soyjacqueshauzeur.dev/): Versión en inglés del sitio
-- [Tienda](https://soyjacqueshauzeur.dev/es/tienda/tienda.html): Tienda de producto (demo)
+- [Tienda](https://soyjacqueshauzeur.dev/es/tienda/index.html): Tienda de producto (demo)
 - [Reservar videollamada](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Agendar una llamada (Google Meet)

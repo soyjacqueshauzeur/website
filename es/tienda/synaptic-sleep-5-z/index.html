@@ -631,8 +631,8 @@
     <!-- ══════════ PRIMER SCREEN estilo MercadoLibre ══════════ -->
     <div class="ml-breadcrumb">
       <div class="wrap">
-        <a href="../tienda.html">Tienda</a><span aria-hidden="true">›</span>
-        <a href="../tienda.html?cat=hogar">Hogar</a><span aria-hidden="true">›</span>
+        <a href="../index.html">Tienda</a><span aria-hidden="true">›</span>
+        <a href="../index.html?cat=hogar">Hogar</a><span aria-hidden="true">›</span>
         <span class="current">SYNAPTIC SLEEP 5-Z</span>
       </div>
     </div>
@@ -1002,7 +1002,7 @@
                 <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 <strong>Pedir por WhatsApp</strong> | <small class="pay-sub">Nequi, Daviplata o NuBank</small></span></label>
                 <label class="pay"><input type="radio" name="pago" value="contraentrega" /> <span>💵 <strong>Pago contraentrega</strong> | <small class="pay-sub">El valor del pedido aumenta un 10%</small></span></label>
               </div>
-              <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio.<!-- PERSONALIZAR: claves del gateway solo en el backend --></div>
+              <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio con la plataforma Mercadopago de Mercadolibre.<!-- PERSONALIZAR: claves del gateway solo en el backend --></div>
               <div class="summary-row total form-total" style="margin-top:10px"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
 
               <div class="form-nav">
@@ -1142,14 +1142,14 @@
   <div class="sf-inner">
     <div class="sf-grid">
       <div class="sf-brand">
-        <a class="sf-logo" href="../tienda.html"><span class="sf-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>
+        <a class="sf-logo" href="../index.html"><span class="sf-mark" aria-hidden="true"></span> SoyJacquesHauzeur</a>
         <p class="sf-desc">Miles de productos, precios bajos y envío rápido a todo el país.</p>
         <div class="sf-pay" aria-label="Medios de pago"><span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span><span>DAVIPLATA</span><span>NUBANK</span></div>
       </div>
       <div class="sf-col">
         <h4>Ayuda</h4>
         <ul>
-          <li><a href="../tienda.html">Tienda</a></li>
+          <li><a href="../index.html">Tienda</a></li>
           <li><a href="../synaptic-sleep-5-z/index.html#faq">Preguntas frecuentes</a></li>
           <li><a href="../envios.html">Envíos y entregas</a></li>
           <li><a href="../synaptic-sleep-5-z/index.html#pedido">Hacer un pedido</a></li>
@@ -1177,7 +1177,7 @@
       </div>
     </div>
     <div class="sf-bottom">
-      <span class="sf-copy">© <span class="sf-year">2026</span> <span class="sf-month">Octubre</span> <a class="sf-copy-link" href="/home/jacques/opencode/jacques/index.html">&lt;/&gt; SoyJacquesHauzeur</a></span>
+      <span class="sf-copy">© <span class="sf-year">2026</span> <span class="sf-month">Octubre</span> <a class="sf-copy-link" href="../../index.html">&lt;/&gt; SoyJacquesHauzeur</a></span>
       <div class="sf-meta">
         <a href="../envios.html">Envíos</a>
         <a href="../devoluciones.html">Devoluciones</a>
@@ -1722,6 +1722,8 @@
         combo: state.quoteOnly ? 'Más de 6 × ' + PRODUCT : qtyLabel(),
         qty: state.quoteOnly ? '6plus' : state.qty,
         addons: CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; }).map(function (a) { return { id: a.id, name: a.name, qty: state.addons[a.id], unit: a.unit }; }),
+        mainLine: state.quoteOnly ? null : mainNow(),
+        contraRecargo: contraSurcharge(),
         total: grandTotal(),
         descuentoDia: state.discount < 1 ? '10%' : 'no',
         pago: form.pago.value,
@@ -1731,16 +1733,26 @@
 
     /* Texto del mensaje de WhatsApp con todos los datos del formulario y del pedido. */
     function whatsappMessage(payload, pagoLine, totalNote) {
-      return 'Hola, quiero confirmar mi pedido ' + payload.combo + ' — ' + money(payload.total) + (totalNote || '') + '.\n' +
-        (payload.addons.length ? 'Complementos: ' + payload.addons.map(function (a) { return a.name + ' ×' + a.qty; }).join(', ') + '\n' : '') +
-        'Pago: ' + pagoLine + '\n' +
-        'Nombre: ' + payload.nombre + '\n' +
-        'WhatsApp: ' + payload.telefono + '\n' +
-        'Correo: ' + payload.correo + '\n' +
-        'Ciudad: ' + payload.ciudad + '\n' +
-        'Departamento: ' + payload.departamento + '\n' +
-        'Dirección: ' + payload.direccion +
-        (payload.indicaciones ? '\nIndicaciones: ' + payload.indicaciones : '');
+      var lines = ['Hola, quiero confirmar mi pedido:', ''];
+      if (state.quoteOnly) {
+        lines.push('• Más de 6 × ' + CATALOG.main.name + ' — a cotizar');
+      } else {
+        lines.push('• ' + state.qty + ' × ' + CATALOG.main.name + ' — ' + money(mainNow()));
+        payload.addons.forEach(function (a) { lines.push('• ' + a.qty + ' × ' + a.name + ' — ' + money(a.unit * a.qty)); });
+      }
+      var fee = contraSurcharge();
+      if (fee > 0) lines.push('• Recargo contraentrega (10%) — ' + money(fee));
+      lines.push('Total: ' + money(payload.total) + (totalNote || ''));
+      lines.push('');
+      lines.push('Pago: ' + pagoLine);
+      lines.push('Nombre: ' + payload.nombre);
+      lines.push('WhatsApp: ' + payload.telefono);
+      lines.push('Correo: ' + payload.correo);
+      lines.push('Ciudad: ' + payload.ciudad);
+      lines.push('Departamento: ' + payload.departamento);
+      lines.push('Dirección: ' + payload.direccion);
+      if (payload.indicaciones) lines.push('Indicaciones: ' + payload.indicaciones);
+      return lines.join('\n');
     }
 
     function openWhatsApp(payload, pagoLine, totalNote) {
@@ -1787,12 +1799,9 @@
         return;
       }
 
-      /* Compra rápida → MercadoPago (solo cantidades permitidas; catalogo gestionado en worker/server) */
-      if (payload.pago === 'online') {
-        startOnlinePayment(payload);
-        return;
-      }
-
+      /* Compra rápida (online): en producción aquí se crea la preferencia de MercadoPago
+         en el worker serverless y se redirige al checkout. En la demo, las 3 formas de pago
+         llevan a gracias.html, que muestra el aviso correspondiente a cada método. */
       window.location.href = CHECKOUT_URL; // demo: gracias.html
     });
 

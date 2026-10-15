@@ -34,5 +34,5 @@
 ## Optional
 
 - [Spanish site](https://soyjacqueshauzeur.dev/es/): Spanish version of the site
-- [Store](https://soyjacqueshauzeur.dev/es/tienda/tienda.html): Product store (demo)
+- [Store](https://soyjacqueshauzeur.dev/es/tienda/index.html): Product store (demo)
 - [Book a video call](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Schedule a call (Google Meet)

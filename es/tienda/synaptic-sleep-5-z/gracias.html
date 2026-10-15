@@ -43,6 +43,7 @@
     .row{display:flex;justify-content:space-between;gap:16px;font-size:.95rem;padding:7px 0;color:var(--muted)}
     .row b{color:var(--text);font-weight:600}
     .row.total{border-top:1px solid var(--line);margin-top:6px;padding-top:12px;color:var(--text);font-family:var(--font-display);font-size:1.15rem}
+    .paynote{text-align:left;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--accent-text);border-radius:var(--radius);padding:14px 16px;font-size:.9rem;color:var(--paper-soft);margin:0 0 18px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:.8125rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:14px 24px;border-radius:var(--radius-full);border:1px solid transparent;text-decoration:none;transition:background .18s ease,transform .18s ease}
     .btn--primary{background:var(--lime);color:var(--ink-000)}
     .btn--primary:hover{background:var(--lime-soft);transform:translateY(-1px)}
@@ -52,7 +53,6 @@
     .steps li{margin-bottom:8px}
     .brand{font-family:var(--font-display);text-transform:uppercase;letter-spacing:.02em;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;gap:10px;margin-bottom:24px}
     .brand .dot{width:20px;height:20px;border-radius:6px;background:var(--lime)}
-    .demo{color:var(--accent-text);font-family:var(--font-mono);font-size:.72rem}
     [hidden]{display:none !important}
     .theme-toggle{position:fixed;top:18px;right:18px;z-index:90;width:42px;height:42px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:border-color .18s ease,color .18s ease}
     .theme-toggle:hover{border-color:var(--accent-text);color:var(--accent-text)}
@@ -81,14 +81,16 @@
     <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
   </button>
   <div class="card">
-    <a class="brand" href="product.html"><span class="dot" aria-hidden="true"></span> SoyJacquesHauzeur</a>
+    <a class="brand" href="../index.html"><span class="dot" aria-hidden="true"></span> SoyJacquesHauzeur</a>
     <div class="ok" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
     <h1>¡Pedido recibido!</h1>
     <p>Gracias por tu compra. Te contactaremos por <b>WhatsApp</b> para confirmar tus datos antes del envío.</p>
 
+    <div class="paynote" id="payNote" hidden></div>
+
     <!-- Resumen del pedido (se rellena desde sessionStorage) -->
     <div class="summary" id="summary" hidden>
-      <div class="row"><span>Producto</span><b data-field="combo">—</b></div>
+      <div id="items"></div>
       <div class="row"><span>Envío</span><b style="color:var(--accent-text)">Gratis</b></div>
       <div class="row"><span>Ciudad</span><b data-field="ciudad">—</b></div>
       <div class="row"><span>Método de pago</span><b data-field="pago">—</b></div>
@@ -97,16 +99,15 @@
 
     <ul class="steps">
       <li>1. Te escribimos por WhatsApp para confirmar tus datos.</li>
-      <li>2. Coordinamos el pago seguro (tarjeta, PSE, Nequi, Daviplata o NuBank).</li>
+      <li id="step2li">2. Coordinamos el pago seguro (tarjeta, PSE, Nequi, Daviplata o NuBank).</li>
       <li>3. Despachamos y te compartimos la guía de seguimiento.</li>
     </ul>
 
     <div class="actions">
       <!-- PERSONALIZAR: número real de WhatsApp -->
       <a class="btn btn--primary" id="waFollow" href="https://wa.me/570000000000" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-      <a class="btn" style="background:transparent;border-color:var(--line-strong);color:var(--text)" href="product.html">Volver a la tienda</a>
+      <a class="btn" style="background:transparent;border-color:var(--line-strong);color:var(--text)" href="../index.html">Volver a la tienda</a>
     </div>
-    <p class="demo" style="margin-top:22px">DEMO · página de ejemplo para pruebas</p>
   </div>
 
   <script>
@@ -116,15 +117,50 @@
       try { raw = sessionStorage.getItem('jh-order'); } catch (e) {}
       if (!raw) return;
       var o = JSON.parse(raw);
+      var money = function (n) { return '$' + Number(n).toLocaleString('es-CO'); };
+
+      // Textos por forma de pago (las 3 opciones del checkout).
+      var PAGO_LABEL = {
+        online: 'Compra rápida · Tarjeta/PSE (MercadoPago)',
+        whatsapp: 'Nequi, Daviplata o NuBank (por WhatsApp)',
+        contraentrega: 'Contraentrega · Efectivo (+10%)'
+      };
+      var PAGO_NOTE = {
+        online: 'Pago 100% seguro: tu compra se procesa en la plataforma Mercadopago de Mercadolibre (tarjeta débito/crédito o PSE).',
+        contraentrega: 'El valor de la compra lo pagas únicamente a la transportadora, en EFECTIVO, al momento de recibir tu pedido.'
+      };
+      var STEP2 = {
+        online: '2. Coordinamos el pago seguro con MercadoPago (tarjeta o PSE).',
+        whatsapp: '2. Coordinamos el pago seguro (tarjeta, PSE, Nequi, Daviplata o NuBank).',
+        contraentrega: '2. Pagas en efectivo a la transportadora al recibir tu pedido.'
+      };
+
       document.getElementById('summary').hidden = false;
       var set = function (f, v) { var el = document.querySelector('[data-field="' + f + '"]'); if (el) el.textContent = v; };
-      set('combo', o.combo);
-      set('ciudad', o.ciudad);
-      set('pago', o.pago === 'whatsapp' ? 'Confirmado por WhatsApp' : (o.pago === 'mercadopago' ? 'Tarjeta / PSE' : 'Pago online (Tarjeta/PSE/Nequi)'));
-      set('total', '$' + Number(o.total).toLocaleString('es-CO'));
+      set('ciudad', o.ciudad || '—');
+      set('pago', PAGO_LABEL[o.pago] || 'Pago online');
+      set('total', money(o.total));
+
+      // Detalle del pedido: producto principal + complementos + recargo contraentrega.
+      var items = document.getElementById('items');
+      if (items) {
+        var rows = '';
+        if (o.mainLine != null) rows += '<div class="row"><span>' + o.combo + '</span><b>' + money(o.mainLine) + '</b></div>';
+        else if (o.combo) rows += '<div class="row"><span>' + o.combo + '</span><b>' + money(o.total) + '</b></div>';
+        (o.addons || []).forEach(function (a) { rows += '<div class="row"><span>' + a.name + ' ×' + a.qty + '</span><b>' + money(a.unit * a.qty) + '</b></div>'; });
+        if (o.contraRecargo > 0) rows += '<div class="row"><span>Recargo contraentrega (10%)</span><b>' + money(o.contraRecargo) + '</b></div>';
+        items.innerHTML = rows;
+      }
+
+      // Aviso de pago según la forma elegida (WhatsApp mantiene el texto actual).
+      var note = document.getElementById('payNote');
+      if (note && PAGO_NOTE[o.pago]) { note.textContent = PAGO_NOTE[o.pago]; note.hidden = false; }
+      var s2 = document.getElementById('step2li');
+      if (s2 && STEP2[o.pago]) s2.textContent = STEP2[o.pago];
+
       var wa = document.getElementById('waFollow');
       if (wa) wa.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(
-        'Hola, acabo de hacer un pedido (' + o.combo + ' — $' + Number(o.total).toLocaleString('es-CO') + ')'
+        'Hola, acabo de hacer un pedido (' + o.combo + ' — ' + money(o.total) + ')'
       );
     })();
   </script>
