@@ -412,6 +412,7 @@
       .nav-links,.nav-cta-row{display:none}
       .menu-toggle{display:grid}
       .theme-toggle{margin-inline-start:auto}
+      .wrap.nav{gap:12px}
     }
     @media(max-width:375px){
       .brand{font-size:var(--text-sm)}
@@ -680,8 +681,7 @@
               <option value="3">3 unidades</option>
               <option value="4">4 unidades</option>
               <option value="5">5 unidades</option>
-              <option value="6">6 unidades</option>
-              <option value="6plus">Más de 6 unidades</option>
+              <option value="6plus">Más de 5 unidades</option>
             </select>
           </div>
 
@@ -878,8 +878,7 @@
                 <option value="">Selecciona…</option>
                 <option value="4">4 unidades</option>
                 <option value="5">5 unidades</option>
-                <option value="6">6 unidades</option>
-                <option value="6plus">Más de 6 unidades (cotizar)</option>
+                <option value="6plus">Más de 5 unidades (cotizar)</option>
               </select>
             </div>
 
@@ -1207,7 +1206,7 @@
   </a>
 
   <a class="cart-fab" id="cartFab" href="#pedido" hidden aria-label="Ver carrito">
-    <span id="cartCount">+0 Productos</span>
+    <span id="cartCount">1 Productos</span>
   </a>
 
   <div class="mobile-cta">
@@ -1342,7 +1341,7 @@
     function whatsappLink() {
       var list = addonsLabel();
       var msg = state.quoteOnly
-        ? 'Hola, quiero cotizar más de 6 unidades de ' + CATALOG.main.name + '.'
+        ? 'Hola, quiero cotizar más de 5 unidades de ' + CATALOG.main.name + '.'
         : 'Hola, quiero pedir ' + qtyLabel() + (list ? ' + ' + list : '') + ' — ' + money(orderTotal()) + '.';
       return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
     }
@@ -1359,7 +1358,7 @@
         if (el.getAttribute('role') === 'radio') el.setAttribute('aria-checked', active ? 'true' : 'false');
       });
       if (qtySelect) qtySelect.value = state.quoteOnly ? '6plus' : String(state.qty);
-      if (comboMore) comboMore.value = state.quoteOnly ? '6plus' : (state.qty >= 4 && state.qty <= 6 ? String(state.qty) : '');
+      if (comboMore) comboMore.value = state.quoteOnly ? '6plus' : (state.qty >= 4 && state.qty <= 5 ? String(state.qty) : '');
     }
 
     function render() {
@@ -1367,7 +1366,7 @@
       var now = mainNow();
       // Ficha (buy box)
       document.querySelectorAll('.buybox [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotiza' : money(now); });
-      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 6 unidades' : money(CATALOG.main.unit * state.discount) + ' c/u'; });
+      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 5 unidades' : money(CATALOG.main.unit * state.discount) + ' c/u'; });
       document.querySelectorAll('[data-old-out]').forEach(function (el) { el.textContent = quote ? '' : money(mainOld()); });
       document.querySelectorAll('[data-ahorro-out]').forEach(function (el) { el.textContent = quote ? '' : money(savingsTotal()); });
       var off = document.querySelector('.price-off');
@@ -1385,7 +1384,7 @@
         }
       });
       // Resumen
-      document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 6 × ' + CATALOG.main.name : qtyLabel(); });
+      document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 5 × ' + CATALOG.main.name : qtyLabel(); });
       document.querySelectorAll('.summary [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(now); });
       document.querySelectorAll('[data-total-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(orderTotal()); });
       document.querySelectorAll('.summary .summary-addons').forEach(function (box) {
@@ -1426,7 +1425,7 @@
       var mc = document.querySelector('.mobile-cta .price');
       if (mc && mc.firstChild) mc.firstChild.textContent = (quote ? 'Cotiza ' : money(orderTotal()) + ' ');
       // Carrito flotante: unidades totales (base + complementos + libro digital)
-      if (cartCount) cartCount.textContent = '+' + itemsCount() + ' Productos';
+      if (cartCount) cartCount.textContent = itemsCount() + ' Productos';
       if (cartFab) cartFab.setAttribute('aria-label', 'Ver carrito, ' + itemsCount() + ' productos');
       // WhatsApp
       var wa = document.getElementById('waOrder');
@@ -1444,6 +1443,7 @@
       if (!quote && q) state.qty = q;
       syncQuantityUI();
       render();
+      revealCart();
     }
 
     comboEls.forEach(function (el) {
@@ -1524,6 +1524,7 @@
         CATALOG.addons.forEach(function (a) { setAddon(a.id, addonAll.checked ? 1 : 0); });
         syncAddonAll();
         render();
+        revealCart();
       });
     }
     document.querySelectorAll('[data-addon]').forEach(function (chk) {
@@ -1531,6 +1532,7 @@
         setAddon(chk.getAttribute('data-addon'), chk.checked ? 1 : 0);
         syncAddonAll();
         render();
+        revealCart();
       });
     });
     document.querySelectorAll('[data-addon-qty]').forEach(function (sel) {
@@ -1539,6 +1541,7 @@
         setAddon(id, sel.value === '' ? 0 : parseInt(sel.value, 10));
         syncAddonAll();
         render();
+        revealCart();
       });
     });
     syncAddonAll();
@@ -1685,7 +1688,7 @@
     }
     function startOnlinePayment(payload) {
       if (['1', '2', '3'].indexOf(String(payload.qty)) === -1) {
-        alert('Para más de 6 unidades, pide una cotización por WhatsApp.');
+        alert('Para más de 5 unidades, pide una cotización por WhatsApp.');
         return;
       }
       loadCheckout(function () {
@@ -1720,7 +1723,7 @@
         direccion: form.direccion.value.trim(),
         indicaciones: form.indicaciones.value.trim(),
         producto: PRODUCT,
-        combo: state.quoteOnly ? 'Más de 6 × ' + PRODUCT : qtyLabel(),
+        combo: state.quoteOnly ? 'Más de 5 × ' + PRODUCT : qtyLabel(),
         qty: state.quoteOnly ? '6plus' : state.qty,
         addons: CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; }).map(function (a) { return { id: a.id, name: a.name, qty: state.addons[a.id], unit: a.unit }; }),
         total: orderTotal(),
