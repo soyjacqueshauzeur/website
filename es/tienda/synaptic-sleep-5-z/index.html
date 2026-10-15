@@ -374,6 +374,12 @@
     .whatsapp{position:fixed;right:18px;bottom:88px;z-index:70;width:54px;height:54px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 12px 28px -8px rgba(37,211,102,.8);transition:transform var(--dur-fast) var(--ease-out)}
     .whatsapp:hover{transform:scale(1.08)}
 
+    /* Carrito flotante (arriba-derecha, bajo el header sticky) */
+    .cart-fab{position:fixed;right:18px;top:96px;z-index:66;height:54px;min-width:54px;padding:0 18px;border-radius:999px;background:var(--lime);color:var(--ink-000);display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-mono);font-weight:600;font-size:.95rem;letter-spacing:0;white-space:nowrap;box-shadow:0 12px 28px -10px rgba(212,255,61,.75);opacity:0;transition:transform var(--dur-fast) var(--ease-out),opacity var(--dur-base) var(--ease-out)}
+    .cart-fab.is-visible{opacity:1}
+    .cart-fab[hidden]{display:none}
+    .cart-fab:hover{transform:scale(1.08)}
+
     .mobile-cta{position:fixed;left:0;right:0;bottom:0;z-index:65;background:var(--mobile-bg);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
     .mobile-cta .price{font-family:var(--font-display);line-height:1.1;font-size:1.1rem}
     .mobile-cta .price small{display:block;color:var(--muted);font-weight:400;font-size:var(--text-xs);text-decoration:line-through;font-family:var(--font-mono)}
@@ -399,6 +405,27 @@
     .theme-toggle svg{display:none}
     html[data-theme="dark"] .theme-toggle .icon-sun{display:block}
     html[data-theme="light"] .theme-toggle .icon-moon{display:block}
+    /* ===== Menú lateral móvil (hamburguesa) ===== */
+    .menu-toggle{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;color:var(--lime);place-items:center;transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
+    .menu-toggle:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    @media(max-width:899px){
+      .nav-links,.nav-cta-row{display:none}
+      .menu-toggle{display:grid}
+      .theme-toggle{margin-inline-start:auto}
+    }
+    @media(min-width:900px){.mobile-menu,.menu-overlay{display:none!important}}
+    .menu-overlay{position:fixed;inset:0;z-index:90;background:rgba(5,5,7,.6);backdrop-filter:blur(2px);opacity:0;transition:opacity var(--dur-base) var(--ease-out)}
+    .menu-overlay.is-open{opacity:1}
+    .mobile-menu{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(86vw,360px);max-width:100%;background:var(--surface);border-left:1px solid var(--line-strong);box-shadow:var(--shadow-md);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform var(--dur-base) var(--ease-out)}
+    .mobile-menu.is-open{transform:translateX(0)}
+    .mobile-menu-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+    .mobile-menu-close{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);color:var(--text);display:grid;place-items:center;flex:0 0 auto;transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
+    .mobile-menu-close:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    .mobile-menu-nav{display:grid;gap:4px;margin:8px 0 18px}
+    .mobile-menu-nav a{font-family:var(--font-mono);font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);padding:12px 4px;border-bottom:1px solid var(--line)}
+    .mobile-menu-nav a:hover{color:var(--accent-text)}
+    .mobile-menu-cta{width:100%;margin-bottom:18px}
+    body.menu-open{overflow:hidden}
     /* ===== Primer screen estilo MercadoLibre ===== */
     .ml-breadcrumb{background:var(--surface-2);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted)}
     .ml-breadcrumb .wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
@@ -449,8 +476,8 @@
     .ml-variant.is-active{border-color:var(--lime);background:var(--accent-soft);box-shadow:0 0 0 3px var(--accent-soft)}
 
     .ml-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
-    @media(min-width:520px){.ml-actions{flex-direction:row}}
-    .ml-actions .btn{flex:1}
+    @media(min-width:520px){.ml-actions{flex-direction:row;flex-wrap:wrap}}
+    .ml-actions .btn{flex:1 1 auto}
 
     .ml-perks{list-style:none;padding:0;margin:0;display:grid;gap:12px;border-top:1px solid var(--line);padding-top:18px}
     .ml-perks li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;color:var(--text-soft)}
@@ -561,8 +588,36 @@
       <div class="nav-cta-row">
         <a class="btn btn--primary nav-cta" href="#pedido">Pedir ahora</a>
       </div>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú" aria-controls="mobileMenu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
     </div>
   </header>
+
+  <!-- ══════════ MENÚ LATERAL MÓVIL ══════════ -->
+  <div class="menu-overlay" id="menuOverlay" hidden></div>
+  <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú" hidden>
+    <div class="mobile-menu-head">
+      <span class="brand"><span class="dot" aria-hidden="true"></span> SoyJacquesHauzeur</span>
+      <button class="mobile-menu-close" id="menuClose" type="button" aria-label="Cerrar menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-nav" aria-label="Principal">
+      <a href="#beneficios">Beneficios</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#resenas">Reseñas</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <a class="btn btn--primary mobile-menu-cta" href="#pedido">Pedir ahora</a>
+    <div class="summary" aria-live="polite">
+      <div class="summary-row"><span data-label-out>1 × SYNAPTIC SLEEP 5-Z</span><span data-price-out>$84.000</span></div>
+      <div class="summary-addons"></div>
+      <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
+      <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
+      <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
+    </div>
+  </aside>
 
   <main id="top">
 
@@ -627,7 +682,7 @@
 
           <div class="ml-actions">
             <a class="btn btn--primary btn--lg" href="#pedido">Comprar ahora</a>
-            <a class="btn btn--ghost btn--lg" href="#pedido">Agregar al carrito</a>
+            <a class="btn btn--ghost btn--lg" href="#problema" id="addToCart">Agregar al carrito</a>
           </div>
 
           <ul class="ml-perks">
@@ -662,7 +717,7 @@
     </section>
 
     <!-- ══════════ PROBLEMA / SOLUCIÓN ══════════ -->
-    <section class="section problem">
+    <section class="section problem" id="problema">
       <div class="wrap">
         <div class="center" style="margin-bottom:44px">
           <span class="eyebrow">El problema</span>
@@ -864,6 +919,7 @@
             <div class="summary" id="orderSummary" aria-live="polite">
               <div class="summary-row"><span data-label-out>1 × SYNAPTIC SLEEP 5-Z</span><span data-price-out>$84.000</span></div>
               <div class="summary-addons" id="summaryAddons"></div>
+              <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
               <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
               <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
             </div>
@@ -1145,6 +1201,10 @@
     <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-1.9-1.2 7 7 0 01-1.3-1.6c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.7 4.3 3.8 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1z"/></svg>
   </a>
 
+  <a class="cart-fab" id="cartFab" href="#pedido" hidden aria-label="Ver carrito">
+    <span id="cartCount">+0 Productos</span>
+  </a>
+
   <div class="mobile-cta">
     <div class="price" data-price-out>$84.000 <small data-old-out>$119.000</small></div>
     <a class="btn btn--primary" href="#pedido">Pedir ahora</a>
@@ -1182,6 +1242,51 @@
         if (m) m.setAttribute('content', next === 'dark' ? '#0A0A0C' : '#F4F4F0');
       });
     }
+
+    /* ---------- Menú lateral móvil (hamburguesa) ---------- */
+    (function () {
+      var toggle = document.getElementById('menuToggle');
+      var menu = document.getElementById('mobileMenu');
+      var overlay = document.getElementById('menuOverlay');
+      var close = document.getElementById('menuClose');
+      if (!toggle || !menu || !overlay || !close) return;
+      var lastFocus = null;
+      function openMenu() {
+        lastFocus = document.activeElement;
+        overlay.hidden = false;
+        menu.hidden = false;
+        // fuerza reflow para que la transición aplique
+        void menu.offsetWidth;
+        overlay.classList.add('is-open');
+        menu.classList.add('is-open');
+        document.body.classList.add('menu-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        close.focus();
+      }
+      function closeMenu() {
+        overlay.classList.remove('is-open');
+        menu.classList.remove('is-open');
+        document.body.classList.remove('menu-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        var done = function () {
+          overlay.hidden = true;
+          menu.hidden = true;
+          overlay.removeEventListener('transitionend', done);
+        };
+        overlay.addEventListener('transitionend', done);
+        setTimeout(done, 400);
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+      toggle.addEventListener('click', openMenu);
+      close.addEventListener('click', closeMenu);
+      overlay.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) closeMenu();
+      });
+      menu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', closeMenu);
+      });
+    })();
 
 
     /* ---------- Configuración (PERSONALIZAR) ---------- */
@@ -1277,10 +1382,8 @@
       // Resumen
       document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 6 × ' + CATALOG.main.name : qtyLabel(); });
       document.querySelectorAll('.summary [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(now); });
-      var tot = document.querySelector('[data-total-out]');
-      if (tot) tot.textContent = quote ? 'Cotizar' : money(orderTotal());
-      var box = document.getElementById('summaryAddons');
-      if (box) {
+      document.querySelectorAll('[data-total-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(orderTotal()); });
+      document.querySelectorAll('.summary .summary-addons').forEach(function (box) {
         box.innerHTML = '';
         CATALOG.addons.forEach(function (a) {
           var q = state.addons[a.id] || 0;
@@ -1290,7 +1393,7 @@
           row.innerHTML = '<span>' + a.name + (q > 1 ? ' ×' + q : '') + '</span><span>' + money(a.unit * q) + '</span>';
           box.appendChild(row);
         });
-      }
+      });
       // Precio por fila (unit × cantidad)
       CATALOG.addons.forEach(function (a) {
         var q = state.addons[a.id] || 0;
@@ -1317,6 +1420,9 @@
       // CTA móvil
       var mc = document.querySelector('.mobile-cta .price');
       if (mc && mc.firstChild) mc.firstChild.textContent = (quote ? 'Cotiza ' : money(orderTotal()) + ' ');
+      // Carrito flotante: unidades totales (base + complementos + libro digital)
+      if (cartCount) cartCount.textContent = '+' + itemsCount() + ' Productos';
+      if (cartFab) cartFab.setAttribute('aria-label', 'Ver carrito, ' + itemsCount() + ' productos');
       // WhatsApp
       var wa = document.getElementById('waOrder');
       if (wa) wa.href = whatsappLink();
@@ -1345,6 +1451,38 @@
       if (!comboMore.value) return;
       if (comboMore.value === '6plus') setQty(state.qty, true); else setQty(parseInt(comboMore.value, 10), false);
     });
+
+    /* Carrito flotante: aparece al "Comprar ahora" o "Agregar al carrito" y refleja la selección en vivo */
+    var cartFab = document.getElementById('cartFab');
+    var cartCount = document.getElementById('cartCount');
+    var siteHeader = document.querySelector('.site-header');
+
+    // Unidades totales = base (state.qty) + complementos. El libro digital de regalo NO cuenta
+    // (el cliente no lo conoce aún y vería un +1 inesperado). El envío tampoco cuenta.
+    function itemsCount() {
+      var c = state.qty;
+      CATALOG.addons.forEach(function (a) { c += state.addons[a.id] || 0; });
+      return c;
+    }
+    function placeCartFab() {
+      if (!cartFab || !siteHeader) return;
+      cartFab.style.top = (siteHeader.getBoundingClientRect().bottom + 16) + 'px';
+    }
+    function revealCart() {
+      if (!cartFab) return;
+      cartFab.hidden = false;
+      placeCartFab();
+      requestAnimationFrame(function () { cartFab.classList.add('is-visible'); });
+    }
+    // Ambos CTAs (Comprar ahora y Agregar al carrito) despliegan el círculo +N.
+    document.querySelectorAll('#addToCart, .ml-actions .btn--primary').forEach(function (el) {
+      el.addEventListener('click', revealCart);
+    });
+    if (cartFab) {
+      placeCartFab();
+      window.addEventListener('scroll', placeCartFab, { passive: true });
+      window.addEventListener('resize', placeCartFab);
+    }
 
     /* Complementarios (cross-sell) con cantidad (1..ADDON_MAX) */
     var ADDON_MAX = 10;
