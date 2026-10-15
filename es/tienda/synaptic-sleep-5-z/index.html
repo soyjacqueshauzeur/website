@@ -327,8 +327,6 @@
     .summary-row .free{color:var(--accent-text)}
     .form-total{margin-top:16px}
     .secure-note{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--muted);font-size:var(--text-xs);margin-top:14px}
-    .wa-alt{text-align:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
-    .wa-alt p{font-size:var(--text-xs);color:var(--muted);margin-bottom:10px}
 
     .form-success{display:none;text-align:center;padding:20px 0}
     .form-success.show{display:block}
@@ -1004,6 +1002,7 @@
                 <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 <strong>Pedir por WhatsApp</strong> | <small class="pay-sub">Nequi, Daviplata o NuBank</small></span></label>
                 <label class="pay"><input type="radio" name="pago" value="contraentrega" /> <span>💵 <strong>Pago contraentrega</strong> | <small class="pay-sub">El valor del pedido aumenta un 10%</small></span></label>
               </div>
+              <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio.<!-- PERSONALIZAR: claves del gateway solo en el backend --></div>
               <div class="summary-row total form-total" style="margin-top:10px"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
 
               <div class="form-nav">
@@ -1011,11 +1010,6 @@
                 <button class="btn btn--primary btn--lg" type="submit">Confirmar pedido</button>
               </div>
               <p class="secure-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg> Tus datos están protegidos.</p>
-
-              <div class="wa-alt" id="waAlt">
-                <p>¿Prefieres pedir por WhatsApp?</p>
-                <a class="btn btn--wa btn--block" id="waOrder" href="https://wa.me/573507402009" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-              </div>
             </div>
 
             <!-- Confirmación (demo) -->
@@ -1444,9 +1438,6 @@
       // Carrito flotante: unidades totales (base + complementos + libro digital)
       if (cartCount) cartCount.textContent = itemsCount() + ' Productos';
       if (cartFab) cartFab.setAttribute('aria-label', 'Ver carrito, ' + itemsCount() + ' productos');
-      // WhatsApp
-      var wa = document.getElementById('waOrder');
-      if (wa) wa.href = whatsappLink();
       // Botón principal: "Comprar ahora" / "Cotizar por WhatsApp"
       var buy = document.querySelector('.ml-actions .btn--primary');
       if (buy) {
@@ -1681,16 +1672,12 @@
       f.addEventListener('change', function () { setError(f, false); });
     });
 
-    /* Método de pago: tarjeta oculta el botón de WhatsApp; "confirmar por WhatsApp" lo muestra */
+    /* Método de pago: "Compra rápida" muestra el detalle de tarjeta. */
     var payDetail = document.getElementById('payDetail');
-    var waAlt = document.getElementById('waAlt');
     function updatePay() {
       var pago = form.pago.value;
       state.pago = pago;
       payDetail.classList.toggle('show', pago === 'online');
-      // El bloque "Pedir por WhatsApp" queda oculto siempre: con tarjeta no aplica
-      // y con WhatsApp el botón "Confirmar pedido" ya envía el mensaje.
-      if (waAlt) waAlt.style.display = 'none';
       render(); // el recargo contraentrega (+10%) se refleja en el total
     }
     form.querySelectorAll('input[name="pago"]').forEach(function (r) { r.addEventListener('change', updatePay); });
@@ -1721,19 +1708,9 @@
       });
     }
 
-    /* Envío */
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (form.website.value) return; // honeypot
-
-      var ok = true;
-      ['ciudad', 'departamento', 'direccion'].forEach(function (id) {
-        var f = form[id]; var bad = !f.value.trim(); setError(f, bad); if (bad) ok = false;
-      });
-      if (!validEmail(form.correo.value)) { setError(form.correo, true); ok = false; }
-      if (!ok) { var fb = step2.querySelector('.has-error input, .has-error select'); if (fb) fb.focus(); return; }
-
-      var payload = {
+    /* Arma el payload del pedido desde el formulario + estado del carrito. */
+    function buildPayload() {
+      return {
         nombre: form.nombre.value.trim(),
         telefono: form.telefono.value.trim(),
         correo: form.correo.value.trim(),
@@ -1750,6 +1727,45 @@
         pago: form.pago.value,
         fecha: new Date().toISOString()
       };
+    }
+
+    /* Texto del mensaje de WhatsApp con todos los datos del formulario y del pedido. */
+    function whatsappMessage(payload, pagoLine, totalNote) {
+      return 'Hola, quiero confirmar mi pedido ' + payload.combo + ' — ' + money(payload.total) + (totalNote || '') + '.\n' +
+        (payload.addons.length ? 'Complementos: ' + payload.addons.map(function (a) { return a.name + ' ×' + a.qty; }).join(', ') + '\n' : '') +
+        'Pago: ' + pagoLine + '\n' +
+        'Nombre: ' + payload.nombre + '\n' +
+        'WhatsApp: ' + payload.telefono + '\n' +
+        'Correo: ' + payload.correo + '\n' +
+        'Ciudad: ' + payload.ciudad + '\n' +
+        'Departamento: ' + payload.departamento + '\n' +
+        'Dirección: ' + payload.direccion +
+        (payload.indicaciones ? '\nIndicaciones: ' + payload.indicaciones : '');
+    }
+
+    function openWhatsApp(payload, pagoLine, totalNote) {
+      window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(whatsappMessage(payload, pagoLine, totalNote)), '_blank');
+    }
+
+    /* Valida los campos del paso 2 (entrega). Devuelve true si todo está bien. */
+    function validateStep2() {
+      var ok = true;
+      ['ciudad', 'departamento', 'direccion'].forEach(function (id) {
+        var f = form[id]; var bad = !f.value.trim(); setError(f, bad); if (bad) ok = false;
+      });
+      if (!validEmail(form.correo.value)) { setError(form.correo, true); ok = false; }
+      if (!ok) { var fb = step2.querySelector('.has-error input, .has-error select'); if (fb) fb.focus(); }
+      return ok;
+    }
+
+    /* Envío */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.website.value) return; // honeypot
+
+      if (!validateStep2()) return;
+
+      var payload = buildPayload();
 
       try { sessionStorage.setItem('jh-order', JSON.stringify(payload)); } catch (err) {}
 
@@ -1759,23 +1775,19 @@
          - WhatsApp:     abrir wa.me con el resumen del pedido
          Nunca pongas claves del gateway en este archivo.
          ---------------------------------------------------------- */
-      if (payload.pago === 'whatsapp' || payload.pago === 'contraentrega') {
-        var pagoTxt = payload.pago === 'contraentrega' ? 'Pago contraentrega (+10%)' : 'Pedir por WhatsApp';
-        var msg = 'Hola, quiero confirmar mi pedido ' + payload.combo + ' — ' + money(payload.total) + '.\n' +
-          (payload.addons.length ? 'Complementos: ' + payload.addons.map(function (a) { return a.name + ' ×' + a.qty; }).join(', ') + '\n' : '') +
-          'Pago: ' + pagoTxt + '\n' +
-          'Nombre: ' + payload.nombre + '\n' +
-          'WhatsApp: ' + payload.telefono + '\n' +
-          'Correo: ' + payload.correo + '\n' +
-          'Ciudad: ' + payload.ciudad + '\n' +
-          'Departamento: ' + payload.departamento + '\n' +
-          'Dirección: ' + payload.direccion +
-          (payload.indicaciones ? '\nIndicaciones: ' + payload.indicaciones : '');
-        window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+      if (payload.pago === 'whatsapp') {
+        openWhatsApp(payload, 'Nequi, Daviplata o NuBank');
         window.location.href = CHECKOUT_URL;
         return;
       }
 
+      if (payload.pago === 'contraentrega') {
+        openWhatsApp(payload, 'Contraentrega (+10%)', ' (incluye +10% por contraentrega)');
+        window.location.href = CHECKOUT_URL;
+        return;
+      }
+
+      /* Compra rápida → MercadoPago (solo cantidades permitidas; catalogo gestionado en worker/server) */
       if (payload.pago === 'online') {
         startOnlinePayment(payload);
         return;
