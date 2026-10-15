@@ -317,6 +317,7 @@
     .pay{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:var(--radius);padding:14px;background:var(--surface-2);font-size:.95rem}
     .pay:has(input:checked){border-color:var(--accent-text);background:var(--accent-soft)}
     .pay input{accent-color:var(--accent-text);width:18px;height:18px}
+    .pay-sub{font-size:var(--text-xs);color:var(--muted);font-weight:400}
     .pay-detail{display:none;font-size:var(--text-sm);color:var(--muted);background:var(--bg);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:12px 14px;margin-bottom:18px}
     .pay-detail.show{display:block}
 
@@ -324,6 +325,7 @@
     .summary-row{display:flex;justify-content:space-between;font-size:.95rem;padding:6px 0;color:var(--muted)}
     .summary-row.total{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;color:var(--text);font-family:var(--font-display);font-size:1.2rem}
     .summary-row .free{color:var(--accent-text)}
+    .form-total{margin-top:16px}
     .secure-note{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--muted);font-size:var(--text-xs);margin-top:14px}
     .wa-alt{text-align:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
     .wa-alt p{font-size:var(--text-xs);color:var(--muted);margin-bottom:10px}
@@ -621,6 +623,7 @@
       <div class="summary-addons"></div>
       <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
       <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
+      <div class="summary-surcharge" data-surcharge></div>
       <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
     </div>
   </aside>
@@ -681,7 +684,8 @@
               <option value="3">3 unidades</option>
               <option value="4">4 unidades</option>
               <option value="5">5 unidades</option>
-              <option value="6plus">Más de 5 unidades</option>
+              <option value="6">6 unidades</option>
+              <option value="6plus">Más de 6 unidades</option>
             </select>
           </div>
 
@@ -878,7 +882,8 @@
                 <option value="">Selecciona…</option>
                 <option value="4">4 unidades</option>
                 <option value="5">5 unidades</option>
-                <option value="6plus">Más de 5 unidades (cotizar)</option>
+                <option value="6">6 unidades</option>
+                <option value="6plus">Más de 6 unidades (cotizar)</option>
               </select>
             </div>
 
@@ -925,6 +930,7 @@
               <div class="summary-addons" id="summaryAddons"></div>
               <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
               <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
+              <div class="summary-surcharge" data-surcharge></div>
               <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
             </div>
           </div>
@@ -994,10 +1000,11 @@
 
               <h3 style="margin:20px 0 12px;font-size:var(--text-lg)">Método de pago</h3>
               <div class="pay-options">
-                <label class="pay"><input type="radio" name="pago" value="online" checked /> <span>💳 Tarjeta, PSE, Nequi, Daviplata o NuBank</span></label>
-                <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 Prefiero confirmar por WhatsApp</span></label>
+                <label class="pay"><input type="radio" name="pago" value="online" checked /> <span>💳 <strong>Compra rápida</strong> | <small class="pay-sub">Tarjeta débito o crédito, PSE</small></span></label>
+                <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 <strong>Pedir por WhatsApp</strong> | <small class="pay-sub">Nequi, Daviplata o NuBank</small></span></label>
+                <label class="pay"><input type="radio" name="pago" value="contraentrega" /> <span>💵 <strong>Pago contraentrega</strong> | <small class="pay-sub">El valor del pedido aumenta un 10%</small></span></label>
               </div>
-              <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio.<!-- PERSONALIZAR: claves del gateway solo en el backend --></div>
+              <div class="summary-row total form-total" style="margin-top:10px"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
 
               <div class="form-nav">
                 <button class="btn btn--ghost" type="button" id="backBtn">Atrás</button>
@@ -1318,7 +1325,7 @@
       ]
     };
     var PRODUCT = CATALOG.main.name;
-    var state = { qty: 1, quoteOnly: false, discount: 1, addons: {} };
+    var state = { qty: 1, quoteOnly: false, discount: 1, addons: {}, pago: 'online' };
 
     function money(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
     function mainPrice() { return state.qty * CATALOG.main.unit; }
@@ -1328,6 +1335,9 @@
       var t = 0; CATALOG.addons.forEach(function (a) { t += a.unit * (state.addons[a.id] || 0); }); return t;
     }
     function orderTotal() { return mainNow() + addonsTotal(); }
+    // Recargo por pago contraentrega: +10% sobre el pedido. Si no aplica, 0.
+    function contraSurcharge() { return state.pago === 'contraentrega' ? Math.round(orderTotal() * 0.10) : 0; }
+    function grandTotal() { return orderTotal() + contraSurcharge(); }
     function savingsTotal() {
       var s = mainOld() - mainNow();
       CATALOG.addons.forEach(function (a) { var q = state.addons[a.id] || 0; if (q) s += Math.max(0, a.unitOld - a.unit) * q; });
@@ -1341,7 +1351,7 @@
     function whatsappLink() {
       var list = addonsLabel();
       var msg = state.quoteOnly
-        ? 'Hola, quiero cotizar más de 5 unidades de ' + CATALOG.main.name + '.'
+        ? 'Hola, quiero cotizar más de 6 unidades de ' + CATALOG.main.name + '.'
         : 'Hola, quiero pedir ' + qtyLabel() + (list ? ' + ' + list : '') + ' — ' + money(orderTotal()) + '.';
       return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
     }
@@ -1358,7 +1368,7 @@
         if (el.getAttribute('role') === 'radio') el.setAttribute('aria-checked', active ? 'true' : 'false');
       });
       if (qtySelect) qtySelect.value = state.quoteOnly ? '6plus' : String(state.qty);
-      if (comboMore) comboMore.value = state.quoteOnly ? '6plus' : (state.qty >= 4 && state.qty <= 5 ? String(state.qty) : '');
+      if (comboMore) comboMore.value = state.quoteOnly ? '6plus' : (state.qty >= 4 && state.qty <= 6 ? String(state.qty) : '');
     }
 
     function render() {
@@ -1366,7 +1376,7 @@
       var now = mainNow();
       // Ficha (buy box)
       document.querySelectorAll('.buybox [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotiza' : money(now); });
-      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 5 unidades' : money(CATALOG.main.unit * state.discount) + ' c/u'; });
+      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 6 unidades' : money(CATALOG.main.unit * state.discount) + ' c/u'; });
       document.querySelectorAll('[data-old-out]').forEach(function (el) { el.textContent = quote ? '' : money(mainOld()); });
       document.querySelectorAll('[data-ahorro-out]').forEach(function (el) { el.textContent = quote ? '' : money(savingsTotal()); });
       var off = document.querySelector('.price-off');
@@ -1384,9 +1394,16 @@
         }
       });
       // Resumen
-      document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 5 × ' + CATALOG.main.name : qtyLabel(); });
+      document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 6 × ' + CATALOG.main.name : qtyLabel(); });
       document.querySelectorAll('.summary [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(now); });
-      document.querySelectorAll('[data-total-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(orderTotal()); });
+      document.querySelectorAll('[data-total-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(grandTotal()); });
+      // Recargo por pago contraentrega (+10%), visible en cada resumen
+      document.querySelectorAll('.summary [data-surcharge]').forEach(function (box) {
+        var fee = contraSurcharge();
+        box.innerHTML = fee > 0
+          ? '<div class="summary-row"><span>Recargo contraentrega (10%)</span><span>' + money(fee) + '</span></div>'
+          : '';
+      });
       document.querySelectorAll('.summary .summary-addons').forEach(function (box) {
         box.innerHTML = '';
         CATALOG.addons.forEach(function (a) {
@@ -1423,7 +1440,7 @@
       }
       // CTA móvil
       var mc = document.querySelector('.mobile-cta .price');
-      if (mc && mc.firstChild) mc.firstChild.textContent = (quote ? 'Cotiza ' : money(orderTotal()) + ' ');
+      if (mc && mc.firstChild) mc.firstChild.textContent = (quote ? 'Cotiza ' : money(grandTotal()) + ' ');
       // Carrito flotante: unidades totales (base + complementos + libro digital)
       if (cartCount) cartCount.textContent = itemsCount() + ' Productos';
       if (cartFab) cartFab.setAttribute('aria-label', 'Ver carrito, ' + itemsCount() + ' productos');
@@ -1669,10 +1686,12 @@
     var waAlt = document.getElementById('waAlt');
     function updatePay() {
       var pago = form.pago.value;
+      state.pago = pago;
       payDetail.classList.toggle('show', pago === 'online');
       // El bloque "Pedir por WhatsApp" queda oculto siempre: con tarjeta no aplica
       // y con WhatsApp el botón "Confirmar pedido" ya envía el mensaje.
       if (waAlt) waAlt.style.display = 'none';
+      render(); // el recargo contraentrega (+10%) se refleja en el total
     }
     form.querySelectorAll('input[name="pago"]').forEach(function (r) { r.addEventListener('change', updatePay); });
     updatePay();
@@ -1688,7 +1707,7 @@
     }
     function startOnlinePayment(payload) {
       if (['1', '2', '3'].indexOf(String(payload.qty)) === -1) {
-        alert('Para más de 5 unidades, pide una cotización por WhatsApp.');
+        alert('Para más de 6 unidades, pide una cotización por WhatsApp.');
         return;
       }
       loadCheckout(function () {
@@ -1723,10 +1742,10 @@
         direccion: form.direccion.value.trim(),
         indicaciones: form.indicaciones.value.trim(),
         producto: PRODUCT,
-        combo: state.quoteOnly ? 'Más de 5 × ' + PRODUCT : qtyLabel(),
+        combo: state.quoteOnly ? 'Más de 6 × ' + PRODUCT : qtyLabel(),
         qty: state.quoteOnly ? '6plus' : state.qty,
         addons: CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; }).map(function (a) { return { id: a.id, name: a.name, qty: state.addons[a.id], unit: a.unit }; }),
-        total: orderTotal(),
+        total: grandTotal(),
         descuentoDia: state.discount < 1 ? '10%' : 'no',
         pago: form.pago.value,
         fecha: new Date().toISOString()
@@ -1740,9 +1759,11 @@
          - WhatsApp:     abrir wa.me con el resumen del pedido
          Nunca pongas claves del gateway en este archivo.
          ---------------------------------------------------------- */
-      if (payload.pago === 'whatsapp') {
+      if (payload.pago === 'whatsapp' || payload.pago === 'contraentrega') {
+        var pagoTxt = payload.pago === 'contraentrega' ? 'Pago contraentrega (+10%)' : 'Pedir por WhatsApp';
         var msg = 'Hola, quiero confirmar mi pedido ' + payload.combo + ' — ' + money(payload.total) + '.\n' +
           (payload.addons.length ? 'Complementos: ' + payload.addons.map(function (a) { return a.name + ' ×' + a.qty; }).join(', ') + '\n' : '') +
+          'Pago: ' + pagoTxt + '\n' +
           'Nombre: ' + payload.nombre + '\n' +
           'WhatsApp: ' + payload.telefono + '\n' +
           'Correo: ' + payload.correo + '\n' +
