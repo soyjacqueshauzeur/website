@@ -413,6 +413,11 @@
       .menu-toggle{display:grid}
       .theme-toggle{margin-inline-start:auto}
     }
+    @media(max-width:375px){
+      .brand{font-size:var(--text-sm)}
+      .theme-toggle{width:38px;height:38px}
+      .menu-toggle{width:38px;height:38px}
+    }
     @media(min-width:900px){.mobile-menu,.menu-overlay{display:none!important}}
     .menu-overlay{position:fixed;inset:0;z-index:90;background:rgba(5,5,7,.6);backdrop-filter:blur(2px);opacity:0;transition:opacity var(--dur-base) var(--ease-out)}
     .menu-overlay.is-open{opacity:1}
