@@ -1,5 +1,5 @@
 /**
- * store/server/example-server.js
+ * es/tienda/soy/server/example-server.js
  * -------------------------------------------------------------
  * Backend mínimo de EJEMPLO para la landing (Node.js + Express).
  *

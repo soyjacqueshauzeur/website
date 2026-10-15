@@ -21,7 +21,7 @@
         tags: 'Social · email · content',
         pageTitle: 'Marketing that<br/><span class="lime">shows up</span>,<br/>month after month.',
         pageSub: "A monthly marketing hire for founders who don't have a marketing team — or the time to be one. I run the channels your customers actually use: the message, the calendar and the content. Your business keeps showing up without you chasing it.",
-        pageMeta: 'Monthly hire · pause or cancel anytime',
+        pageMeta: 'Prepaid · one payment for the months you pick',
         includes: [
           'Audience and channel strategy on your real customers',
           'Social content calendar — written, designed and posted',
@@ -41,7 +41,7 @@
         tags: 'Paid media · tracking · funnels',
         pageTitle: 'Paid campaigns<br/>with <span class="lime">a number</span><br/>on the end.',
         pageSub: 'Ads you can actually read. Every campaign is built around a target and a budget, with tracking that tells you what came back at the end of the month. Setup, management and honest reporting — no vanity metrics.',
-        pageMeta: 'Monthly hire · managed end to end',
+        pageMeta: 'Prepaid · one payment · managed end to end',
         includes: [
           'Platform and audience strategy for your market',
           'Ad creative and copy that speaks to the target',
@@ -61,7 +61,7 @@
         tags: 'Live chat · messengers · booking',
         pageTitle: 'Chatbots that<br/><span class="lime">answer, qualify</span><br/>and book.',
         pageSub: 'A conversational assistant on the channels your customers already use — answering the repeat questions, qualifying leads and booking calls while you sleep. You review the conversations; the bot does the heavy lifting.',
-        pageMeta: 'Monthly hire · built and maintained',
+        pageMeta: 'Prepaid · one payment · built and maintained',
         includes: [
           'Conversation flows for your most common questions',
           'Lead qualification before it reaches you',
@@ -81,7 +81,7 @@
         tags: 'Assistants · automations · workflows',
         pageTitle: 'AI that does<br/><span class="lime">real work</span><br/>this week.',
         pageSub: 'Practical AI, not a demo. Assistants, automations and workflows set up on your real stack — the kind that save hours this very week and that you can actually run and change yourself.',
-        pageMeta: 'Monthly hire · built on your stack',
+        pageMeta: 'Prepaid · one payment · built on your stack',
         includes: [
           'Audit of where AI saves you real hours',
           'Custom assistants trained on your business',
@@ -101,7 +101,7 @@
         tags: 'Cash flow · budgets · forecasts',
         pageTitle: 'Your money,<br/><span class="lime">run on</span><br/>technology.',
         pageSub: 'Numbers you can finally see. Budgets, cash flow and forecasts set up in tools that keep the money side of your business honest — so you decide from clarity, not from a gut feeling.',
-        pageMeta: 'Monthly hire · numbers you can read',
+        pageMeta: 'Prepaid · one payment · numbers you can read',
         includes: [
           'Budget and cash-flow setup that matches how you work',
           'Forecasts you can update in minutes, not days',
@@ -121,7 +121,7 @@
         tags: 'Websites · stores · analytics',
         pageTitle: 'Your website and store,<br/><span class="lime">ready to</span><br/>sell.',
         pageSub: 'Your website and store, built to sell, not just to exist. Design, product pages, checkout and analytics that tell you why people buy — and the changes that move the number each month.',
-        pageMeta: 'Monthly hire · website + store',
+        pageMeta: 'Prepaid · one payment · website + store',
         includes: [
           'Website and store review — design, product pages and checkout',
           'Conversion fixes shipped each month',
@@ -136,7 +136,7 @@
       hire: 'View this service',
       add: 'Hire',
       priceMonth: '/month',
-      everyMonth: 'every month, no lock-in',
+      everyMonth: 'one payment for the months you choose',
       viewService: 'View service',
       duration: 'Duration',
       durationPick: 'How many months?',
@@ -149,7 +149,7 @@
       total: 'Total due',
       approxTotal: 'Approx. in your currency',
       perItem: '/mo',
-      billingNote: 'Prices in USD, before any tax. When you send the order I reply with the payment link for the exact amount.',
+      billingNote: 'Prices in USD, before any tax. You pay the full total once, for the months you choose; when you send the order I reply with the payment link for the exact amount.',
       sendTitle: 'Send the order',
       paymentTitle: 'How do you want to pay?',
       paymentNote: 'Choose the method and send the order — I confirm and send you the payment link right away.',
@@ -164,13 +164,13 @@
       min: 'min.',
       youGet: 'What you get each month',
       otherServices: 'Also hireable',
-      otherLede: 'Hire more than one service and run them as one monthly system.',
+      otherLede: 'Hire more than one service and run them as one system — one single payment.',
       hireAnother: 'Bundle it',
       openCart: 'Review & send order'
     },
 
     payments: [
-      { id: 'mercadopago', label: 'Mercado Pago', note: 'Cards, PSE and local payments' },
+      { id: 'mercadopago', label: 'Mercado Pago', note: 'Credit card · one-time payment' },
       { id: 'paypal', label: 'PayPal', note: 'PayPal balance or card' },
       { id: 'bank', label: 'Local bank transfer', note: 'Direct deposit in your country' },
       { id: 'other', label: 'Other / let\u2019s agree', note: 'Whatever works for you' }

@@ -37,9 +37,9 @@ const COPY = {
     hub: {
       title: 'Hire Jacques Hauzeur — monthly services & rates',
       desc: 'Hire Jacques Hauzeur by the month — marketing, paid campaigns, chatbots, AI, financial planning and e-commerce. One service or several, 1–12 months.',
-      eyebrow: 'Monthly hire · no lock-in',
+      eyebrow: 'Hire · one-time payment',
       h1: 'Hire me by the<br/><span class="lime">month</span>.<br/>No lock-in <span class="slash">//</span>',
-      sub: 'Pick one service or bundle several. Each hire runs monthly for the duration you choose — 1, 3, 6 or 12 months. Send the order, I confirm the same day and get you set up. Pause or cancel anytime.',
+      sub: 'Pick one service or bundle several for the duration you choose — 1, 3, 6 or 12 months. You pay the full total once (no monthly billing). Send the order and I confirm the same day.',
       ctaPrimary: 'See the services',
       ctaSecondary: 'Ask me first',
       sideTitle: 'How the hire works',
@@ -79,9 +79,9 @@ const COPY = {
     hub: {
       title: 'Contrata a Jacques Hauzeur — servicios y tarifas mensuales',
       desc: 'Contrata a Jacques Hauzeur por mes — marketing, campañas, chatbots, IA, finanzas y e-commerce. Un servicio o varios, de 1 a 12 meses.',
-      eyebrow: 'Hire mensual · sin permanencia',
+      eyebrow: 'Hire · un solo pago',
       h1: 'Contrátame por<br/><span class="lime">mes</span>.<br/>Sin permanencia <span class="slash">//</span>',
-      sub: 'Elige un servicio o combina varios. Cada hire es mensual por la duración que elijas — 1, 3, 6 o 12 meses. Envía el pedido, confirmo el mismo día y te dejo todo funcionando. Pausa o cancela cuando quieras.',
+      sub: 'Elige un servicio o combina varios por la duración que elijas — 1, 3, 6 o 12 meses. Pagas el total una sola vez (sin cobro mensual). Envía el pedido y confirmo el mismo día.',
       ctaPrimary: 'Ver los servicios',
       ctaSecondary: 'Pregúntame primero',
       sideTitle: 'Cómo funciona',
@@ -159,6 +159,7 @@ ${footerHTML(lang)}
   <script src="${A}/js/hire-data${L.dataSuffix}.js" defer></script>
   <script src="${A}/js/hire.js" defer></script>
   <script src="${A}/js/site.js" defer></script>
+  <script src="${A}/js/payment-return.js" defer></script>
 ${L.terms ? '  <script src="' + A + '/js/terms.js" defer></script>\n' : ''}</body>
 </html>
 `;
@@ -174,6 +175,7 @@ function hubBody(lang, copy, data) {
     .map(([t, d], i) => `<li><b>0${i + 1} · ${t}</b><span>${d}</span></li>`)
     .join('\n            ');
   return `
+    <div data-payment-status class="container container--wide"></div>
     <!-- Hub hero -->
     <section class="hero">
       <div class="container container--wide">

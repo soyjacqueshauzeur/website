@@ -139,14 +139,14 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - Para preguntas de pagos/checkout (Checkout Pro, preferencias, webhooks, credenciales, pruebas) usar las tools del MCP **`mercadopago`** (p. ej. `search-documentation`) en lugar de inventar endpoints, campos o flujos.
 - Config **personal, no va al repo**: `~/.config/opencode/opencode.jsonc` con `"mercadopago"` (`type: remote`, `url: https://mcp.mercadopago.com/mcp`, `oauth: false`) y el Access Token en `~/.config/opencode/mercadopago.token` (`chmod 600`), leído con `{file:…}`. Nunca commitear el token.
 - Con Access Token **no** están disponibles `application_list`, `create_application`, `get_credentials` (requieren OAuth).
-- El backend de ejemplo del store (`es/tienda/synaptic-sleep-5-z/server/`) es solo demo (`example-server.js` + `.env.example`).
+- El backend de ejemplo del store (`es/tienda/soy/server/`) es solo demo (`example-server.js` + `.env.example`).
 
 ## Pagos reales (Checkout Pro) — backend serverless multi-área
 - La web es estática (GitHub Pages): **el Access Token NUNCA va en el repo/HTML/JS**. Vive como secreto en un backend serverless.
-- Backend genérico listo para desplegar: `es/tienda/synaptic-sleep-5-z/server/cloudflare/` (`worker.js` + `catalog.json` + `wrangler.toml` + `README.md`). Soporta áreas `tienda`, `services`, `sessions`; los precios salen del **catálogo del servidor** (no del navegador).
+- Backend genérico listo para desplegar: `es/tienda/soy/server/cloudflare/` (`worker.js` + `catalog.json` + `wrangler.toml` + `README.md`). Soporta áreas `tienda`, `services`, `sessions`; los precios salen del **catálogo del servidor** (no del navegador).
 - Cliente compartido: `assets/js/checkout.js` (`window.JH_CHECKOUT.pay({ area, items:[{id,qty}], payer?, back?, backFail? })`); se carga de forma perezosa desde `hire.js` (servicios), `class-booking.js` (1:1) y las páginas de la tienda (`product.html` / `index.html`). Edita su `BACKEND` (o define `window.JH_CHECKOUT_BACKEND`).
 - Desplegar: `wrangler secret put MP_ACCESS_TOKEN` + `wrangler deploy`. En producción, `accountCurrency` COP y los precios USD de servicios/1:1 se convierten a COP (tasa `USD_COP` o Frankfurter).
-- Endpoints: `POST /crear-preferencia` (pago único) y `POST /crear-suscripcion` (`preapproval`, mensual; cliente `JH_CHECKOUT.subscribe`). **Idempotencia** vía `X-Idempotency-Key` (el cliente la manda; anti doble-clic).
+- Endpoints: `POST /crear-preferencia` (**pago único del total**, sin suscripciones). **Idempotencia** vía `X-Idempotency-Key` (el cliente la manda; anti doble-clic).
 - Webhook `POST /webhook/mercadopago`: responde **200 al instante** y procesa con `ctx.waitUntil`; persiste el pago en KV si el binding `PAYMENTS` está configurado (si no, loguea).
-- Estado/avance y pendientes: `es/tienda/synaptic-sleep-5-z/server/cloudflare/STATUS.md`.
+- Estado/avance y pendientes: `es/tienda/soy/server/cloudflare/STATUS.md`.
 

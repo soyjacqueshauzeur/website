@@ -31,3 +31,6 @@ La plantilla [[Blog post]] replica sus secciones **1 · Contenido, 2 · Imagen, 
 
 ## Publicar
 Cuando una nota esté lista, se escribe el artículo en la web siguiendo la estructura de `AGENTS.md` (sección Blog) y se registra en `assets/js/blog-data*.js`.
+
+## Otras notas (no-blog)
+- [[Backend de pagos (MercadoPago)]] — tutorial del backend de pagos (con checklist de pasos).

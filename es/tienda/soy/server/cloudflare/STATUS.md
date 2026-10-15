@@ -8,27 +8,37 @@ Documento de avance: qué está hecho, qué falta y cómo probarlo.
 - **Multi-área**: `tienda`, `services`, `sessions`. Los precios salen del
   **catálogo del servidor** (nunca del navegador).
 - `GET /`, `GET /catalogo[?area=]`, `POST /crear-preferencia`,
-  `POST /crear-suscripcion`, `POST /webhook/mercadopago`.
+  `POST /webhook/mercadopago`.
 - Conversión USD→COP (`USD_COP` o Frankfurter, fallback `fx.USD`).
 - **Idempotencia**: acepta `X-Idempotency-Key` y la reenvía a MP (evita duplicados).
 - **Webhook**: responde **200 al instante** y procesa en segundo plano
   (`ctx.waitUntil`): consulta el pago y lo **persiste en KV** si el binding
   `PAYMENTS` está configurado (si no, lo loguea).
-- **Suscripción mensual** (`/crear-suscripcion` → `preapproval`) lista para usar.
+- **Solo tarjeta de crédito**: la preferencia excluye efectivo, transferencia/débito
+  y ATM (`payment_methods.excluded_payment_types`), con `installments` y
+  `statement_descriptor`. (El saldo "Dinero en cuenta" de MP no se puede excluir.)
+- **Cobro = pago único del TOTAL** (`precio × cantidad`), **sin suscripciones**:
+  la "cantidad" son los meses (servicios), los bloques de 90 min (1:1) o las
+  unidades (tienda). No existe `preapproval` en el flujo.
 
 ### Cliente compartido (`assets/js/checkout.js`)
-- `JH_CHECKOUT.pay(...)` y `JH_CHECKOUT.subscribe(...)`.
+- `JH_CHECKOUT.pay(...)` (pago único del total). **Sin `subscribe()`**: no hay recurrencia.
 - **Anti doble-clic** (`inFlight`) + deshabilitar el botón + `Idempotency-Key`
   por carrito (sessionStorage).
 - Carga perezosa (`JH_CHECKOUT.load`).
 
+### Aviso de retorno (`assets/js/payment-return.js`)
+- Lee `status`/`collection_status`, `payment_id`, `external_reference` (y el
+  fallback `?pago=ok|error`), limpia la URL y muestra un aviso (EN/ES).
+- Cableado en `services.html` / `es/services.html` y `sessions.html` / `es/sesiones.html`.
+
 ### Cableado por área
 - **Tienda**: `product.html` y `index.html` (opción “pago online”).
-- **Servicios**: `hire.js` (carrito mensual → Mercado Pago).
-- **1:1**: `class-booking.js` (sesiones × 90 min → Mercado Pago).
+- **Servicios**: `hire.js` (carrito → Mercado Pago; `qty` = meses, **pago único del total**).
+- **1:1**: `class-booking.js` (bloques de 90 min → Mercado Pago; **pago único del total**).
 
 ### Verificación
-- `node --check` de `worker.js`, `checkout.js`, `hire.js`, `class-booking.js`.
+- `node --check` de `worker.js`, `checkout.js`, `payment-return.js`, `hire.js`, `class-booking.js`.
 - Prueba en navegador: botón “Pay with Mercado Pago” en servicios y 1:1; la tienda
   envía `{area:"tienda", items:[{id,qty}], payer, back}`; 0 errores de consola.
 - `i18n-sync-check` y `seo-check`: PASS.
@@ -50,19 +60,18 @@ Documento de avance: qué está hecho, qué falta y cómo probarlo.
 6. **Guardar el pedido/usuario en una base de datos** al recibir el webhook
    (hoy: KV opcional + logs). Para tienda → pedido; para servicios → estado del
    cliente; para 1:1 → reserva.
-7. **Cablear `subscribe()`** para cobrar los **servicios mensuales como
-   suscripción real** (hoy cobran pago único de N meses). Requiere decidir la UX
-   (mensual recurrente vs. prepago de N meses).
-8. **Reintentos/sincronización** DB↔MP (si se cae el webhook o vence una
-   suscripción, un proceso propio debe conciliar; MP solo notifica cambios).
-9. **Reflejar el resultado del pago** en las páginas de retorno
-   (`services.html`, `sesiones.html`, `gracias.html`) leyendo `?pago=ok|error`.
+7. **Reintentos/sincronización** DB↔MP (si se cae el webhook). MP solo notifica cambios.
+8. **Tienda** (otra etapa): reflejar el resultado del pago en `gracias.html` /
+   `pago-fallido.html`. Servicios y 1:1 ya lo hacen con `payment-return.js`.
+
+> Las **suscripciones mensuales quedan descartadas**: el modelo es pago único del
+> total (N meses / N bloques de 90 min).
 
 ### Decisiones de negocio
-10. Moneda/tasa: confirmar `USD_COP` fijo o dejar Frankfurter (varía a diario).
+9. Moneda/tasa: confirmar `USD_COP` fijo o dejar Frankfurter (varía a diario).
+10. Cuotas del comprador: se ofrecen (`installments: 12`); ajustar si se quieren ocultar.
 11. Tienda: `index.html` con combos 6+/addons no está en el catálogo (solo 1/2/3);
     definir esos precios o dejarlos como cotización por WhatsApp.
-12. ¿Suscripción real (preapproval) o prepago de meses para servicios/1:1?
 
 ## Cómo probar (una vez desplegado)
 ```bash

@@ -11,9 +11,12 @@
  * Rutas:
  *   GET  /                       -> health check
  *   GET  /catalogo[?area=x]      -> catálogo público (ids, títulos, precios)
- *   POST /crear-preferencia      -> pago único (Checkout Pro)
- *   POST /crear-suscripcion      -> suscripción mensual (preapproval)
+ *   POST /crear-preferencia      -> pago único del TOTAL (Checkout Pro, solo tarjeta)
  *   POST /webhook/mercadopago    -> notificaciones de pago (responde 200 rápido)
+ *
+ * Modelo de cobro: UN solo pago por el total (precio × cantidad). Nada recurrente:
+ * la "cantidad" son los meses (servicios), los bloques de 90 min (1:1) o las
+ * unidades (tienda). No hay suscripciones.
  *
  * Desplegar:
  *   npm i -g wrangler && wrangler login
@@ -48,9 +51,6 @@ export default {
       }
       if (request.method === 'POST' && url.pathname === '/crear-preferencia') {
         return await crearPreferencia(request, env, url, origin);
-      }
-      if (request.method === 'POST' && url.pathname === '/crear-suscripcion') {
-        return await crearSuscripcion(request, env, url, origin);
       }
       if (url.pathname === '/webhook/mercadopago') {
         return await webhook(request, env, ctx, origin);
@@ -189,6 +189,18 @@ async function crearPreferencia(request, env, url, origin) {
       failure: `${base}${failure}`
     },
     auto_return: 'approved',
+    // Solo tarjeta de crédito: se excluyen efectivo, transferencia/débito y ATM.
+    // (El saldo "Dinero en cuenta" de MP no se puede excluir.)
+    payment_methods: {
+      excluded_payment_types: [
+        { id: 'ticket' },
+        { id: 'bank_transfer' },
+        { id: 'atm' },
+        { id: 'debit_card' }
+      ],
+      installments: 12
+    },
+    statement_descriptor: 'JACQUESHAUZEUR',
     notification_url: `${url.origin}/webhook/mercadopago`
   };
 
@@ -211,54 +223,7 @@ async function crearPreferencia(request, env, url, origin) {
   );
 }
 
-/* Suscripción mensual (preapproval) — pensada para `services` (hire mensual). */
-async function crearSuscripcion(request, env, url, origin) {
-  const body = await request.json().catch(() => null);
-  const area = body && body.area ? String(body.area) : null;
-  const cfg = area ? AREAS[area] : null;
-  if (!cfg) return json({ ok: false, error: `Área desconocida: ${area}` }, 400, origin);
-
-  const payer = body.payer || {};
-  if (!payer.email) return json({ ok: false, error: 'La suscripción necesita payer.email.' }, 400, origin);
-
-  // Importe recurrente = suma de precios mensuales de los servicios elegidos (qty = 1 c/u).
-  const resolved = await resolveItems(env, area, (body.items || []).map((it) => ({ id: it.id, qty: 1 })));
-  if (resolved.error) return json({ ok: false, error: resolved.error }, 400, origin);
-
-  const base = (env.PUBLIC_BASE_URL || url.origin).replace(/\/$/, '');
-  const back = safePath(body.back, cfg.success);
-
-  const preapproval = {
-    reason: body.reason || String(resolved.items[0].title),
-    auto_recurring: {
-      frequency: 1,
-      frequency_type: 'months',
-      transaction_amount: resolved.total,
-      currency_id: ACCOUNT_CURRENCY
-    },
-    payer_email: payer.email,
-    back_url: `${base}${back}`,
-    status: 'pending'
-  };
-
-  const res = await fetch('https://api.mercadopago.com/preapproval', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.MP_ACCESS_TOKEN}`,
-      'Content-Type': 'application/json',
-      'X-Idempotency-Key': idempotencyKey(request, body)
-    },
-    body: JSON.stringify(preapproval)
-  });
-  const data = await res.json();
-
-  if (!res.ok) return json({ ok: false, error: data.message || 'No se pudo crear la suscripción' }, 502, origin);
-  return json(
-    { ok: true, area, total: resolved.total, currency: ACCOUNT_CURRENCY, id: data.id, init_point: data.init_point },
-    200,
-    origin
-  );
-}
+/* (Las suscripciones mensuales se descartaron: el modelo es pago único del total.) */
 
 /* Webhook: responde 200 al instante y procesa en segundo plano (ctx.waitUntil). */
 async function webhook(request, env, ctx, origin) {

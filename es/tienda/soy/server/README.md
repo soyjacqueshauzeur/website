@@ -11,8 +11,8 @@ de ejemplo.
 | `product.html` | Landing de producto optimizada (autocontenida: CSS + JS). |
 | `gracias.html` | Confirmación tras pedido contra entrega (lee `sessionStorage['jh-order']`). |
 | `pago-fallido.html` | Página de pago rechazado / cancelado. |
-| `server/example-server.js` | Backend de ejemplo (Express + MercadoPago). |
-| `server/.env.example` | Variables de entorno de ejemplo. |
+| `example-server.js` | Backend de ejemplo (Express + MercadoPago). |
+| `.env.example` | Variables de entorno de ejemplo. |
 
 ## Cambios estructurales aplicados (vs. la versión base)
 
@@ -36,7 +36,7 @@ de ejemplo.
 ## Backend y pagos (MercadoPago)
 
 ```bash
-cd server
+cd es/tienda/soy/server
 npm init -y
 npm install express cors mercadopago dotenv
 cp .env.example .env      # rellena MP_ACCESS_TOKEN

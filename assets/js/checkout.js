@@ -1,8 +1,7 @@
-/* Shared MercadoPago client (Checkout Pro + suscripciones).
+/* Shared MercadoPago client (Checkout Pro — pago único del total).
    Llama al backend serverless (que guarda el secreto) y redirige al checkout.
 
      JH_CHECKOUT.pay({ area, items:[{id,qty}], payer?, back?, backFail?, button? })
-     JH_CHECKOUT.subscribe({ area, items:[{id}], payer:{email}, back? })
 
    El backend resuelve los precios desde su catálogo; el navegador solo manda
    ids + cantidades. Incluye anti doble-clic e Idempotency-Key por carrito. */
@@ -81,7 +80,6 @@
 
   window.JH_CHECKOUT = {
     pay: function (opts) { return go('/crear-preferencia', opts, opts && opts.button); },
-    subscribe: function (opts) { return go('/crear-suscripcion', opts, opts && opts.button); },
     load: load,
     backend: BACKEND
   };

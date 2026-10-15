@@ -45,7 +45,7 @@ navegador: el cliente solo manda `{ area, items:[{id,qty}] }`.
 
 ## Desplegar
 ```bash
-cd es/tienda/synaptic-sleep-5-z/server/cloudflare
+cd es/tienda/soy/server/cloudflare
 npm i -g wrangler && wrangler login
 wrangler secret put MP_ACCESS_TOKEN     # APP_USR-… (cifrado, fuera del repo)
 wrangler deploy

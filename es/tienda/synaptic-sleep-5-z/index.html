@@ -109,6 +109,7 @@
 
     /* ===== TEMA CLARO (por defecto según la hora del navegador) ===== */
     html[data-theme="light"]{
+      color-scheme:light;
       --bg:#F4F4F0;--surface:#FFFFFF;--surface-2:#ECECE6;--surface-elev:#E4E4DD;
       --line:rgba(10,10,12,.10);--line-strong:rgba(10,10,12,.18);
       --text:#0A0A0C;--muted:#6A6A65;--text-soft:#3F3F3A;
@@ -126,7 +127,7 @@
     html[data-theme="light"] .site-footer{--surface:#111114;--surface-2:#18181C;--surface-elev:#232328;--line:rgba(244,244,240,.08);--line-strong:rgba(244,244,240,.16);--text:#F4F4F0;--text-soft:#C9C9C2;--muted:#80807A;--accent-text:#D4FF3D;background:#111114;color:#F4F4F0}
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;background:var(--bg);-webkit-text-size-adjust:100%}
+    html{scroll-behavior:smooth;background:var(--bg);-webkit-text-size-adjust:100%;color-scheme:dark}
     body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;overflow-x:hidden}
     img,svg,video{max-width:100%;height:auto;display:block}
     a{color:inherit;text-decoration:none}
@@ -501,6 +502,12 @@
     .addon{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--text-soft);cursor:pointer}
     .addon input{accent-color:var(--lime);width:18px;height:18px;flex:0 0 auto}
     .addon b{color:var(--accent-text);margin-left:auto}
+    .addon-qty{flex:0 0 auto;font:inherit;font-size:.85rem;padding:3px 6px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface-elev);color:var(--text);min-width:56px}
+    .addon-qty option{background:var(--surface-elev);color:var(--text)}
+    .addon-check{display:flex;align-items:center;gap:10px;cursor:pointer;flex:1 1 auto;min-width:0}
+    .addon-amount{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;flex:0 0 auto}
+    .addon-amount b{margin-left:0}
+    .addon-amount small{font-size:.72rem;color:var(--text-soft)}
     .addon-all{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:2px;font-weight:500;color:var(--text)}
     /* Miniaturas de los complementos agregados: 3 por fila (100%/3) */
     .addon-thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -508,6 +515,7 @@
     .addon-thumb{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);aspect-ratio:1 / 1;margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);position:relative}
     .addon-thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .addon-thumb figcaption{position:absolute;left:0;right:0;bottom:0;background:rgba(5,5,7,.72);color:#F4F4F0;font-family:var(--font-mono);font-size:.55rem;line-height:1.2;padding:3px 4px;text-align:center;text-transform:uppercase;letter-spacing:.04em}
+    .addon-badge{position:absolute;top:6px;right:6px;background:var(--lime);color:var(--ink-000);font-family:var(--font-mono);font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:999px;line-height:1}
 
     /* Bono: 3 stats en una sola fila */
     .bonus-stats{display:flex;gap:12px;flex-wrap:nowrap}
@@ -819,12 +827,36 @@
             <div class="addons">
               <span class="label">Complementa tu pedido</span>
               <label class="addon addon-all"><input type="checkbox" id="addonAll" /> Seleccionar todos los complementos</label>
-              <label class="addon"><input type="checkbox" data-addon="funda" /> Funda de repuesto <b>+$29.000</b></label>
-              <label class="addon"><input type="checkbox" data-addon="cojin" /> Cojín lumbar <b>+$49.000</b></label>
-              <label class="addon"><input type="checkbox" data-addon="antifaz" /> Antifaz de descanso <b>+$24.000</b></label>
-              <label class="addon"><input type="checkbox" data-addon="aroma" /> Aromatizante de lavanda <b>+$19.000</b></label>
-              <label class="addon"><input type="checkbox" data-addon="protector" /> Protector impermeable <b>+$22.000</b></label>
-              <label class="addon"><input type="checkbox" data-addon="tapones" /> Tapones para dormir <b>+$15.000</b></label>
+              <div class="addon" data-addon-row="funda">
+                <select class="addon-qty" data-addon-qty="funda" aria-label="Cantidad de Funda de repuesto"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="funda" /> Funda de repuesto</label>
+                <span class="addon-amount"><b data-addon-price="funda">+$29.000</b><small data-addon-line="funda"></small></span>
+              </div>
+              <div class="addon" data-addon-row="cojin">
+                <select class="addon-qty" data-addon-qty="cojin" aria-label="Cantidad de Cojín lumbar"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="cojin" /> Cojín lumbar</label>
+                <span class="addon-amount"><b data-addon-price="cojin">+$49.000</b><small data-addon-line="cojin"></small></span>
+              </div>
+              <div class="addon" data-addon-row="antifaz">
+                <select class="addon-qty" data-addon-qty="antifaz" aria-label="Cantidad de Antifaz de descanso"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="antifaz" /> Antifaz de descanso</label>
+                <span class="addon-amount"><b data-addon-price="antifaz">+$24.000</b><small data-addon-line="antifaz"></small></span>
+              </div>
+              <div class="addon" data-addon-row="aroma">
+                <select class="addon-qty" data-addon-qty="aroma" aria-label="Cantidad de Aromatizante de lavanda"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="aroma" /> Aromatizante de lavanda</label>
+                <span class="addon-amount"><b data-addon-price="aroma">+$19.000</b><small data-addon-line="aroma"></small></span>
+              </div>
+              <div class="addon" data-addon-row="protector">
+                <select class="addon-qty" data-addon-qty="protector" aria-label="Cantidad de Protector impermeable"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="protector" /> Protector impermeable</label>
+                <span class="addon-amount"><b data-addon-price="protector">+$22.000</b><small data-addon-line="protector"></small></span>
+              </div>
+              <div class="addon" data-addon-row="tapones">
+                <select class="addon-qty" data-addon-qty="tapones" aria-label="Cantidad de Tapones para dormir"></select>
+                <label class="addon-check"><input type="checkbox" data-addon="tapones" /> Tapones para dormir</label>
+                <span class="addon-amount"><b data-addon-price="tapones">+$15.000</b><small data-addon-line="tapones"></small></span>
+              </div>
               <div class="addon-thumbs" id="addonThumbs" aria-live="polite"></div>
             </div>
 
@@ -963,7 +995,7 @@
     <!-- ══════════ BONO: LIBRO GRATIS ══════════ -->
     <section class="section" style="padding-top:0">
       <div class="wrap">
-        <div class="card reveal center">
+        <div class="card reveal center" style="margin-top:2em">
           <span class="eyebrow">Bono de regalo</span>
           <h2>Lleva GRATIS el libro digital</h2>
           <p class="lead" style="margin-inline:auto">Con tu compra recibes el PDF <b>“El contador de ovejas”</b>, una guía para volver a dormir cuando cuesta conciliar el sueño.</p>
@@ -1184,19 +1216,24 @@
     function mainOld()   { return state.qty * CATALOG.main.unitOld; }
     function mainNow()   { return Math.round(mainPrice() * state.discount); }
     function addonsTotal() {
-      var t = 0; CATALOG.addons.forEach(function (a) { if (state.addons[a.id]) t += a.unit; }); return t;
+      var t = 0; CATALOG.addons.forEach(function (a) { t += a.unit * (state.addons[a.id] || 0); }); return t;
     }
     function orderTotal() { return mainNow() + addonsTotal(); }
     function savingsTotal() {
       var s = mainOld() - mainNow();
-      CATALOG.addons.forEach(function (a) { if (state.addons[a.id]) s += Math.max(0, a.unitOld - a.unit); });
+      CATALOG.addons.forEach(function (a) { var q = state.addons[a.id] || 0; if (q) s += Math.max(0, a.unitOld - a.unit) * q; });
       return Math.max(0, s);
     }
     function qtyLabel() { return state.qty + ' × ' + CATALOG.main.name; }
+    function addonsLabel() {
+      return CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; })
+        .map(function (a) { return a.name + ' ×' + state.addons[a.id]; }).join(', ');
+    }
     function whatsappLink() {
+      var list = addonsLabel();
       var msg = state.quoteOnly
         ? 'Hola, quiero cotizar más de 6 unidades de ' + CATALOG.main.name + '.'
-        : 'Hola, quiero pedir ' + qtyLabel() + (addonsTotal() ? ' + complementos' : '') + ' — ' + money(orderTotal()) + '.';
+        : 'Hola, quiero pedir ' + qtyLabel() + (list ? ' + ' + list : '') + ' — ' + money(orderTotal()) + '.';
       return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
     }
 
@@ -1246,22 +1283,34 @@
       if (box) {
         box.innerHTML = '';
         CATALOG.addons.forEach(function (a) {
-          if (!state.addons[a.id]) return;
+          var q = state.addons[a.id] || 0;
+          if (!q) return;
           var row = document.createElement('div');
           row.className = 'summary-row';
-          row.innerHTML = '<span>' + a.name + '</span><span>' + money(a.unit) + '</span>';
+          row.innerHTML = '<span>' + a.name + (q > 1 ? ' ×' + q : '') + '</span><span>' + money(a.unit * q) + '</span>';
           box.appendChild(row);
         });
       }
+      // Precio por fila (unit × cantidad)
+      CATALOG.addons.forEach(function (a) {
+        var q = state.addons[a.id] || 0;
+        var p = document.querySelector('[data-addon-price="' + a.id + '"]');
+        if (p) p.textContent = '+' + money(a.unit);
+        var ln = document.querySelector('[data-addon-line="' + a.id + '"]');
+        if (ln) ln.textContent = q > 1 ? '×' + q + ' = ' + money(a.unit * q) : '';
+      });
       // Miniaturas de los complementos agregados (una fila)
       var thumbs = document.getElementById('addonThumbs');
       if (thumbs) {
         thumbs.innerHTML = '';
         CATALOG.addons.forEach(function (a) {
-          if (!state.addons[a.id]) return;
+          var q = state.addons[a.id] || 0;
+          if (!q) return;
           var fig = document.createElement('figure');
           fig.className = 'addon-thumb';
-          fig.innerHTML = '<img src="' + a.img + '" alt="' + a.name + '" loading="lazy" width="200" height="200" /><figcaption>' + a.name + '</figcaption>';
+          fig.innerHTML = '<img src="' + a.img + '" alt="' + a.name + '" loading="lazy" width="200" height="200" />' +
+            (q > 1 ? '<span class="addon-badge">×' + q + '</span>' : '') +
+            '<figcaption>' + a.name + '</figcaption>';
           thumbs.appendChild(fig);
         });
       }
@@ -1297,28 +1346,54 @@
       if (comboMore.value === '6plus') setQty(state.qty, true); else setQty(parseInt(comboMore.value, 10), false);
     });
 
-    /* Complementarios (cross-sell) */
+    /* Complementarios (cross-sell) con cantidad (1..ADDON_MAX) */
+    var ADDON_MAX = 10;
     var addonAll = document.getElementById('addonAll');
+
+    // Rellena cada desplegable con la opción vacía + 1..ADDON_MAX
+    document.querySelectorAll('[data-addon-qty]').forEach(function (sel) {
+      var html = '<option value="">\u2014</option>';
+      for (var i = 1; i <= ADDON_MAX; i++) html += '<option value="' + i + '">' + i + '</option>';
+      sel.innerHTML = html;
+    });
+
+    function addonBoxes() { return Array.prototype.slice.call(document.querySelectorAll('[data-addon]')); }
+    function addonSel(id) { return document.querySelector('[data-addon-qty="' + id + '"]'); }
+
+    function setAddon(id, qty) {
+      qty = Math.max(0, Math.min(ADDON_MAX, parseInt(qty, 10) || 0));
+      state.addons[id] = qty;
+      var box = document.querySelector('[data-addon="' + id + '"]');
+      var sel = addonSel(id);
+      if (box) box.checked = qty > 0;
+      if (sel) sel.value = qty > 0 ? String(qty) : '';
+    }
     function syncAddonAll() {
       if (!addonAll) return;
-      var boxes = Array.prototype.slice.call(document.querySelectorAll('[data-addon]'));
-      var checked = boxes.filter(function (c) { return c.checked; }).length;
-      addonAll.checked = boxes.length > 0 && checked === boxes.length;
-      addonAll.indeterminate = checked > 0 && checked < boxes.length;
+      var boxes = addonBoxes();
+      var active = boxes.filter(function (c) { return (state.addons[c.getAttribute('data-addon')] || 0) > 0; }).length;
+      addonAll.checked = boxes.length > 0 && active === boxes.length;
+      addonAll.indeterminate = active > 0 && active < boxes.length;
     }
+
     if (addonAll) {
       addonAll.addEventListener('change', function () {
-        document.querySelectorAll('[data-addon]').forEach(function (c) {
-          c.checked = addonAll.checked;
-          state.addons[c.getAttribute('data-addon')] = c.checked;
-        });
+        CATALOG.addons.forEach(function (a) { setAddon(a.id, addonAll.checked ? 1 : 0); });
         syncAddonAll();
         render();
       });
     }
     document.querySelectorAll('[data-addon]').forEach(function (chk) {
       chk.addEventListener('change', function () {
-        state.addons[chk.getAttribute('data-addon')] = chk.checked;
+        setAddon(chk.getAttribute('data-addon'), chk.checked ? 1 : 0);
+        syncAddonAll();
+        render();
+      });
+    });
+    document.querySelectorAll('[data-addon-qty]').forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        var id = sel.getAttribute('data-addon-qty');
+        setAddon(id, sel.value === '' ? 0 : parseInt(sel.value, 10));
         syncAddonAll();
         render();
       });
@@ -1504,7 +1579,7 @@
         producto: PRODUCT,
         combo: state.quoteOnly ? 'Más de 6 × ' + PRODUCT : qtyLabel(),
         qty: state.quoteOnly ? '6plus' : state.qty,
-        addons: CATALOG.addons.filter(function (a) { return state.addons[a.id]; }).map(function (a) { return a.name; }),
+        addons: CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; }).map(function (a) { return { id: a.id, name: a.name, qty: state.addons[a.id], unit: a.unit }; }),
         total: orderTotal(),
         descuentoDia: state.discount < 1 ? '10%' : 'no',
         pago: form.pago.value,
@@ -1521,6 +1596,7 @@
          ---------------------------------------------------------- */
       if (payload.pago === 'whatsapp') {
         var msg = 'Hola, quiero confirmar mi pedido ' + payload.combo + ' — ' + money(payload.total) + '.\n' +
+          (payload.addons.length ? 'Complementos: ' + payload.addons.map(function (a) { return a.name + ' ×' + a.qty; }).join(', ') + '\n' : '') +
           'Nombre: ' + payload.nombre + '\n' +
           'WhatsApp: ' + payload.telefono + '\n' +
           'Correo: ' + payload.correo + '\n' +
