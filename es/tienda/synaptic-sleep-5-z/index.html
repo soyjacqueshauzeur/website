@@ -172,6 +172,12 @@
     .brand .dot::after{content:"{}";font-family:var(--font-mono);font-weight:600;font-size:14px;line-height:1;letter-spacing:0;color:var(--ink-000)}
     .nav-links{display:flex;flex-wrap:wrap;gap:22px;margin-inline-start:auto;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
     .nav-links a:hover{color:var(--accent-text)}
+    /* Nav de 6 enlaces: entre 900 y 1199 px se compacta y se oculta el nombre de la marca */
+    @media(min-width:900px) and (max-width:1199px){
+      .brand-name{display:none}
+      .nav-links{gap:14px;font-size:.68rem}
+      .nav-cta{padding:12px 18px}
+    }
 
     .hero{position:relative;padding:clamp(36px,6vw,72px) 0 clamp(48px,8vw,90px)}
     .hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:60%;background:radial-gradient(55% 55% at 72% 15%,rgba(212,255,61,.10),transparent 70%),radial-gradient(45% 45% at 12% 0%,rgba(212,255,61,.06),transparent 70%);pointer-events:none;z-index:0}
@@ -227,6 +233,16 @@
     .icon-box{width:48px;height:48px;border-radius:var(--radius);display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-text);margin-bottom:16px}
     .benefit h3{margin-bottom:.35em;font-size:var(--text-xl)}
     .benefit p{color:var(--muted);font-size:.95rem;margin:0}
+    /* "Ver más" en móvil: las 3 últimas tarjetas se ocultan hasta pulsarlo */
+    .benefits-more{display:none;width:max-content;margin:22px auto 0;align-items:center;gap:8px;
+      font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;
+      color:var(--accent-text);background:none;border:0;cursor:pointer;padding:8px 4px}
+    .benefits-more::after{content:"↓";font-size:1rem;line-height:1}
+    .benefits-more[aria-expanded="true"]::after{content:"↑"}
+    @media(max-width:759px){
+      .benefits-more{display:inline-flex}
+      #benefitsGrid:not(.is-open) .benefit--extra{display:none}
+    }
 
     .problem .card{background:linear-gradient(180deg,var(--surface-2),var(--surface))}
     .tag-bad,.tag-good{font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;font-weight:500}
@@ -242,6 +258,12 @@
     .spec-row span:last-child{font-weight:600;text-align:right}
 
     .demo-grid{display:flex;flex-direction:column;gap:16px}
+    .demo-hero{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+    @media(min-width:1024px){.demo-hero{grid-template-columns:1fr 1fr}}
+    .demo-hero figure{margin:0;border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--line);position:relative}
+    .demo-side{display:none}
+    @media(min-width:1024px){.demo-side{display:block;aspect-ratio:16/9}}
+    .demo-side img{width:100%;height:100%;object-fit:cover;display:block}
     .demo-grid figure{margin:0;border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--line);position:relative}
     .demo-grid img{width:100%;height:100%;object-fit:cover}
     .demo-video{width:100%;cursor:pointer}
@@ -269,12 +291,12 @@
     .obj h3{font-size:var(--text-lg);margin-bottom:.3em}
     .obj p{color:var(--muted);font-size:.92rem;margin:0}
 
-    .offer{background:linear-gradient(160deg,var(--surface-2),var(--surface));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    /* Oferta en verde lima claro (bloque "tile": siempre claro, en tema claro y oscuro) */
-    .offer.pedido-green{
+    /* Checkout: bloque siempre claro (tema claro y oscuro) */
+    .offer{
       background:#F4F4F0;
       color:var(--text);color-scheme:light;
       padding:0;
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
       --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#ECECE6;--surface-elev:#E4E4DD;
       --line:rgba(10,10,12,.10);--line-strong:rgba(10,10,12,.18);
       --text:#0A0A0C;--muted:#6A6A65;--text-soft:#3F3F3A;--paper-deep:#8A8A85;
@@ -294,7 +316,7 @@
       .checkout-flag .wrap{gap:4px 18px}
       .checkout-flag span+span::before{left:-11px}
     }
-    .offer.pedido-green>.wrap{padding-block:clamp(40px,6vw,72px)}
+    .offer>.wrap{padding-block:clamp(40px,6vw,72px)}
     /* Oferta en filas: combos (3 col) · más unidades · complementos (3×2) */
     /* Paso 1: contenedor blanco con las cantidades (tarjetas planas) */
     .picker{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:4px 18px 14px}
@@ -440,6 +462,7 @@
     .step{position:relative;padding-top:56px}
     .step::before{counter-increment:step;content:counter(step);position:absolute;top:0;left:0;width:40px;height:40px;border-radius:var(--radius);background:var(--lime);color:var(--ink-000);display:grid;place-items:center;font-family:var(--font-display)}
     .step h3{font-size:var(--text-xl);margin-bottom:.3em}
+    @media(min-width:760px){.step h3{min-height:2.6em}}  /* alinea los párrafos de los 4 pasos */
     .step p{color:var(--muted);font-size:.9rem;margin:0}
 
     .guarantee{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--accent-soft);border:1px solid rgba(212,255,61,.3);border-radius:var(--radius-xl);padding:26px;margin-top:32px}
@@ -548,16 +571,20 @@
     .ml-product-grid>*{min-width:0}
     @media(min-width:960px){.ml-product-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:start}}
 
-    .ml-gallery{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:start;min-width:0}
-    @media(max-width:620px){
-      .ml-gallery{grid-template-columns:minmax(0,1fr)}
-      .ml-thumbs{grid-auto-flow:column;grid-auto-columns:64px;overflow-x:auto;padding-bottom:4px;min-width:0}
-    }
-    .ml-thumbs{display:grid;gap:10px;align-content:start}
+    /* Galería: miniaturas arriba en horizontal, imagen principal debajo */
+    .ml-gallery{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start;min-width:0}
+    .ml-thumbs{display:grid;grid-auto-flow:column;grid-auto-columns:72px;gap:10px;align-content:start;overflow-x:auto;padding-bottom:4px;min-width:0}
+    @media(max-width:420px){.ml-thumbs{grid-auto-columns:60px}}
     .ml-thumbs .thumb{width:100%;aspect-ratio:1/1}
     .ml-main{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:1/1;min-width:0}
     .ml-main img{max-width:100%}
     .ml-main img{width:100%;height:100%;object-fit:cover}
+    /* Video cuadrado en el escenario principal */
+    .ml-main-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+    .ml-main img[hidden],.ml-main video[hidden]{display:none}
+    .thumb--video{position:relative}
+    .thumb-play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(5,5,7,.35);color:#F4F4F0;font-size:.95rem;line-height:1}
+    .thumb--video.is-active .thumb-play{color:var(--lime)}
     .ml-cond-tag{position:absolute;top:12px;left:12px;z-index:2;background:var(--lime);color:var(--ink-000);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--radius-xs)}
 
     .ml-condition{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.04em;margin:0 0 8px}
@@ -648,7 +675,7 @@
     .crosssell-head .addon-all{margin:0;padding:0;border:0;font-size:.9rem}
     .crosssell-count{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 
-    .crosssell-track{display:grid;gap:0;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;margin:0 -14px}
+    .crosssell-track{display:grid;gap:22px 0;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;margin:0 -14px}
     @media(min-width:700px){.crosssell-track{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
     .xs-card{display:flex;flex-direction:column;min-width:0;padding:0 14px;border-left:1px solid var(--line);container-type:inline-size}
@@ -672,7 +699,7 @@
     }
 
     /* Cuerpo denso: sin huecos muertos */
-    .xs-body{display:flex;flex-direction:column;gap:2px;padding-top:10px;min-width:0}
+    .xs-body{display:flex;flex-direction:column;gap:2px;padding:10px 0 8px;min-width:0}
     .xs-name{
       font-size:.9rem;font-weight:500;line-height:1.3;color:var(--text);cursor:pointer;
       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em;
@@ -681,7 +708,7 @@
     .xs-price{display:flex;align-items:baseline;gap:6px;margin:0;font-family:var(--font-display);font-size:1.1rem;color:var(--text);line-height:1.1}
     .xs-off{background:var(--accent-soft);color:var(--accent-text);font-family:var(--font-mono);font-size:.66rem;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:.02em}
     .xs-ship{font-size:.72rem;font-weight:600;color:var(--accent-text);margin:0}
-    .xs-line{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);min-height:1em}
+    .xs-line{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);min-height:1em;margin-top:4px}
 
     /* Acción: pastilla Añadir + cantidad (aparece al añadir) */
     .xs-actions{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -709,8 +736,23 @@
     .xs-add:focus-visible,.xs-media input:focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
 
     /* Bono: 3 stats en una sola fila */
+    /* Bono: imagen + 3 datos (2 columnas en desktop; 3 datos en fila en móvil) */
+    .bonus-grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:26px;align-items:center;text-align:left}
+    .bonus-side{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .bonus-desc{color:var(--text-soft);font-size:var(--text-base);line-height:1.55;margin:0;text-align:left}
+    .bonus-desc b{color:var(--text)}
+    .bonus-media{margin:0;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line)}
+    .bonus-media img{width:100%;height:auto;display:block}
     .bonus-stats{display:flex;gap:12px;flex-wrap:nowrap}
     .bonus-stats .obj{flex:1 1 0;min-width:0;text-align:center;padding:16px 10px}
+    @media(min-width:900px){
+      .bonus-grid{grid-template-columns:1fr 1fr;gap:32px}
+      .bonus-stats{flex-direction:column;gap:12px}
+      .bonus-stats .obj{flex:0 0 auto;display:flex;align-items:baseline;justify-content:space-between;gap:14px;text-align:left;padding:14px 18px}
+      .bonus-stats .obj h3{margin:0;font-size:clamp(1.6rem,2.4vw,2.1rem)}
+      .bonus-stats .obj p{margin:0}
+    }
+    @media(max-width:899px){ .bonus-stats .obj p{font-size:.78rem} }
     @media(max-width:420px){ .bonus-stats .obj h3{font-size:1.3rem} }
   </style>
   <!-- Tema: claro de 4:00 a 18:00; oscuro el resto. La preferencia manual se guarda en localStorage. -->
@@ -738,15 +780,17 @@
   <!-- ══════════ HEADER ══════════ -->
   <header class="site-header">
     <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="SoyJacquesHauzeur — inicio"><span class="dot" aria-hidden="true"></span> SoyJacquesHauzeur</a>
+      <a class="brand" href="#top" aria-label="SoyJacquesHauzeur — inicio"><span class="dot" aria-hidden="true"></span> <span class="brand-name">SoyJacquesHauzeur</span></a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro" title="Tema claro/oscuro">
         <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"/></svg>
         <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
       </button>
       <nav class="nav-links" aria-label="Principal">
-        <a href="#beneficios">Beneficios</a>
-        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#problema">¿Es para mí?</a>
+        <a href="#beneficios">¿En qué me ayuda?</a>
         <a href="#resenas">Reseñas</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#regalo">Regalo</a>
         <a href="#faq">Preguntas</a>
       </nav>
       <div class="nav-cta-row">
@@ -768,9 +812,11 @@
       </button>
     </div>
     <nav class="mobile-menu-nav" aria-label="Principal">
-      <a href="#beneficios">Beneficios</a>
-      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#problema">¿Es para mí?</a>
+      <a href="#beneficios">¿En qué me ayuda?</a>
       <a href="#resenas">Reseñas</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#regalo">Regalo</a>
       <a href="#faq">Preguntas</a>
     </nav>
     <a class="btn btn--primary mobile-menu-cta" href="#pedido">Pedir ahora</a>
@@ -801,7 +847,11 @@
         <!-- Galería (izquierda) -->
         <div class="ml-gallery">
           <div class="ml-thumbs" role="group" aria-label="Galería de imágenes del producto">
-            <button class="thumb is-active" type="button" data-img="images/Gemini_Generated_Image_886r5v886r5v886r.avif" aria-label="Vista frontal"><img src="images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="Vista frontal" width="160" height="160" loading="lazy" /></button>
+            <button class="thumb thumb--video is-active" type="button" data-video="images/render.mp4" data-poster="images/Gemini_Generated_Image_886r5v886r5v886r.avif" aria-label="Ver video del producto">
+              <img src="images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="" width="160" height="160" loading="lazy" />
+              <span class="thumb-play" aria-hidden="true">▶</span>
+            </button>
+            <button class="thumb" type="button" data-img="images/Gemini_Generated_Image_886r5v886r5v886r.avif" aria-label="Vista frontal"><img src="images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="Vista frontal" width="160" height="160" loading="lazy" /></button>
             <button class="thumb" type="button" data-img="images/Gemini_Generated_Image_jgynq8jgynq8jgyn.avif" aria-label="Diseño de 5 zonas"><img src="images/Gemini_Generated_Image_jgynq8jgynq8jgyn.avif" alt="Diseño de 5 zonas" width="160" height="160" loading="lazy" /></button>
             <button class="thumb" type="button" data-img="images/5dd68603-8826-4001-92c6-7b063678f5bf.avif" aria-label="En uso"><img src="images/5dd68603-8826-4001-92c6-7b063678f5bf.avif" alt="Almohada en uso" width="160" height="160" loading="lazy" /></button>
             <button class="thumb" type="button" data-img="images/size.avif" aria-label="Medidas"><img src="images/size.avif" alt="Medidas 74 x 48 cm" width="160" height="160" loading="lazy" /></button>
@@ -809,6 +859,7 @@
           <div class="ml-main">
             <span class="ml-cond-tag">Nuevo</span>
             <img id="galleryMain" src="images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="Almohada cervical SYNAPTIC SLEEP 5-Z vista frontal" width="900" height="900" loading="eager" fetchpriority="high" />
+            <video id="galleryVideo" class="ml-main-video" poster="images/Gemini_Generated_Image_886r5v886r5v886r.avif" muted loop playsinline preload="metadata" aria-label="Video de la almohada SYNAPTIC SLEEP 5-Z" hidden></video>
           </div>
         </div>
 
@@ -888,23 +939,23 @@
       <div class="wrap">
         <div class="center" style="margin-bottom:44px">
           <span class="eyebrow">El problema</span>
-          <h2>El dolor de cuello no debería ser tu rutina</h2>
+          <h2>Amanecer con el cuello rígido no es normal</h2>
         </div>
         <div class="grid-2">
           <div class="card reveal">
-            <span class="tag-bad">Almohada convencional</span>
+            <span class="tag-bad">Con una almohada cualquiera</span>
             <ul class="check-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>Despiertas con rigidez en el cuello y los hombros.</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>Se aplana durante la noche y pierde el soporte.</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>Das vueltas y amaneces más cansado de lo que dormiste.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>Te despiertas rígido y tardas varios minutos en girar la cabeza.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>A media noche se hunde y terminas buscando apoyo con la mano.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8A8A" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg> <span>Duermes tus horas y aun así llegas al mediodía sin energía.</span></li>
             </ul>
           </div>
           <div class="card reveal">
             <span class="tag-good">Con SYNAPTIC SLEEP 5-Z</span>
             <ul class="check-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span><b>5 zonas ergonómicas</b> que alinean cuello, espalda y hombros.</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Recupera su forma en 5 segundos</b>, sin aplanarse.</span></li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span><b>Antibacteriana y antiácaros:</b> fresca y limpia cada noche.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span>La cabeza queda <b>a la altura de los hombros</b>, sin forzar la curva del cuello.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span>El relleno <b>vuelve a su sitio</b>: no amaneces sobre un hueco.</span></li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> <span>Sales de la cama con el cuello suelto, <b>no con la sensación de haber peleado con la almohada</b>.</span></li>
             </ul>
           </div>
         </div>
@@ -915,17 +966,18 @@
     <section class="section" id="beneficios" style="padding-top:0">
       <div class="wrap">
         <div class="center" style="margin-bottom:44px">
-          <span class="eyebrow">Por qué te va a encantar</span>
-          <h2>Diseñada para dormir y amanecer mejor</h2>
+          <span class="eyebrow">Lo que cambia al usarla</span>
+          <h2>El descanso se nota al día siguiente</h2>
         </div>
-        <div class="grid-6">
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h18"/></svg></div><h3>5 zonas ergonómicas</h3><p>Diseño que respeta la curva cervical y alinea cuello, espalda y hombros.</p></div>
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5"/></svg></div><h3>Recupera su forma</h3><p>80% poliéster de alta densidad y algodón: vuelve a su forma en 5–15 segundos.</p></div>
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Antibacteriana y antiácaros</h3><p>Capa activa que protege tu descanso de patógenos y ácaros.</p></div>
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a8 8 0 0116 0"/><path d="M8 20h8"/></svg></div><h3>Menos dolor cervical</h3><p>Soporte firme que ayuda a reducir la tensión en cuello y hombros.</p></div>
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/></svg></div><h3>Soporte zero-gravity</h3><p>Ayuda a reducir los ronquidos y los puntos de presión durante la noche.</p></div>
-          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12s2-6 7-6 7 6 7 6-2 6-7 6-7-6-7-6z"/><circle cx="12" cy="12" r="2.5"/></svg></div><h3>Respirable y lavable</h3><p>Lavado en seco o a mano con agua fría; secado a temperatura ambiente.</p></div>
+        <div class="grid-6" id="benefitsGrid">
+          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 8h18M3 16h18"/></svg></div><h3>Cuello y hombros en línea</h3><p>Cada zona sostiene lo que le toca, así no compensas con la mandíbula ni con el trapecio.</p></div>
+          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5"/></svg></div><h3>Vuelve a su sitio</h3><p>Se comprime con el peso, la sueltas y recupera el volumen. No amaneces sobre un hueco.</p></div>
+          <div class="benefit card reveal"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Menos polvo, menos picazón</h3><p>El tejido frena ácaros y bacterias: la cara no despierta con esa sensación de alergia.</p></div>
+          <div class="benefit card reveal benefit--extra"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 12a8 8 0 0116 0"/><path d="M8 20h8"/></svg></div><h3>Sin puntos de presión</h3><p>El soporte reparte el peso y la oreja deja de recibir todo el golpe cuando duermes de lado.</p></div>
+          <div class="benefit card reveal benefit--extra"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/></svg></div><h3>Noches más silenciosas</h3><p>Con la vía aérea libre, los ronquidos bajan y los giros de las tres de la mañana también.</p></div>
+          <div class="benefit card reveal benefit--extra"><div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12s2-6 7-6 7 6 7 6-2 6-7 6-7-6-7-6z"/><circle cx="12" cy="12" r="2.5"/></svg></div><h3>Se cuida en dos minutos</h3><p>Agua fría a mano y secado al aire. Sin fundas complicadas ni ciclos largos.</p></div>
         </div>
+        <button class="benefits-more" type="button" id="benefitsMore" aria-expanded="false" aria-controls="benefitsGrid">Ver más</button>
       </div>
     </section>
 
@@ -962,10 +1014,14 @@
           <h2>De cuello tensionado a descanso profundo</h2>
         </div>
         <div class="demo-grid">
-          <!-- Video real del producto (render.mp4) -->
-          <figure class="demo-video reveal">
-            <video src="images/render.mp4" poster="images/Gemini_Generated_Image_886r5v886r5v886r.avif" autoplay loop muted playsinline preload="metadata" aria-label="Video de la almohada SYNAPTIC SLEEP 5-Z"></video>
-          </figure>
+          <div class="demo-hero">
+            <!-- Video real del producto (render.mp4) -->
+            <figure class="demo-video reveal">
+              <video src="images/render.mp4" poster="images/Gemini_Generated_Image_886r5v886r5v886r.avif" autoplay loop muted playsinline preload="metadata" aria-label="Video de la almohada SYNAPTIC SLEEP 5-Z"></video>
+            </figure>
+            <!-- Imagen de apoyo, solo en desktop -->
+            <figure class="demo-side reveal"><img src="images/5dd68603-8826-4001-92c6-7b063678f5bf.avif" alt="Almohada SYNAPTIC SLEEP 5-Z en uso" width="800" height="450" loading="lazy" /></figure>
+          </div>
           <div class="demo-stack">
             <figure class="reveal"><img src="images/564certe54tc365c35.avif" alt="Antes: cuello tenso" width="600" height="400" loading="lazy" /></figure>
             <figure class="reveal"><img src="images/fa6ee3bb-c1c2-47a5-8b2c-d4ce99f3eae8.avif" alt="Después: descanso profundo" width="600" height="400" loading="lazy" /></figure>
@@ -1002,7 +1058,7 @@
     </section>
 
     <!-- ══════════ CHECKOUT: selección + datos | resumen ══════════ -->
-    <section class="section offer pedido-green" id="pedido">
+    <section class="section offer" id="pedido">
       <div class="checkout-flag">
         <div class="wrap">
           <span><b>Checkout</b> · pedido seguro</span>
@@ -1014,8 +1070,8 @@
 
         <!-- Encabezado: precio + entrega -->
         <header class="checkout-head">
-          <span class="eyebrow">Haz tu pedido</span>
-          <h2>Elige cómo te la llevas</h2>
+          <span class="eyebrow">Tu compra</span>
+          <h2>Arma tu pedido</h2>
           <div class="price-hero-row">
             <span class="price-hero" data-price-hero>$84.000</span>
             <s data-old-hero>$119.000</s>
@@ -1304,7 +1360,7 @@
     </section>
 
     <!-- ══════════ CÓMO FUNCIONA EL PEDIDO ══════════ -->
-    <section class="section" id="como-funciona" style="display:none">
+    <section class="section" id="como-funciona" style="padding-top:0">
       <div class="wrap">
         <div class="center" style="margin-bottom:44px">
           <span class="eyebrow">Así funciona</span>
@@ -1323,17 +1379,24 @@
     </section>
 
     <!-- ══════════ BONO: LIBRO GRATIS ══════════ -->
-    <section class="section" style="padding-top:0">
+    <section class="section" id="regalo" style="padding-top:0">
       <div class="wrap">
         <div class="card reveal center" style="margin-top:2em">
           <span class="eyebrow">Bono de regalo</span>
           <h2>Lleva GRATIS el libro digital</h2>
           <p class="lead" style="margin-inline:auto">Con tu compra recibes el PDF <b>“El contador de ovejas”</b>, una guía para volver a dormir cuando cuesta conciliar el sueño.</p>
-          <img src="images/book.avif" alt="Libro digital El contador de ovejas (demo)" width="600" height="360" loading="lazy" style="border-radius:var(--radius-lg);border:1px solid var(--line);margin:20px auto 0;width:100%;max-width:420px;height:auto" />
-          <div class="bonus-stats" style="margin-top:26px">
-            <div class="obj"><h3 style="color:var(--accent-text)">223</h3><p>Páginas</p></div>
-            <div class="obj"><h3 style="color:var(--accent-text)">+50</h3><p>Referencias científicas</p></div>
-            <div class="obj"><h3 style="color:var(--accent-text)">+14</h3><p>Ejercicios prácticos</p></div>
+          <div class="bonus-grid">
+            <figure class="bonus-media">
+              <img src="images/book.avif" alt="Libro digital El contador de ovejas (demo)" width="600" height="360" loading="lazy" />
+            </figure>
+            <div class="bonus-side">
+              <p class="bonus-desc"><b>El contador de ovejas</b> desmitifica el sueño: explica por qué el cerebro sigue en alerta cuando apagas la luz y reúne técnicas y rutinas respaldadas por la ciencia —luz, horarios, respiración y rituales nocturnos— para volver a dormir sin dar vueltas. Está inspirado en <i>Essentials: Master Your Sleep &amp; Be More Alert When Awake</i>, de Andrew Huberman, y cada capítulo cierra con un ejercicio para aplicar esa misma noche.</p>
+              <div class="bonus-stats">
+                <div class="obj"><h3 style="color:var(--accent-text)">223</h3><p>Páginas</p></div>
+              <div class="obj"><h3 style="color:var(--accent-text)">+50</h3><p>Referencias científicas</p></div>
+                <div class="obj"><h3 style="color:var(--accent-text)">+14</h3><p>Ejercicios prácticos</p></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1481,7 +1544,7 @@
 
   <div class="mobile-cta">
     <div class="price"><span data-total-out>$84.000</span><small>Envío gratis</small></div>
-    <a class="btn btn--primary" href="#datos">Comprar ahora</a>
+    <a class="btn btn--primary" href="#pedido">Comprar ahora</a>
   </div>
 
   <div class="cookies" id="cookies" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
@@ -2002,16 +2065,36 @@
       for (var i = 0; i < thumbs.length; i++) { if (thumbs[i].classList.contains('is-active')) return i; }
       return 0;
     }
+    var galleryVideo = document.getElementById('galleryVideo');
     function showImage(i) {
       if (!thumbs.length) return;
       var n = ((i % thumbs.length) + thumbs.length) % thumbs.length;
       thumbs.forEach(function (o) { o.classList.remove('is-active'); });
       thumbs[n].classList.add('is-active');
-      mainImg.src = thumbs[n].getAttribute('data-img');
+      var videoSrc = thumbs[n].getAttribute('data-video');
+      if (videoSrc && galleryVideo) {
+        mainImg.hidden = true;
+        if (!galleryVideo.getAttribute('src')) galleryVideo.setAttribute('src', videoSrc);
+        galleryVideo.hidden = false;
+        var playing = galleryVideo.play();
+        if (playing && playing.catch) playing.catch(function () {});
+      } else {
+        if (galleryVideo) { galleryVideo.pause(); galleryVideo.hidden = true; }
+        mainImg.hidden = false;
+        mainImg.src = thumbs[n].getAttribute('data-img');
+      }
     }
     thumbs.forEach(function (t, i) {
       t.addEventListener('click', function () { showImage(i); });
     });
+    showImage(0);   // la primera miniatura es el video: arranca en 1/1
+
+    // Clic sobre el video: pausa / reproduce
+    if (galleryVideo) {
+      galleryVideo.addEventListener('click', function () {
+        if (galleryVideo.paused) { galleryVideo.play(); } else { galleryVideo.pause(); }
+      });
+    }
 
     /* Lightbox (imagen 100% en modal) — búsqueda diferida + delegación de eventos */
     function lightboxEl() { return document.getElementById('lightbox'); }
@@ -2056,7 +2139,7 @@
         var dx = t.clientX - sx, dy = t.clientY - sy;
         if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
           showImage(galleryIndex() + (dx < 0 ? 1 : -1));       /* swipe lateral -> cambia imagen */
-        } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+        } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && !mainImg.hidden) {
           openLightbox(mainImg.getAttribute('src'), mainImg.getAttribute('alt'));   /* tap -> modal */
         }
       }, { passive: true });
@@ -2436,6 +2519,18 @@
       /* Demo: con la pasarela desactivada, los tres métodos llevan a gracias.html. */
       window.location.href = CHECKOUT_URL; // demo: gracias.html
     });
+
+    /* ---------- Beneficios: "Ver más" en móvil ---------- */
+    (function () {
+      var grid = document.getElementById('benefitsGrid');
+      var btn = document.getElementById('benefitsMore');
+      if (!grid || !btn) return;
+      btn.addEventListener('click', function () {
+        var open = grid.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? 'Ver menos' : 'Ver más';
+      });
+    })();
 
     /* ---------- FAQ ---------- */
     document.querySelectorAll('.faq-q').forEach(function (q) {
