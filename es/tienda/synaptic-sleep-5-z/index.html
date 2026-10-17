@@ -50,14 +50,12 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "¿Qué es la SYNAPTIC SLEEP 5-Z?", "acceptedAnswer": { "@type": "Answer", "text": "Almohada cervical ergonómica con diseño de 5 zonas, fabricada con 80% poliéster de alta densidad y algodón. Antibacteriana, antiácaros y recupera su forma en 5-15 segundos." } },
-      { "@type": "Question", "name": "¿Cómo se lava y se seca?", "acceptedAnswer": { "@type": "Answer", "text": "Lavado en seco o a mano con agua fría. Secar a temperatura ambiente, sin sol directo ni secadora." } },
-      { "@type": "Question", "name": "¿Qué garantía tiene?", "acceptedAnswer": { "@type": "Answer", "text": "15 días: si la ingeniería falla, lo cambiamos o devolvemos tu dinero." } },
-      { "@type": "Question", "name": "¿Cuánto tarda el envío y a dónde llega?", "acceptedAnswer": { "@type": "Answer", "text": "Envío a todo Colombia en 2 a 5 días hábiles con guía de seguimiento." } },
-      { "@type": "Question", "name": "¿El envío tiene costo?", "acceptedAnswer": { "@type": "Answer", "text": "No, el envío es gratis." } },
-      { "@type": "Question", "name": "¿Sirve para dormir de lado y boca arriba?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. El diseño de 5 zonas se adapta a distintas posiciones y respeta la curva cervical." } },
-      { "@type": "Question", "name": "¿Qué medios de pago aceptan?", "acceptedAnswer": { "@type": "Answer", "text": "Tarjeta de crédito y débito, PSE, Nequi, Daviplata y NuBank. También puedes confirmar por WhatsApp." } },
-      { "@type": "Question", "name": "¿Qué incluye mi compra?", "acceptedAnswer": { "@type": "Answer", "text": "La almohada SYNAPTIC SLEEP 5-Z y el libro digital 'El contador de ovejas' (PDF) de regalo." } }
+      { "@type": "Question", "name": "¿Qué incluye mi pedido?", "acceptedAnswer": { "@type": "Answer", "text": "Recibes el producto que elegiste, el libro digital «El contador de ovejas» de regalo y el envío sin costo a cualquier ciudad de Colombia." } },
+      { "@type": "Question", "name": "¿Cuánto tarda el envío y cuánto cuesta?", "acceptedAnswer": { "@type": "Answer", "text": "Enviamos a todo Colombia en 2 a 5 días hábiles con guía de seguimiento. El envío es gratis en todos los pedidos, sin mínimo de compra." } },
+      { "@type": "Question", "name": "¿Qué medios de pago aceptan?", "acceptedAnswer": { "@type": "Answer", "text": "Tarjeta de crédito y débito, PSE, Nequi, Daviplata y NuBank. También puedes pagar contraentrega en las ciudades donde está disponible." } },
+      { "@type": "Question", "name": "¿Cómo funciona el pago contraentrega?", "acceptedAnswer": { "@type": "Answer", "text": "Abonas una parte al confirmar y pagas el saldo cuando recibes el pedido. El abono cubre el envío si rechazas la entrega y se descuenta del total." } },
+      { "@type": "Question", "name": "¿Qué garantía tiene y cómo devuelvo?", "acceptedAnswer": { "@type": "Answer", "text": "Tienes 15 días de garantía: si el producto falla, lo cambiamos o te devolvemos el dinero. Además cuentas con el derecho de retracto de 5 días hábiles desde la entrega." } },
+      { "@type": "Question", "name": "¿Es seguro comprar aquí?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. El pago se procesa con plataformas seguras y no almacenamos los datos de tu tarjeta. Puedes escribirnos por WhatsApp antes y después de comprar." } }
     ]
   }
   </script>
@@ -172,11 +170,13 @@
     .brand .dot::after{content:"{}";font-family:var(--font-mono);font-weight:600;font-size:14px;line-height:1;letter-spacing:0;color:var(--ink-000)}
     .nav-links{display:flex;flex-wrap:wrap;gap:22px;margin-inline-start:auto;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
     .nav-links a:hover{color:var(--accent-text)}
-    /* Nav de 6 enlaces: entre 900 y 1199 px se compacta y se oculta el nombre de la marca */
+    /* Nav compacto en anchos medios; el nombre de la marca solo se oculta < 1024 */
     @media(min-width:900px) and (max-width:1199px){
-      .brand-name{display:none}
       .nav-links{gap:14px;font-size:.68rem}
       .nav-cta{padding:12px 18px}
+    }
+    @media(min-width:900px) and (max-width:1023px){
+      .brand-name{display:none}
     }
 
     .hero{position:relative;padding:clamp(36px,6vw,72px) 0 clamp(48px,8vw,90px)}
@@ -789,7 +789,6 @@
         <a href="#problema">¿Es para mí?</a>
         <a href="#beneficios">¿En qué me ayuda?</a>
         <a href="#resenas">Reseñas</a>
-        <a href="#como-funciona">Cómo funciona</a>
         <a href="#regalo">Regalo</a>
         <a href="#faq">Preguntas</a>
       </nav>
@@ -815,7 +814,6 @@
       <a href="#problema">¿Es para mí?</a>
       <a href="#beneficios">¿En qué me ayuda?</a>
       <a href="#resenas">Reseñas</a>
-      <a href="#como-funciona">Cómo funciona</a>
       <a href="#regalo">Regalo</a>
       <a href="#faq">Preguntas</a>
     </nav>
@@ -1359,25 +1357,6 @@
       </div>
     </section>
 
-    <!-- ══════════ CÓMO FUNCIONA EL PEDIDO ══════════ -->
-    <section class="section" id="como-funciona" style="padding-top:0">
-      <div class="wrap">
-        <div class="center" style="margin-bottom:44px">
-          <span class="eyebrow">Así funciona</span>
-          <h2>Tu pedido, paso a paso</h2>
-          <p class="lead" style="margin-inline:auto">Pides en un minuto y confirmamos contigo antes de enviar.</p>
-        </div>
-        <div class="steps">
-          <div class="step reveal"><h3>Haces tu pedido</h3><p>Completas el formulario en menos de un minuto.</p></div>
-          <div class="step reveal"><h3>Confirmamos por WhatsApp</h3><p>Validamos tus datos y la dirección de entrega.</p></div>
-          <div class="step reveal"><h3>Despachamos</h3><p>Enviamos a todo Colombia y te damos la guía.</p></div>
-          <div class="step reveal"><h3>Recibes y descansas</h3><p>Llega en 2–5 días hábiles a tu puerta.</p></div>
-        </div>
-        <!-- PENDIENTE: ajustar tiempos, transportadora y zonas de cobertura -->
-        <p class="center muted" style="margin-top:30px;font-size:.9rem">Tiempo estimado de entrega: 2 a 5 días hábiles. Cobertura nacional (demo).</p>
-      </div>
-    </section>
-
     <!-- ══════════ BONO: LIBRO GRATIS ══════════ -->
     <section class="section" id="regalo" style="padding-top:0">
       <div class="wrap">
@@ -1410,17 +1389,12 @@
           <h2>Preguntas frecuentes</h2>
         </div>
         <div class="faq" id="faqList">
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué es la SYNAPTIC SLEEP 5-Z?</button><div class="faq-a"><p>Es una almohada cervical ergonómica con diseño de 5 zonas, fabricada con 80% poliéster de alta densidad y algodón. Es antibacteriana, antiácaros y recupera su forma en 5–15 segundos.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Cómo se lava y se seca?</button><div class="faq-a"><p>Lavado en seco o a mano con agua fría. Secar a temperatura ambiente, sin exponer al sol directo ni a secadora.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué garantía tiene?</button><div class="faq-a"><p>15 días. Si la ingeniería falla en ese periodo, absorbemos el riesgo: la cambiamos o te devolvemos tu dinero.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Cuánto tarda el envío y a dónde llega?</button><div class="faq-a"><p>Enviamos a todo Colombia en 2 a 5 días hábiles, con número de guía para seguimiento.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿El envío tiene costo?</button><div class="faq-a"><p>No, el envío es gratis en todos los combos.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Sirve para dormir de lado y boca arriba?</button><div class="faq-a"><p>Sí. El diseño de 5 zonas se adapta a distintas posiciones y respeta la curva cervical.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué medios de pago aceptan?</button><div class="faq-a"><p>Tarjeta de crédito y débito, PSE, Nequi, Daviplata y NuBank. También puedes confirmar tu pedido por WhatsApp.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué incluye mi compra?</button><div class="faq-a"><p>La almohada SYNAPTIC SLEEP 5-Z y el libro digital “El contador de ovejas” (PDF) de regalo.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Y el envío?</button><div class="faq-a"><p>Enviamos a todo Colombia en 2 a 5 días hábiles, con guía de seguimiento. El envío es gratis.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Y el pago?</button><div class="faq-a"><p>Aceptamos tarjeta de crédito y débito, PSE, Nequi, Daviplata y NuBank. El pago es 100% seguro y no exponemos tus datos. También puedes confirmar por WhatsApp.</p></div></div>
-          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Y si falla?</button><div class="faq-a"><p>Tienes 15 días de garantía: si la ingeniería falla, absorbemos el riesgo y la cambiamos o te devolvemos tu dinero.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué incluye mi pedido?</button><div class="faq-a"><p>Recibes el producto que elegiste, el libro digital «El contador de ovejas» de regalo y el envío sin costo a cualquier ciudad de Colombia.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Cuánto tarda el envío y cuánto cuesta?</button><div class="faq-a"><p>Enviamos a todo Colombia en 2 a 5 días hábiles con guía de seguimiento. El envío es gratis en todos los pedidos, sin mínimo de compra.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué medios de pago aceptan?</button><div class="faq-a"><p>Tarjeta de crédito y débito, PSE, Nequi, Daviplata y NuBank. También puedes pagar contraentrega en las ciudades donde está disponible.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Cómo funciona el pago contraentrega?</button><div class="faq-a"><p>Abonas una parte al confirmar y pagas el saldo cuando recibes el pedido. El abono cubre el envío si rechazas la entrega y se descuenta del total.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Qué garantía tiene y cómo devuelvo?</button><div class="faq-a"><p>Tienes 15 días de garantía: si el producto falla, lo cambiamos o te devolvemos el dinero. Además cuentas con el derecho de retracto de 5 días hábiles desde la entrega.</p></div></div>
+          <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false">¿Es seguro comprar aquí?</button><div class="faq-a"><p>Sí. El pago se procesa con plataformas seguras y no almacenamos los datos de tu tarjeta. Puedes escribirnos por WhatsApp antes y después de comprar.</p></div></div>
         </div>
       </div>
     </section>
@@ -1438,7 +1412,7 @@
             <div><strong id="cdM">00</strong><small>Min</small></div>
             <div><strong id="cdS">00</strong><small>Seg</small></div>
           </div>
-          <p id="urgencyNote">El precio baja 10% los días 15 y el último día del mes.</p>
+          <p id="urgencyNote">El precio baja 10% los días 15 y el último día del mes, durante 24 horas.</p>
           <p style="margin-top:20px"><a class="btn btn--primary btn--lg" href="#pedido">Quiero mi SYNAPTIC SLEEP 5-Z</a></p>
         </div>
       </div>
@@ -2574,7 +2548,7 @@
         H = pad2(Math.floor((diff % 86400000) / 3600000));
         M = pad2(Math.floor((diff % 3600000) / 60000));
         S = pad2(Math.floor((diff % 60000) / 1000));
-        note.textContent = 'El precio baja 10% los días 15 y el último día del mes.';
+        note.textContent = 'El precio baja 10% los días 15 y el último día del mes, durante 24 horas.';
       }
       if (cdD) cdD.textContent = D; if (cdH) cdH.textContent = H;
       if (cdM) cdM.textContent = M; if (cdS) cdS.textContent = S;
