@@ -270,33 +270,64 @@
     .obj p{color:var(--muted);font-size:.92rem;margin:0}
 
     .offer{background:linear-gradient(160deg,var(--surface-2),var(--surface));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .offer-grid{display:grid;gap:36px;grid-template-columns:1fr}
-    .offer-right{display:flex;flex-direction:column;gap:24px;min-width:0}
-    .offer-right>*{min-width:0}
-    @media(min-width:960px){.offer-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:start}}
+    /* Oferta en verde lima claro (bloque "tile": siempre claro, en tema claro y oscuro) */
+    .offer.pedido-green{
+      background:#F4F4F0;
+      color:var(--text);color-scheme:light;
+      padding:0;
+      --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#ECECE6;--surface-elev:#E4E4DD;
+      --line:rgba(10,10,12,.10);--line-strong:rgba(10,10,12,.18);
+      --text:#0A0A0C;--muted:#6A6A65;--text-soft:#3F3F3A;--paper-deep:#8A8A85;
+      --accent-text:#5F7D00;--accent-soft:rgba(212,255,61,.30);--ok-soft:rgba(212,255,61,.30);
+      --shadow-sm:0 2px 8px rgba(10,10,12,.08);
+      --shadow:0 14px 30px -14px rgba(10,10,12,.18);
+      --shadow-md:0 20px 44px -18px rgba(10,10,12,.20);
+    }
+    /* Barra que marca el inicio del checkout */
+    .checkout-flag{background:var(--ink-000);color:var(--lime);font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.12em;text-transform:uppercase;padding:10px 0}
+    .checkout-flag .wrap{display:flex;align-items:center;gap:10px 24px;flex-wrap:wrap}
+    .checkout-flag b{color:#F4F4F0;font-weight:500}
+    .checkout-flag span{position:relative;white-space:nowrap}
+    .checkout-flag span+span::before{content:"·";position:absolute;left:-14px;color:rgba(244,244,240,.45)}
+    @media(max-width:600px){
+      .checkout-flag{font-size:.62rem;padding:8px 0}
+      .checkout-flag .wrap{gap:4px 18px}
+      .checkout-flag span+span::before{left:-11px}
+    }
+    .offer.pedido-green>.wrap{padding-block:clamp(40px,6vw,72px)}
+    /* Oferta en filas: combos (3 col) · más unidades · complementos (3×2) */
+    /* Paso 1: contenedor blanco con las cantidades (tarjetas planas) */
+    .picker{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:4px 18px 14px}
+    .picker .combo-grid{display:grid;grid-template-columns:1fr;gap:0;align-items:stretch;margin:0 -16px}
+    .picker .combo{height:100%;align-content:flex-start;padding:14px 16px;margin-top:0}
+    .picker .combo-grid .combo + .combo{margin-top:0}
+    @media(min-width:700px){.picker .combo-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(min-width:700px){
+      .picker .combo{padding:18px 16px;border-left:1px solid var(--line);border-radius:0}
+      .picker .combo:first-child{border-left:0}
+      .picker .combo.is-active{border-radius:var(--radius)}
+    }
+    @media(max-width:699px){.picker .combo + .combo{border-top:1px solid var(--line)}}
+    .picker .combo-more--row{margin-top:0;padding-top:12px;border-top:1px solid var(--line)}
 
-    .combo{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;color:var(--text);position:relative;transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out)}
+    .combo{display:flex;flex-wrap:wrap;align-items:flex-start;gap:4px 12px;width:100%;text-align:left;background:transparent;border:0;border-radius:var(--radius);padding:14px 12px;color:var(--text);position:relative;transition:background var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out)}
     .combo + .combo{margin-top:12px}
-    .combo:hover{border-color:var(--line-strong)}
-    .combo.is-active{border-color:var(--accent-text);background:var(--accent-soft)}
-    .combo .radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--line-strong);flex:0 0 auto;display:grid;place-items:center}
+    .combo:hover{background:var(--accent-soft)}
+    .combo.is-active{background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent-text)}
+    .combo .radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--line-strong);flex:0 0 auto;display:grid;place-items:center;margin-top:1px}
     .combo.is-active .radio{border-color:var(--accent-text)}
-    .combo.is-active .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--lime)}
-    .combo .info{flex:1}
-    .combo .info b{font-family:var(--font-display);font-size:1rem;font-weight:400}
-    .combo .info small{display:block;color:var(--muted)}
-    .combo .p{font-family:var(--font-display);font-size:1.05rem;white-space:nowrap}
-    .combo .save{color:var(--accent-text);font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.04em}
-    .combo .most{position:absolute;top:-10px;left:16px;background:var(--lime);color:var(--ink-000);font-family:var(--font-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:var(--radius-full)}
+    .combo.is-active .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--accent-text)}
+    .combo .info{flex:1 1 0;min-width:0}
+    .combo .info b{display:block;font-family:var(--font-display);font-size:.98rem;font-weight:400;line-height:1.25}
+    .combo .info small{display:block;color:var(--muted);font-size:.78rem;line-height:1.3}
+    .combo .info small b{color:var(--text);font-weight:600}
+    .combo>span:last-child{display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right;flex:0 0 auto}
+    .combo .p{font-family:var(--font-display);font-size:1.12rem;white-space:nowrap;line-height:1.1}
+    .combo .save{color:var(--accent-text);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.03em;white-space:nowrap}
+    .combo .most{display:inline-block;background:var(--lime);color:var(--ink-000);font-family:var(--font-mono);font-size:.55rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:var(--radius-full);vertical-align:middle;margin-left:6px}
 
     .form{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-xl);padding:clamp(22px,4vw,34px)}
     .form h3{font-size:var(--text-lg)}
-    .step-ind{display:flex;gap:8px;margin-bottom:20px}
-    .step-ind span{flex:1;height:4px;border-radius:99px;background:var(--line-strong);transition:background var(--dur-base) var(--ease-out)}
-    .step-ind span.on{background:var(--lime)}
-    .step-label{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
-    .form-step{display:none}
-    .form-step.active{display:block}
     .form-nav{display:flex;gap:12px;margin-top:8px}
     .form-nav .btn{flex:1}
     .field{margin-bottom:16px}
@@ -320,17 +351,89 @@
     .pay-sub{font-size:var(--text-xs);color:var(--muted);font-weight:400}
     .pay-detail{display:none;font-size:var(--text-sm);color:var(--muted);background:var(--bg);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:12px 14px;margin-bottom:18px}
     .pay-detail.show{display:block}
+    .pay[hidden]{display:none}
+    .cod-note{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);margin:0 0 12px}
+    .pay-sub b{color:var(--text);font-weight:600}
 
     .summary{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0}
     .summary-row{display:flex;justify-content:space-between;font-size:.95rem;padding:6px 0;color:var(--muted)}
     .summary-row.total{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;color:var(--text);font-family:var(--font-display);font-size:1.2rem}
     .summary-row .free{color:var(--accent-text)}
-    .form-total{margin-top:16px}
     .secure-note{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--muted);font-size:var(--text-xs);margin-top:14px}
 
     .form-success{display:none;text-align:center;padding:20px 0}
     .form-success.show{display:block}
     .form-success .ok-ico{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);color:var(--accent-text);display:grid;place-items:center;margin:0 auto 16px}
+
+    /* ===== Checkout: pasos + formulario | resumen sticky ===== */
+    .checkout{display:grid;grid-template-columns:minmax(0,1fr);gap:32px}
+    @media(min-width:1024px){.checkout{grid-template-columns:minmax(0,1.15fr) 380px;gap:48px;align-items:start}}
+    .checkout-main{min-width:0;display:flex;flex-direction:column;gap:clamp(30px,3.5vw,44px)}
+    .checkout-head{margin-bottom:clamp(24px,3vw,36px)}
+    .checkout-head h2{margin-bottom:10px;font-size:clamp(1.75rem,3.2vw,2.6rem);line-height:1.2}
+    .price-hero-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:4px 0 10px}
+    .price-hero{font-family:var(--font-display);font-size:clamp(2.1rem,4vw,2.8rem);line-height:1}
+    .price-hero s{font-family:var(--font-mono);font-size:1rem;color:var(--muted)}
+    .checkout-promise{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);color:var(--text-soft);margin:0}
+    .checkout-promise svg{width:18px;height:18px;color:var(--accent-text);flex:0 0 auto}
+    .checkout-promise b{color:var(--text)}
+
+    .checkout-step{min-width:0}
+    .checkout-step-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .step-num{width:30px;height:30px;border-radius:50%;background:var(--lime);color:var(--ink-000);display:grid;place-items:center;font-family:var(--font-display);font-size:.9rem;flex:0 0 auto}
+    .checkout-step-head h3{margin:0;font-size:var(--text-xl)}
+    .checkout-step-head .opt{font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400}
+
+    .combo-more--row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:18px}
+    .combo-more--row label{margin-bottom:0}
+    .combo-more--row .combo-more-select{flex:0 1 340px;width:auto;min-width:0}
+    .addons--first{margin-top:0;border-top:0;padding-top:0}
+
+    /* Resumen sticky */
+    .checkout-summary{min-width:0}
+    @media(max-width:1023px){.checkout-summary{order:-1}}
+    @media(min-width:1024px){.checkout-summary{position:sticky;top:calc(72px + 16px)}}
+    .checkout-summary .summary{margin:0;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow)}
+    .summary-title{font-family:var(--font-display);font-size:var(--text-lg);text-transform:uppercase;margin:0 0 10px}
+    .checkout-summary .cta-pay{margin-top:16px}
+    .trust-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px;font-size:var(--text-sm);color:var(--text-soft)}
+    .trust-list li{display:flex;gap:8px;align-items:flex-start}
+    .trust-list svg{width:16px;height:16px;color:var(--accent-text);flex:0 0 auto;margin-top:2px}
+    .summary-wa{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--font-mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--accent-text)}
+    .summary-wa:hover{text-decoration:underline}
+
+    .cta-pay{width:100%;height:56px;font-size:.95rem}
+    .cta-pay .amount{margin-left:8px;opacity:.9}
+    .cta-pay .amount[hidden]{display:none}
+    /* En móvil el CTA sale del resumen y va después de los pasos */
+    .checkout-cta--inline{display:none}
+    @media(max-width:1023px){
+      .checkout-cta--aside{display:none}
+      .checkout-cta--inline{display:inline-flex}
+    }
+
+    /* Formulario inline */
+    .checkout-form{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-xl);padding:clamp(20px,3vw,30px);box-shadow:var(--shadow)}
+    .form-group{border:0;padding:0;margin:0 0 22px;min-width:0}
+    .form-group legend{font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding:0}
+    .checkout-form .field input,.checkout-form .field select,.checkout-form .field textarea{font-size:16px;min-height:48px}
+    .phone-field{display:flex;align-items:stretch}
+    .phone-prefix{display:inline-flex;align-items:center;padding:0 12px;border:1px solid var(--line-strong);border-right:0;border-radius:var(--radius) 0 0 var(--radius);background:var(--surface-2);font-family:var(--font-mono);font-size:var(--text-sm);color:var(--muted);white-space:nowrap}
+    .phone-field input{border-radius:0 var(--radius) var(--radius) 0}
+    .consent{display:flex;gap:10px;align-items:flex-start;font-size:var(--text-sm);color:var(--text-soft);margin:0;cursor:pointer}
+    .consent input{margin-top:2px;accent-color:var(--accent-text);width:18px;height:18px;flex:0 0 auto}
+    .consent a{color:var(--accent-text);text-decoration:underline}
+    .consent-block{margin:0 0 4px}
+    .consent-block.has-error .error-msg{display:block}
+    .consent-block.has-error .consent input{outline:2px solid var(--danger);outline-offset:2px;border-radius:3px}
+    .field .hint{font-size:var(--text-xs);color:var(--muted);margin-top:5px}
+    .error-msg.show{display:block}
+    .form-error-summary{display:none;border:1px solid var(--danger);background:rgba(255,107,107,.10);border-radius:var(--radius);padding:12px 14px;margin-bottom:18px;font-size:var(--text-sm);color:var(--text)}
+    .form-error-summary.show{display:block}
+    .form-error-summary ul{margin:6px 0 0;padding-left:18px}
+    .form-error-summary a{color:var(--danger);text-decoration:underline}
+    .pay-amount{margin-left:auto;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--text);white-space:nowrap;flex:0 0 auto}
+    .cta-pay[disabled]{opacity:.65;cursor:not-allowed}
 
     .steps{display:grid;gap:20px;grid-template-columns:1fr;counter-reset:step}
     @media(min-width:760px){.steps{grid-template-columns:repeat(4,1fr)}}
@@ -382,7 +485,7 @@
 
     .mobile-cta{position:fixed;left:0;right:0;bottom:0;z-index:65;background:var(--mobile-bg);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
     .mobile-cta .price{font-family:var(--font-display);line-height:1.1;font-size:1.1rem}
-    .mobile-cta .price small{display:block;color:var(--muted);font-weight:400;font-size:var(--text-xs);text-decoration:line-through;font-family:var(--font-mono)}
+    .mobile-cta .price small{display:block;color:var(--muted);font-weight:400;font-size:var(--text-xs);font-family:var(--font-mono)}
     @media(min-width:900px){.mobile-cta{display:none}}
 
     .cookies{position:fixed;left:16px;right:16px;bottom:16px;z-index:80;background:var(--surface-2);border:1px solid var(--line-strong);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);display:none;gap:14px;align-items:center;flex-wrap:wrap;max-width:640px;opacity:1}
@@ -500,7 +603,7 @@
 
     /* ===== Anti-desborde horizontal (móvil 320px) ===== */
     body{overflow-wrap:break-word}
-    .grid-2>*,.grid-3>*,.grid-6>*,.offer-grid>*,.steps>*,.demo-grid>*,.ugc>*,.row-2>*,
+    .grid-2>*,.grid-3>*,.grid-6>*,.combo-grid>*,.addon-grid>*,.steps>*,.demo-grid>*,.ugc>*,.row-2>*,
     .spec-row>*,.spec-list>*,.split>*,.card>*,.form>*,.guarantee>*{min-width:0}
     @media(max-width:400px){
       h1{font-size:1.9rem}
@@ -532,23 +635,74 @@
     .combo-more-select:focus{outline:0;border-color:var(--lime);box-shadow:0 0 0 3px var(--accent-soft)}
     .addons{margin-top:18px;border-top:1px solid var(--line);padding-top:16px;display:grid;gap:10px}
     .addons .label{font-family:var(--font-display);font-weight:400;font-size:var(--text-xl);line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;color:var(--text);margin-bottom:2px}
+
+    /* "Seleccionar todos" (fila suelta) */
     .addon{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--text-soft);cursor:pointer}
-    .addon input{accent-color:var(--lime);width:18px;height:18px;flex:0 0 auto}
+    .addon input{accent-color:var(--accent-text);width:18px;height:18px;flex:0 0 auto}
     .addon b{color:var(--accent-text);margin-left:auto}
-    .addon-qty{flex:0 0 auto;font:inherit;font-size:.85rem;padding:3px 6px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface-elev);color:var(--text);min-width:56px}
-    .addon-qty option{background:var(--surface-elev);color:var(--text)}
-    .addon-check{display:flex;align-items:center;gap:10px;cursor:pointer;flex:1 1 auto;min-width:0}
-    .addon-amount{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;flex:0 0 auto}
-    .addon-amount b{margin-left:0}
-    .addon-amount small{font-size:.72rem;color:var(--text-soft)}
     .addon-all{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:2px;font-weight:500;color:var(--text)}
-    /* Miniaturas de los complementos agregados: 3 por fila (100%/3) */
-    .addon-thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .addon-thumbs:empty{display:none}
-    .addon-thumb{flex:0 0 calc((100% - 20px) / 3);width:calc((100% - 20px) / 3);aspect-ratio:1 / 1;margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);position:relative}
-    .addon-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .addon-thumb figcaption{position:absolute;left:0;right:0;bottom:0;background:rgba(5,5,7,.72);color:#F4F4F0;font-family:var(--font-mono);font-size:.55rem;line-height:1.2;padding:3px 4px;text-align:center;text-transform:uppercase;letter-spacing:.04em}
-    .addon-badge{position:absolute;top:6px;right:6px;background:var(--lime);color:var(--ink-000);font-family:var(--font-mono);font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:999px;line-height:1}
+
+    /* ===== "Completa tu pedido": contenedor + fila de tarjetas planas ===== */
+    .crosssell{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 18px 18px}
+    .crosssell-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .crosssell-head .addon-all{margin:0;padding:0;border:0;font-size:.9rem}
+    .crosssell-count{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+
+    .crosssell-track{display:grid;gap:0;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;margin:0 -14px}
+    @media(min-width:700px){.crosssell-track{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+    .xs-card{display:flex;flex-direction:column;min-width:0;padding:0 14px;border-left:1px solid var(--line)}
+    .xs-card:first-child{border-left:0}
+
+    /* Imagen: cuadrada sobre gris claro, producto completo */
+    .xs-media{position:relative;display:block;aspect-ratio:1/1;background:var(--surface-2);border-radius:var(--radius);overflow:hidden;cursor:pointer}
+    .xs-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-base) var(--ease-out)}
+    .xs-card:hover .xs-media img{transform:scale(1.04)}
+    .xs-media input[type="checkbox"]{
+      position:absolute;top:8px;right:8px;z-index:2;width:22px;height:22px;margin:0;
+      -webkit-appearance:none;appearance:none;display:grid;place-items:center;
+      background:rgba(255,255,255,.94);border:1px solid rgba(10,10,12,.28);border-radius:6px;
+      box-shadow:0 1px 4px rgba(5,5,7,.3);cursor:pointer;
+      transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);
+    }
+    .xs-media input[type="checkbox"]:checked{background:var(--accent-text);border-color:var(--accent-text)}
+    .xs-media input[type="checkbox"]:checked::after{
+      content:"";width:11px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;
+      transform:rotate(-45deg) translate(1px,-1px);
+    }
+
+    /* Cuerpo denso: sin huecos muertos */
+    .xs-body{display:flex;flex-direction:column;gap:2px;padding-top:10px;min-width:0}
+    .xs-name{
+      font-size:.9rem;font-weight:500;line-height:1.3;color:var(--text);cursor:pointer;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em;
+    }
+    .xs-old{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);text-decoration:line-through;min-height:1em}
+    .xs-price{display:flex;align-items:baseline;gap:6px;margin:0;font-family:var(--font-display);font-size:1.1rem;color:var(--text);line-height:1.1}
+    .xs-off{background:var(--accent-soft);color:var(--accent-text);font-family:var(--font-mono);font-size:.66rem;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:.02em}
+    .xs-ship{font-size:.72rem;font-weight:600;color:var(--accent-text);margin:0}
+    .xs-line{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);min-height:1em}
+
+    /* Acción: pastilla Añadir + cantidad (aparece al añadir) */
+    .xs-actions{display:flex;align-items:center;gap:8px;margin-top:10px}
+    .xs-add{
+      flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 10px;
+      border:1px solid var(--line-strong);border-radius:var(--radius-full);
+      font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.06em;text-transform:uppercase;
+      color:var(--text);cursor:pointer;white-space:nowrap;
+      transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+    }
+    .xs-add:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    .xs-add-off{display:none}
+    .xs-card.is-selected .xs-add{background:var(--accent-text);border-color:var(--accent-text);color:#FFFFFF}
+    .xs-card.is-selected .xs-add-on{display:none}
+    .xs-card.is-selected .xs-add-off{display:inline}
+
+    .addon-qty{font:inherit;font-size:.85rem;padding:4px 6px;border:1px solid var(--line-strong);border-radius:8px;background:var(--bg);color:var(--text);min-width:64px}
+    .addon-qty option{background:var(--bg);color:var(--text)}
+    .xs-actions .addon-qty{display:none;height:36px;padding:0 6px}
+    .xs-card.is-selected .addon-qty{display:block}
+    .xs-add:focus-visible,.xs-media input:focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
 
     /* Bono: 3 stats en una sola fila */
     .bonus-stats{display:flex;gap:12px;flex-wrap:nowrap}
@@ -621,7 +775,7 @@
       <div class="summary-addons"></div>
       <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
       <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
-      <div class="summary-surcharge" data-surcharge></div>
+      <div class="summary-surcharge" data-cod-split></div>
       <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
     </div>
   </aside>
@@ -683,13 +837,15 @@
               <option value="4">4 unidades</option>
               <option value="5">5 unidades</option>
               <option value="6">6 unidades</option>
-              <option value="6plus">Más de 6 unidades</option>
+              <option value="7">7 unidades</option>
+              <option value="8">8 unidades</option>
+              <option value="9">9 unidades</option>
+              <option value="10">10 unidades</option>
             </select>
           </div>
 
           <div class="ml-actions">
-            <a class="btn btn--primary btn--lg" href="#pedido">Comprar ahora</a>
-            <a class="btn btn--ghost btn--lg" href="#problema" id="addToCart">Agregar al carrito</a>
+            <a class="btn btn--primary btn--lg" href="#pedido" id="addToCart">Agregar al carrito</a>
           </div>
 
           <ul class="ml-perks">
@@ -841,196 +997,305 @@
       </div>
     </section>
 
-    <!-- ══════════ OFERTA + FORMULARIO 2 PASOS ══════════ -->
-    <section class="section offer" id="pedido">
-      <div class="wrap">
-        <div class="center" style="margin-bottom:44px">
-          <span class="eyebrow">Haz tu pedido</span>
-          <h2>Elige tu combo y paga seguro</h2>
-          <p class="lead" style="margin-inline:auto">Completa tus datos. Te contactamos para confirmar antes del envío.</p>
+    <!-- ══════════ CHECKOUT: selección + datos | resumen ══════════ -->
+    <section class="section offer pedido-green" id="pedido">
+      <div class="checkout-flag">
+        <div class="wrap">
+          <span><b>Checkout</b> · pedido seguro</span>
+          <span>Envío gratis</span>
+          <span>Pago contraentrega disponible</span>
         </div>
+      </div>
+      <div class="wrap">
 
-        <div class="offer-grid">
-          <!-- Combos -->
-          <div>
-            <h3 style="margin-bottom:18px">1. Selecciona tu combo</h3>
-            <div role="radiogroup" aria-label="Combos disponibles">
-              <button type="button" class="combo is-active" data-combo data-qty="1" data-price="84000" data-old="119000" role="radio" aria-checked="true">
-                <span class="radio" aria-hidden="true"></span>
-                <span class="info"><b>1 × SYNAPTIC SLEEP 5-Z</b><small>Una almohada</small></span>
-                <span><span class="p" data-combo-price>—</span><br><span class="save">Envío gratis</span></span>
-              </button>
-              <button type="button" class="combo" data-combo data-qty="2" data-price="168000" data-old="238000" role="radio" aria-checked="false">
-                <span class="most">★ Más elegido</span>
-                <span class="radio" aria-hidden="true"></span>
-                <span class="info"><b>2 × SYNAPTIC SLEEP 5-Z</b><small>Pack pareja · ahorras $70.000</small></span>
-                <span><span class="p" data-combo-price>—</span><br><span class="save" data-combo-unit>—</span></span>
-              </button>
-              <button type="button" class="combo" data-combo data-qty="3" data-price="252000" data-old="357000" role="radio" aria-checked="false">
-                <span class="radio" aria-hidden="true"></span>
-                <span class="info"><b>3 × SYNAPTIC SLEEP 5-Z</b><small>Pack familia · ahorras $105.000</small></span>
-                <span><span class="p" data-combo-price>—</span><br><span class="save" data-combo-unit>—</span></span>
-              </button>
+        <!-- Encabezado: precio + entrega -->
+        <header class="checkout-head">
+          <span class="eyebrow">Haz tu pedido</span>
+          <h2>Elige cómo te la llevas</h2>
+          <div class="price-hero-row">
+            <span class="price-hero" data-price-hero>$84.000</span>
+            <s data-old-hero>$119.000</s>
+            <span class="price-off" data-off-hero>-29%</span>
+          </div>
+          <p class="checkout-promise">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h13v10H3z"/><path d="M16 10h4l1 3v4h-5"/><circle cx="7" cy="17" r="1.6"/><circle cx="18" cy="17" r="1.6"/></svg>
+            <span>Envío gratis · Llega entre el <b data-eta-from>20</b> y el <b data-eta-to>23</b> de <span data-eta-month>octubre</span></span>
+          </p>
+        </header>
+
+        <div class="checkout">
+          <!-- Columna principal -->
+          <div class="checkout-main">
+
+            <!-- Paso 1 · Cantidad -->
+            <section class="checkout-step" id="paso-combo" aria-labelledby="paso-combo-t">
+              <div class="checkout-step-head">
+                <span class="step-num" aria-hidden="true">1</span>
+                <h3 id="paso-combo-t">Tu almohada</h3>
+              </div>
+              <div class="picker">
+                <div class="combo-grid" role="radiogroup" aria-label="Cantidad de almohadas">
+                  <button type="button" class="combo is-active" data-combo data-qty="1" role="radio" aria-checked="true">
+                    <span class="radio" aria-hidden="true"></span>
+                    <span class="info"><b>1 almohada</b><small>Unidad individual</small></span>
+                    <span><span class="p" data-combo-price>—</span><span class="save">Envío gratis</span></span>
+                  </button>
+                  <button type="button" class="combo" data-combo data-qty="2" role="radio" aria-checked="false">
+                    <span class="radio" aria-hidden="true"></span>
+                    <span class="info"><b>2 almohadas <span class="most">★ Más elegido</span></b><small>Pack pareja · ahorras <b data-combo-save>—</b></small></span>
+                    <span><span class="p" data-combo-price>—</span><span class="save" data-combo-unit>—</span></span>
+                  </button>
+                  <button type="button" class="combo" data-combo data-qty="3" role="radio" aria-checked="false">
+                    <span class="radio" aria-hidden="true"></span>
+                    <span class="info"><b>3 almohadas</b><small>Pack familia · ahorras <b data-combo-save>—</b></small></span>
+                    <span><span class="p" data-combo-price>—</span><span class="save" data-combo-unit>—</span></span>
+                  </button>
+                </div>
+
+                <div class="combo-more combo-more--row">
+                  <label for="comboMore">¿Necesitas más?</label>
+                  <select id="comboMore" class="combo-more-select" aria-label="Más unidades">
+                    <option value="">4 a 10 unidades…</option>
+                    <option value="4">4 unidades</option>
+                    <option value="5">5 unidades</option>
+                    <option value="6">6 unidades</option>
+                    <option value="7">7 unidades</option>
+                    <option value="8">8 unidades</option>
+                    <option value="9">9 unidades</option>
+                    <option value="10">10 unidades</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- Paso 2 · Complementos -->
+            <section class="checkout-step" id="paso-addons" aria-labelledby="paso-addons-t">
+              <div class="checkout-step-head">
+                <span class="step-num" aria-hidden="true">2</span>
+                <h3 id="paso-addons-t">Súmale algo <span class="opt">(opcional)</span></h3>
+              </div>
+              <div class="addons addons--first">
+                <div class="crosssell">
+                  <div class="crosssell-head">
+                    <label class="addon addon-all"><input type="checkbox" id="addonAll" /> Seleccionar todos</label>
+                    <span class="crosssell-count">3 productos</span>
+                  </div>
+                  <div class="crosssell-track">
+                    <article class="xs-card" data-addon-row="funda">
+                      <label class="xs-media" for="addon-funda">
+                        <img src="images/funda-de-repuesto.avif" alt="" width="300" height="300" loading="lazy" />
+                        <input class="addon-box" type="checkbox" id="addon-funda" data-addon="funda" aria-label="Añadir Funda de repuesto" />
+                      </label>
+                      <div class="xs-body">
+                        <label class="xs-name" for="addon-funda">Funda de repuesto</label>
+                        <s class="xs-old" data-addon-old="funda">$39.000</s>
+                        <p class="xs-price"><span data-addon-price="funda">$29.000</span><span class="xs-off" data-addon-off="funda">-26%</span></p>
+                        <p class="xs-ship">Envío gratis</p>
+                        <div class="xs-actions">
+                          <label class="xs-add" for="addon-funda">
+                            <span class="xs-add-on">+ Añadir</span>
+                            <span class="xs-add-off">✓ Añadido</span>
+                          </label>
+                          <select class="addon-qty" data-addon-qty="funda" aria-label="Cantidad de Funda de repuesto"></select>
+                        </div>
+                        <small class="xs-line" data-addon-line="funda"></small>
+                      </div>
+                    </article>
+                    <article class="xs-card" data-addon-row="antifaz">
+                      <label class="xs-media" for="addon-antifaz">
+                        <img src="images/antifaz-descanso.avif" alt="" width="300" height="300" loading="lazy" />
+                        <input class="addon-box" type="checkbox" id="addon-antifaz" data-addon="antifaz" aria-label="Añadir Antifaz de descanso" />
+                      </label>
+                      <div class="xs-body">
+                        <label class="xs-name" for="addon-antifaz">Antifaz de descanso</label>
+                        <s class="xs-old" data-addon-old="antifaz">$34.000</s>
+                        <p class="xs-price"><span data-addon-price="antifaz">$24.000</span><span class="xs-off" data-addon-off="antifaz">-29%</span></p>
+                        <p class="xs-ship">Envío gratis</p>
+                        <div class="xs-actions">
+                          <label class="xs-add" for="addon-antifaz">
+                            <span class="xs-add-on">+ Añadir</span>
+                            <span class="xs-add-off">✓ Añadido</span>
+                          </label>
+                          <select class="addon-qty" data-addon-qty="antifaz" aria-label="Cantidad de Antifaz de descanso"></select>
+                        </div>
+                        <small class="xs-line" data-addon-line="antifaz"></small>
+                      </div>
+                    </article>
+                    <article class="xs-card" data-addon-row="protector">
+                      <label class="xs-media" for="addon-protector">
+                        <img src="images/protector-impermeable.avif" alt="" width="300" height="300" loading="lazy" />
+                        <input class="addon-box" type="checkbox" id="addon-protector" data-addon="protector" aria-label="Añadir Protector impermeable" />
+                      </label>
+                      <div class="xs-body">
+                        <label class="xs-name" for="addon-protector">Protector impermeable</label>
+                        <s class="xs-old" data-addon-old="protector">$32.000</s>
+                        <p class="xs-price"><span data-addon-price="protector">$22.000</span><span class="xs-off" data-addon-off="protector">-31%</span></p>
+                        <p class="xs-ship">Envío gratis</p>
+                        <div class="xs-actions">
+                          <label class="xs-add" for="addon-protector">
+                            <span class="xs-add-on">+ Añadir</span>
+                            <span class="xs-add-off">✓ Añadido</span>
+                          </label>
+                          <select class="addon-qty" data-addon-qty="protector" aria-label="Cantidad de Protector impermeable"></select>
+                        </div>
+                        <small class="xs-line" data-addon-line="protector"></small>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- CTA móvil: después de los pasos, para no saltarse los complementos -->
+            <a class="btn btn--primary btn--lg cta-pay checkout-cta checkout-cta--inline" href="#datos" id="goToDatosMobile" data-go-cta><span data-go-label>Comprar ahora</span> · <span class="amount" data-total-out>$84.000</span></a>
+
+            <!-- Paso 3 · Datos -->
+            <section class="checkout-step" id="datos" aria-labelledby="paso-datos-t">
+              <div class="checkout-step-head">
+                <span class="step-num" aria-hidden="true">3</span>
+                <h3 id="paso-datos-t">Tus datos <span class="opt">(para hacer tu envío)</span></h3>
+              </div>
+
+              <form class="form checkout-form" id="orderForm" novalidate>
+                <div class="form-error-summary" id="formErrors" role="alert" hidden></div>
+
+                <!-- Honeypot anti-spam -->
+                <div class="hp" aria-hidden="true"><label for="website">No completar</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off" /></div>
+
+                <fieldset class="form-group">
+                  <legend>¿A quién contactamos?</legend>
+                  <div class="field">
+                    <label for="nombre">Nombre y apellidos <span class="req">*</span></label>
+                    <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Ana Gómez" required aria-describedby="err-nombre" />
+                    <p class="error-msg" id="err-nombre">Escribe tu nombre completo.</p>
+                  </div>
+                  <div class="field">
+                    <label for="telefono">WhatsApp <span class="req">*</span></label>
+                    <div class="phone-field">
+                      <span class="phone-prefix" aria-hidden="true">+57</span>
+                      <input type="tel" id="telefono" name="telefono" inputmode="numeric" autocomplete="tel-national" placeholder="300 123 4567" maxlength="12" pattern="3[0-9]{9}" required aria-describedby="hint-telefono err-telefono" />
+                    </div>
+                    <p class="hint" id="hint-telefono">10 dígitos, sin el +57.</p>
+                    <p class="error-msg" id="err-telefono">Escribe un celular de 10 dígitos que empiece por 3.</p>
+                  </div>
+                  <div class="field">
+                    <label for="correo">Correo electrónico <span data-correo-opt>(opcional)</span><span class="req" data-correo-req hidden>*</span></label>
+                    <input type="email" id="correo" name="correo" autocomplete="email" placeholder="tunombre@email.com" aria-describedby="hint-correo err-correo" />
+                    <p class="hint" id="hint-correo">Solo si quieres la factura por correo.</p>
+                    <p class="error-msg" id="err-correo">Ingresa un correo válido.</p>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-group">
+                  <legend>¿Dónde te la llevamos?</legend>
+                  <div class="row-2">
+                    <div class="field">
+                      <label for="departamento">Departamento <span class="req">*</span></label>
+                      <select id="departamento" name="departamento" autocomplete="address-level1" required aria-describedby="err-departamento">
+                        <option value="">Selecciona…</option>
+                        <option>Amazonas</option><option>Antioquia</option><option>Arauca</option><option>Atlántico</option>
+                        <option>Bogotá D.C.</option><option>Bolívar</option><option>Boyacá</option><option>Caldas</option>
+                        <option>Caquetá</option><option>Casanare</option><option>Cauca</option><option>Cesar</option>
+                        <option>Chocó</option><option>Córdoba</option><option>Cundinamarca</option><option>Guainía</option>
+                        <option>Guaviare</option><option>Huila</option><option>La Guajira</option><option>Magdalena</option>
+                        <option>Meta</option><option>Nariño</option><option>Norte de Santander</option><option>Putumayo</option>
+                        <option>Quindío</option><option>Risaralda</option><option>San Andrés y Providencia</option><option>Santander</option>
+                        <option>Sucre</option><option>Tolima</option><option>Valle del Cauca</option><option>Vaupés</option>
+                        <option>Vichada</option>
+                      </select>
+                      <p class="error-msg" id="err-departamento">Selecciona tu departamento.</p>
+                    </div>
+                    <div class="field">
+                      <label for="ciudad">Ciudad <span class="req">*</span></label>
+                      <input type="text" id="ciudad" name="ciudad" list="ciudades" autocomplete="address-level2" placeholder="Ej. Medellín" required aria-describedby="err-ciudad" />
+                      <datalist id="ciudades"></datalist>
+                      <p class="error-msg" id="err-ciudad">Escribe tu ciudad.</p>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="direccion">Dirección <span class="req">*</span></label>
+                    <input type="text" id="direccion" name="direccion" autocomplete="street-address" placeholder="Calle 103 #45-12, apto 302" required aria-describedby="err-direccion" />
+                    <p class="error-msg" id="err-direccion">Escribe tu dirección completa.</p>
+                  </div>
+                  <div class="field">
+                    <label for="barrio">Barrio</label>
+                    <input type="text" id="barrio" name="barrio" autocomplete="address-level3" placeholder="Ej. Chapinero" />
+                  </div>
+                  <div class="field">
+                    <label for="indicaciones">Para el repartidor <span>(opcional)</span></label>
+                    <textarea id="indicaciones" name="indicaciones" placeholder="Punto de referencia, horario de entrega…"></textarea>
+                  </div>
+                </fieldset>
+
+                <fieldset class="form-group">
+                  <legend>¿Cómo quieres pagar?</legend>
+                  <div class="pay-options">
+                    <label class="pay"><input type="radio" name="pago" value="online" checked /> <span>💳 <strong>Tarjeta débito o crédito, PSE</strong> | <small class="pay-sub">Pago seguro con Mercadopago</small></span> <span class="pay-amount" data-pay-amount="online">$84.000</span></label>
+                    <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 <strong>Nequi, Daviplata o NuBank</strong> | <small class="pay-sub">Pedir por WhatsApp</small></span> <span class="pay-amount" data-pay-amount="whatsapp">$84.000</span></label>
+                    <label class="pay"><input type="radio" name="pago" value="contraentrega" /> <span>💵 <strong>Pago contraentrega</strong> | <small class="pay-sub" data-cod-copy>Pagas <b>$84.000</b> al recibir</small></span> <span class="pay-amount" data-pay-amount="contraentrega">$84.000</span></label>
+                  </div>
+                  <p class="cod-note" data-cod-unavailable hidden></p>
+                  <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio con la plataforma Mercadopago de Mercadolibre.</div>
+                </fieldset>
+
+                <div class="consent-block" id="consentBlock">
+                  <label class="consent" for="consent">
+                    <input type="checkbox" id="consent" name="consent" aria-describedby="err-consent" />
+                    <span>Acepto la <a href="../privacidad.html" target="_blank" rel="noopener">política de tratamiento de datos</a> y los <a href="../terminos.html" target="_blank" rel="noopener">términos y condiciones</a>.</span>
+                  </label>
+                  <p class="error-msg" id="err-consent">Debes aceptar para continuar.</p>
+                </div>
+
+                <button class="btn btn--primary btn--lg cta-pay" type="submit" id="submitBtn">Confirmar pedido · <span class="amount" data-total-out>$84.000</span></button>
+
+                <p class="secure-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg> Tus datos están protegidos.</p>
+
+                <!-- Confirmación (demo) -->
+                <div class="form-success" id="formSuccess" role="status">
+                  <div class="ok-ico" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+                  <h3>¡Pedido recibido!</h3>
+                  <p class="muted">Te contactaremos por WhatsApp para confirmar tu envío. Gracias por tu compra.</p>
+                  <p><a class="btn btn--ghost" href="#pedido">Volver</a></p>
+                </div>
+              </form>
+            </section>
+
+            <!-- Garantía -->
+            <div class="guarantee">
+              <div class="seal" aria-hidden="true">15</div>
+              <div>
+                <h3 style="margin-bottom:.2em;font-size:var(--text-xl)">Garantía de 15 días</h3>
+                <p class="muted" style="margin:0;font-size:.9rem">Si la ingeniería falla en 15 días o menos, absorbemos el riesgo: cambiamos o devolvemos tu dinero.</p>
+              </div>
             </div>
+          </div><!-- /checkout-main -->
 
-            <!-- Desplegable para más unidades (+4 hasta 6) -->
-            <div class="combo-more">
-              <label for="comboMore">¿Quieres más unidades?</label>
-              <select id="comboMore" class="combo-more-select" aria-label="Más unidades">
-                <option value="">Selecciona…</option>
-                <option value="4">4 unidades</option>
-                <option value="5">5 unidades</option>
-                <option value="6">6 unidades</option>
-                <option value="6plus">Más de 6 unidades (cotizar)</option>
-              </select>
-            </div>
-
-            <!-- Complementarios (cross-sell) — PENDIENTE precios e imágenes reales -->
-            <div class="addons">
-              <span class="label">Agrega más productos a tu pedido</span>
-              <label class="addon addon-all"><input type="checkbox" id="addonAll" /> Seleccionar todos los complementos</label>
-              <div class="addon" data-addon-row="funda">
-                <select class="addon-qty" data-addon-qty="funda" aria-label="Cantidad de Funda de repuesto"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="funda" /> Funda de repuesto</label>
-                <span class="addon-amount"><b data-addon-price="funda">+$29.000</b><small data-addon-line="funda"></small></span>
-              </div>
-              <div class="addon" data-addon-row="cojin">
-                <select class="addon-qty" data-addon-qty="cojin" aria-label="Cantidad de Cojín lumbar"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="cojin" /> Cojín lumbar</label>
-                <span class="addon-amount"><b data-addon-price="cojin">+$49.000</b><small data-addon-line="cojin"></small></span>
-              </div>
-              <div class="addon" data-addon-row="antifaz">
-                <select class="addon-qty" data-addon-qty="antifaz" aria-label="Cantidad de Antifaz de descanso"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="antifaz" /> Antifaz de descanso</label>
-                <span class="addon-amount"><b data-addon-price="antifaz">+$24.000</b><small data-addon-line="antifaz"></small></span>
-              </div>
-              <div class="addon" data-addon-row="aroma">
-                <select class="addon-qty" data-addon-qty="aroma" aria-label="Cantidad de Aromatizante de lavanda"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="aroma" /> Aromatizante de lavanda</label>
-                <span class="addon-amount"><b data-addon-price="aroma">+$19.000</b><small data-addon-line="aroma"></small></span>
-              </div>
-              <div class="addon" data-addon-row="protector">
-                <select class="addon-qty" data-addon-qty="protector" aria-label="Cantidad de Protector impermeable"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="protector" /> Protector impermeable</label>
-                <span class="addon-amount"><b data-addon-price="protector">+$22.000</b><small data-addon-line="protector"></small></span>
-              </div>
-              <div class="addon" data-addon-row="tapones">
-                <select class="addon-qty" data-addon-qty="tapones" aria-label="Cantidad de Tapones para dormir"></select>
-                <label class="addon-check"><input type="checkbox" data-addon="tapones" /> Tapones para dormir</label>
-                <span class="addon-amount"><b data-addon-price="tapones">+$15.000</b><small data-addon-line="tapones"></small></span>
-              </div>
-              <div class="addon-thumbs" id="addonThumbs" aria-live="polite"></div>
-            </div>
-
-            <!-- Resumen de la compra (debajo de las imágenes) -->
+          <!-- Resumen del pedido (sticky) -->
+          <aside class="checkout-summary" aria-label="Resumen del pedido">
             <div class="summary" id="orderSummary" aria-live="polite">
+              <h3 class="summary-title">Resumen</h3>
               <div class="summary-row"><span data-label-out>1 × SYNAPTIC SLEEP 5-Z</span><span data-price-out>$84.000</span></div>
               <div class="summary-addons" id="summaryAddons"></div>
               <div class="summary-row"><span>Libro digital «El contador de ovejas»</span><span class="free">Gratis</span></div>
               <div class="summary-row"><span>Envío</span><span class="free">Gratis</span></div>
-              <div class="summary-surcharge" data-surcharge></div>
-              <div class="summary-row total"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
-            </div>
-          </div>
-
-          <!-- Formulario en 2 pasos -->
-          <div class="offer-right">
-          <form class="form" id="orderForm" novalidate>
-            <h3 style="margin-bottom:14px">2. Completa tus datos</h3>
-            <div class="step-ind" aria-hidden="true"><span class="on"></span><span></span></div>
-            <p class="step-label" id="stepLabel">Paso 1 de 2 · ¿A quién contactamos?</p>
-
-            <!-- Honeypot anti-spam -->
-            <div class="hp" aria-hidden="true"><label for="website">No completar</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off" /></div>
-
-            <!-- PASO 1 -->
-            <div class="form-step active" id="step1">
-              <div class="field">
-                <label for="nombre">Nombre completo <span class="req">*</span></label>
-                <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Ana Gómez" required />
-                <p class="error-msg">Escribe tu nombre completo.</p>
-              </div>
-              <div class="field">
-                <label for="telefono">WhatsApp <span class="req">*</span></label>
-                <input type="tel" id="telefono" name="telefono" inputmode="tel" autocomplete="tel" placeholder="Ej. 3001234567" required />
-                <p class="error-msg">Ingresa un número válido (7 a 15 dígitos).</p>
-              </div>
-              <div class="field">
-                <label for="correo">Correo electrónico <span class="req">*</span></label>
-                <input type="email" id="correo" name="correo" autocomplete="email" placeholder="tunombre@email.com" required />
-                <p class="error-msg">Ingresa un correo válido.</p>
-              </div>
-              <div class="form-nav">
-                <button class="btn btn--primary btn--block btn--lg" type="button" id="nextBtn">Continuar</button>
-              </div>
-              <p class="secure-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg> No pagas nada en este paso. Usamos tus datos para la entrega.</p>
+              <div class="summary-surcharge" data-cod-split></div>
+              <div class="summary-row total"><span>Total</span><span data-total-out>$84.000</span></div>
             </div>
 
-            <!-- PASO 2 -->
-            <div class="form-step" id="step2">
-              <div class="row-2">
-                <div class="field">
-                  <label for="ciudad">Ciudad <span class="req">*</span></label>
-                  <input type="text" id="ciudad" name="ciudad" autocomplete="address-level2" placeholder="Ej. Medellín" required />
-                  <p class="error-msg">Escribe tu ciudad.</p>
-                </div>
-                <div class="field">
-                  <label for="departamento">Departamento <span class="req">*</span></label>
-                  <select id="departamento" name="departamento" required>
-                    <option value="">Selecciona…</option>
-                    <option>Antioquia</option><option>Atlántico</option><option>Bogotá D.C.</option>
-                    <option>Bolívar</option><option>Boyacá</option><option>Caldas</option>
-                    <option>Cundinamarca</option><option>Nariño</option><option>Risaralda</option>
-                    <option>Santander</option><option>Valle del Cauca</option><option>Otro</option>
-                  </select>
-                  <p class="error-msg">Selecciona tu departamento.</p>
-                </div>
-              </div>
-              <div class="field">
-                <label for="direccion">Dirección <span class="req">*</span></label>
-                <input type="text" id="direccion" name="direccion" autocomplete="street-address" placeholder="Calle 00 #00-00, barrio" required />
-                <p class="error-msg">Escribe tu dirección completa.</p>
-              </div>
-              <div class="field">
-                <label for="indicaciones">Indicaciones adicionales</label>
-                <textarea id="indicaciones" name="indicaciones" placeholder="Punto de referencia, horario de entrega, etc."></textarea>
-              </div>
+            <a class="btn btn--primary btn--lg cta-pay checkout-cta checkout-cta--aside" href="#datos" id="goToDatos" data-go-cta><span data-go-label>Comprar ahora</span> · <span class="amount" data-total-out>$84.000</span></a>
 
-              <h3 style="margin:20px 0 12px;font-size:var(--text-lg)">Método de pago</h3>
-              <div class="pay-options">
-                <label class="pay"><input type="radio" name="pago" value="online" checked /> <span>💳 <strong>Compra rápida</strong> | <small class="pay-sub">Tarjeta débito o crédito, PSE</small></span></label>
-                <label class="pay"><input type="radio" name="pago" value="whatsapp" /> <span>📲 <strong>Pedir por WhatsApp</strong> | <small class="pay-sub">Nequi, Daviplata o NuBank</small></span></label>
-                <label class="pay"><input type="radio" name="pago" value="contraentrega" /> <span>💵 <strong>Pago contraentrega</strong> | <small class="pay-sub">El valor del pedido aumenta un 10%</small></span></label>
-              </div>
-              <div class="pay-detail" id="payDetail">Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio con la plataforma Mercadopago de Mercadolibre.<!-- PERSONALIZAR: claves del gateway solo en el backend --></div>
-              <div class="summary-row total form-total" style="margin-top:10px"><span>Total a pagar</span><span data-total-out>$84.000</span></div>
+            <ul class="trust-list">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span>Compra protegida</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h13v10H3z"/><path d="M16 10h4l1 3v4h-5"/><circle cx="7" cy="17" r="1.6"/><circle cx="18" cy="17" r="1.6"/></svg><span>Envío gratis a toda Colombia</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 019-9 9 9 0 018 5"/><path d="M3 12l-1-3 3-1"/><path d="M21 12a9 9 0 01-9 9 9 9 0 01-8-5"/><path d="M21 12l1 3-3 1"/></svg><span>Garantía de 15 días</span></li>
+            </ul>
 
-              <div class="form-nav">
-                <button class="btn btn--ghost" type="button" id="backBtn">Atrás</button>
-                <button class="btn btn--primary btn--lg" type="submit">Confirmar pedido</button>
-              </div>
-              <p class="secure-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg> Tus datos están protegidos.</p>
-            </div>
-
-            <!-- Confirmación (demo) -->
-            <div class="form-success" id="formSuccess" role="status">
-              <div class="ok-ico" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
-              <h3>¡Pedido recibido!</h3>
-              <p class="muted">Te contactaremos por WhatsApp para confirmar tu envío. Gracias por tu compra.</p>
-              <p><a class="btn btn--ghost" href="#pedido">Volver</a></p>
-            </div>
-          </form>
-
-          <!-- Garantía (debajo del formulario de datos de pago) -->
-          <div class="guarantee">
-            <div class="seal" aria-hidden="true">15</div>
-            <div>
-              <h3 style="margin-bottom:.2em;font-size:var(--text-xl)">Garantía de 15 días</h3>
-              <p class="muted" style="margin:0;font-size:.9rem">Si la ingeniería falla en 15 días o menos, absorbemos el riesgo: cambiamos o devolvemos tu dinero.</p>
-            </div>
-          </div>
-          </div>
-        </div>
+            <a class="summary-wa" href="https://wa.me/573507402009?text=Hola%2C%20tengo%20una%20duda%20sobre%20mi%20pedido" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-1.9-1.2 7 7 0 01-1.3-1.6c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.7 4.3 3.8 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1z"/></svg>
+              ¿Dudas? Escríbenos por WhatsApp
+            </a>
+          </aside>
+        </div><!-- /checkout -->
       </div>
     </section>
 
@@ -1211,8 +1476,8 @@
   </a>
 
   <div class="mobile-cta">
-    <div class="price" data-price-out>$84.000 <small data-old-out>$119.000</small></div>
-    <a class="btn btn--primary" href="#pedido">Pedir ahora</a>
+    <div class="price"><span data-total-out>$84.000</span><small>Envío gratis</small></div>
+    <a class="btn btn--primary" href="#datos">Comprar ahora</a>
   </div>
 
   <div class="cookies" id="cookies" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
@@ -1300,38 +1565,139 @@
     // Pago online real: POST a tu backend -> redirige al checkout del gateway.
 
     /* ============================================================
+       PRECIOS DEL PRODUCTO PRINCIPAL  ·  ZONA EDITABLE
+       ------------------------------------------------------------
+       Esta lógica SOLO afecta a la almohada (combos, resumen, hero,
+       badge de descuento y ahorro). Los complementos conservan su
+       precio fijo en CATALOG.addons.
+
+       Descuento por volumen
+       · 1 unidad   → 0 %
+       · 2 unidades → primer escalón (≈1 % con los valores de abajo)
+       · 10 unidades→ DESCUENTO_MAX_PCT (10 %)
+
+       La fórmula reparte el descuento máximo entre los escalones:
+
+           pct(n) = DESCUENTO_MAX_PCT · (n − 1) / (UNIDADES_MAX − 1)
+
+       Cambia DESCUENTO_MAX_PCT (p. ej. a 20) y TODOS los precios,
+       badges y ahorros se recalculan solos: no hay que tocar nada más.
+       ============================================================ */
+    var PRICING = {
+      PRECIO_BASE: 84000,        // precio de 1 unidad (COP)
+      PRECIO_ANTERIOR: 119000,   // precio "antes" de 1 unidad (se muestra tachado)
+      UNIDADES_MAX: 10,          // unidades a partir de las cuales se aplica el máximo
+      DESCUENTO_MAX_PCT: 10,     // % de descuento al llegar a UNIDADES_MAX
+      REDONDEO: 100              // redondeo del precio final (COP): 100, 500 o 1000
+    };
+
+    /* % de descuento por volumen para n unidades (0 en 1 unidad) */
+    function pctVolumen(n) {
+      if (n <= 1) return 0;
+      if (n > PRICING.UNIDADES_MAX) n = PRICING.UNIDADES_MAX;
+      return PRICING.DESCUENTO_MAX_PCT * (n - 1) / (PRICING.UNIDADES_MAX - 1);
+    }
+    /* Redondeo comercial (a la centena por defecto) */
+    function redondear(v) {
+      var r = PRICING.REDONDEO || 1;
+      return Math.round(v / r) * r;
+    }
+    /* Total del producto principal para n unidades (sin el 10% de los días 15 / fin de mes) */
+    function precioPrincipal(n) {
+      var bruto = PRICING.PRECIO_BASE * n;
+      return redondear(bruto * (1 - pctVolumen(n) / 100));
+    }
+    /* Total "antes" para n unidades (referencia tachada) */
+    function precioAnterior(n) {
+      return PRICING.PRECIO_ANTERIOR * n;
+    }
+
+    /* ============================================================
+       REGLAS DEL PEDIDO · CONTRAENTREGA (abono)
+       ------------------------------------------------------------
+       No depende del producto: se calcula sobre el TOTAL del pedido,
+       así que sirve igual para un artículo de $18.000 que de $420.000.
+
+       · El abono NO es un recargo: es parte del precio, pagada antes.
+       · Si el pedido no llega al mínimo, la opción de contraentrega no
+         se muestra (el flete de $20.000 por trayecto se comería el margen).
+       · Un rechazo cuesta ≈ $42.000 (ida + vuelta + manipulación);
+         el abono existe para cubrir esa pérdida, no para ganar más.
+       ============================================================ */
+    var CHECKOUT_RULES = {
+      flete: { ida: 20000, retorno: 20000 },
+      cod: {
+        /* --- Interruptor general del abono --- */
+        ABONO_ACTIVO: true,   // true  → contraentrega CON abono (paga una parte ahora)
+                              // false → contraentrega SIN abono (paga todo al recibir)
+
+        ABONO_DESDE: 150000,  // solo se pide abono si el total del pedido llega a este valor
+                              // (cámbialo libremente: 150000, 100000, 200000…)
+
+        /* --- Cálculo del abono (cuando está activo y el pedido llega al umbral) --- */
+        PCT: 20,            // % del total que se abona por adelantado
+        MIN: 12000,         // piso absoluto
+        MAX: 60000,         // techo absoluto
+
+        /* --- Disponibilidad del contraentrega --- */
+        PEDIDO_MIN: 70000,  // bajo este total no se ofrece contraentrega
+        PEDIDO_MAX: 250000  // sobre este total solo prepago
+      }
+    };
+
+    /* Abono contraentrega para un total dado.
+       Devuelve null → contraentrega NO disponible
+       Devuelve 0    → contraentrega disponible SIN abono (paga todo al recibir)
+       Devuelve > 0  → contraentrega con abono de ese valor */
+    function abonoCOD(total) {
+      var c = CHECKOUT_RULES.cod;
+      if (!total || total < c.PEDIDO_MIN || total > c.PEDIDO_MAX) return null;
+      if (!c.ABONO_ACTIVO) return 0;          // interruptor general apagado
+      if (total < c.ABONO_DESDE) return 0;    // pedido por debajo del umbral
+      var v = total * c.PCT / 100;
+      v = Math.max(v, c.MIN);
+      v = Math.min(v, c.MAX);
+      v = Math.min(v, total * 0.5);
+      return Math.round(v / 1000) * 1000;
+    }
+
+    /* Texto que aparece bajo los métodos de pago */
+    var PAY_DETAIL = {
+      online: 'Al confirmar te mostraremos los medios de pago seguros. El pago se procesa fuera de este sitio con la plataforma Mercadopago de Mercadolibre.',
+      whatsapp: 'Te enviamos el resumen por WhatsApp y confirmas el pago por Nequi, Daviplata o NuBank.',
+      contraentrega: 'El abono cubre el envío si rechazas el pedido y no se reembolsa. Si el pedido no llega o llega dañado, te devolvemos el abono completo.'
+    };
+
+    /* ============================================================
        CATÁLOGO + CARRITO (multi-producto)
        Estructura lista para: upsell (mejor versión), downsell
        (versión más barata) y cross-sell / complementarios (addons).
        PERSONALIZAR los precios reales.
        ============================================================ */
     var CATALOG = {
-      main:     { id:'synaptic-5z',   name:'SYNAPTIC SLEEP 5-Z',      unit:84000,  unitOld:119000 },
+      main:     { id:'synaptic-5z',   name:'SYNAPTIC SLEEP 5-Z',      unit:PRICING.PRECIO_BASE, unitOld:PRICING.PRECIO_ANTERIOR },
       upsell:   { id:'synaptic-pro',  name:'SYNAPTIC SLEEP 5-Z Pro',  unit:118000, unitOld:159000, pendiente:true },  // upsell
       downsell: { id:'synaptic-mini', name:'SYNAPTIC SLEEP 5-Z Mini', unit:64000,  unitOld:89000,  pendiente:true },  // downsell
       addons: [  // cross-sell / productos complementarios (PENDIENTE precios reales)
         { id:'funda',     name:'Funda de repuesto',      unit:29000, unitOld:39000, img:'images/funda-de-repuesto.avif',    pendiente:true },
-        { id:'cojin',     name:'Cojín lumbar',           unit:49000, unitOld:69000, img:'images/cojin-lumbar.avif',         pendiente:true },
         { id:'antifaz',   name:'Antifaz de descanso',    unit:24000, unitOld:34000, img:'images/antifaz-descanso.avif',     pendiente:true },
-        { id:'aroma',     name:'Aromatizante de lavanda',unit:19000, unitOld:29000, img:'images/aromatizante-lavanda.avif', pendiente:true },
-        { id:'protector', name:'Protector impermeable',  unit:22000, unitOld:32000, img:'images/protector-impermeable.avif',pendiente:true },
-        { id:'tapones',   name:'Tapones para dormir',    unit:15000, unitOld:25000, img:'images/tapones-dormir.avif',       pendiente:true }
+        { id:'protector', name:'Protector impermeable',  unit:22000, unitOld:32000, img:'images/protector-impermeable.avif',pendiente:true }
       ]
     };
     var PRODUCT = CATALOG.main.name;
     var state = { qty: 1, quoteOnly: false, discount: 1, addons: {}, pago: 'online' };
 
     function money(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
-    function mainPrice() { return state.qty * CATALOG.main.unit; }
-    function mainOld()   { return state.qty * CATALOG.main.unitOld; }
+    function mainPrice() { return precioPrincipal(state.qty); }
+    function mainOld()   { return precioAnterior(state.qty); }
     function mainNow()   { return Math.round(mainPrice() * state.discount); }
     function addonsTotal() {
       var t = 0; CATALOG.addons.forEach(function (a) { t += a.unit * (state.addons[a.id] || 0); }); return t;
     }
     function orderTotal() { return mainNow() + addonsTotal(); }
-    // Recargo por pago contraentrega: +10% sobre el pedido. Si no aplica, 0.
-    function contraSurcharge() { return state.pago === 'contraentrega' ? Math.round(orderTotal() * 0.10) : 0; }
-    function grandTotal() { return orderTotal() + contraSurcharge(); }
+    // El abono de contraentrega no suma: divide el total entre "hoy" y "al recibir".
+    function grandTotal() { return orderTotal(); }
+    function codAbono() { return abonoCOD(orderTotal()); }
     function savingsTotal() {
       var s = mainOld() - mainNow();
       CATALOG.addons.forEach(function (a) { var q = state.addons[a.id] || 0; if (q) s += Math.max(0, a.unitOld - a.unit) * q; });
@@ -1361,8 +1727,8 @@
         el.classList.toggle('is-active', active);
         if (el.getAttribute('role') === 'radio') el.setAttribute('aria-checked', active ? 'true' : 'false');
       });
-      if (qtySelect) qtySelect.value = state.quoteOnly ? '6plus' : String(state.qty);
-      if (comboMore) comboMore.value = state.quoteOnly ? '6plus' : (state.qty >= 4 && state.qty <= 6 ? String(state.qty) : '');
+      if (qtySelect) qtySelect.value = String(state.qty);
+      if (comboMore) comboMore.value = (state.qty >= 4 && state.qty <= 10) ? String(state.qty) : '';
     }
 
     function render() {
@@ -1370,33 +1736,91 @@
       var now = mainNow();
       // Ficha (buy box)
       document.querySelectorAll('.buybox [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotiza' : money(now); });
-      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 6 unidades' : money(CATALOG.main.unit * state.discount) + ' c/u'; });
+      document.querySelectorAll('.buybox [data-unit-out]').forEach(function (el) { el.textContent = quote ? 'más de 6 unidades' : money(Math.round(mainNow() / state.qty)) + ' c/u'; });
       document.querySelectorAll('[data-old-out]').forEach(function (el) { el.textContent = quote ? '' : money(mainOld()); });
       document.querySelectorAll('[data-ahorro-out]').forEach(function (el) { el.textContent = quote ? '' : money(savingsTotal()); });
       var off = document.querySelector('.price-off');
       if (off) off.textContent = quote ? '' : '-' + Math.round((1 - now / mainOld()) * 100) + '%';
-      // Combos (con el descuento del día si aplica)
-      document.querySelectorAll('[data-combo-price]').forEach(function (el) {
-        var card = el.closest('[data-combo]');
-        if (card) el.textContent = money(Math.round(parseInt(card.getAttribute('data-price'), 10) * state.discount));
-      });
-      document.querySelectorAll('[data-combo-unit]').forEach(function (el) {
-        var card = el.closest('[data-combo]');
-        if (card) {
-          var u = Math.round(parseInt(card.getAttribute('data-price'), 10) / parseInt(card.getAttribute('data-qty'), 10));
-          el.textContent = money(Math.round(u * state.discount)) + ' c/u';
+      // Encabezado del checkout
+      var hero = document.querySelector('[data-price-hero]');
+      if (hero) hero.textContent = quote ? 'Cotiza' : money(now);
+      var heroOld = document.querySelector('[data-old-hero]');
+      if (heroOld) heroOld.textContent = quote ? '' : money(mainOld());
+      var heroOff = document.querySelector('[data-off-hero]');
+      if (heroOff) heroOff.textContent = quote ? '' : '-' + Math.round((1 - now / mainOld()) * 100) + '%';
+      // Contraentrega: disponibilidad + abono y saldo (el precio no cambia)
+      var totalPedido = orderTotal();
+      var abono = abonoCOD(totalPedido);
+      var codRadio = document.querySelector('input[name="pago"][value="contraentrega"]');
+      var codCard = codRadio ? codRadio.closest('.pay') : null;
+      if (codCard) codCard.hidden = (abono === null);
+      var codNote = document.querySelector('[data-cod-unavailable]');
+      if (codNote) {
+        codNote.hidden = (abono !== null);
+        if (abono === null) {
+          var regla = CHECKOUT_RULES.cod;
+          codNote.innerHTML = totalPedido < regla.PEDIDO_MIN
+            ? 'El pago contraentrega está disponible desde pedidos de <b>' + money(regla.PEDIDO_MIN) + '</b>.'
+            : 'El pago contraentrega está disponible hasta pedidos de <b>' + money(regla.PEDIDO_MAX) + '</b>; para este valor, paga por anticipado.';
         }
+      }
+      if (abono === null && state.pago === 'contraentrega') {
+        state.pago = 'online';
+        var onlineRadio = document.querySelector('input[name="pago"][value="online"]');
+        if (onlineRadio) onlineRadio.checked = true;
+      }
+      document.querySelectorAll('[data-pay-amount]').forEach(function (el) {
+        el.textContent = quote ? 'Cotizar' : money(totalPedido);
+      });
+      // Texto de ayuda del método elegido
+      var payDetailEl = document.getElementById('payDetail');
+      if (payDetailEl) {
+        var detalle = PAY_DETAIL[state.pago] || PAY_DETAIL.online;
+        if (state.pago === 'contraentrega' && abono === 0) {
+          detalle = 'Pagas el total cuando recibas el pedido. No se pide abono por adelantado.';
+        }
+        payDetailEl.textContent = detalle;
+        payDetailEl.classList.add('show');
+      }
+      // El correo solo es obligatorio con tarjeta
+      var correoEl = document.getElementById('correo');
+      var correoOptEl = document.querySelector('[data-correo-opt]');
+      var correoReqEl = document.querySelector('[data-correo-req]');
+      var esOnline = state.pago === 'online';
+      if (correoEl) correoEl.required = esOnline;
+      if (correoOptEl) correoOptEl.hidden = esOnline;
+      if (correoReqEl) correoReqEl.hidden = !esOnline;
+
+      var codCopy = document.querySelector('[data-cod-copy]');
+      if (codCopy) {
+        codCopy.innerHTML = (abono > 0)
+          ? 'Abonas <b>' + money(abono) + '</b> ahora · <b>' + money(totalPedido - abono) + '</b> al recibir'
+          : 'Pagas <b>' + money(totalPedido) + '</b> al recibir';
+      }
+      // Combos: el precio sale de PRICING (nunca de atributos fijos)
+      document.querySelectorAll('[data-combo]').forEach(function (card) {
+        var n = parseInt(card.getAttribute('data-qty'), 10) || 1;
+        var total = Math.round(precioPrincipal(n) * state.discount);
+        var el = card.querySelector('[data-combo-price]');
+        if (el) el.textContent = money(total);
+        var unit = card.querySelector('[data-combo-unit]');
+        if (unit) unit.textContent = money(Math.round(total / n)) + ' c/u';
+        var save = card.querySelector('[data-combo-save]');
+        if (save) save.textContent = money(Math.max(0, precioAnterior(n) - total));
       });
       // Resumen
       document.querySelectorAll('.summary [data-label-out]').forEach(function (el) { el.textContent = quote ? 'Más de 6 × ' + CATALOG.main.name : qtyLabel(); });
       document.querySelectorAll('.summary [data-price-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(now); });
       document.querySelectorAll('[data-total-out]').forEach(function (el) { el.textContent = quote ? 'Cotizar' : money(grandTotal()); });
-      // Recargo por pago contraentrega (+10%), visible en cada resumen
-      document.querySelectorAll('.summary [data-surcharge]').forEach(function (box) {
-        var fee = contraSurcharge();
-        box.innerHTML = fee > 0
-          ? '<div class="summary-row"><span>Recargo contraentrega (10%)</span><span>' + money(fee) + '</span></div>'
-          : '';
+      // Desglose del contraentrega: cuánto se abona hoy y cuánto al recibir
+      document.querySelectorAll('.summary [data-cod-split]').forEach(function (box) {
+        if (state.pago === 'contraentrega' && abono > 0 && !quote) {
+          box.innerHTML =
+            '<div class="summary-row"><span>Abono pagado hoy</span><span>−' + money(abono) + '</span></div>' +
+            '<div class="summary-row"><span>Pagas al recibir</span><span>' + money(totalPedido - abono) + '</span></div>';
+        } else {
+          box.innerHTML = '';
+        }
       });
       document.querySelectorAll('.summary .summary-addons').forEach(function (box) {
         box.innerHTML = '';
@@ -1413,36 +1837,45 @@
       CATALOG.addons.forEach(function (a) {
         var q = state.addons[a.id] || 0;
         var p = document.querySelector('[data-addon-price="' + a.id + '"]');
-        if (p) p.textContent = '+' + money(a.unit);
+        if (p) p.textContent = money(a.unit);
+        var old = document.querySelector('[data-addon-old="' + a.id + '"]');
+        if (old) old.textContent = a.unitOld ? money(a.unitOld) : '';
+        var off = document.querySelector('[data-addon-off="' + a.id + '"]');
+        if (off) off.textContent = (a.unitOld && a.unitOld > a.unit) ? '-' + Math.round((1 - a.unit / a.unitOld) * 100) + '%' : '';
         var ln = document.querySelector('[data-addon-line="' + a.id + '"]');
         if (ln) ln.textContent = q > 1 ? '×' + q + ' = ' + money(a.unit * q) : '';
       });
-      // Miniaturas de los complementos agregados (una fila)
-      var thumbs = document.getElementById('addonThumbs');
-      if (thumbs) {
-        thumbs.innerHTML = '';
-        CATALOG.addons.forEach(function (a) {
-          var q = state.addons[a.id] || 0;
-          if (!q) return;
-          var fig = document.createElement('figure');
-          fig.className = 'addon-thumb';
-          fig.innerHTML = '<img src="' + a.img + '" alt="' + a.name + '" loading="lazy" width="200" height="200" />' +
-            (q > 1 ? '<span class="addon-badge">×' + q + '</span>' : '') +
-            '<figcaption>' + a.name + '</figcaption>';
-          thumbs.appendChild(fig);
-        });
-      }
-      // CTA móvil
-      var mc = document.querySelector('.mobile-cta .price');
-      if (mc && mc.firstChild) mc.firstChild.textContent = (quote ? 'Cotiza ' : money(grandTotal()) + ' ');
+      // Estado visual de cada tarjeta de complemento
+      document.querySelectorAll('[data-addon-row]').forEach(function (row) {
+        var id = row.getAttribute('data-addon-row');
+        row.classList.toggle('is-selected', (state.addons[id] || 0) > 0);
+      });
+      // CTA de compra (aside en desktop, tras los pasos en móvil) — en cotización pasa a WhatsApp
+      document.querySelectorAll('[data-go-cta]').forEach(function (go) {
+        var goLabel = go.querySelector('[data-go-label]');
+        var goAmount = go.querySelector('.amount');
+        if (quote) {
+          if (goLabel) goLabel.textContent = 'Cotizar por WhatsApp';
+          if (goAmount) goAmount.hidden = true;
+          go.setAttribute('href', whatsappLink());
+          go.setAttribute('target', '_blank');
+          go.setAttribute('rel', 'noopener');
+        } else {
+          if (goLabel) goLabel.textContent = 'Comprar ahora';
+          if (goAmount) goAmount.hidden = false;
+          go.setAttribute('href', '#datos');
+          go.removeAttribute('target');
+          go.removeAttribute('rel');
+        }
+      });
       // Carrito flotante: unidades totales (base + complementos + libro digital)
       if (cartCount) cartCount.textContent = itemsCount() + ' Productos';
       if (cartFab) cartFab.setAttribute('aria-label', 'Ver carrito, ' + itemsCount() + ' productos');
-      // Botón principal: "Comprar ahora" / "Cotizar por WhatsApp"
+      // Botón del buy box: "Agregar al carrito" / "Cotizar por WhatsApp" (más de 6 uds)
       var buy = document.querySelector('.ml-actions .btn--primary');
       if (buy) {
         if (quote) { buy.textContent = 'Cotizar por WhatsApp'; buy.setAttribute('href', whatsappLink()); buy.setAttribute('target', '_blank'); buy.setAttribute('rel', 'noopener'); }
-        else { buy.textContent = 'Comprar ahora'; buy.setAttribute('href', '#pedido'); buy.removeAttribute('target'); buy.removeAttribute('rel'); }
+        else { buy.textContent = 'Agregar al carrito'; buy.setAttribute('href', '#pedido'); buy.removeAttribute('target'); buy.removeAttribute('rel'); }
       }
     }
 
@@ -1458,11 +1891,11 @@
       el.addEventListener('click', function () { setQty(parseInt(el.getAttribute('data-qty'), 10), false); });
     });
     if (qtySelect) qtySelect.addEventListener('change', function () {
-      if (qtySelect.value === '6plus') setQty(state.qty, true); else setQty(parseInt(qtySelect.value, 10), false);
+      setQty(parseInt(qtySelect.value, 10), false);
     });
     if (comboMore) comboMore.addEventListener('change', function () {
       if (!comboMore.value) return;
-      if (comboMore.value === '6plus') setQty(state.qty, true); else setQty(parseInt(comboMore.value, 10), false);
+      setQty(parseInt(comboMore.value, 10), false);
     });
 
     /* Carrito flotante: aparece al "Comprar ahora" o "Agregar al carrito" y refleja la selección en vivo */
@@ -1487,10 +1920,9 @@
       placeCartFab();
       requestAnimationFrame(function () { cartFab.classList.add('is-visible'); });
     }
-    // Ambos CTAs (Comprar ahora y Agregar al carrito) despliegan el círculo +N.
-    document.querySelectorAll('#addToCart, .ml-actions .btn--primary').forEach(function (el) {
-      el.addEventListener('click', revealCart);
-    });
+    // El CTA del buy box despliega el círculo +N con el total de unidades.
+    var addToCartBtn = document.getElementById('addToCart');
+    if (addToCartBtn) addToCartBtn.addEventListener('click', revealCart);
     if (cartFab) {
       placeCartFab();
       window.addEventListener('scroll', placeCartFab, { passive: true });
@@ -1518,6 +1950,8 @@
       var sel = addonSel(id);
       if (box) box.checked = qty > 0;
       if (sel) sel.value = qty > 0 ? String(qty) : '';
+      var row = document.querySelector('[data-addon-row="' + id + '"]');
+      if (row) row.classList.toggle('is-selected', qty > 0);
     }
     function syncAddonAll() {
       if (!addonAll) return;
@@ -1631,57 +2065,231 @@
       });
     }
 
-    /* ---------- Formulario en 2 pasos ---------- */
+    /* ---------- Formulario de checkout ---------- */
     var form = document.getElementById('orderForm');
-    var step1 = document.getElementById('step1');
-    var step2 = document.getElementById('step2');
-    var stepInds = document.querySelectorAll('.step-ind span');
-    var stepLabel = document.getElementById('stepLabel');
-    var success = document.getElementById('formSuccess');
+
+    /* Entrega estimada: 2 a 5 días hábiles */
+    (function eta() {
+      var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      function addBusinessDays(n) {
+        var d = new Date(), added = 0;
+        while (added < n) {
+          d.setDate(d.getDate() + 1);
+          var wd = d.getDay();
+          if (wd !== 0 && wd !== 6) added++;
+        }
+        return d;
+      }
+      var a = addBusinessDays(2), b = addBusinessDays(5);
+      var from = document.querySelector('[data-eta-from]');
+      var to = document.querySelector('[data-eta-to]');
+      var month = document.querySelector('[data-eta-month]');
+      if (!from || !to || !month) return;
+      if (a.getMonth() === b.getMonth()) {
+        from.textContent = a.getDate();
+        to.textContent = b.getDate();
+        month.textContent = meses[b.getMonth()];
+      } else {
+        from.textContent = a.getDate() + ' de ' + meses[a.getMonth()];
+        to.textContent = b.getDate() + ' de ' + meses[b.getMonth()];
+        month.textContent = '';
+      }
+    })();
+
+    function validPhone(v) { return /^3\d{9}$/.test(String(v || '').replace(/\D/g, '')); }
+    function validEmail(v) { return !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function isOnline() { return form.pago.value === 'online'; }
 
     function setError(field, on) {
+      if (!field) return;
       var wrap = field.closest('.field');
       if (wrap) wrap.classList.toggle('has-error', on);
-    }
-    function validPhone(v) { var d = (v || '').replace(/\D/g, ''); return d.length >= 7 && d.length <= 15; }
-    function validEmail(v) { return !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-
-    function showStep(n) {
-      step1.classList.toggle('active', n === 1);
-      step2.classList.toggle('active', n === 2);
-      stepInds[0].classList.toggle('on', n >= 1);
-      stepInds[1].classList.toggle('on', n >= 2);
-      stepLabel.textContent = n === 1 ? 'Paso 1 de 2 · ¿A quién contactamos?' : 'Paso 2 de 2 · Entrega y pago';
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      field.setAttribute('aria-invalid', on ? 'true' : 'false');
     }
 
-    document.getElementById('nextBtn').addEventListener('click', function () {
-      var ok = true;
-      ['nombre', 'telefono', 'correo'].forEach(function (id) {
-        var f = form[id]; var bad = !f.value.trim(); setError(f, bad); if (bad) ok = false;
+    /* Teléfono: solo dígitos, quita el 57 si viene pegado y corta a 10 */
+    (function () {
+      var tel = form.telefono;
+      if (!tel) return;
+      tel.addEventListener('input', function () {
+        var v = tel.value.replace(/\D/g, '');
+        if (v.length > 10 && v.slice(0, 2) === '57') v = v.slice(2);
+        tel.value = v.slice(0, 10);
       });
-      if (form.telefono.value.trim() && !validPhone(form.telefono.value)) { setError(form.telefono, true); ok = false; }
-      if (form.correo.value.trim() && !validEmail(form.correo.value)) { setError(form.correo, true); ok = false; }
-      if (!ok) { var fb = step1.querySelector('.has-error input'); if (fb) fb.focus(); return; }
-      showStep(2);
-    });
-    document.getElementById('backBtn').addEventListener('click', function () { showStep(1); });
+    })();
 
-    form.querySelectorAll('input, select').forEach(function (f) {
-      f.addEventListener('input', function () { setError(f, false); });
-      f.addEventListener('change', function () { setError(f, false); });
+    /* Ciudades principales por departamento (datalist) */
+    var CIUDADES = {
+      'Amazonas': ['Leticia', 'Puerto Nariño'],
+      'Antioquia': ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Sabaneta', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia'],
+      'Arauca': ['Arauca', 'Tame', 'Saravena'],
+      'Atlántico': ['Barranquilla', 'Soledad', 'Malambo', 'Sabanalarga'],
+      'Bogotá D.C.': ['Bogotá'],
+      'Bolívar': ['Cartagena', 'Magangué', 'Turbaco', 'El Carmen de Bolívar'],
+      'Boyacá': ['Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá'],
+      'Caldas': ['Manizales', 'Villamaría', 'Chinchiná', 'La Dorada'],
+      'Caquetá': ['Florencia', 'San Vicente del Caguán'],
+      'Casanare': ['Yopal', 'Aguazul', 'Villanueva'],
+      'Cauca': ['Popayán', 'Santander de Quilichao', 'Puerto Tejada'],
+      'Cesar': ['Valledupar', 'Aguachica', 'Agustín Codazzi'],
+      'Chocó': ['Quibdó', 'Istmina', 'Tadó'],
+      'Córdoba': ['Montería', 'Cereté', 'Sahagún', 'Lorica'],
+      'Cundinamarca': ['Soacha', 'Chía', 'Zipaquirá', 'Facatativá', 'Fusagasugá', 'Mosquera', 'Madrid', 'Girardot'],
+      'Guainía': ['Inírida'],
+      'Guaviare': ['San José del Guaviare'],
+      'Huila': ['Neiva', 'Pitalito', 'Garzón'],
+      'La Guajira': ['Riohacha', 'Maicao', 'Uribia'],
+      'Magdalena': ['Santa Marta', 'Ciénaga', 'Fundación'],
+      'Meta': ['Villavicencio', 'Acacías', 'Granada'],
+      'Nariño': ['Pasto', 'Tumaco', 'Ipiales'],
+      'Norte de Santander': ['Cúcuta', 'Ocaña', 'Pamplona', 'Villa del Rosario'],
+      'Putumayo': ['Mocoa', 'Puerto Asís'],
+      'Quindío': ['Armenia', 'Calarcá', 'Montenegro'],
+      'Risaralda': ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal'],
+      'San Andrés y Providencia': ['San Andrés', 'Providencia'],
+      'Santander': ['Bucaramanga', 'Floridablanca', 'Girón', 'Piedecuesta', 'Barrancabermeja', 'San Gil'],
+      'Sucre': ['Sincelejo', 'Corozal', 'Sampués'],
+      'Tolima': ['Ibagué', 'Espinal', 'Melgar'],
+      'Valle del Cauca': ['Cali', 'Palmira', 'Buenaventura', 'Tuluá', 'Yumbo', 'Cartago', 'Buga'],
+      'Vaupés': ['Mitú'],
+      'Vichada': ['Puerto Carreño']
+    };
+    function fillCiudades(depto) {
+      var dl = document.getElementById('ciudades');
+      if (!dl) return;
+      dl.innerHTML = '';
+      (CIUDADES[depto] || []).forEach(function (c) {
+        var o = document.createElement('option');
+        o.value = c;
+        dl.appendChild(o);
+      });
+    }
+    if (form.departamento) {
+      form.departamento.addEventListener('change', function () { fillCiudades(form.departamento.value); });
+    }
+
+    /* Consentimiento de datos personales */
+    var consent = document.getElementById('consent');
+    var consentBlock = document.getElementById('consentBlock');
+    function setConsentError(on) {
+      if (consentBlock) consentBlock.classList.toggle('has-error', on);
+      if (consent) consent.setAttribute('aria-invalid', on ? 'true' : 'false');
+    }
+
+    /* Resumen de errores accesible */
+    function showErrorSummary(list) {
+      var box = document.getElementById('formErrors');
+      if (!box) return;
+      if (!list.length) {
+        box.classList.remove('show');
+        box.hidden = true;
+        box.innerHTML = '';
+        return;
+      }
+      box.innerHTML = '<strong>Revisa ' + (list.length === 1 ? 'este dato' : 'estos ' + list.length + ' datos') + ':</strong>' +
+        '<ul>' + list.map(function (e) {
+          return '<li><a href="#' + (e.el && e.el.id ? e.el.id : 'datos') + '">' + e.msg + '</a></li>';
+        }).join('') + '</ul>';
+      box.hidden = false;
+      box.classList.add('show');
+    }
+
+    function requiredIds() {
+      var ids = ['nombre', 'telefono', 'departamento', 'ciudad', 'direccion'];
+      if (isOnline()) ids.push('correo');
+      return ids;
+    }
+
+    var ERROR_TEXT = {
+      nombre: 'Escribe tu nombre completo.',
+      telefono: 'Escribe un celular de 10 dígitos que empiece por 3.',
+      correo: 'Escribe un correo válido.',
+      departamento: 'Selecciona tu departamento.',
+      ciudad: 'Escribe tu ciudad.',
+      direccion: 'Escribe tu dirección completa.'
+    };
+
+    function validateForm() {
+      var errors = [];
+      requiredIds().forEach(function (id) {
+        var f = form[id];
+        if (!f) return;
+        var bad = !String(f.value || '').trim();
+        setError(f, bad);
+        if (bad) errors.push({ el: f, msg: ERROR_TEXT[id] || 'Completa este dato.' });
+      });
+      if (form.telefono.value.trim() && !validPhone(form.telefono.value)) {
+        setError(form.telefono, true);
+        errors.push({ el: form.telefono, msg: ERROR_TEXT.telefono });
+      }
+      if (form.correo.value.trim() && !validEmail(form.correo.value)) {
+        setError(form.correo, true);
+        errors.push({ el: form.correo, msg: ERROR_TEXT.correo });
+      }
+      var noConsent = !(consent && consent.checked);
+      setConsentError(noConsent);
+      if (noConsent) errors.push({ el: consent, msg: 'Acepta la política de tratamiento de datos.' });
+
+      showErrorSummary(errors);
+      if (errors.length) {
+        var first = errors[0].el;
+        if (first && first.focus) first.focus();
+        return false;
+      }
+      return true;
+    }
+
+    /* Limpia errores al escribir y valida formato al salir del campo */
+    form.querySelectorAll('input, select, textarea').forEach(function (f) {
+      function clear() {
+        setError(f, false);
+        if (f === consent) setConsentError(false);
+        var box = document.getElementById('formErrors');
+        if (box && box.classList.contains('show')) showErrorSummary([]);
+      }
+      f.addEventListener('input', clear);
+      f.addEventListener('change', clear);
+      f.addEventListener('blur', function () {
+        if (!f.value.trim()) return;
+        if (f === form.telefono && !validPhone(f.value)) setError(f, true);
+        if (f === form.correo && !validEmail(f.value)) setError(f, true);
+      });
     });
 
-    /* Método de pago: "Compra rápida" muestra el detalle de tarjeta. */
-    var payDetail = document.getElementById('payDetail');
+    /* Borrador del formulario (no se pierde si recargan) */
+    var DRAFT_KEY = 'jh-order-draft';
+    var DRAFT_FIELDS = ['nombre', 'telefono', 'correo', 'departamento', 'ciudad', 'direccion', 'barrio', 'indicaciones'];
+    function saveDraft() {
+      var out = {};
+      DRAFT_FIELDS.forEach(function (id) { if (form[id]) out[id] = form[id].value; });
+      try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(out)); } catch (e) {}
+    }
+    (function loadDraft() {
+      var d;
+      try { d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || '{}'); } catch (e) { d = {}; }
+      DRAFT_FIELDS.forEach(function (id) {
+        if (form[id] && d[id]) form[id].value = d[id];
+      });
+      if (d.departamento) fillCiudades(d.departamento);
+      DRAFT_FIELDS.forEach(function (id) {
+        if (form[id]) form[id].addEventListener('change', saveDraft);
+      });
+    })();
+
+    /* Método de pago: el detalle, el correo obligatorio y el abono dependen de la elección */
     function updatePay() {
-      var pago = form.pago.value;
-      state.pago = pago;
-      payDetail.classList.toggle('show', pago === 'online');
-      render(); // el recargo contraentrega (+10%) se refleja en el total
+      state.pago = form.pago.value;
+      render(); // disponibilidad del contraentrega, abono/saldo y textos
     }
     form.querySelectorAll('input[name="pago"]').forEach(function (r) { r.addEventListener('change', updatePay); });
     updatePay();
+
+    /* Los CTA de compra llevan al formulario y enfocan el primer campo */
+    document.querySelectorAll('[data-go-cta]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        setTimeout(function () { if (form.nombre) form.nombre.focus({ preventScroll: true }); }, 450);
+      });
+    });
 
     /* Pago online: crea la preferencia en el backend serverless y redirige. */
     function loadCheckout(cb) {
@@ -1693,8 +2301,8 @@
       document.head.appendChild(s);
     }
     function startOnlinePayment(payload) {
-      if (['1', '2', '3'].indexOf(String(payload.qty)) === -1) {
-        alert('Para más de 6 unidades, pide una cotización por WhatsApp.');
+      if (!(Number(payload.qty) >= 1 && Number(payload.qty) <= 10)) {
+        alert('La cantidad debe estar entre 1 y 10 unidades.');
         return;
       }
       loadCheckout(function () {
@@ -1717,16 +2325,22 @@
         departamento: form.departamento.value,
         ciudad: form.ciudad.value.trim(),
         direccion: form.direccion.value.trim(),
+        barrio: form.barrio ? form.barrio.value.trim() : '',
         indicaciones: form.indicaciones.value.trim(),
         producto: PRODUCT,
         combo: state.quoteOnly ? 'Más de 6 × ' + PRODUCT : qtyLabel(),
-        qty: state.quoteOnly ? '6plus' : state.qty,
+        qty: state.qty,
         addons: CATALOG.addons.filter(function (a) { return (state.addons[a.id] || 0) > 0; }).map(function (a) { return { id: a.id, name: a.name, qty: state.addons[a.id], unit: a.unit }; }),
         mainLine: state.quoteOnly ? null : mainNow(),
-        contraRecargo: contraSurcharge(),
+        contraAbono: state.pago === 'contraentrega' ? abonoCOD(orderTotal()) : null,
+        contraSaldo: state.pago === 'contraentrega' && abonoCOD(orderTotal()) !== null ? orderTotal() - abonoCOD(orderTotal()) : null,
+        codDisponible: abonoCOD(orderTotal()) !== null,
         total: grandTotal(),
+        ahorro: savingsTotal(),
         descuentoDia: state.discount < 1 ? '10%' : 'no',
         pago: form.pago.value,
+        consentDatos: !!(consent && consent.checked),
+        idempotencyKey: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'k' + Date.now(),
         fecha: new Date().toISOString()
       };
     }
@@ -1740,17 +2354,26 @@
         lines.push('• ' + state.qty + ' × ' + CATALOG.main.name + ' — ' + money(mainNow()));
         payload.addons.forEach(function (a) { lines.push('• ' + a.qty + ' × ' + a.name + ' — ' + money(a.unit * a.qty)); });
       }
-      var fee = contraSurcharge();
-      if (fee > 0) lines.push('• Recargo contraentrega (10%) — ' + money(fee));
-      lines.push('Total: ' + money(payload.total) + (totalNote || ''));
+      lines.push('');
+      lines.push('Total del pedido: ' + money(payload.total) + (totalNote || ''));
+      if (payload.ahorro) lines.push('Ahorro del cliente: ' + money(payload.ahorro));
       lines.push('');
       lines.push('Pago: ' + pagoLine);
+      if (payload.pago === 'contraentrega') {
+        if (payload.contraAbono) {
+          lines.push('Abono que YA pagó: ' + money(payload.contraAbono));
+          lines.push('COBRAR AL RECIBIR: ' + money(payload.contraSaldo));
+        } else {
+          lines.push('COBRAR AL RECIBIR: ' + money(payload.total) + ' (sin abono, paga todo al recibir)');
+        }
+      }
       lines.push('Nombre: ' + payload.nombre);
-      lines.push('WhatsApp: ' + payload.telefono);
-      lines.push('Correo: ' + payload.correo);
+      lines.push('WhatsApp: +57 ' + payload.telefono);
+      if (payload.correo) lines.push('Correo: ' + payload.correo);
       lines.push('Ciudad: ' + payload.ciudad);
       lines.push('Departamento: ' + payload.departamento);
       lines.push('Dirección: ' + payload.direccion);
+      if (payload.barrio) lines.push('Barrio: ' + payload.barrio);
       if (payload.indicaciones) lines.push('Indicaciones: ' + payload.indicaciones);
       return lines.join('\n');
     }
@@ -1759,34 +2382,38 @@
       window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(whatsappMessage(payload, pagoLine, totalNote)), '_blank');
     }
 
-    /* Valida los campos del paso 2 (entrega). Devuelve true si todo está bien. */
-    function validateStep2() {
-      var ok = true;
-      ['ciudad', 'departamento', 'direccion'].forEach(function (id) {
-        var f = form[id]; var bad = !f.value.trim(); setError(f, bad); if (bad) ok = false;
-      });
-      if (!validEmail(form.correo.value)) { setError(form.correo, true); ok = false; }
-      if (!ok) { var fb = step2.querySelector('.has-error input, .has-error select'); if (fb) fb.focus(); }
-      return ok;
-    }
-
     /* Envío */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (form.website.value) return; // honeypot
 
-      if (!validateStep2()) return;
+      if (!validateForm()) return;
 
       var payload = buildPayload();
+      var submitBtn = document.getElementById('submitBtn');
 
-      try { sessionStorage.setItem('jh-order', JSON.stringify(payload)); } catch (err) {}
+      try {
+        sessionStorage.setItem('jh-order', JSON.stringify(payload));
+        sessionStorage.removeItem(DRAFT_KEY);
+      } catch (err) {}
 
       /* ----------------------------------------------------------
          INTEGRACIÓN REAL (ver store/server/README.md):
          - Pago online:  POST /api/crear-preferencia -> redirige al checkout del gateway
          - WhatsApp:     abrir wa.me con el resumen del pedido
          Nunca pongas claves del gateway en este archivo.
+         Pon ONLINE_PAYMENTS_LIVE en true cuando el Worker esté desplegado.
          ---------------------------------------------------------- */
+      var ONLINE_PAYMENTS_LIVE = false;
+
+      if (payload.pago === 'online' && ONLINE_PAYMENTS_LIVE) {
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Procesando…'; }
+        startOnlinePayment(payload);
+        return;
+      }
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Procesando…'; }
+
       if (payload.pago === 'whatsapp') {
         openWhatsApp(payload, 'Nequi, Daviplata o NuBank');
         window.location.href = CHECKOUT_URL;
@@ -1794,14 +2421,15 @@
       }
 
       if (payload.pago === 'contraentrega') {
-        openWhatsApp(payload, 'Contraentrega (+10%)', ' (incluye +10% por contraentrega)');
+        var pagoCod = payload.contraAbono
+          ? 'Contraentrega — abono ' + money(payload.contraAbono) + ' · saldo ' + money(payload.contraSaldo)
+          : 'Contraentrega — paga todo al recibir';
+        openWhatsApp(payload, pagoCod);
         window.location.href = CHECKOUT_URL;
         return;
       }
 
-      /* Compra rápida (online): en producción aquí se crea la preferencia de MercadoPago
-         en el worker serverless y se redirige al checkout. En la demo, las 3 formas de pago
-         llevan a gracias.html, que muestra el aviso correspondiente a cada método. */
+      /* Demo: con la pasarela desactivada, los tres métodos llevan a gracias.html. */
       window.location.href = CHECKOUT_URL; // demo: gracias.html
     });
 
