@@ -733,7 +733,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       flex-wrap:wrap;padding-top:var(--space-6)
     }
     .store-filters{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    .store-count{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--fg-mute);letter-spacing:.04em;white-space:nowrap}
+    .store-count{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--fg-mute);letter-spacing:.04em;white-space:nowrap;margin-left:auto}
 
     .store-filters{display:flex;flex-wrap:wrap;gap:12px}
     .store-select-wrap{display:flex;align-items:center;gap:10px}
@@ -750,8 +750,11 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
     .store-select:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px var(--lime-glow)}
     .store-select option{background:var(--ink-deep);color:var(--fg)}
 
-    .store-wall{columns:260px;column-gap:18px;padding:var(--space-5) 0 var(--space-8)}
-    .store-card{break-inside:avoid;margin:0 0 18px;opacity:0;animation:store-rise .6s cubic-bezier(.22,1,.36,1) forwards}
+    .store-wall{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding:var(--space-5) 0 var(--space-8);align-items:stretch}
+    @media(min-width:520px){.store-wall{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(min-width:768px){.store-wall{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(min-width:1024px){.store-wall{grid-template-columns:repeat(5,minmax(0,1fr))}}
+    .store-card{break-inside:avoid;margin:0;min-width:0;display:flex;flex-direction:column;opacity:0;animation:store-rise .6s cubic-bezier(.22,1,.36,1) forwards}
     @keyframes store-rise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
     .store-card:nth-child(1){animation-delay:.03s}.store-card:nth-child(2){animation-delay:.07s}
     .store-card:nth-child(3){animation-delay:.11s}.store-card:nth-child(4){animation-delay:.15s}
@@ -766,8 +769,8 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       transition:transform var(--dur-mid) var(--ease-out),box-shadow var(--dur-mid) var(--ease-out)
     }
     .store-pin:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
-    .store-media{display:block;width:100%;background:var(--ink)}
-    .store-media svg,.store-media img{display:block;width:100%;height:auto}
+    .store-media{display:block;width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--ink)}
+    .store-media svg,.store-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 
     .store-badge{
       position:absolute;top:12px;left:12px;z-index:2;
@@ -793,13 +796,18 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       background:var(--lime);color:var(--ink-000);font-weight:600;font-size:var(--text-sm);
       padding:10px 16px;border-radius:var(--radius-full)
     }
-    .store-caption{padding:13px 2px 0}
+    .store-caption{padding:13px 2px 0;display:flex;flex-direction:column;flex:1}
     .store-caption h3{
       font-family:var(--font-display);font-weight:400;font-size:var(--text-lg);
-      letter-spacing:-.01em;line-height:1.15;color:var(--fg)
+      letter-spacing:-.01em;line-height:1.28;color:var(--fg);
+      font-size:clamp(1rem,.5vw + .6rem,1.2rem)
     }
-    .store-price{margin-top:6px;font-family:var(--font-mono);font-weight:500;color:var(--lime);font-size:var(--text-base)}
+    .store-price{margin-top:auto;padding-top:6px;font-family:var(--font-mono);font-weight:500;color:var(--lime);font-size:var(--text-base)}
     .store-price span{color:var(--fg-mute);font-size:var(--text-xs);margin-left:6px}
+    .store-author{margin:5px 0 0;font-family:var(--font-mono);font-size:.64rem;line-height:1.3;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-mute)}
+    /* Franja de cuotas/urgencia sobre la imagen (no altera la alineación de precios) */
+    .store-stock{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;flex-wrap:wrap;gap:2px 8px;align-items:center;justify-content:space-between;padding:8px 11px;background:linear-gradient(180deg,rgba(5,5,7,0),rgba(5,5,7,.88));font-family:var(--font-mono);font-size:.6rem;line-height:1.3;color:#F4F4F0;pointer-events:none}
+    .store-stock .stock{color:#D4FF3D;font-weight:700;text-transform:uppercase}
 
     .store-empty{display:none;padding:var(--space-7) 0;color:var(--fg-mute);text-align:center}
     .store-empty.is-on{display:block}
@@ -812,21 +820,21 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       backdrop-filter:saturate(140%) blur(14px);-webkit-backdrop-filter:saturate(140%) blur(14px);
       border-bottom:1px solid var(--rule)
     }
-    .store-head-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+    .store-head-inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(8px,3vw,16px);height:64px}
+    /* La marca se adapta al ancho: nunca desborda junto al botón de tema */
+    .store-head-inner .brand{font-size:clamp(.86rem,2.6vw + .2rem,1.125rem);gap:clamp(8px,2.5vw,12px);min-width:0}
+    .store-head-inner .brand-mark{width:clamp(22px,5.5vw,28px);height:clamp(22px,5.5vw,28px)}
     .store-theme{
-      display:inline-flex;align-items:center;gap:9px;
-      background:var(--lime);color:var(--ink-000);border:0;
-      border-radius:var(--radius-full);padding:10px 18px;cursor:pointer;
-      font-family:var(--font-body);font-size:var(--text-sm);font-weight:600;
-      transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);
-      white-space:nowrap
+      display:inline-flex;align-items:center;justify-content:center;
+      width:40px;height:40px;padding:0;flex:0 0 auto;
+      background:transparent;color:var(--fg);border:1px solid var(--rule-strong);
+      border-radius:50%;cursor:pointer;
+      transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out)
     }
-    .store-theme:hover{background:var(--lime-soft);transform:translateY(-1px)}
+    .store-theme:hover{background:transparent;border-color:var(--lime);color:var(--lime)}
     .store-theme svg{display:none}
-    .store-theme::after{content:"Modo claro"}
     html[data-theme="dark"] .store-theme .icon-sun{display:block}
     html[data-theme="light"] .store-theme .icon-moon{display:block}
-    html[data-theme="light"] .store-theme::after{content:"Modo oscuro"}
 
     /* ---------- Tema claro (toda la página) ---------- */
     html[data-theme="light"]{
@@ -844,7 +852,8 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       --shadow-lg:0 30px 60px -24px rgba(10,10,12,.22);
       --store-head-bg:rgba(244,244,240,.85)
     }
-    html[data-theme="light"] .store-theme{color:#0A0A0C}
+    html[data-theme="light"] .store-theme{color:#F4F4F0;border-color:rgba(244,244,240,.22)}
+    html[data-theme="light"] .store-theme:hover{color:var(--lime);border-color:var(--lime)}
     html[data-theme="light"] .store-header{--store-head-bg:rgba(10,10,12,.82);border-bottom-color:rgba(244,244,240,.08);--lime:#D4FF3D;--lime-soft:#E2FF73;--lime-deep:#9CCB1F;--lime-ink:#648A08;--lime-ink-deep:#3F5A05;--lime-glow:rgba(212,255,61,.20)}
     html[data-theme="light"] .store-header .brand{color:#F4F4F0}
     html[data-theme="light"] .store-header .brand-mark::after{color:#0A0A0C}
@@ -1028,13 +1037,14 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
               <option value="bisuteria">Bisutería</option>
               <option value="camping">Camping</option>
               <option value="cocina">Cocina</option>
+              <option value="curso-online">Curso online</option>
               <option value="defensa-personal">Defensa personal</option>
               <option value="deportes">Deportes</option>
               <option value="halloween">Halloween</option>
               <option value="herramientas">Herramientas</option>
               <option value="hogar">Hogar</option>
               <option value="jugueteria">Juguetería</option>
-              <option value="libros">Libros</option>
+              <option value="libros">Libros online</option>
               <option value="mad">Mad</option>
               <option value="mascotas">Mascotas</option>
               <option value="moda">Moda</option>
@@ -1068,28 +1078,73 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             </select>
           </div>
           </div>
-          <span class="store-count" id="store-count">01 producto</span>
+          <span class="store-count" id="store-count">05 productos</span>
         </div>
 
         <div class="store-wall" id="store-wall">
           <article class="store-card" data-cat="hogar" data-price="84000" data-date="2026-09-28">
-            <a class="store-pin" href="./synaptic-sleep-5-z/index.html" aria-label="Almohada Cervical SYNAPTIC SLEEP 5-Z, $84.000">
+            <a class="store-pin" href="./synaptic-sleep-5-z/index.html" aria-label="Almohada Cervical SYNAPTIC SLEEP 5-Z, $84.000 COP">
               <span class="store-badge">Top ventas</span>
               <span class="store-tag">Hogar</span>
               <span class="store-media"><img src="./synaptic-sleep-5-z/images/Gemini_Generated_Image_886r5v886r5v886r.avif" alt="Almohada cervical ergonómica SYNAPTIC SLEEP 5-Z" loading="lazy" /></span>
               <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
             </a>
-            <div class="store-caption"><h3>Almohada Cervical SYNAPTIC SLEEP 5-Z</h3><p class="store-price">$ 84.000</p></div>
+            <div class="store-caption"><h3>Almohada Cervical SYNAPTIC SLEEP 5-Z</h3><p class="store-price">$ 84.000 COP</p></div>
           </article>
 
           <article class="store-card" data-cat="libros" data-price="35000" data-date="2026-09-27">
-            <a class="store-pin" href="./el-contador-de-ovejas/index.html" aria-label="El contador de ovejas, libro digital, $35.000">
+            <a class="store-pin" href="./el-contador-de-ovejas/index.html" aria-label="El contador de ovejas, libro digital, $35.000 COP">
               <span class="store-badge">Nuevo</span>
-              <span class="store-tag">Libros</span>
+              <span class="store-tag">Libros online</span>
               <span class="store-media"><img src="./el-contador-de-ovejas/images/book.avif" alt="Portada del libro digital El contador de ovejas" loading="lazy" /></span>
               <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
             </a>
-            <div class="store-caption"><h3>El contador de ovejas · libro digital</h3><p class="store-price">$ 35.000</p></div>
+            <div class="store-caption"><h3>El contador de ovejas · libro digital</h3><p class="store-price">$ 35.000 COP</p></div>
+          </article>
+
+          <article class="store-card" data-cat="hogar" data-price="19900" data-date="2026-09-26">
+            <a class="store-pin" href="./jardin-vertical/index.html" aria-label="Crea tu Primer Jardín Vertical en Casa, $19.900 COP">
+              <span class="store-badge">Oferta</span>
+              <span class="store-tag">Hogar</span>
+              <span class="store-media"><img src="./jardin-vertical/images/portada.webp" alt="Ebook Crea tu Primer Jardín Vertical en Casa" loading="lazy" /></span>
+              <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
+            </a>
+            <div class="store-caption"><h3>Crea tu Primer Jardín Vertical en Casa</h3><p class="store-price">$ 19.900 COP</p></div>
+          </article>
+
+          <article class="store-card" data-cat="curso-online" data-price="39900" data-date="2026-09-25">
+            <a class="store-pin" href="./ruso/index.html" aria-label="Ruso desde cero en 3 meses (A1-A2), curso online, $39.900 COP">
+              <span class="store-badge">Nuevo</span>
+              <span class="store-tag">Curso online</span>
+              <span class="store-media"><img src="./ruso/images/portada.avif" alt="Ruso desde cero en 3 meses: compilación A1-A2" loading="lazy" /></span>
+              <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
+            </a>
+            <div class="store-caption"><h3>Ruso desde cero en 3 meses</h3><p class="store-price">$ 39.900 COP</p></div>
+          </article>
+
+          <article class="store-card" data-cat="curso-online" data-price="80000" data-date="2026-10-17">
+            <a class="store-pin" href="./sushi-founder/index.html" aria-label="Sushi Founder, curso online de Sushi Rolls, USD $25">
+              <span class="store-badge">Nuevo</span>
+              <span class="store-tag">Curso online</span>
+              <span class="store-media"><img src="./sushi-founder/images/portada-sushi-rolls.avif" alt="Curso online de Sushi Rolls con el chef Gonzalo Vidal" loading="lazy" /></span>
+              <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
+            </a>
+            <div class="store-caption"><h3>Sushi Founder · curso de Sushi Rolls</h3><p class="store-price">USD $25</p></div>
+          </article>
+
+          <article class="store-card" data-cat="curso-online" data-price="125570" data-date="2026-10-18">
+            <a class="store-pin" href="./velas-y-jabones-artesanales/index.html" aria-label="Velas y Jabones Artesanales, curso online 3x1, $125.570 COP">
+              <span class="store-badge">3x1</span>
+              <span class="store-tag">Curso online</span>
+              <span class="store-media"><img src="./velas-y-jabones-artesanales/images/card-velas.avif" alt="Velas y Jabones Artesanales: 3 cursos en 1" loading="lazy" /></span>
+              <span class="store-stock">12 cuotas de $10.464 <span class="stock">¡Últimos cupos!</span></span>
+              <span class="store-overlay"><span class="store-cta">Ver producto →</span></span>
+            </a>
+            <div class="store-caption">
+              <h3>Velas y Jabones Artesanales</h3>
+              <p class="store-author">Autor: MAPO AGENCY LLC</p>
+              <p class="store-price">$ 125.570 COP <span>USD $37,50</span></p>
+            </div>
           </article>
         </div>
 
@@ -1102,8 +1157,8 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
 <style>
   .sf{background:#050507;color:#F4F4F0;border-top:1px solid rgba(244,244,240,.08);padding:56px 0 40px;font-family:'Inter Tight',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
   .sf-inner{width:100%;max-width:1340px;margin-inline:auto;padding-inline:clamp(1.25rem,1rem + 1.5vw,2.25rem)}
-  .sf-grid{display:grid;gap:34px;grid-template-columns:1fr}
-  @media(min-width:760px){.sf-grid{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+  .sf-grid{display:grid;gap:34px;grid-template-columns:minmax(0,1fr)}
+  @media(min-width:760px){.sf-grid{grid-template-columns:1.6fr repeat(3,minmax(0,1fr))}}
   .sf-brand .sf-logo{display:inline-flex;align-items:center;gap:10px;font-family:'Boldonse',system-ui,sans-serif;font-size:1.25rem;text-transform:uppercase;color:#F4F4F0;text-decoration:none;letter-spacing:.01em}
   .sf-mark{width:28px;height:28px;border-radius:4px;background:#D4FF3D;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
   .sf-mark::after{content:"{}";font-family:'Geist Mono',ui-monospace,'SF Mono',Menlo,monospace;font-weight:600;font-size:16px;line-height:1;color:#0A0A0C}
@@ -1200,6 +1255,32 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       // publicados, el paso crece en múltiplos de 50.000 hasta que
       // nº de rangos <= nº de productos.
       var cards = Array.prototype.slice.call(wall.querySelectorAll('.store-card'));
+
+      // ---- Categorías visibles = solo las que tienen productos ----
+      // Se eliminan del <select> las categorías sin tarjetas y se añaden
+      // las que existan en el catálogo pero falten en la lista del HTML.
+      var usedCats = {};
+      cards.forEach(function (c) {
+        var cat = c.getAttribute('data-cat');
+        if (cat) usedCats[cat] = true;
+      });
+      var catLabel = function (slug) {
+        return slug.replace(/-/g, ' ').replace(/\b\w/g, function (ch) { return ch.toUpperCase(); });
+      };
+      Array.prototype.slice.call(catSel.options).forEach(function (opt) {
+        if (opt.value === 'todo' || usedCats[opt.value]) return;
+        opt.remove();
+      });
+      var presentCats = {};
+      Array.prototype.slice.call(catSel.options).forEach(function (opt) { presentCats[opt.value] = true; });
+      Object.keys(usedCats).forEach(function (cat) {
+        if (presentCats[cat]) return;
+        var opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = catLabel(cat);
+        catSel.appendChild(opt);
+      });
+
       var prices = cards.map(function (c) { return +c.getAttribute('data-price'); })
                         .filter(function (n) { return !isNaN(n); });
       var maxPrice = prices.length ? Math.max.apply(null, prices) : 0;

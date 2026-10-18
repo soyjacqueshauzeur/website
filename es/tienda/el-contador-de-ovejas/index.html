@@ -568,7 +568,7 @@
     /* Galería: miniaturas arriba en horizontal, imagen principal debajo */
     .ml-gallery{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start;min-width:0}
     .ml-thumbs{display:grid;grid-auto-flow:column;grid-auto-columns:72px;gap:10px;align-content:start;overflow-x:auto;padding-bottom:4px;min-width:0}
-    @media(max-width:420px){.ml-thumbs{grid-auto-columns:60px}}
+    @media(max-width:420px){.ml-thumbs{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(5,minmax(0,1fr))}}
     .ml-thumbs .thumb{width:100%;aspect-ratio:1/1}
     .ml-main{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:1/1;min-width:0}
     .ml-main img{max-width:100%}
@@ -731,8 +731,16 @@
 
     /* Bono: 3 stats en una sola fila */
     /* ===== Mira por dentro: tira de capítulos ===== */
-    .pages-wrap{overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 0 8px;scrollbar-width:thin}
-    .pages-track{display:flex;gap:14px;padding:0 clamp(1.25rem,4vw,3rem);width:max-content}
+    .pages-shell{position:relative;max-width:var(--maxw);margin-inline:auto}
+    .pages-wrap{overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 0 8px;scrollbar-width:none;-ms-overflow-style:none}
+    .pages-wrap::-webkit-scrollbar{display:none}
+    .pages-track{display:flex;gap:14px;padding:0 clamp(1.25rem,1rem + 1.5vw,2.25rem);width:max-content}
+    .pages-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line-strong);box-shadow:var(--shadow);color:var(--text);font-size:1.5rem;line-height:1;cursor:pointer;transition:opacity var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)}
+    .pages-nav:hover{border-color:var(--accent-text);color:var(--accent-text)}
+    .pages-nav--prev{left:8px}
+    .pages-nav--next{right:8px}
+    .pages-nav[disabled]{opacity:.25;pointer-events:none}
+    @media(max-width:600px){.pages-nav{width:40px;height:40px;font-size:1.3rem}}
     .page{flex:0 0 clamp(170px,20vw,220px);padding:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);cursor:zoom-in;scroll-snap-align:center;transition:transform var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out)}
     .page:hover{transform:translateY(-3px);border-color:var(--line-strong)}
     .page img{width:100%;height:auto;display:block}
@@ -844,6 +852,13 @@
             <span class="ml-cond-tag">Digital</span>
             <img id="galleryMain" src="images/hero.avif" alt="El contador de ovejas: libro, app y audios para dormir" width="900" height="900" loading="eager" fetchpriority="high" style="object-fit:cover" />
           </div>
+          <div class="ml-thumbs" role="group" aria-label="Galería del producto">
+            <button class="thumb is-active" type="button" data-img="images/hero.avif" aria-label="Para dormir"><img src="images/hero.avif" alt="Persona durmiendo con el libro en la mesa de noche" width="160" height="160" loading="lazy" /></button>
+            <button class="thumb" type="button" data-img="images/t1.avif" aria-label="Leyendo el libro"><img src="images/t1.avif" alt="Lectora sosteniendo el libro El contador de ovejas" width="160" height="160" loading="lazy" /></button>
+            <button class="thumb" type="button" data-img="images/book.avif" aria-label="Libro, celular y audífonos"><img src="images/book.avif" alt="El libro con la app en el celular y los audífonos" width="160" height="160" loading="lazy" /></button>
+            <button class="thumb" type="button" data-img="images/phone.avif" aria-label="La app en el celular"><img src="images/phone.avif" alt="La app El contador de ovejas en el celular" width="160" height="160" loading="lazy" /></button>
+            <button class="thumb" type="button" data-img="images/speaker.avif" aria-label="Los audios en un altavoz"><img src="images/speaker.avif" alt="Altavoz reproduciendo los audios para dormir" width="160" height="160" loading="lazy" /></button>
+          </div>
         </div>
 
         <div class="ml-buy buybox">
@@ -912,7 +927,7 @@
             <figcaption style="padding:14px 18px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.04em">EL LIBRO EN PDF, PARA LEER DONDE QUIERAS</figcaption>
           </figure>
           <figure class="reveal" style="margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-xl);overflow:hidden">
-            <img src="images/audios.avif" alt="Audios del programa para dormir" width="800" height="600" loading="lazy" style="width:100%;height:auto;display:block" />
+            <img src="images/book.avif" alt="El contador de ovejas: libro y audios" width="800" height="800" loading="lazy" style="width:100%;height:auto;display:block" />
             <figcaption style="padding:14px 18px;font-family:var(--font-mono);font-size:var(--text-xs);color:var(--muted);letter-spacing:.04em">LOS AUDIOS, PARA ESCUCHAR EN LA CAMA</figcaption>
           </figure>
         </div>
@@ -928,8 +943,10 @@
           <p class="lead" style="margin-inline:auto">Cada capítulo abre con una idea y cierra con algo que puedes aplicar esa misma noche.</p>
         </div>
       </div>
-      <div class="pages-wrap">
-        <div class="pages-track">
+      <div class="pages-shell">
+        <button class="pages-nav pages-nav--prev" id="pagesPrev" type="button" aria-label="Capítulos anteriores" aria-controls="pagesTrack">‹</button>
+        <div class="pages-wrap" id="pagesWrap">
+          <div class="pages-track" id="pagesTrack">
           <button class="page" type="button" data-full="images/cap-01.avif" aria-label="Ver capítulo 1"><img src="images/cap-01.avif" alt="Capítulo 1 del libro El contador de ovejas" loading="lazy" /></button>
           <button class="page" type="button" data-full="images/cap-02.avif" aria-label="Ver capítulo 2"><img src="images/cap-02.avif" alt="Capítulo 2 del libro El contador de ovejas" loading="lazy" /></button>
           <button class="page" type="button" data-full="images/cap-03.avif" aria-label="Ver capítulo 3"><img src="images/cap-03.avif" alt="Capítulo 3 del libro El contador de ovejas" loading="lazy" /></button>
@@ -944,10 +961,12 @@
           <button class="page" type="button" data-full="images/cap-12.avif" aria-label="Ver capítulo 12"><img src="images/cap-12.avif" alt="Capítulo 12 del libro El contador de ovejas" loading="lazy" /></button>
           <button class="page" type="button" data-full="images/cap-13.avif" aria-label="Ver capítulo 13"><img src="images/cap-13.avif" alt="Capítulo 13 del libro El contador de ovejas" loading="lazy" /></button>
           <button class="page" type="button" data-full="images/cap-14.avif" aria-label="Ver capítulo 14"><img src="images/cap-14.avif" alt="Capítulo 14 del libro El contador de ovejas" loading="lazy" /></button>
+          </div>
         </div>
+        <button class="pages-nav pages-nav--next" id="pagesNext" type="button" aria-label="Capítulos siguientes" aria-controls="pagesTrack">›</button>
       </div>
       <div class="wrap">
-        <p class="pages-hint">Desliza para ver los capítulos · toca para ampliar</p>
+        <p class="pages-hint">Desliza o usa las flechas · toca un capítulo para ampliar</p>
       </div>
     </section>
 
@@ -1005,19 +1024,6 @@
         <div class="grid-3">
           <div class="card reveal comp-card">
             <span class="comp-badge">Gratis</span>
-            <div class="comp-covers">
-              <img src="images/infantil-nube.avif" alt="Cuento El sueño de Nube" loading="lazy" />
-              <img src="images/infantil-mateo.avif" alt="Cuento Mateo, el Cocodrilo Desvelado" loading="lazy" />
-              <img src="images/infantil-roary.avif" alt="Cuento Roary, el Dinosaurio Desvelado" loading="lazy" />
-            </div>
-            <h3>Pack de cuentos infantiles</h3>
-            <p>20 cuentos ilustrados y narrados para que los niños se duerman… y los papás también.</p>
-            <p class="comp-list">Incluye «La almohada mágica de Lucía», «El dragón dormilón» y 18 más.</p>
-            <p class="comp-price">Gratis · 20 cuentos</p>
-          </div>
-
-          <div class="card reveal comp-card">
-            <span class="comp-badge">Gratis</span>
             <div class="comp-media"><img src="images/tea2.avif" alt="Libro 10 infusiones para bajar la ansiedad" loading="lazy" /></div>
             <h3>Recetas e infusiones</h3>
             <p>Diez bebidas sencillas para la hora de dormir, con ingredientes que ya tienes en la cocina.</p>
@@ -1029,6 +1035,19 @@
             <h3>Tu programa en el celular</h3>
             <p>Lee y escucha desde el teléfono, la tablet o el computador. Descarga el material y úsalo sin internet.</p>
             <p class="comp-price">Incluido · acceso para siempre</p>
+          </div>
+
+          <div class="card reveal comp-card">
+            <span class="comp-badge">Gratis</span>
+            <div class="comp-covers">
+              <img src="images/infantil-nube.avif" alt="Cuento El sueño de Nube" loading="lazy" />
+              <img src="images/infantil-mateo.avif" alt="Cuento Mateo, el Cocodrilo Desvelado" loading="lazy" />
+              <img src="images/infantil-roary.avif" alt="Cuento Roary, el Dinosaurio Desvelado" loading="lazy" />
+            </div>
+            <h3>Pack de cuentos infantiles</h3>
+            <p>20 cuentos ilustrados y narrados para que los niños se duerman… y los papás también.</p>
+            <p class="comp-list">Incluye «La almohada mágica de Lucía», «El dragón dormilón» y 18 más.</p>
+            <p class="comp-price">Gratis · 20 cuentos</p>
           </div>
         </div>
       </div>
@@ -1105,8 +1124,10 @@
                     <p class="error-msg" id="err-correo">Escribe un correo válido.</p>
                   </div>
                   <div class="field">
-                    <label for="telefono">WhatsApp <span>(opcional)</span></label>
-                    <input type="tel" id="telefono" name="telefono" inputmode="numeric" autocomplete="tel-national" placeholder="300 123 4567" />
+                    <label for="telefono">WhatsApp <span class="req">*</span></label>
+                    <input type="tel" id="telefono" name="telefono" inputmode="numeric" autocomplete="tel-national" placeholder="300 123 4567" maxlength="10" pattern="3[0-9]{9}" required aria-describedby="hint-telefono err-telefono" />
+                    <p class="hint" id="hint-telefono">10 dígitos, sin el +57.</p>
+                    <p class="error-msg" id="err-telefono">Escribe un celular de 10 dígitos que empiece por 3.</p>
                   </div>
                 </fieldset>
 
@@ -1285,6 +1306,21 @@
     document.documentElement.classList.add('js');
 
     /* ---------- Tema ---------- */
+    /* Galería: miniaturas -> imagen principal */
+    (function () {
+      var main = document.getElementById('galleryMain');
+      var thumbs = document.querySelectorAll('.ml-thumbs .thumb');
+      if (!main || !thumbs.length) return;
+      thumbs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          thumbs.forEach(function (o) { o.classList.remove('is-active'); });
+          t.classList.add('is-active');
+          main.src = t.getAttribute('data-img');
+          main.alt = t.querySelector('img').alt;
+        });
+      });
+    })();
+
     var rootEl = document.documentElement;
     var themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
@@ -1338,6 +1374,29 @@
       reveals.forEach(function (el) { el.classList.add('in'); });
     }
 
+    /* ---------- Flechas de la tira de capítulos ---------- */
+    (function () {
+      var wrap = document.getElementById('pagesWrap');
+      var prev = document.getElementById('pagesPrev');
+      var next = document.getElementById('pagesNext');
+      if (!wrap || !prev || !next) return;
+
+      function update() {
+        var max = wrap.scrollWidth - wrap.clientWidth;
+        var noOverflow = max <= 4;
+        prev.disabled = noOverflow || wrap.scrollLeft <= 4;
+        next.disabled = noOverflow || wrap.scrollLeft >= max - 4;
+      }
+      function step(dir) {
+        wrap.scrollBy({ left: dir * Math.round(wrap.clientWidth * 0.8), behavior: 'smooth' });
+      }
+      prev.addEventListener('click', function () { step(-1); });
+      next.addEventListener('click', function () { step(1); });
+      wrap.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
     /* ---------- Lightbox de capítulos ---------- */
     (function () {
       var lb = document.getElementById('pageLightbox');
@@ -1388,6 +1447,14 @@
       field.setAttribute('aria-invalid', on ? 'true' : 'false');
     }
     function validEmail(v) { return !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function validPhone(v) { return /^3\d{9}$/.test(String(v || '').replace(/\D/g, '')); }
+
+    // Teléfono: solo dígitos, máximo 10 y quita el 57 si viene pegado
+    form.telefono.addEventListener('input', function () {
+      var v = form.telefono.value.replace(/\D/g, '');
+      if (v.length > 10 && v.slice(0, 2) === '57') v = v.slice(2);
+      form.telefono.value = v.slice(0, 10);
+    });
 
     var consent = document.getElementById('consent');
     var consentBlock = document.getElementById('consentBlock');
@@ -1395,12 +1462,16 @@
 
     function validate() {
       var errors = [];
-      ['nombre', 'correo'].forEach(function (id) {
+      ['nombre', 'telefono', 'correo'].forEach(function (id) {
         var f = form[id];
         var bad = !f.value.trim();
         setError(f, bad);
-        if (bad) errors.push({ el: f, msg: id === 'nombre' ? 'Escribe tu nombre.' : 'Escribe tu correo.' });
+        if (bad) errors.push({ el: f, msg: id === 'nombre' ? 'Escribe tu nombre.' : (id === 'correo' ? 'Escribe tu correo.' : 'Escribe tu WhatsApp.') });
       });
+      if (form.telefono.value.trim() && !validPhone(form.telefono.value)) {
+        setError(form.telefono, true);
+        errors.push({ el: form.telefono, msg: 'El WhatsApp debe tener 10 dígitos y empezar por 3.' });
+      }
       if (form.correo.value.trim() && !validEmail(form.correo.value)) {
         setError(form.correo, true);
         errors.push({ el: form.correo, msg: 'El correo no parece válido.' });
