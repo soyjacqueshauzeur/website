@@ -70,6 +70,14 @@ Ambos deben terminar en `PASS`. Si alguno da `FAIL`, corregir (imagen/sección q
 4. Imagen: `new-post.mjs` **copia** el `--image` a `assets/img/blog/<año>/<mes>/<slug>/<año>-<mes>-<slug>-top.<ext>` y ajusta las rutas solo. Guarda el archivo optimizado (`.webp`) y, si añades figuras, ponlas en esa misma carpeta como `<año>-<mes>-<slug>-fig-01.webp`, `…-fig-02.webp`…
 5. Re-correr la secuencia (`apply-seo` → `build-sitemap` → `i18n-sync-check` → `seo-check`) e idempotencia.
 
+## Home — banner infinito de clientes
+- Solo en las homes (`index.html` y `es/index.html`): `.clients-grid--compact` lleva además `clients-marquee` + `data-clients-marquee`. `assets/js/clients-marquee.js` lo convierte en un loop infinito derecha→izquierda con **todos** los clientes de `clients.html`.
+- **Datos**: `assets/js/clients-data.js` (`window.JH_CLIENTS`) se **genera** desde `clients.html` con `node tools/build-clients-data.mjs` (omite las tarjetas `is-hidden`; nombres propios, por eso el archivo es compartido EN/ES). Re-ejecutar tras editar `clients.html`. No editar a mano.
+- **Ritmo**: una constante, `CLIENT_MS` en `clients-marquee.js` (1.5 s por cliente → el atributo `--clients-marquee-dur` = n × 1.5 s; con 48 clientes ≈ 72 s por vuelta).
+- **Marcado**: dos grupos idénticos (el 2.º `aria-hidden`) y desplazamiento `-50%` para el loop sin salto; las tarjetas son compactas (logo + nombre) y no son enlaces.
+- **CSS**: bloque "Home clients marquee" en `styles.css` — pausa al hover, degradado en los bordes (`mask-image`) y `animation: none` con `prefers-reduced-motion`.
+- **Fallback**: las 6 tarjetas estáticas del HTML se quedan como grilla si no hay JS o si el usuario pide menos movimiento (el JS no toca el DOM en ese caso).
+
 ## Navegación y páginas generadas
 La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me · Blog` (ES: `Inicio · Clientes · 1:1 · Servicios · Sobre mí · Blog`). "1:1" apunta a `sessions.html` (EN) / `sesiones.html` (ES). "About me / Sobre mí" apunta a `index.html#about` (sección `id="about"` en la home). El CTA del header es `Book a call` / `Reservar una llamada`, y el lang-switch es US/CO/RU.
 - **Fuente única de idiomas: `tools/locales.mjs`** (registro por locale: `dir`, prefijo de `assets`, `base`, hreflang/bandera, sufijo de data, nav y textos de footer). NINGÚN tool debe volver a escribir `lang === 'es'` ni prefijos (`../assets`, `'es/'`) a mano: se derivan del registro. Añadir un idioma = agregar una entrada aquí (p. ej. `ru` con `available: true`) + su contenido.

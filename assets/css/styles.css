@@ -1334,6 +1334,60 @@ p:last-child { margin-bottom: 0; }
   .clients-grid--compact .client-logo { width: 64px; height: 64px; }
   .clients-grid--compact .client-name { font-size: var(--text-sm); }
 }
+/* Home clients marquee — infinite right-to-left loop over the full client list
+   (rendered by assets/js/clients-marquee.js). Pace: one client every 1.5 s; the
+   page sets --clients-marquee-dur = n × 1.5s. The six static cards stay as the
+   no-JS / reduced-motion fallback, so all of this only applies with .is-active. */
+.clients-marquee.is-active {
+  display: block;
+  background: var(--bg-card);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, var(--black) 8%, var(--black) 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, var(--black) 8%, var(--black) 92%, transparent 100%);
+}
+.clients-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: clients-marquee-scroll var(--clients-marquee-dur, 60s) linear infinite;
+  will-change: transform;
+}
+.clients-marquee.is-active:hover .clients-marquee-track { animation-play-state: paused; }
+.clients-marquee-group { display: flex; }
+.clients-marquee.is-active .client-card {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  width: 260px;
+  height: 78px;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border-inline-end: 1px solid var(--rule);
+}
+.clients-marquee.is-active .client-card:hover { background: var(--bg-elev); }
+.clients-marquee.is-active .client-logo {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 4px;
+}
+.clients-marquee.is-active .client-name {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+@keyframes clients-marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (max-width: 720px) {
+  .clients-marquee.is-active .client-card { width: 210px; height: 72px; }
+  .clients-marquee.is-active .client-logo { width: 40px; height: 40px; }
+  .clients-marquee.is-active .client-name { font-size: var(--text-sm); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clients-marquee-track { animation: none; }
+}
 .client-card {
   background: var(--bg-card);
   padding: var(--space-5);
