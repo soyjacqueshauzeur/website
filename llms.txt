@@ -13,10 +13,10 @@
 
 ## Services (monthly hire, USD)
 
-- [Marketing](https://soyjacqueshauzeur.dev/marketing.html): USD $497/month
+- [Marketing](https://soyjacqueshauzeur.dev/marketing.html): USD $597/month
 - [Campaigns](https://soyjacqueshauzeur.dev/campaigns.html): USD $397/month
 - [Chatbots](https://soyjacqueshauzeur.dev/chatbots.html): USD $597/month
-- [AI](https://soyjacqueshauzeur.dev/ai.html): USD $497/month
+- [AI](https://soyjacqueshauzeur.dev/ai.html): USD $696/month
 - [Financial planning](https://soyjacqueshauzeur.dev/financial-planning.html): USD $197/month
 - [Web & e-commerce](https://soyjacqueshauzeur.dev/ecommerce.html): USD $297/month
 

@@ -493,6 +493,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -777,7 +782,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Clients · the full list · <span class="client-count">53</span> businesses</span>
-            <h1 style="font-size: var(--text-4xl); letter-spacing: -0.02em;">Clients who run<br/><span class="lime">on a system</span>, not<br/>on luck <span class="slash lime">//</span></h1>
+            <h1 style="font-size: var(--text-4xl); letter-spacing: -0.02em;">Clients who have trusted<br/><span class="lime">a system</span> <span class="slash lime">//</span></h1>
           </div>
           <p class="lede">
             The complete, working list — the same cards you saw on the home page, all of them. Each business below runs on a system we built together: a website that sells, marketing that shows up where its customers actually look, and automation that quietly does the work after handover.
@@ -1311,7 +1316,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="footer-top footer-top--minimal">
         <div class="footer-brand">
           <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          <p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>
+          <p>I build systems and teach the subjects I have spent years learning.</p>
           <span class="label">Teaching · building · mentoring · worldwide</span>
         </div>
         <div>
@@ -1323,7 +1328,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Services</a></li>
             <li><a href="index.html#about">About me</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="es/tienda/index.html" target="_blank" rel="noopener">Store</a></li>
             <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>

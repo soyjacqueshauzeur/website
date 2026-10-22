@@ -493,6 +493,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -777,7 +782,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Clientes · la lista completa · <span class="client-count">53</span> negocios</span>
-            <h1 style="font-size: var(--text-4xl); letter-spacing: -0.02em;">Clientes que ya operan<br/><span class="lime">con un sistema</span>,<br/>no a la suerte <span class="slash lime">//</span></h1>
+            <h1 style="font-size: var(--text-4xl); letter-spacing: -0.02em;">Clientes que han confiado<br/><span class="lime">en un sistema</span> <span class="slash lime">//</span></h1>
           </div>
           <p class="lede">
             La lista completa de trabajo — las mismas tarjetas de la página de inicio, todas. Cada negocio de abajo funciona con un sistema que construimos juntos: una web que vende, marketing que aparece donde mira su cliente y automatización que sigue haciendo el trabajo después de la entrega.
@@ -1311,7 +1316,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="footer-top footer-top--minimal">
         <div class="footer-brand">
           <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <p>Construyo sistemas y enseño sobre ciertos temas a los que les he dedicado muchos años a aprender.</p>
           <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
         </div>
         <div>
@@ -1323,7 +1328,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Servicios</a></li>
             <li><a href="index.html#about">Sobre mí</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="tienda/index.html" target="_blank" rel="noopener">Tienda</a></li>
             <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>

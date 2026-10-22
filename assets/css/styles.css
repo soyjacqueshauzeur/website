@@ -452,6 +452,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -1942,6 +1947,12 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
   justify-content: flex-start;
   margin: var(--space-2) 0;
 }
+
+.hire-includes li.hire-note {
+  border-color: var(--lime);
+  color: var(--fg-soft);
+}
+.hire-includes li.hire-note strong { color: var(--fg); }
 
 .hire-scope-grid {
   display: grid;

@@ -38,7 +38,7 @@ const COPY = {
       title: 'Hire Jacques Hauzeur — monthly services & rates',
       desc: 'Hire Jacques Hauzeur by the month — marketing, paid campaigns, chatbots, AI, financial planning and e-commerce. One service or several, 1–12 months.',
       eyebrow: 'Hire · one-time payment',
-      h1: 'Hire me by the<br/><span class="lime">month</span>.<br/>No lock-in <span class="slash">//</span>',
+      h1: 'Hire me<br/><span class="lime">by the month</span>. No<br/>lock-in <span class="slash">//</span>',
       sub: 'Pick one service or bundle several for the duration you choose — 1, 3, 6 or 12 months. You pay the full total once (no monthly billing). Send the order and I confirm the same day.',
       ctaPrimary: 'See the services',
       ctaSecondary: 'Ask me first',
@@ -49,7 +49,7 @@ const COPY = {
         ['Send & pay', 'I confirm your order and send a payment link — Mercado Pago, PayPal, local bank or whatever works for you.']
       ],
       catEyebrow: 'The catalogue',
-      catTitle: 'All six.<br/>One <span class="lime">monthly</span> hire.',
+      catTitle: 'Monthly<br/>services<br/>I offer <span class="slash lime">//</span>',
       catLede: 'Choose as many as you need — each runs monthly and you adjust the duration in your cart before you send the order.',
       closeEyebrow: 'Start · 2026',
       closeTitle: 'Start a<br/><span class="lime">monthly</span> hire.',
@@ -65,7 +65,8 @@ const COPY = {
       metaTitle: (svc) => `${svc.category} — monthly hire from $${svc.price}/mo`,
       hireLabel: 'monthly hire',
       seeAll: 'See all services',
-      secYouGet: 'What you get each month',
+      secYouGet: 'What you get',
+      secYouGetAccent: 'every month.',
       secMoreEyebrow: 'Bundle · hire another',
       closerEyebrow: 'Hire · 2026',
       closeTitle: 'Run it as a<br/><span class="lime">system</span>, not a<br/>one-off.',
@@ -80,7 +81,7 @@ const COPY = {
       title: 'Contrata a Jacques Hauzeur — servicios y tarifas mensuales',
       desc: 'Contrata a Jacques Hauzeur por mes — marketing, campañas, chatbots, IA, finanzas y e-commerce. Un servicio o varios, de 1 a 12 meses.',
       eyebrow: 'Hire · un solo pago',
-      h1: 'Contrátame por<br/><span class="lime">mes</span>.<br/>Sin permanencia <span class="slash">//</span>',
+      h1: 'Contrátame<br/><span class="lime">por mes</span>. Sin<br/>permanencia <span class="slash">//</span>',
       sub: 'Elige un servicio o combina varios por la duración que elijas — 1, 3, 6 o 12 meses. Pagas el total una sola vez (sin cobro mensual). Envía el pedido y confirmo el mismo día.',
       ctaPrimary: 'Ver los servicios',
       ctaSecondary: 'Pregúntame primero',
@@ -91,7 +92,7 @@ const COPY = {
         ['Envía y paga', 'Confirmo tu pedido y te envío el link de pago — Mercado Pago, PayPal, banco local o lo que te funcione.']
       ],
       catEyebrow: 'El catálogo',
-      catTitle: 'Los seis.<br/>Un solo <span class="lime">hire</span> mensual.',
+      catTitle: 'Servicios<br/><span class="lime">mensuales</span> que<br/>ofrezco <span class="slash lime">//</span>',
       catLede: 'Elige los que necesites — cada uno corre por mes y ajustas la duración en tu carrito antes de enviar el pedido.',
       closeEyebrow: 'Empieza · 2026',
       closeTitle: 'Empieza un<br/><span class="lime">hire</span> mensual.',
@@ -107,7 +108,8 @@ const COPY = {
       metaTitle: (svc) => `${svc.category} — hire mensual desde $${svc.price}/mes`,
       hireLabel: 'hire mensual',
       seeAll: 'Ver todos los servicios',
-      secYouGet: 'Qué recibes cada mes',
+      secYouGet: 'Qué recibes',
+      secYouGetAccent: 'cada mes.',
       secMoreEyebrow: 'Combina · contrata otro',
       closerEyebrow: 'Hire · 2026',
       closeTitle: 'Llévalo como<br/><span class="lime">sistema</span>, no<br/>como un gasto suelto.',
@@ -182,7 +184,7 @@ function hubBody(lang, copy, data) {
         <div class="hero-grid">
           <div class="hero-text">
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>${L.eyebrow}</span>
-            <h1 class="hero-headline">${L.h1}</h1>
+            <h1 class="hero-headline hero-headline--hub">${L.h1}</h1>
             <p class="hero-sub">${L.sub}</p>
             <div class="hero-cta-row">
               <a class="btn btn--primary btn--lg" href="#hire-catalogue">${L.ctaPrimary}
@@ -248,6 +250,7 @@ ${side}
 function serviceBody(lang, copy, data, svc) {
   const S = copy.service;
   const bullets = svc.includes.map((b) => `          <li>${b}</li>`).join('\n');
+  const noteLi = svc.note ? `          <li class="hire-note">${svc.note}</li>\n` : '';
   const contractFile = svc.file.replace(/\.html$/, '') + '-hire.html';
   const contractLi = `          <li class="hire-contract"><a class="hire-contract-link" href="${contractFile}">${S.contractBullet}</a><a class="btn btn--hire btn--sm" href="${contractFile}">${S.contractBtn}</a></li>`;
   return `
@@ -280,12 +283,12 @@ function serviceBody(lang, copy, data, svc) {
         <div class="hire-scope-grid">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>${svc.num} / ${svc.category}</span>
-            <h2>${S.secYouGet}<br/><span class="lime">, every</span> month.</h2>
+            <h2>${S.secYouGet}<br/><span class="lime">${S.secYouGetAccent}</span></h2>
             <p class="lede">${svc.cardDesc}</p>
           </div>
           <ul class="hire-includes">
 ${bullets}
-${contractLi}
+${noteLi}${contractLi}
           </ul>
         </div>
       </div>

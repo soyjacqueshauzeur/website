@@ -60,14 +60,14 @@ const SESSION_PRICE = Number((readFileSync(join(ROOT, 'assets/js/class-booking.j
 
 /* ---------------- labels ---------------- */
 const T = {
-  en: { home: 'Home', services: 'Services', sessions: 'Sessions', clients: 'Clients', blog: 'Blog',
+  en: { home: 'Home', services: 'Services', sessions: 'Sessions', clients: 'Clients', blog: 'Blog', month: 'month',
     faqMin: 'No lock-in. Choose 1, 3, 6 or 12 months and pause or cancel anytime.',
     faqBundle: 'Yes — hire several services and run them as one monthly system.',
     faqInclude: (cat) => `What does ${cat} include each month?`,
     faqCost: (cat) => `How much does ${cat} cost?`,
     faqMinQ: 'Is there a minimum contract?',
     faqBundleQ: 'Can I combine it with other services?' },
-  es: { home: 'Inicio', services: 'Servicios', sessions: 'Sesiones', clients: 'Clientes', blog: 'Blog',
+  es: { home: 'Inicio', services: 'Servicios', sessions: 'Sesiones', clients: 'Clientes', blog: 'Blog', month: 'mes',
     faqMin: 'Sin permanencia. Elige 1, 3, 6 o 12 meses y pausa o cancela cuando quieras.',
     faqBundle: 'Sí — contrata varios servicios y llévalos como un solo sistema mensual.',
     faqInclude: (cat) => `¿Qué incluye ${cat} cada mes?`,
@@ -195,7 +195,8 @@ function pageNodes(page, html, info) {
     const includes = svc.includes.join('; ');
     const faqs = [
       { q: t.faqInclude(svc.category), a: includes },
-      { q: t.faqCost(svc.category), a: `USD $${svc.price}/month. ${HIRE[lang].labels.billingNote}` },
+      { q: t.faqCost(svc.category), a: `USD $${svc.price}/${t.month}. ${HIRE[lang].labels.billingNote}` },
+      ...(svc.noteFaq ? [{ q: svc.noteFaq, a: svc.noteFaqA }] : []),
       { q: t.faqMinQ, a: t.faqMin },
       { q: t.faqBundleQ, a: t.faqBundle }
     ];

@@ -493,6 +493,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -841,10 +846,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Clientes · una muestra de trabajo</span>
-            <h2>Clientes que ya operan<br/><span class="lime">con un sistema</span>,<br/>no a la suerte <span class="slash lime">//</span></h2>
+            <h2>Clientes que han confiado<br/><span class="lime">en un sistema</span> <span class="slash lime">//</span></h2>
           </div>
           <p class="lede">
-            Una muestra de los negocios que he ayudado a dominar la tecnología: una web que vende, marketing que aparece donde el cliente mira, y automatización que hace el trabajo en silencio. Al final, ellos lo manejan sin mí.
+            Estas son algunas de las personas y negocios que he ayudado a que dominen la tecnología, por medio del marketing, chatbots, páginas web, automatizaciones.
           </p>
         </div>
 
@@ -896,11 +901,11 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="chapter-grid">
           <div>
             <span class="label">1:1 · soporte híbrido</span>
-            <h2>Resérvame una<br/><span class="lime">hora</span> y quédate<br/>con las respuestas <span class="slash">//</span></h2>
+            <h2>Agenda una <span class="lime">hora</span><br/>conmigo <span class="slash">//</span></h2>
           </div>
           <div class="chapter-body">
             <p>
-              Es lo más parecido a contratarme sin contratarme a tiempo completo. Tienes sesiones regulares sobre tu stack real — tu web, tus campañas, tus automatizaciones <span class="hl">— más clases gratis los viernes —</span> reserva tu lugar.
+              Es lo más parecido a contratarme sin contratarme a tiempo completo. Tendrás sesiones regulares sobre las áreas que tú elijas <span class="hl">— además de clases gratis los viernes —</span> reserva tu lugar.
             </p>
             <blockquote class="pull-quote">
               <span class="lime">La primera sesión es gratis:</span> evaluamos juntos qué servicios te sirven de verdad.
@@ -920,10 +925,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Lo que enseño y hago</span>
-            <h2>Todo lo que un fundador<br/>necesita, <span class="lime">sin</span><br/>el relleno <span class="slash lime">//</span></h2>
+            <h2>Servicios<br/><span class="lime">mensuales</span> que<br/>ofrezco <span class="slash lime">//</span></h2>
           </div>
           <p class="lede">
-            Aquí están los servicios que ofrezco. Puedes elegir uno o varios y contratarme por un mes o por varios meses. Abajo encuentras cada servicio explicado con palabras sencillas, en el botón Contratar.
+            Aquí están los servicios que ofrezco. Puedes elegir uno o varios y contratarme por un mes o por varios meses. Abajo encuentras cada servicio explicado, en el botón «Ver este servicio».
           </p>
         </div>
 
@@ -949,10 +954,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="container container--wide">
         <div class="split">
           <div class="split-text">
-            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Sobre mí y mi trabajo</span>
-            <h2>Ayudo a poner la<br/>tecnología a <span class="lime">trabajar</span> <span class="lime">—</span><br/>con propósito <span class="slash lime">//</span></h2>
+            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Mi trabajo</span>
+            <h2>Sobre <span class="lime">mí</span> <span class="slash lime">//</span></h2>
             <p>
-              Enseño e implemento la tecnología detrás de un negocio — la web, el marketing, la automatización en esta época de Inteligencia artificial. Haciendo lo complicado fácil, y divertido. He trabajado con personas y empresas de Argentina, Colombia, Estados Unidos, España, Guatemala, Perú, Polonia, República Dominicana, Rusia y Venezuela.
+              Enseño e implemento tecnología para negocios y personas en esta época de Inteligencia artificial. Haciendo lo complicado fácil, y divertido. He trabajado con personas y empresas de Argentina, Colombia, Estados Unidos, España, Guatemala, Perú, Polonia, República Dominicana, Rusia y Venezuela.
             </p>
             <ul class="split-fact-list">
               <li><b>YouTube</b><span class="social-flex"><a class="social-follow" href="https://www.youtube.com/@soyjacqueshauzeur" target="_blank" rel="noopener">Seguir<svg class="arrow" width="11" height="8" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="social-link" href="https://www.youtube.com/@soyjacqueshauzeur" target="_blank" rel="noopener">Lecciones en video gratis</a></span></li>
@@ -982,7 +987,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Conecta · respondo yo</span>
             <h2>Háblame<br/><span class="lime">directo</span> <span class="lime">—</span><br/>sin formularios <span class="slash">//</span></h2>
             <p>
-              La forma más rápida de empezar es un mensaje. Cuéntame qué intentas arreglar y más o menos dónde estás — respondo yo, normalmente el mismo día. Usa la app que ya tengas abierta.
+              La forma más rápida de empezar es un mensaje, respondo normalmente el mismo día. Cuéntame qué quieres lograr y más o menos el objetivo de tu negocio.
             </p>
             <ul class="contact-list">
               <li>
@@ -1081,7 +1086,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="footer-top footer-top--minimal">
         <div class="footer-brand">
           <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <p>Construyo sistemas y enseño sobre ciertos temas a los que les he dedicado muchos años a aprender.</p>
           <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
         </div>
         <div>
@@ -1093,7 +1098,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Servicios</a></li>
             <li><a href="index.html#about">Sobre mí</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="tienda/index.html" target="_blank" rel="noopener">Tienda</a></li>
             <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>

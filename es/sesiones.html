@@ -493,6 +493,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -839,7 +844,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="footer-top footer-top--minimal">
         <div class="footer-brand">
           <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          <p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>
+          <p>Construyo sistemas y enseño sobre ciertos temas a los que les he dedicado muchos años a aprender.</p>
           <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>
         </div>
         <div>
@@ -851,7 +856,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Servicios</a></li>
             <li><a href="index.html#about">Sobre mí</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="tienda/index.html" target="_blank" rel="noopener">Tienda</a></li>
             <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>

@@ -13,10 +13,10 @@
 
 ## Servicios (contratación mensual, USD)
 
-- [Marketing](https://soyjacqueshauzeur.dev/es/marketing.html): USD $497/mes
+- [Marketing](https://soyjacqueshauzeur.dev/es/marketing.html): USD $597/mes
 - [Campañas](https://soyjacqueshauzeur.dev/es/campaigns.html): USD $397/mes
 - [Chatbots](https://soyjacqueshauzeur.dev/es/chatbots.html): USD $597/mes
-- [IA](https://soyjacqueshauzeur.dev/es/ai.html): USD $497/mes
+- [IA](https://soyjacqueshauzeur.dev/es/ai.html): USD $696/mes
 - [Planificación financiera](https://soyjacqueshauzeur.dev/es/financial-planning.html): USD $197/mes
 - [Web y e-commerce](https://soyjacqueshauzeur.dev/es/ecommerce.html): USD $297/mes
 

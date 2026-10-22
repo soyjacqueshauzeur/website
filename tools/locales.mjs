@@ -53,9 +53,8 @@ export const LOCALES = {
     themeToggle: 'Toggle light/dark theme',
     footerExplore: 'Explore',
     footerBrand:
-      '<p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
+      '<p>I build systems and teach the subjects I have spent years learning.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
     footerMeta: ['Privacy', 'Imprint', 'Sitemap'],
-    store: { href: 'es/tienda/index.html', label: 'Store' },
     nav: [
       ['index.html', 'Home'],
       ['clients.html', 'Clients'],
@@ -89,9 +88,8 @@ export const LOCALES = {
     themeToggle: 'Cambiar tema claro/oscuro',
     footerExplore: 'Explorar',
     footerBrand:
-      '<p>El marketing, para mí, es cuántico: el resultado existe en superposición hasta que lo mides. Yo construyo el aparato de medición — web, campañas y automatización — para que colapse a tu favor. Sin permanencia, sin humo.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
+      '<p>Construyo sistemas y enseño sobre ciertos temas a los que les he dedicado muchos años a aprender.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
     footerMeta: ['Privacidad', 'Aviso legal', 'Mapa del sitio'],
-    store: { href: 'tienda/index.html', label: 'Tienda' },
     nav: [
       ['index.html', 'Inicio'],
       ['clients.html', 'Clientes'],

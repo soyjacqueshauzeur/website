@@ -496,6 +496,11 @@ p:last-child { margin-bottom: 0; }
 }
 .hero-headline .lime { color: var(--lime); }
 .hero-headline .slash { color: var(--lime); font-weight: 400; }
+
+/* Hub de servicios: el H1 tiene tres líneas largas — se escala para que no parta */
+@media (min-width: 721px) {
+  .hero-headline--hub { font-size: clamp(2.2rem, 3.9vw, 3.5rem); }
+}
 .hero-sub {
   color: var(--fg-soft);
   font-size: var(--text-lg);
@@ -844,10 +849,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Clients · a working sample</span>
-            <h2>Clients who run<br/><span class="lime">on a system</span>, not<br/>on luck <span class="slash lime">//</span></h2>
+            <h2>Clients who have trusted<br/><span class="lime">a system</span> <span class="slash lime">//</span></h2>
           </div>
           <p class="lede">
-            A sample of the businesses I've helped get fluent — a website that sells, marketing that shows up where customers actually look, and automation that quietly does the work. By the time I hand it over, they run it without me.
+            These are some of the people and businesses I've helped get fluent with technology — through marketing, chatbots, websites and automation.
           </p>
         </div>
 
@@ -899,11 +904,11 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="chapter-grid">
           <div>
             <span class="label">1:1 · hybrid support</span>
-            <h2>Book me for an<br/><span class="lime">hour</span>, keep<br/>me for the answers <span class="slash">//</span></h2>
+            <h2>Book an <span class="lime">hour</span><br/>with me <span class="slash">//</span></h2>
           </div>
           <div class="chapter-body">
             <p>
-              This is the closest thing to hiring me without hiring me full-time. You get regular sessions on your real stack — your website, your campaigns, your automations <span class="hl">— plus free classes every Friday —</span> book your spot.
+              It's the closest thing to hiring me without hiring me full-time. You get regular sessions on whatever areas you choose <span class="hl">— plus free classes every Friday —</span> book your spot.
             </p>
             <blockquote class="pull-quote">
               <span class="lime">Your first session is free</span> — we figure out together which services actually help you.
@@ -923,10 +928,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         <div class="section-head">
           <div>
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>What I teach &amp; work on</span>
-            <h2>Everything a founder<br/>needs, <span class="lime">minus</span><br/>the fluff <span class="slash lime">//</span></h2>
+            <h2>Monthly<br/>services<br/>I offer <span class="slash lime">//</span></h2>
           </div>
           <p class="lede">
-            Here are the services I offer. You can choose one or several and hire me for one month or several months. Below you'll find each service explained in simple words, on the Hire button.
+            Here are the services I offer. You can choose one or several and hire me for one month or several months. Below you'll find each service explained, on the “See this service” button.
           </p>
         </div>
 
@@ -952,10 +957,10 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="container container--wide">
         <div class="split">
           <div class="split-text">
-            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>About me &amp; my work</span>
-            <h2>I help people put<br/>technology to <span class="lime">work</span> <span class="lime">—</span><br/>on purpose <span class="slash lime">//</span></h2>
+            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>My work</span>
+            <h2>About <span class="lime">me</span> <span class="slash lime">//</span></h2>
             <p>
-              I teach and implement the technology behind a business — the web, the marketing, the automation in this age of artificial intelligence. Making the complicated easy, and fun. I've worked with people and companies from Argentina, Colombia, the United States, Spain, Guatemala, Peru, Poland, the Dominican Republic, Russia and Venezuela.
+              I teach and implement technology for businesses and people in this age of artificial intelligence. Making the complicated easy, and fun. I've worked with people and companies from Argentina, Colombia, the United States, Spain, Guatemala, Peru, Poland, the Dominican Republic, Russia and Venezuela.
             </p>
             <ul class="split-fact-list">
               <li><b>YouTube</b><span class="social-flex"><a class="social-follow" href="https://www.youtube.com/@soyjacqueshauzeur" target="_blank" rel="noopener">Follow<svg class="arrow" width="11" height="8" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="social-link" href="https://www.youtube.com/@soyjacqueshauzeur" target="_blank" rel="noopener">Free video lessons</a></span></li>
@@ -985,7 +990,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <span class="eyebrow"><span class="dot" aria-hidden="true"></span>Connect · I reply myself</span>
             <h2>Talk to me<br/><span class="lime">directly</span> <span class="lime">—</span><br/>no forms <span class="slash">//</span></h2>
             <p>
-              The fastest way to start is a message. Tell me what you're trying to fix and roughly where you're based — I'll answer myself, usually the same day. Choose whichever app you already have open.
+              The fastest way to start is a message — I usually reply the same day. Tell me what you want to achieve and, roughly, your business goal.
             </p>
             <ul class="contact-list">
               <li>
@@ -1085,7 +1090,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <div class="footer-top footer-top--minimal">
         <div class="footer-brand">
           <span class="brand"><span class="brand-mark" aria-hidden="true"></span> Jacques Hauzeur</span>
-          <p>To me, marketing is quantum: the result exists in superposition until you measure it. I build the measuring device — web, campaigns and automation — so it collapses in your favour. No lock-in, no hype.</p>
+          <p>I build systems and teach the subjects I have spent years learning.</p>
           <span class="label">Teaching · building · mentoring · worldwide</span>
         </div>
         <div>
@@ -1097,7 +1102,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Services</a></li>
             <li><a href="index.html#about">About me</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="es/tienda/index.html" target="_blank" rel="noopener">Store</a></li>
             <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>
