@@ -1350,7 +1350,8 @@ p:last-child { margin-bottom: 0; }
   animation: clients-marquee-scroll var(--clients-marquee-dur, 60s) linear infinite;
   will-change: transform;
 }
-.clients-marquee.is-active:hover .clients-marquee-track { animation-play-state: paused; }
+.clients-marquee.is-active:hover .clients-marquee-track,
+.clients-marquee.is-active:focus-within .clients-marquee-track { animation-play-state: paused; }
 .clients-marquee-group { display: flex; }
 .clients-marquee.is-active .client-card {
   flex: 0 0 auto;
@@ -1376,6 +1377,8 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.25;
   overflow-wrap: anywhere;
 }
+/* Cada tarjeta es un enlace a la página de clientes del idioma actual */
+.clients-marquee.is-active a.client-card:focus-visible { outline-offset: -3px; }
 @keyframes clients-marquee-scroll {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }

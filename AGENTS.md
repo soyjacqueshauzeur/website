@@ -74,7 +74,7 @@ Ambos deben terminar en `PASS`. Si alguno da `FAIL`, corregir (imagen/sección q
 - Solo en las homes (`index.html` y `es/index.html`): `.clients-grid--compact` lleva además `clients-marquee` + `data-clients-marquee`. `assets/js/clients-marquee.js` lo convierte en un loop infinito derecha→izquierda con **todos** los clientes de `clients.html`.
 - **Datos**: `assets/js/clients-data.js` (`window.JH_CLIENTS`) se **genera** desde `clients.html` con `node tools/build-clients-data.mjs` (omite las tarjetas `is-hidden`; nombres propios, por eso el archivo es compartido EN/ES). Re-ejecutar tras editar `clients.html`. No editar a mano.
 - **Ritmo**: una constante, `CLIENT_MS` en `clients-marquee.js` (1.5 s por cliente → el atributo `--clients-marquee-dur` = n × 1.5 s; con 48 clientes ≈ 72 s por vuelta).
-- **Marcado**: dos grupos idénticos (el 2.º `aria-hidden`) y desplazamiento `-50%` para el loop sin salto; las tarjetas son compactas (logo + nombre) y no son enlaces.
+- **Marcado**: dos grupos idénticos (el 2.º `aria-hidden` y con `tabindex="-1"`) y desplazamiento `-50%` para el loop sin salto. Cada tarjeta es un enlace a la página de clientes del idioma (`clients.html` relativo → `/clients.html` o `/es/clients.html`); si no hay JS, las 6 tarjetas estáticas mantienen sus enlaces externos.
 - **CSS**: bloque "Home clients marquee" en `styles.css` — pausa al hover, degradado en los bordes (`mask-image`) y `animation: none` con `prefers-reduced-motion`.
 - **Fallback**: las 6 tarjetas estáticas del HTML se quedan como grilla si no hay JS o si el usuario pide menos movimiento (el JS no toca el DOM en ese caso).
 

@@ -23,20 +23,22 @@
     return i >= 0 ? src.slice(0, i) : '';
   }
 
-  function card(client, prefix, eager) {
-    var el = document.createElement('article');
+  function card(client, prefix, eager, cloned) {
+    var el = document.createElement('a');
     el.className = 'client-card';
+    el.href = 'clients.html'; // misma ruta relativa: /clients.html o /es/clients.html
+    if (cloned) el.setAttribute('tabindex', '-1');
 
     var img = document.createElement('img');
     img.className = 'client-logo';
     img.src = prefix + client.logo;
-    img.alt = client.name;
+    img.alt = ''; // decorativo: el nombre va como texto del enlace
     img.width = 96;
     img.height = 96;
     img.loading = eager ? 'eager' : 'lazy';
     img.decoding = 'async';
 
-    var name = document.createElement('h3');
+    var name = document.createElement('span');
     name.className = 'client-name';
     name.textContent = client.name;
 
@@ -57,7 +59,7 @@
       group.className = 'clients-marquee-group';
       if (g === 1) group.setAttribute('aria-hidden', 'true');
       for (var i = 0; i < list.length; i++) {
-        group.appendChild(card(list[i], prefix, g === 0));
+        group.appendChild(card(list[i], prefix, g === 0, g === 1));
       }
       track.appendChild(group);
     }
