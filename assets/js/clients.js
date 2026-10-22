@@ -26,7 +26,7 @@
     if (range) {
       var parts = range.textContent.split('\u00b7');
       var suffix = parts.length > 1 ? parts.slice(1).join('\u00b7') : '';
-      range.textContent = '01 \u2014 ' + pad(n) + ' \u00b7' + suffix;
+      range.textContent = '01 \u2014 ' + pad(n) + (suffix ? ' \u00b7' + suffix : '');
     }
     var count = document.querySelector('.client-count');
     if (count) count.textContent = String(n);
