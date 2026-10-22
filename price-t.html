@@ -50,6 +50,9 @@
   .val-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px dashed var(--rule);padding-top:10px}
   .cur{font-size:13px;color:var(--mute)}
   .cur b{color:var(--paper);font-size:17px;font-family:var(--mono);font-weight:600}
+  .cop{display:block;font:11px var(--mono);color:#7a8191;margin-top:3px;letter-spacing:.02em}
+  .cop .pa-tilde{color:#7a8191}
+  .cop-row{display:flex;gap:6px;align-items:baseline}
   label.new{font:12px var(--mono);color:var(--mute);display:flex;align-items:center;gap:8px}
   label.new input{
     width:110px;background:var(--ink);color:var(--lime-soft);border:1px solid var(--rule);
@@ -125,7 +128,7 @@
     <div style="overflow:auto">
       <table id="sum-table">
         <thead>
-          <tr><th>#</th><th>Oferta (EN)</th><th>Oferta (ES)</th><th>Unidad</th><th>Tiempo/sesión</th><th>Actual</th><th>Nuevo</th><th>Cambio</th></tr>
+          <tr><th>#</th><th>Oferta (EN)</th><th>Oferta (ES)</th><th>Unidad</th><th>Tiempo/sesión</th><th>Actual</th><th>Nuevo</th><th>≈ COP (nuevo)</th><th>Cambio</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -140,6 +143,7 @@
   <p class="stamp" id="stamp"></p>
 </div>
 
+<script src="assets/js/fx.js"></script>
 <script>
 (function () {
   'use strict';
@@ -245,9 +249,11 @@
       var changed = v !== r.usd || (m !== null && m !== r.mins);
       var priceRow =
         '<div class="val-row">' +
-          '<span class="cur">Actual <b>USD $' + r.usd.toLocaleString('en-US') + '</b><span class="unit"> ' + esc(r.unit) + '</span></span>' +
+          '<span class="cur">Actual <b>USD $' + r.usd.toLocaleString('en-US') + '</b><span class="unit"> ' + esc(r.unit) + '</span>' +
+            '<span class="cop" data-approx="' + r.usd + '"></span></span>' +
           '<label class="new">Nuevo USD $<input type="number" min="0" step="1" inputmode="decimal" data-inp="' + r.id + '" value="' + v + '" /></label>' +
-        '</div>';
+        '</div>' +
+        '<div class="cop-row"><span class="unit">Nuevo</span><span class="cop cop-next" data-cop-next="' + r.id + '"></span></div>';
       var minRow = r.mins != null
         ? '<div class="val-row">' +
             '<span class="cur">Tiempo actual <b>' + r.mins + '</b><span class="unit"> min/sesión</span></span>' +
@@ -277,6 +283,19 @@
       inp.addEventListener('input', onMinInput);
     });
     updateNote();
+    renderCop();
+  }
+
+  /* Precio aproximado en moneda local (COP por defecto) — tasas de assets/js/fx.js */
+  function renderCop() {
+    if (!window.JH_FX || !window.JH_FX.isReady()) return;
+    window.JH_FX.renderApproxNodes();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cop-next]'), function (el) {
+      var row = ROWS.filter(function (r) { return r.id === el.getAttribute('data-cop-next'); })[0];
+      if (!row) return;
+      var local = window.JH_FX.fmtLocal(cur(row));
+      el.textContent = local ? '≈ ' + local : '';
+    });
   }
 
   function onInput(e) {
@@ -291,6 +310,7 @@
     }
     storeVal(id, Math.round(v * 100) / 100);
     e.target.closest('.card').classList.toggle('dirty', cur(row) !== row.usd);
+    renderCop();
     updateNote();
     fillOutput();
   }
@@ -312,7 +332,7 @@
   }
 
   function updateNote() {
-    var n = ROWS.filter(function (r) { return cur(r) !== r.usd || mins(r) !== r.mins; }).length;
+    var n = ROWS.filter(function (r) { return cur(r) !== r.usd || (r.mins != null && mins(r) !== r.mins); }).length;
     var el = document.getElementById('draft-note');
     el.textContent = n
       ? n + ' valor(es) con cambio pendiente — usa “Mostrar tabla” para revisarlos.'
@@ -328,6 +348,12 @@
         mins: hasMins ? { cur: r.mins, next: mins(r) } : null
       };
     });
+  }
+
+  function copCell(usd) {
+    if (!window.JH_FX || !window.JH_FX.isReady()) return '—';
+    var local = window.JH_FX.fmtLocal(usd);
+    return local ? '≈ ' + local : '—';
   }
 
   function fillOutput() {
@@ -349,6 +375,7 @@
           '<td class="num">' + esc(dur) + '</td>' +
           '<td class="num">USD $' + r.current.toLocaleString('en-US') + '</td>' +
           '<td class="num' + (diff ? ' changed' : '') + '">USD $' + r.next.toLocaleString('en-US') + '</td>' +
+          '<td class="num" style="color:#7a8191">' + copCell(r.next) + '</td>' +
           '<td class="diff">' + (diff ? (diff > 0 ? '+' : '') + diff : '—') + '</td>' +
         '</tr>'
       );
@@ -435,6 +462,18 @@
 
   renderCards();
   fillOutput();
+
+  /* Las tasas de fx.js llegan por red: al estar listas, refresca COP. */
+  if (window.JH_FX) {
+    window.JH_FX.ready(function () {
+      renderCop();
+      if (output.classList.contains('show')) fillOutput();
+    });
+    document.addEventListener('jh:fxchange', function () {
+      renderCop();
+      if (output.classList.contains('show')) fillOutput();
+    });
+  }
 })();
 </script>
 </body>

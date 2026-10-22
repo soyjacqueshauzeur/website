@@ -71,7 +71,10 @@
           'Integración de agenda y reservas',
           'Paso a un humano cuando la respuesta sí te necesita',
           'Ajuste mensual según conversaciones reales'
-        ]
+        ],
+        note: '<strong>Las plataformas van aparte.</strong> Este precio cubre el diseño, la construcción y el mantenimiento de los flujos conversacionales. Las cuentas y tarifas de cada canal — WhatsApp Business (Meta), Instagram, Messenger, Telegram o la web — las contratas y las pagas tú directamente al proveedor. Y si el bot lleva inteligencia artificial, el consumo de tokens también va aparte: se factura según el modelo que uses y el volumen de conversaciones que tengas. Lo estimamos juntos antes de arrancar, con un cálculo realista según tu tráfico, y lo ajustas cuando quieras.',
+        noteFaq: '¿Las plataformas y el consumo de IA están incluidos en el precio?',
+        noteFaqA: 'No. El precio cubre el diseño, la construcción y el mantenimiento de los flujos. Las cuentas y tarifas de cada canal (WhatsApp Business, Instagram, Messenger, Telegram o la web) las pagas directamente al proveedor, y si el bot usa inteligencia artificial, el consumo de tokens se factura aparte según el modelo y el volumen de conversaciones.'
       },
       {
         id: 'ai',
@@ -91,7 +94,10 @@
           'Automatizaciones entre tus herramientas y tu correo',
           'Flujos que tu equipo opera sin mí',
           'Mejora mensual conforme avanzan las herramientas'
-        ]
+        ],
+        note: '<strong>Los costes de la IA van aparte.</strong> Este precio cubre la estrategia, la construcción y el mantenimiento de los asistentes y automatizaciones. Lo que consumen los modelos y las herramientas se paga aparte: las cuotas de las plataformas, los tokens de cada modelo, las APIs que uses (OpenAI, Anthropic, Google o cualquier otra), los servidores MCP y cualquier otro elemento que genere un coste. No es un gasto fijo: depende del modelo y su precio por millón de tokens, de las APIs que conectes y del volumen real de trabajo. Antes de arrancar lo estimamos juntos con tu caso concreto, y después lo ajustas cuando quieras: un modelo más pequeño, un tope mensual o más volumen cuando el resultado lo justifique.',
+        noteFaq: '¿Los costes de plataformas, tokens, APIs y MCP están incluidos en el precio?',
+        noteFaqA: 'No. El precio cubre la estrategia, la construcción y el mantenimiento de los asistentes y automatizaciones. Las cuotas de las plataformas, los tokens de cada modelo, las APIs, los servidores MCP y cualquier otro servicio que genere un coste se pagan aparte, directamente a cada proveedor, y varían según el modelo y el volumen real de trabajo; los estimamos juntos antes de arrancar.'
       },
       {
         id: 'money',
@@ -131,7 +137,10 @@
           'Flujos de email y retención para ventas repetidas',
           'Analítica que explica el porqué, no solo las visitas',
           'Un experimento mensual con resultado claro'
-        ]
+        ],
+        note: '<strong>La tienda online va aparte de la web informativa.</strong> Esta tarifa cubre una web informativa — diseño, contenidos y mejoras mes a mes. Si además necesitas vender, la tienda (e-commerce) cuesta un 50% más sobre esa base: catálogo, fichas de producto, checkout y pagos. Y las herramientas que sostienen el proyecto — hosting, dominio, certificado SSL y demás servicios — las contratas y las pagas tú directamente a cada proveedor; te ayudo a elegir las que te convienen y a dimensionarlas para tu tráfico, pero no van dentro del precio.',
+        noteFaq: '¿La tienda online y las herramientas están incluidas en el precio?',
+        noteFaqA: 'La tarifa base cubre una web informativa; la tienda online (e-commerce) cuesta un 50% más sobre esa base. Las herramientas del proyecto — hosting, dominio, certificado SSL y demás servicios — las contratas y las pagas tú directamente a cada proveedor, así que no están incluidas en el precio.'
       }
     ],
 
