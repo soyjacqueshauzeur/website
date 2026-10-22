@@ -1,12 +1,12 @@
 # Jacques Hauzeur (SoyJacquesHauzeur)
 
-> Jacques Hauzeur (SoyJacquesHauzeur) is a technology educator and mentor for founders and teams — web, marketing, automation and AI. Services are monthly hires priced in USD (chargeable in local currency, e.g. COP); 1:1 sessions are USD $15 per 90-minute class. The site is available in English (/) and Spanish (/es/).
+> Jacques Hauzeur (SoyJacquesHauzeur) is a technology educator and mentor for founders and teams — web, marketing, automation and AI. Services are monthly hires priced in USD (chargeable in local currency, e.g. COP); 1:1 sessions are USD $20 per 90-minute class. The site is available in English (/) and Spanish (/es/).
 
 ## Pages
 
 - [Home](https://soyjacqueshauzeur.dev/): Who I am and what I do
 - [Clients](https://soyjacqueshauzeur.dev/clients.html): Clients and the results they run on
-- [1:1](https://soyjacqueshauzeur.dev/sessions.html): Book paid 1:1 sessions (USD $15 / 90 min)
+- [1:1](https://soyjacqueshauzeur.dev/sessions.html): Book paid 1:1 sessions (USD $20 / 90 min)
 - [Services](https://soyjacqueshauzeur.dev/services.html): The six monthly hires and rates
 - [About me](https://soyjacqueshauzeur.dev/#about): My background and approach
 - [Blog](https://soyjacqueshauzeur.dev/blog.html): Notes on AI, web, marketing and chatbots
@@ -16,13 +16,13 @@
 - [Marketing](https://soyjacqueshauzeur.dev/marketing.html): USD $597/month
 - [Campaigns](https://soyjacqueshauzeur.dev/campaigns.html): USD $397/month
 - [Chatbots](https://soyjacqueshauzeur.dev/chatbots.html): USD $597/month
-- [AI](https://soyjacqueshauzeur.dev/ai.html): USD $696/month
+- [AI](https://soyjacqueshauzeur.dev/ai.html): USD $796/month
 - [Financial planning](https://soyjacqueshauzeur.dev/financial-planning.html): USD $197/month
 - [Web & e-commerce](https://soyjacqueshauzeur.dev/ecommerce.html): USD $297/month
 
 ## 1:1 sessions
 
-- [1:1 sessions](https://soyjacqueshauzeur.dev/sessions.html): USD $15 / 90-minute session
+- [1:1 sessions](https://soyjacqueshauzeur.dev/sessions.html): USD $20 / 90-minute session
 
 ## Blog
 
@@ -34,5 +34,4 @@
 ## Optional
 
 - [Spanish site](https://soyjacqueshauzeur.dev/es/): Spanish version of the site
-- [Store](https://soyjacqueshauzeur.dev/es/tienda/index.html): Product store (demo)
 - [Book a video call](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Schedule a call (Google Meet)

@@ -78,7 +78,7 @@
         file: 'ai.html',
         num: '04',
         category: 'IA',
-        price: 696,
+        price: 796,
         cardTitle: 'Inteligencia artificial<br/>(en el negocio).',
         cardDesc: 'Responde correos, agenda reuniones y llena tus reportes — horas que recuperas esta misma semana.',
         tags: 'Asistentes · automatizaciones · flujos',

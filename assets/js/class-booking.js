@@ -9,7 +9,7 @@
 
   var D = window.JH_HIRE;
   var ES = D.lang === 'es';
-  var PRICE = 15;           // USD per hour
+  var PRICE = 20;           // USD per hour
   var MAX_HOURS = 48;       // monthly cap (Mon–Thu × 3/day × ~4 weeks)
 
   var T = {

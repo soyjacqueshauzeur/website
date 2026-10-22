@@ -1,12 +1,12 @@
 # Jacques Hauzeur (SoyJacquesHauzeur)
 
-> Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $15 por clase de 90 min. El sitio está en inglés (/) y español (/es/).
+> Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $20 por clase de 90 min. El sitio está en inglés (/) y español (/es/).
 
 ## Páginas
 
 - [Inicio](https://soyjacqueshauzeur.dev/es/): Quién soy y qué hago
 - [Clientes](https://soyjacqueshauzeur.dev/es/clients.html): Clientes y los resultados que consiguen
-- [1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): Agenda sesiones 1:1 de pago (USD $15 / 90 min)
+- [1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): Agenda sesiones 1:1 de pago (USD $20 / 90 min)
 - [Servicios](https://soyjacqueshauzeur.dev/es/services.html): Los seis servicios mensuales y sus tarifas
 - [Sobre mí](https://soyjacqueshauzeur.dev/es/#about): Mi trayectoria y enfoque
 - [Blog](https://soyjacqueshauzeur.dev/es/blog.html): Notas sobre IA, web, marketing y chatbots
@@ -16,13 +16,13 @@
 - [Marketing](https://soyjacqueshauzeur.dev/es/marketing.html): USD $597/mes
 - [Campañas](https://soyjacqueshauzeur.dev/es/campaigns.html): USD $397/mes
 - [Chatbots](https://soyjacqueshauzeur.dev/es/chatbots.html): USD $597/mes
-- [IA](https://soyjacqueshauzeur.dev/es/ai.html): USD $696/mes
+- [IA](https://soyjacqueshauzeur.dev/es/ai.html): USD $796/mes
 - [Planificación financiera](https://soyjacqueshauzeur.dev/es/financial-planning.html): USD $197/mes
 - [Web y e-commerce](https://soyjacqueshauzeur.dev/es/ecommerce.html): USD $297/mes
 
 ## Sesiones 1:1
 
-- [Sesiones 1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): USD $15 / sesión de 90 min
+- [Sesiones 1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): USD $20 / sesión de 90 min
 
 ## Blog
 
@@ -34,5 +34,4 @@
 ## Opcional
 
 - [Sitio en inglés](https://soyjacqueshauzeur.dev/): Versión en inglés del sitio
-- [Tienda](https://soyjacqueshauzeur.dev/es/tienda/index.html): Tienda de producto (demo)
 - [Reservar videollamada](https://calendar.app.google/DyS8yXtsb85ZD7kJ7): Agendar una llamada (Google Meet)

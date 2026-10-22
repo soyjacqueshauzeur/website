@@ -37,12 +37,17 @@ function pageUrl(lang, file) {
   return ORIGIN + p + (hash ? '#' + hash : '');
 }
 
+/* Precio y duración de la sesión 1:1 — única fuente: assets/js/class-booking.js */
+const SESSION_SRC = readFileSync('assets/js/class-booking.js', 'utf8');
+const SESSION_PRICE = Number((SESSION_SRC.match(/PRICE\s*=\s*(\d+(?:\.\d+)?)/) || [])[1]) || 15;
+const SESSION_MIN = Number((SESSION_SRC.match(/(\d+)\s*min/) || [])[1]) || 90;
+
 const NOTE = {
   en: {
     'index.html': 'Who I am and what I do',
     'index.html#about': 'My background and approach',
     'clients.html': 'Clients and the results they run on',
-    'sessions.html': 'Book paid 1:1 sessions (USD $15 / 90 min)',
+    'sessions.html': `Book paid 1:1 sessions (USD $${SESSION_PRICE} / ${SESSION_MIN} min)`,
     'services.html': 'The six monthly hires and rates',
     'blog.html': 'Notes on AI, web, marketing and chatbots'
   },
@@ -50,7 +55,7 @@ const NOTE = {
     'index.html': 'Quién soy y qué hago',
     'index.html#about': 'Mi trayectoria y enfoque',
     'clients.html': 'Clientes y los resultados que consiguen',
-    'sesiones.html': 'Agenda sesiones 1:1 de pago (USD $15 / 90 min)',
+    'sesiones.html': `Agenda sesiones 1:1 de pago (USD $${SESSION_PRICE} / ${SESSION_MIN} min)`,
     'services.html': 'Los seis servicios mensuales y sus tarifas',
     'blog.html': 'Notas sobre IA, web, marketing y chatbots'
   }
@@ -58,25 +63,22 @@ const NOTE = {
 
 const T = {
   en: {
-    summary: 'Jacques Hauzeur (SoyJacquesHauzeur) is a technology educator and mentor for founders and teams — web, marketing, automation and AI. Services are monthly hires priced in USD (chargeable in local currency, e.g. COP); 1:1 sessions are USD $15 per 90-minute class. The site is available in English (/) and Spanish (/es/).',
+    summary: `Jacques Hauzeur (SoyJacquesHauzeur) is a technology educator and mentor for founders and teams — web, marketing, automation and AI. Services are monthly hires priced in USD (chargeable in local currency, e.g. COP); 1:1 sessions are USD $${SESSION_PRICE} per ${SESSION_MIN}-minute class. The site is available in English (/) and Spanish (/es/).`,
     pages: 'Pages', services: 'Services (monthly hire, USD)', sessions: '1:1 sessions', blog: 'Blog', optional: 'Optional',
-    perMonth: '/month', sessNote: 'USD $15 / 90-minute session',
+    perMonth: '/month', sessNote: `USD $${SESSION_PRICE} / ${SESSION_MIN}-minute session`,
     otherSite: 'Spanish site', otherSiteNote: 'Spanish version of the site',
-    store: 'Store', storeNote: 'Product store (demo)',
     call: 'Book a video call', callNote: 'Schedule a call (Google Meet)'
   },
   es: {
-    summary: 'Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $15 por clase de 90 min. El sitio está en inglés (/) y español (/es/).',
+    summary: `Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $${SESSION_PRICE} por clase de ${SESSION_MIN} min. El sitio está en inglés (/) y español (/es/).`,
     pages: 'Páginas', services: 'Servicios (contratación mensual, USD)', sessions: 'Sesiones 1:1', blog: 'Blog', optional: 'Opcional',
-    perMonth: '/mes', sessNote: 'USD $15 / sesión de 90 min',
+    perMonth: '/mes', sessNote: `USD $${SESSION_PRICE} / sesión de ${SESSION_MIN} min`,
     otherSite: 'Sitio en inglés', otherSiteNote: 'Versión en inglés del sitio',
-    store: 'Tienda', storeNote: 'Tienda de producto (demo)',
     call: 'Reservar videollamada', callNote: 'Agendar una llamada (Google Meet)'
   }
 };
 
 const CALENDAR = 'https://calendar.app.google/DyS8yXtsb85ZD7kJ7';
-const STORE = ORIGIN + '/es/tienda/index.html';
 
 function excerpt(s, n = 150) {
   const t = String(s || '').replace(/\s+/g, ' ').trim();
@@ -123,7 +125,6 @@ function build(lang) {
   L.push('## ' + t.optional, '');
   const other = lang === 'en' ? '/es/' : '/';
   L.push(`- [${t.otherSite}](${ORIGIN}${other}): ${t.otherSiteNote}`);
-  L.push(`- [${t.store}](${STORE}): ${t.storeNote}`);
   L.push(`- [${t.call}](${CALENDAR}): ${t.callNote}`);
   L.push('');
 

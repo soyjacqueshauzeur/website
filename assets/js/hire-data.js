@@ -78,7 +78,7 @@
         file: 'ai.html',
         num: '04',
         category: 'AI',
-        price: 696,
+        price: 796,
         cardTitle: 'Artificial intelligence<br/>(in the business).',
         cardDesc: 'Answers your email, schedules meetings and fills in your reports — hours you get back this very week.',
         tags: 'Assistants · automations · workflows',
