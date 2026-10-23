@@ -1334,6 +1334,26 @@ p:last-child { margin-bottom: 0; }
   .clients-grid--compact .client-logo { width: 64px; height: 64px; }
   .clients-grid--compact .client-name { font-size: var(--text-sm); }
 }
+/* Clients index: nunca bajar de 2 columnas (320 px incluido). Se excluye
+   --compact (home/marquee) para no tocar sus tarjetas. */
+@media (max-width: 720px) {
+  .clients-grid:not(.clients-grid--compact) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Micro-densidad para que 2 columnas quepan sin desbordes en pantallas ≤420 px */
+@media (max-width: 420px) {
+  .clients-grid:not(.clients-grid--compact) .client-card {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+  .clients-grid:not(.clients-grid--compact) .client-logo { width: 56px; height: 56px; }
+  .clients-grid:not(.clients-grid--compact) .client-name { font-size: var(--text-sm); }
+  .clients-grid:not(.clients-grid--compact) .client-top { flex-wrap: wrap; row-gap: 2px; }
+  .clients-grid:not(.clients-grid--compact) .client-id,
+  .clients-grid:not(.clients-grid--compact) .client-country { font-size: 10px; letter-spacing: 0.06em; }
+  .clients-grid:not(.clients-grid--compact) .client-tag { font-size: 10px; padding: 2px 6px; gap: 4px; }
+}
 /* Home clients marquee — infinite right-to-left loop over the full client list
    (rendered by assets/js/clients-marquee.js). Pace: one client every 1.5 s; the
    page sets --clients-marquee-dur = n × 1.5s. The six static cards stay as the
