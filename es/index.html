@@ -853,7 +853,7 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
           </p>
         </div>
 
-        <div class="clients-grid clients-grid--compact clients-marquee" data-clients-marquee>
+        <div class="clients-grid clients-grid--compact clients-marquee clients-marquee--top" data-clients-marquee data-start="7">
 
           <article class="client-card">
             <a class="client-logo-link" href="https://ortomoleculares.com/" target="_blank" rel="nofollow noopener"><img class="client-logo" src="../assets/img/clients/ortomoleculares.avif" alt="Ortomoleculares" width="96" height="96" loading="lazy" /></a>
@@ -886,6 +886,11 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
           </article>
 
         </div>
+
+        <!-- Segunda fila: misma lista al revés y de izquierda a derecha, pegada a
+             la de arriba. Es decorativa (aria-hidden + enlaces fuera del tab) y solo
+             se construye con JS; sin JS o con reduced motion no se muestra. -->
+        <div class="clients-grid clients-grid--compact clients-marquee clients-marquee--bottom clients-marquee--reverse" data-clients-marquee="reverse" data-start="7" data-decorative hidden></div>
 
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <a class="btn btn--ghost btn--lg" href="clients.html">Todos los clientes

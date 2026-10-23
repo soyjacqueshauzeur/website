@@ -1354,24 +1354,48 @@ p:last-child { margin-bottom: 0; }
   .clients-grid:not(.clients-grid--compact) .client-country { font-size: 10px; letter-spacing: 0.06em; }
   .clients-grid:not(.clients-grid--compact) .client-tag { font-size: 10px; padding: 2px 6px; gap: 4px; }
 }
-/* Home clients marquee — infinite right-to-left loop over the full client list
-   (rendered by assets/js/clients-marquee.js). Pace: one client every 1.5 s; the
-   page sets --clients-marquee-dur = n × 1.5s. The six static cards stay as the
-   no-JS / reduced-motion fallback, so all of this only applies with .is-active. */
+/* Home clients marquee — infinite loop over the complete client list
+   (rendered by assets/js/clients-marquee.js). Pace: one client every 2 s; the
+   page sets --clients-marquee-dur = n × 2s. The six static cards stay as the
+   no-JS / reduced-motion fallback, so all of this only applies with .is-active.
+
+   Two rows, stacked with no gap: the top one scrolls right→left, the bottom one
+   left→right (--reverse) with the reversed list. Each row keeps its own border,
+   but the touching edges are removed so both read as a single box. */
 .clients-marquee.is-active {
   display: block;
   background: var(--bg-card);
   -webkit-mask-image: linear-gradient(to right, transparent 0, var(--black) 8%, var(--black) 92%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0, var(--black) 8%, var(--black) 92%, transparent 100%);
 }
+/* Sin borde ni radio en la junta: las dos filas quedan pegadas, sin línea.
+   Solo con animación: sin JS o con reduced motion la fila de arriba conserva
+   su borde completo (es la única visible). */
+.clients-marquee--top.is-active {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.clients-marquee--bottom.is-active {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+/* La fila de abajo solo existe con JS: sin él no deja una caja vacía */
+.clients-marquee--reverse:not(.is-active) { display: none; }
 .clients-marquee-track {
   display: flex;
   width: max-content;
   animation: clients-marquee-scroll var(--clients-marquee-dur, 60s) linear infinite;
   will-change: transform;
 }
+/* Misma animación al revés: arranca en -50% y termina en 0, el contenido se
+   mueve hacia la derecha y el relevo entre grupos sigue sin salto. */
+.clients-marquee--reverse .clients-marquee-track { animation-direction: reverse; }
+/* Pausa: hover/foco propio y, vía JS (.is-paused), la pausa conjunta de las dos filas */
 .clients-marquee.is-active:hover .clients-marquee-track,
-.clients-marquee.is-active:focus-within .clients-marquee-track { animation-play-state: paused; }
+.clients-marquee.is-active:focus-within .clients-marquee-track,
+.clients-marquee.is-paused .clients-marquee-track { animation-play-state: paused; }
 .clients-marquee-group { display: flex; }
 .clients-marquee.is-active .client-card {
   flex: 0 0 auto;
