@@ -16,6 +16,10 @@ Todas las notas del blog. Mismo `slug` que la web. Referente de escritura: [blog
 - [[webs-2026]] — *web* · Por qué tu negocio necesita una web en 2026
 - [[chat-marketing]] — *chatbots* · Chat marketing con ManyChat y n8n
 
+## Enlazado interno
+El grafo de enlaces internos (qué página debe enlazar a cuál) vive en [[00 · Índice interlink]].
+Cada nota de artículo apunta a su servicio en la sección **🧭 Enlazado interno (interlink)**.
+
 ## Canales propios
 - Telegram: https://t.me/soyjacqueshauzeur
 - YouTube: https://www.youtube.com/@soyjacqueshauzeur

@@ -3,7 +3,7 @@ title: "Chat marketing: convierte tus canales en vendedores"
 slug: chat-marketing
 lang: es
 category: chatbots
-tags: [chatbots, marketing, negocios]
+tags: [chatbots, marketing, negocios, il/post]
 date: 2026-10-01
 author: Jacques Hauzeur
 readTime: 5 min
@@ -73,6 +73,11 @@ Bien hecho, el chat marketing hace tres cosas: responde al instante, cualifica e
 
 ## Conclusión
 El chat marketing no va de inundar bandejas de entrada con bots. Va de eliminar fricción: responder rápido, cualificar con honestidad y dejar que un humano cierre. Empieza con un canal y un flujo, mide y añade el siguiente. Tus clientes ya abrieron el chat — encuéntralos ahí.
+
+## 🧭 Enlazado interno (interlink)
+- Servicio que soporta: [[chatbots]] — ancla contextual en el primer tercio del cuerpo ("chatbots de WhatsApp que venden").
+- Listado del blog: [[blog-listing]].
+- Mapa completo: [[00 · Índice interlink]].
 
 ## 🔗 Notas relacionadas
 - [[ia-en-el-trabajo]]

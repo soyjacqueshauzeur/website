@@ -3,7 +3,7 @@ title: "Inteligencia artificial en el trabajo: ¿cómo está transformando tu pr
 slug: ia-en-el-trabajo
 lang: es
 category: business
-tags: [ia, trabajo, empleo, habilidades, productividad]
+tags: [ia, trabajo, empleo, habilidades, productividad, il/post]
 date: 2026-10-02
 author: Jacques Hauzeur
 collaborator: 
@@ -49,6 +49,12 @@ Las profesiones no desaparecen: cambian de nivel. Quedarse haciendo lo mismo que
 
 ## El mensaje es claro
 La IA no va a reemplazar a los humanos. Pero los humanos que aprendan a usar IA van a reemplazar a los que no lo hagan. La tecnología es un copiloto increíble, pero el capitán de tu carrera sigues siendo tú. **Nunca pares de aprender.**
+
+## 🧭 Enlazado interno (interlink)
+- Servicio que soporta: [[ai]] — ancla contextual en el primer tercio del cuerpo.
+- Artículo hermano del cluster: [[chat-marketing]].
+- Listado del blog: [[blog-listing]].
+- Mapa completo: [[00 · Índice interlink]].
 
 ## 🔗 Notas relacionadas
 - [[ia-vida-moderna]]

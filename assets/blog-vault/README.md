@@ -10,12 +10,24 @@ Este es el vault de Obsidian para escribir, vincular y mantener el blog **biling
 ```
 assets/blog-vault/
 ├── Blog.md                    ← índice (MOC): todas las notas, por año/mes
+├── interlink/                 ← estructura de enlaces internos de la web (ver abajo)
 ├── _templates/
 │   └── Blog post.md           ← plantilla de nota (estructura de blog-t.html)
 ├── blog/
 │   └── <año>/<mes>/<slug>.md  ← una nota por artículo (espeja la web)
 └── .obsidian/                 ← configuración del vault
 ```
+
+## Interlink (enlazado interno de la web)
+`interlink/` es el mapa de **qué página debe enlazar a cuál** en `soyjacqueshauzeur.dev`.
+Una nota por página + reglas + índice con diagrama y checklist:
+
+- [[00 · Índice interlink]] — el mapa (abre el grafo: `Ctrl/Cmd + G`).
+- [[01 · Reglas de enlazado]] — profundidad, anclas, cantidad, destinos prohibidos.
+- `interlink/paginas/` — home, hubs (servicios, clientes, 1:1, blog) y los 6 servicios.
+
+El grafo está preconfigurado en `.obsidian/graph.json` con filtro, flechas y colores por tipo
+(lima = home, azul = hubs, ámbar = servicios, verde = artículos).
 
 ## Convenciones
 - **Una nota por artículo**, mismo `slug` que la web. Ruta espejo: `blog/<año>/<mes>/<slug>.md`.

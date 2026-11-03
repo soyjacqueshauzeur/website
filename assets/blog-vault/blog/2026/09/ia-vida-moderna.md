@@ -3,7 +3,7 @@ title: "La IA en la vida moderna (escrito 100% con IA)"
 slug: ia-vida-moderna
 lang: es
 category: ai
-tags: [ai, tecnologia]
+tags: [ai, tecnologia, il/post]
 date: 2026-09-30
 author: Jacques Hauzeur
 readTime: 5 min
@@ -59,6 +59,11 @@ La responsabilidad, la ética y la confianza siguen siendo humanas. Un modelo pu
 
 ## Conclusión
 La IA ya es cotidiana. La cuestión no es temerla ni adorarla, sino usarla con intención: verifica lo que dice, protege lo humano y no dejes de aprender. Este artículo demuestra ambas promesas a la vez — lo escribió una máquina, y aun así hizo falta una persona para decidir que valía la pena publicarlo.
+
+## 🧭 Enlazado interno (interlink)
+- Servicio que soporta: [[ai]] — ancla contextual en el primer tercio del cuerpo.
+- Listado del blog: [[blog-listing]].
+- Mapa completo: [[00 · Índice interlink]].
 
 ## 🔗 Notas relacionadas
 - [[ia-en-el-trabajo]]
