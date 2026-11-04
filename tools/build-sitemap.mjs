@@ -23,7 +23,7 @@ import { dirname, join } from 'node:path';
 import * as SEO from './seo.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
-const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html']);
+const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html', '404.html']);
 const isNoindex = (base) => NOINDEX_BASES.has(base) || /-hire\.html$/.test(base);
 
 /* Además de la lista fija, respeta el <meta name="robots" content="noindex"> de cada página. */

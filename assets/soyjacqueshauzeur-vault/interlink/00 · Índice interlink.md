@@ -10,6 +10,7 @@ reference: http://localhost:8080/
 Mapa de **qué debe enlazar a qué** en `soyjacqueshauzeur.dev`. Una nota por página del sitio. Los enlaces son wikilinks reales, así que el **grafo de Obsidian dibuja la estructura**: abre `Ctrl/Cmd + G` (Graph view) y filtra `path:interlink` si quieres aislarlo.
 
 - Reglas que gobiernan el grafo: [[01 · Reglas de enlazado]]
+- Qué escribir para captar cada búsqueda: [[00 · Plan de keywords (MOC)]]
 - Este mapa es el **objetivo**. El estado real de la web (con sus fallos) está al final: [[00 · Índice interlink#Estado real vs objetivo|Estado real vs objetivo]].
 
 ---
@@ -95,27 +96,39 @@ Los clusters son la base del **cross-sell**: dentro de un cluster siempre hay en
 
 ## Estado real vs objetivo
 
-Lo que hay hoy en la web (medido en el repo), que es la razón por la que el grafo no se cumple:
+Actualizado tras aplicar el mapa. `node tools/link-check.mjs` imprime estos números en cada build.
 
-| Página | Enlaces internos entrantes hoy | Debería tener |
+| Página | Entrantes | Salientes | Clics desde home | Estado |
+|---|---|---|---|---|
+| [[home]] | — | 10 | 0 | raíz |
+| [[services]] | 10 | 6 | 1 | ✅ |
+| [[marketing]] | 9 | 7 | 1 | ✅ |
+| [[ai]] | 11 | 7 | 1 | ✅ |
+| [[chatbots]] | 10 | 7 | 1 | ✅ |
+| [[campaigns]] | 9 | 7 | 1 | ✅ |
+| [[ecommerce]] | 8 | 7 | 1 | ✅ |
+| [[financial-planning]] | 8 | 7 | 1 | ✅ |
+| [[clients]] | 3 | 7 | 1 | ✅ |
+| [[sessions]] | 8 | 6 | 1 | ✅ |
+| [[blog-listing]] | 6 | 7 | 1 | ✅ |
+| [[chat-marketing]] | 4 | 5 | 2 | ✅ |
+| [[ia-en-el-trabajo]] | 4 | 5 | 2 | ✅ |
+| [[ia-vida-moderna]] | 4 | 5 | 2 | ✅ |
+| [[webs-2026]] | 4 | 5 | 2 | ✅ |
+
+### Historial (antes del arreglo)
+
+| Página | Entrantes antes | Problema |
 |---|---|---|
-| [[home]] | *todas* | — |
-| [[services]] | nav + [[home]] | + los 6 servicios, + blog |
-| [[marketing]] | **solo desde `404.html`** ⚠️ | home, hub, clientes, 1:1, hermanos, post |
-| [[ai]] | **solo desde `404.html`** ⚠️ | idem |
-| [[chatbots]] | **0 — huérfana** ⚠️ | idem |
-| [[campaigns]] | **0 — huérfana** ⚠️ | idem |
-| [[ecommerce]] | **0 — huérfana** ⚠️ | idem |
-| [[financial-planning]] | **0 — huérfana** ⚠️ | idem |
-| [[clients]] | nav | + hubs, + servicios por tag |
-| [[sessions]] | nav | + servicios, + blog |
-| [[blog-listing]] | nav | + home, + hub |
-| [[chat-marketing]] | **0** ⚠️ | listing, servicio, hermanos |
-| [[ia-vida-moderna]] | **0** ⚠️ | idem |
-| [[webs-2026]] | **0** ⚠️ | idem |
-| [[ia-en-el-trabajo]] | solo desde `blog.html` (destacado) | idem |
+| [[marketing]] | 1 | solo desde `404.html` |
+| [[ai]] | 1 | solo desde `404.html` |
+| [[chatbots]] | **0** | huérfana — y era la única con señal de demanda real |
+| [[campaigns]] | **0** | huérfana |
+| [[ecommerce]] | **0** | huérfana |
+| [[financial-planning]] | **0** | huérfana |
+| 3 de 4 artículos | **0** | el listado se pintaba por JS |
 
-Además: `services.html` enlaza a las páginas `*-hire.html`, que son **noindex** — enlaces que no pasan autoridad a ninguna parte.
+Además `services.html` enlazaba a las 6 `*-hire.html`, todas `noindex`: enlaces que no pasaban autoridad a ninguna parte.
 
 ---
 

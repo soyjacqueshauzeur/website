@@ -43,22 +43,18 @@
   <style>/* Crítico (generado por tools/build-critical.mjs — no editar a mano). */
 
 /* ============================================================================
-   SoyJacquesHauzeur — Modern Photography Studio HTML Template
-   Free template by html.design.
-   Visual direction: editorial-brutalist photography studio. Near-black ground
-   throughout (#0A0A0C), paper-ivory text (#F4F4F0), one electric lime accent
-   (#D4FF3D) used sparingly on tags, hover states, and signature micro-elements.
-   Display in Boldonse (heavy condensed display, line-height 1.25), body in
-   Inter Tight, captions in Geist Mono. Designed for commercial photographers,
-   editorial studios, documentary teams, and visual-arts producers.
-   No editorial serif, no cream zone, no warm earth — palette is intentionally
-   cool-dark with one saturated accent.
+   SoyJacquesHauzeur — design system
+   Dark-only palette: charcoal ground (#0A0A0C), paper-ivory text (#F4F4F0)
+   and one electric lime accent (#D4FF3D) on tags, hover states and signature
+   micro-elements. Display in Boldonse (heavy condensed, line-height 1.25),
+   body in Inter Tight, captions in Geist Mono.
+   Every colour, size and radius is a token in :root — components never
+   hardcode a value.
    ============================================================================ */
 
 /* ---------- 1. Tokens ---------------------------------------------------- */
 :root {
-  /* Palette — charcoal ground + electric lime accent.
-     Distinct from every shipped html.design template. */
+  /* Palette — charcoal ground + electric lime accent. */
   --ink-000:        #050507;          /* deepest — used behind hero photo */
   --ink-deep:       #0A0A0C;          /* primary surface, body bg */
   --ink:            #111114;          /* default cards / sections */
@@ -657,14 +653,16 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 }
 
 @media (max-width: 420px) {
-  h1, h2, .section-head h2 { font-size: var(--text-3xl); }
-  .hero-headline { font-size: var(--text-3xl); }
-  .closing-cta h2 { font-size: var(--text-3xl); }
-  .brand { font-size: 1rem; }
-  h1, h2, h3, p, .lede { overflow-wrap: break-word; }
-  .btn { white-space: normal; text-align: center; }
-  .btn .arrow { flex: 0 0 auto; }
-  .closing-cta .container, .closing-cta h2, .closing-cta .lede { max-width: 100%; overflow-wrap: break-word; }
+  .clients-grid:not(.clients-grid--compact) .client-card {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+  .clients-grid:not(.clients-grid--compact) .client-logo { width: 56px; height: 56px; }
+  .clients-grid:not(.clients-grid--compact) .client-name { font-size: var(--text-sm); }
+  .clients-grid:not(.clients-grid--compact) .client-top { flex-wrap: wrap; row-gap: 2px; }
+  .clients-grid:not(.clients-grid--compact) .client-id,
+  .clients-grid:not(.clients-grid--compact) .client-country { font-size: 10px; letter-spacing: 0.06em; }
+  .clients-grid:not(.clients-grid--compact) .client-tag { font-size: 10px; padding: 2px 6px; gap: 4px; }
 }
 
 /* Tablet nav: when there is too much content the links drop to a second row
@@ -753,7 +751,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
           <nav class="lang-switch" aria-label="Language">
             <span class="flag is-active" title="English"><img src="assets/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></span>
             <a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="assets/img/flags/co.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>
-            <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="assets/img/flags/ru.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
           </nav>
           <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>
         </div>
@@ -773,7 +770,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <span class="lang-label">Language</span>
             <span class="flag is-active" title="English"><img src="assets/img/flags/us.svg" alt="English" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></span>
             <a class="flag lang-flag" href="/es/" hreflang="es" lang="es" data-lang="es" title="Español"><img src="assets/img/flags/co.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></a>
-            <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="assets/img/flags/ru.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
     </div>
   </div>
 
@@ -941,7 +937,52 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         </div>
 
         <div class="fx-anchor-row" data-fx-anchor></div>
-        <div class="cap-bento" data-hire-catalogue data-variant="third"></div>
+        <div class="cap-bento" data-hire-catalogue data-variant="third">
+          <!-- il:cards:start -->
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">01 / Marketing</span>
+            <h3><a href="marketing.html">Online marketing<br/>(strategy for your goals).</a></h3>
+            <p>Social, email and content strategy so your customers find you on their own — without you posting blindly.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$597</b><span>/month</span></div><a class="btn btn--hire" href="marketing.html">Hire Marketing</a></div>
+            <span class="label">Social · email · content</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">02 / Campaigns</span>
+            <h3><a href="campaigns.html">Campaigns<br/>(with clear objectives).</a></h3>
+            <p>Paid media built around a target, not a feeling — audiences, budgets and tracking you can actually read at the end of the month.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$397</b><span>/month</span></div><a class="btn btn--hire" href="campaigns.html">Hire Campaigns</a></div>
+            <span class="label">Paid media · tracking · funnels</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">03 / Chatbots</span>
+            <h3><a href="chatbots.html">Chatbots<br/>(to close sales<br/>or answer questions).</a></h3>
+            <p>Conversational flows that answer, qualify and book while you sleep — running on the channels your customers already use.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$597</b><span>/month</span></div><a class="btn btn--hire" href="chatbots.html">Hire Chatbots</a></div>
+            <span class="label">Live chat · messengers · booking</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">04 / AI</span>
+            <h3><a href="ai.html">Artificial intelligence<br/>(in the business).</a></h3>
+            <p>Answers your email, schedules meetings and fills in your reports — hours you get back this very week.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$796</b><span>/month</span></div><a class="btn btn--hire" href="ai.html">Hire AI</a></div>
+            <span class="label">Assistants · automations · workflows</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">05 / Financial planning</span>
+            <h3><a href="financial-planning.html">Data analysis<br/>& metrics.</a></h3>
+            <p>Founders rarely go broke from a bad product — they go broke from blind numbers. Budgets, cash flow and forecasts that keep the money side honest.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$197</b><span>/month</span></div><a class="btn btn--hire" href="financial-planning.html">Hire Financial planning</a></div>
+            <span class="label">Cash flow · budgets · forecasts</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">06 / Web &amp; e-commerce</span>
+            <h3><a href="ecommerce.html">Websites<br/>& online stores.</a></h3>
+            <p>Websites and e-commerce built to convert — design, product pages and analytics that show what moves the number.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$297</b><span>/month</span></div><a class="btn btn--hire" href="ecommerce.html">Hire Web &amp; e-commerce</a></div>
+            <span class="label">Websites · stores · analytics</span>
+          </article>
+          <!-- il:cards:end -->
+          </div>
         <!-- Disabled: duplicate CTA to services.html
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <a class="btn btn--ghost btn--lg" href="services.html">Start from one of these
@@ -1057,14 +1098,14 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <h2>The journal.</h2>
           </div>
           <p class="lede">
-            Short notes from the studio — sometimes a working note about a lighting setup, sometimes an opinion about colour management, sometimes a frame we kept thinking about long after delivery.
+            Short notes on the tools that run a business — marketing, automation, AI and the web. What I test with clients, what it actually costs, and what I would skip.
           </p>
         </div>
 
         <div class="journal-grid" id="journal-grid"><!-- latest 3 rendered by journal-latest.js --></div>
 
         <div class="center-row" style="justify-content: center; margin-top: var(--space-7);">
-          <a class="btn btn--ghost btn--lg" href="blog.html">Read more
+          <a class="btn btn--ghost btn--lg" href="blog.html">Read the blog
             <svg class="arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
@@ -1107,16 +1148,13 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Services</a></li>
             <li><a href="index.html#about">About me</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>
         <div class="footer-meta-links">
-          <a href="#">Privacy</a>
-          <a href="#">Imprint</a>
-          <a href="#">Sitemap</a>
+          <a href="sitemap.xml">Sitemap</a>
         </div>
       </div>
     </div>

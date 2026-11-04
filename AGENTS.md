@@ -14,6 +14,7 @@ Ejecutar siempre:
 ```
 node tools/i18n-sync-check.mjs
 node tools/seo-check.mjs
+node tools/link-check.mjs
 ```
 Ambos deben terminar en `PASS`. Si alguno da `FAIL`, corregir (imagen/sección que falta en un idioma, o canonical/robots/JSON-LD/hreflang/sitemap) antes de dar por terminado. Si tocaste el `<head>`, el nav, el hire o el blog, corre antes `apply-seo.mjs` y `build-sitemap.mjs` (ver secuencia completa abajo).
 
@@ -95,9 +96,11 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
   node tools/build-hire-pages.mjs
   node tools/build-contract-pages.mjs
   node tools/apply-favicons.mjs
+  node tools/apply-interlink.mjs
   node tools/apply-seo.mjs
   node tools/build-sitemap.mjs
   node tools/i18n-sync-check.mjs
+  node tools/link-check.mjs
   node tools/seo-check.mjs
   ```
 - Los datos del carrito (precios mensuales, monedas, meses, WhatsApp/Telegram) viven en `assets/js/hire-data.js` (EN) y `hire-data-es.js` (ES); el carrito es `assets/js/hire.js` y su CSS está en `styles.css` (bloque "Monthly hire").

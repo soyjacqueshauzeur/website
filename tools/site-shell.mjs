@@ -10,7 +10,13 @@
  * `lang === 'es'`.
  */
 
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { LOCALES, LANG_ORDER, locale, otherLangHref } from './locales.mjs';
+
+/* Raíz del repo — para comprobar si una página legal existe de verdad. */
+const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
 export const WA = 'https://wa.me/573507402009';
 /* Booking link (Google Meet agenda) — main "Book a call" CTA */
@@ -60,7 +66,8 @@ function flag(asset, lang, page, targetLang) {
 }
 
 function langSwitch(asset, lang, page) {
-  return LANG_ORDER.map((k) => flag(asset, lang, page, k)).join('\n');
+  // Solo los idiomas realmente publicados: nunca anunciar un hreflang que no existe.
+  return LANG_ORDER.filter((k) => locale(k).available).map((k) => flag(asset, lang, page, k)).join('\n');
 }
 
 /* `P` is the relative prefix to the locale root ('', '../../..', …) so the same
@@ -148,14 +155,23 @@ export function footerHTML(lang, depth = 0) {
     '          <ul>\n' +
     footerLinks(L.nav, P) + '\n' +
     (L.store ? '            <li><a href="' + P + L.store.href + '" target="_blank" rel="noopener">' + L.store.label + '</a></li>\n' : '') +
-    '            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>\n' +
     '          </ul>\n' +
     '        </div>\n' +
     '      </div>\n' +
     '      <div class="footer-bottom">\n' +
     '        <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>\n' +
     '        <div class="footer-meta-links">\n' +
-    L.footerMeta.map((t) => '          <a href="#">' + t + '</a>').join('\n') + '\n' +
+    (L.footerMeta
+      // Solo se enlaza lo que existe: nada de `href="#"` repetido en todo el sitio.
+      .map((m) => {
+        if (existsSync(join(ROOT, L.dir, m.file))) return { label: m.label, href: P + m.file };
+        // ficheros de raíz del sitio (p. ej. sitemap.xml), compartidos por todos los idiomas
+        if (existsSync(join(ROOT, m.file))) return { label: m.label, href: P + '../' + m.file };
+        return null;
+      })
+      .filter(Boolean)
+      .map((m) => '          <a href="' + m.href + '">' + m.label + '</a>')
+      .join('\n') || '          <span></span>') + '\n' +
     '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +

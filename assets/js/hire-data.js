@@ -12,6 +12,8 @@
     services: [
       {
         id: 'marketing',
+        metaTitle: 'Marketing monthly hire — $597/mo | Jacques Hauzeur',
+        metaDescription: 'A monthly marketing hire for founders without a team: channel strategy, content calendar and email flows, run for you every month from $597.',
         file: 'marketing.html',
         num: '01',
         category: 'Marketing',
@@ -32,6 +34,8 @@
       },
       {
         id: 'campaigns',
+        metaTitle: 'Paid campaigns managed monthly — Jacques Hauzeur',
+        metaDescription: 'Meta, Google, TikTok and LinkedIn ads built around a target and a budget. Setup, management and honest reporting from $397/month.',
         file: 'campaigns.html',
         num: '02',
         category: 'Campaigns',
@@ -55,6 +59,8 @@
       },
       {
         id: 'chatbots',
+        metaTitle: 'WhatsApp chatbots that book and qualify — Jacques Hauzeur',
+        metaDescription: 'Conversational flows that answer, qualify and book while you sleep, on the channels your customers already use. Built and maintained from $597/month.',
         file: 'chatbots.html',
         num: '03',
         category: 'Chatbots',
@@ -78,6 +84,8 @@
       },
       {
         id: 'ai',
+        metaTitle: 'AI automation for your business — Jacques Hauzeur',
+        metaDescription: 'Practical AI: which tasks to automate, which to leave alone, and how to wire it into your tools. Monthly implementation from $796.',
         file: 'ai.html',
         num: '04',
         category: 'AI',
@@ -101,6 +109,8 @@
       },
       {
         id: 'money',
+        metaTitle: 'Financial planning for small business — Jacques Hauzeur',
+        metaDescription: 'Pricing, margin and cash flow for founders who invoice well and still run out of money. Monthly advisory from $197.',
         file: 'financial-planning.html',
         num: '05',
         category: 'Financial planning',
@@ -121,6 +131,8 @@
       },
       {
         id: 'ecommerce',
+        metaTitle: 'Websites and online stores, monthly — Jacques Hauzeur',
+        metaDescription: 'A site that sells, improved month after month: catalogue, checkout, payments and the content that brings traffic. From $297/month.',
         file: 'ecommerce.html',
         num: '06',
         category: 'Web & e-commerce',
@@ -146,6 +158,7 @@
 
     labels: {
       hire: 'View this service',
+      hireShort: 'Hire',
       add: 'Hire',
       priceMonth: '/month',
       everyMonth: 'one payment for the months you choose',

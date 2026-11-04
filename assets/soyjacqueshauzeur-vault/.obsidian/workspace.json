@@ -4,24 +4,39 @@
     "type": "split",
     "children": [
       {
-        "id": "9dfd66c313aafb2e",
+        "id": "68b06353c5a9a026",
         "type": "tabs",
         "children": [
           {
-            "id": "a7c89074d2f91d19",
+            "id": "e9e0ba06d7882ef3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
-                "mode": "preview",
+                "file": "interlink/00 · Índice interlink.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "00 · Índice interlink"
+            }
+          },
+          {
+            "id": "b3381c048a477e52",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "resumen.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "resumen"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -188,14 +203,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "a7c89074d2f91d19",
+  "active": "b3381c048a477e52",
   "lastOpenFiles": [
-    "Blog.md",
+    "plan/01 · F — FAQPage sin contenido visible.md",
+    "resumen.md",
+    "keywords/07 · English long-tail.md",
+    "plan/00 · Ejecución SEO (MOC).md",
+    "README.md",
+    "Idiomas.md",
+    "interlink/02 · Regla 9 — que no hacer.md",
+    "plan/05 · Cambios aplicados.md",
+    "plan/04 · Roadmap 90 días.md",
+    "interlink/03 · Regla 10 — mantenimiento.md",
+    "plan/03 · H — duplicados de host.md",
+    "interlink/00 · Índice interlink.md",
+    "interlink/01 · Reglas de enlazado.md",
+    "plan/02 · G — hreflang de ruso falso.md",
+    "plan",
     "Backend de pagos (MercadoPago).md",
-    "blog/2026/09/webs-2026.md",
+    "Blog.md",
+    "interlink/paginas/ai.md",
+    "keywords/06 · Finanzas.md",
+    "keywords/05 · Ecommerce.md",
+    "keywords/04 · IA.md",
+    "keywords/03 · Chatbots.md",
+    "keywords/02 · Campañas.md",
+    "keywords/01 · Marketing.md",
+    "keywords/00 · Plan de keywords (MOC).md",
+    "keywords",
     "blog/2026/09/ia-vida-moderna.md",
-    "blog/2026/09/chat-marketing.md",
-    "blog/2026/10/ia-en-el-trabajo.md",
-    "README.md"
+    "blog/2026/09/webs-2026.md"
   ]
 }

@@ -12,6 +12,8 @@
     services: [
       {
         id: 'marketing',
+        metaTitle: 'Marketing mensual para tu negocio | Jacques Hauzeur',
+        metaDescription: 'Alguien que lleva tus canales cada mes: estrategia, calendario de contenido y email, sin que tengas que perseguirlo. Desde 597 USD/mes.',
         file: 'marketing.html',
         num: '01',
         category: 'Marketing',
@@ -32,6 +34,8 @@
       },
       {
         id: 'campaigns',
+        metaTitle: 'Campañas de pago gestionadas | Jacques Hauzeur',
+        metaDescription: 'Anuncios en Meta, Google, TikTok y LinkedIn con objetivo, presupuesto y medición clara. Gestión y reporte honesto desde 397 USD/mes.',
         file: 'campaigns.html',
         num: '02',
         category: 'Campañas',
@@ -55,6 +59,8 @@
       },
       {
         id: 'chatbots',
+        metaTitle: 'Chatbots de WhatsApp que agendan | Jacques Hauzeur',
+        metaDescription: 'Flujos que responden, cualifican y agendan mientras duermes, en los canales que tus clientes ya usan. Desde 597 USD/mes.',
         file: 'chatbots.html',
         num: '03',
         category: 'Chatbots',
@@ -78,6 +84,8 @@
       },
       {
         id: 'ai',
+        metaTitle: 'Automatizar con IA en tu negocio | Jacques Hauzeur',
+        metaDescription: 'Qué tareas sí conviene automatizar con IA, cuáles no, y cómo montarlo en tus herramientas. Implementación mensual desde 796 USD.',
         file: 'ai.html',
         num: '04',
         category: 'IA',
@@ -101,6 +109,8 @@
       },
       {
         id: 'money',
+        metaTitle: 'Finanzas y precios para tu negocio | Jacques Hauzeur',
+        metaDescription: 'Precios, margen y flujo de caja para quien factura bien y aun así no ve el dinero. Acompañamiento mensual desde 197 USD.',
         file: 'financial-planning.html',
         num: '05',
         category: 'Planificación financiera',
@@ -121,6 +131,8 @@
       },
       {
         id: 'ecommerce',
+        metaTitle: 'Web y tienda online, mes a mes | Jacques Hauzeur',
+        metaDescription: 'Una web que vende, mejorada cada mes: catálogo, checkout, pagos y el contenido que trae tráfico. Desde 297 USD/mes.',
         file: 'ecommerce.html',
         num: '06',
         category: 'Web y e-commerce',
@@ -146,6 +158,7 @@
 
     labels: {
       hire: 'Ver este servicio',
+      hireShort: 'Contratar',
       add: 'Contratar',
       priceMonth: '/mes',
       everyMonth: 'un solo pago por los meses que elijas',

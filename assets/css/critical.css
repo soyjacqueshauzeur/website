@@ -1,22 +1,18 @@
 /* Crítico (generado por tools/build-critical.mjs — no editar a mano). */
 
 /* ============================================================================
-   SoyJacquesHauzeur — Modern Photography Studio HTML Template
-   Free template by html.design.
-   Visual direction: editorial-brutalist photography studio. Near-black ground
-   throughout (#0A0A0C), paper-ivory text (#F4F4F0), one electric lime accent
-   (#D4FF3D) used sparingly on tags, hover states, and signature micro-elements.
-   Display in Boldonse (heavy condensed display, line-height 1.25), body in
-   Inter Tight, captions in Geist Mono. Designed for commercial photographers,
-   editorial studios, documentary teams, and visual-arts producers.
-   No editorial serif, no cream zone, no warm earth — palette is intentionally
-   cool-dark with one saturated accent.
+   SoyJacquesHauzeur — design system
+   Dark-only palette: charcoal ground (#0A0A0C), paper-ivory text (#F4F4F0)
+   and one electric lime accent (#D4FF3D) on tags, hover states and signature
+   micro-elements. Display in Boldonse (heavy condensed, line-height 1.25),
+   body in Inter Tight, captions in Geist Mono.
+   Every colour, size and radius is a token in :root — components never
+   hardcode a value.
    ============================================================================ */
 
 /* ---------- 1. Tokens ---------------------------------------------------- */
 :root {
-  /* Palette — charcoal ground + electric lime accent.
-     Distinct from every shipped html.design template. */
+  /* Palette — charcoal ground + electric lime accent. */
   --ink-000:        #050507;          /* deepest — used behind hero photo */
   --ink-deep:       #0A0A0C;          /* primary surface, body bg */
   --ink:            #111114;          /* default cards / sections */
@@ -615,14 +611,16 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 }
 
 @media (max-width: 420px) {
-  h1, h2, .section-head h2 { font-size: var(--text-3xl); }
-  .hero-headline { font-size: var(--text-3xl); }
-  .closing-cta h2 { font-size: var(--text-3xl); }
-  .brand { font-size: 1rem; }
-  h1, h2, h3, p, .lede { overflow-wrap: break-word; }
-  .btn { white-space: normal; text-align: center; }
-  .btn .arrow { flex: 0 0 auto; }
-  .closing-cta .container, .closing-cta h2, .closing-cta .lede { max-width: 100%; overflow-wrap: break-word; }
+  .clients-grid:not(.clients-grid--compact) .client-card {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+  .clients-grid:not(.clients-grid--compact) .client-logo { width: 56px; height: 56px; }
+  .clients-grid:not(.clients-grid--compact) .client-name { font-size: var(--text-sm); }
+  .clients-grid:not(.clients-grid--compact) .client-top { flex-wrap: wrap; row-gap: 2px; }
+  .clients-grid:not(.clients-grid--compact) .client-id,
+  .clients-grid:not(.clients-grid--compact) .client-country { font-size: 10px; letter-spacing: 0.06em; }
+  .clients-grid:not(.clients-grid--compact) .client-tag { font-size: 10px; padding: 2px 6px; gap: 4px; }
 }
 
 /* Tablet nav: when there is too much content the links drop to a second row

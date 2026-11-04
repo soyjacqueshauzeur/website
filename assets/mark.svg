@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Jacques Hauzeur">
+  <rect width="512" height="512" rx="72" fill="#D4FF3D"/>
+  <text x="256" y="270" text-anchor="middle" dominant-baseline="central"
+        font-family="'Geist Mono','DejaVu Sans Mono','Liberation Mono',ui-monospace,Menlo,Consolas,monospace"
+        font-weight="700" font-size="268" letter-spacing="-14" fill="#050507">{}</text>
+</svg>

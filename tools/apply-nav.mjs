@@ -13,12 +13,12 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { headerHTML, drawerHTML, footerHTML } from './site-shell.mjs';
-import { langForPath, locale } from './locales.mjs';
+import { langForPath, locale, pageFile } from './locales.mjs';
 
 const PAGES = [
   // top-level
   'index.html', 'clients.html', 'sessions.html', 'blog.html', 'gallery.html',
-  'es/index.html', 'es/clients.html', 'es/sesiones.html', 'es/blog.html',
+  'es/index.html', 'es/clients.html', 'es/' + pageFile('es', 'sessions.html'), 'es/blog.html',
   // blog articles (nested)
   'blog/2026/09/chat-marketing.html', 'blog/2026/09/webs-2026.html', 'blog/2026/09/ia-vida-moderna.html', 'blog/2026/10/ia-en-el-trabajo.html',
   'es/blog/2026/09/chat-marketing.html', 'es/blog/2026/09/webs-2026.html', 'es/blog/2026/09/ia-vida-moderna.html', 'es/blog/2026/10/ia-en-el-trabajo.html'

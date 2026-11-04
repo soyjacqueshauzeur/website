@@ -13,7 +13,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { SITE } from './seo.mjs';
-import { availableLangs, locale } from './locales.mjs';
+import { availableLangs, locale, pageFile } from './locales.mjs';
 
 /* Ejecuta un script clásico (window.X = …) en un sandbox y devuelve el window. */
 function evalScript(file) {
@@ -55,7 +55,7 @@ const NOTE = {
     'index.html': 'Quién soy y qué hago',
     'index.html#about': 'Mi trayectoria y enfoque',
     'clients.html': 'Clientes y los resultados que consiguen',
-    'sesiones.html': `Agenda sesiones 1:1 de pago (USD $${SESSION_PRICE} / ${SESSION_MIN} min)`,
+    [pageFile('es', 'sessions.html')]: `Agenda sesiones 1:1 de pago (USD $${SESSION_PRICE} / ${SESSION_MIN} min)`,
     'services.html': 'Los seis servicios mensuales y sus tarifas',
     'blog.html': 'Notas sobre IA, web, marketing y chatbots'
   }
@@ -108,7 +108,7 @@ function build(lang) {
   L.push('');
 
   // 1:1 sessions
-  const sessFile = lang === 'es' ? 'sesiones.html' : 'sessions.html';
+  const sessFile = pageFile(lang, 'sessions.html');
   L.push('## ' + t.sessions, '');
   L.push(`- [${t.sessions}](${pageUrl(lang, sessFile)}): ${t.sessNote}`);
   L.push('');

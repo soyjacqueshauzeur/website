@@ -18,11 +18,31 @@ export const DEFAULT_LANG = 'en';
 /* All switch flags, in render order (us · co · ru). */
 export const LANG_ORDER = ['en', 'es', 'ru'];
 
-/* Basenames that differ across languages (EN ↔ ES). */
-export const PAGE_ALIASES = {
-  'sessions.html': 'sesiones.html',
-  'sesiones.html': 'sessions.html'
+/* Basenames that differ across languages (EN ↔ ES). Derivan de PAGE_FILES. */
+export const PAGE_FILES = {
+  'sessions.html': { en: 'sessions.html', es: 'sesiones.html' }
 };
+
+export const PAGE_ALIASES = Object.fromEntries(
+  Object.values(PAGE_FILES).flatMap((byLang) => {
+    const names = Object.values(byLang);
+    return names.flatMap((n) => names.filter((x) => x !== n).map((x) => [n, x]));
+  })
+);
+
+/** Nombre de archivo de una página canónica (nombre EN) en `lang`. */
+export function pageFile(lang, logical) {
+  const entry = PAGE_FILES[logical];
+  return entry ? entry[lang] || entry[DEFAULT_LANG] : logical;
+}
+
+/** Nombre canónico (EN) de un archivo localizado: 'sesiones.html' → 'sessions.html'. */
+export function canonicalFile(file) {
+  for (const [canonical, byLang] of Object.entries(PAGE_FILES)) {
+    if (Object.values(byLang).includes(file)) return canonical;
+  }
+  return file;
+}
 
 /* Filenames that differ per language (page-level, not just locale-level). */
 export const LANG_FILES = {
@@ -54,7 +74,11 @@ export const LOCALES = {
     footerExplore: 'Explore',
     footerBrand:
       '<p>I build systems and teach the subjects I have spent years learning.</p>\n          <span class="label">Teaching · building · mentoring · worldwide</span>',
-    footerMeta: ['Privacy', 'Imprint', 'Sitemap'],
+    footerMeta: [
+      { label: 'Privacy', file: 'privacy.html' },
+      { label: 'Imprint', file: 'imprint.html' },
+      { label: 'Sitemap', file: 'sitemap.xml' }
+    ],
     nav: [
       ['index.html', 'Home'],
       ['clients.html', 'Clients'],
@@ -89,11 +113,15 @@ export const LOCALES = {
     footerExplore: 'Explorar',
     footerBrand:
       '<p>Construyo sistemas y enseño sobre ciertos temas a los que les he dedicado muchos años a aprender.</p>\n          <span class="label">Enseño · construyo · acompaño · en todo el mundo</span>',
-    footerMeta: ['Privacidad', 'Aviso legal', 'Mapa del sitio'],
+    footerMeta: [
+      { label: 'Privacidad', file: 'privacidad.html' },
+      { label: 'Aviso legal', file: 'aviso-legal.html' },
+      { label: 'Mapa del sitio', file: 'sitemap.xml' }
+    ],
     nav: [
       ['index.html', 'Inicio'],
       ['clients.html', 'Clientes'],
-      ['sesiones.html', '1:1'],
+      [pageFile('es', 'sessions.html'), '1:1'],
       ['services.html', 'Servicios'],
       ['index.html#about', 'Sobre mí'],
       ['blog.html', 'Blog']

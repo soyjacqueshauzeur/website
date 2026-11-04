@@ -73,6 +73,8 @@ Un enlace de una página EN debe apuntar a otra página EN. Nunca cruzar idiomas
 - ❌ Enlazar al mismo destino 10 veces en la misma página.
 - ❌ Enlaces con `nofollow` internos (salvo páginas de pago/UTM).
 
+**Paso a paso (qué hacer en cada punto):** [[02 · Regla 9 — que no hacer]]
+
 ## 10 · Mantenimiento
 
 Al añadir una página nueva:
@@ -81,3 +83,15 @@ Al añadir una página nueva:
 2. Enlazarla desde su hub de nivel superior.
 3. Añadirla a 1–2 páginas hermanas.
 4. Actualizar la tabla de [[00 · Índice interlink#Estado real vs objetivo|Estado real vs objetivo]].
+
+**Detalle operativo:** [[03 · Regla 10 — mantenimiento]]
+
+## Automatización
+
+Las reglas 3, 4, 6, 7, 8 y 9 están implementadas en `tools/link-check.mjs`. El build falla si se rompen; no dependen de que alguien las recuerde.
+
+```bash
+node tools/link-check.mjs
+```
+
+Ver el registro de cambios en [[05 · Cambios aplicados]].

@@ -10,11 +10,11 @@ import { readFileSync, existsSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { langForPath, DEFAULT_LANG } from './locales.mjs';
+import { langForPath, DEFAULT_LANG, canonicalFile } from './locales.mjs';
 import * as SEO from './seo.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
-const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html']);
+const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html', '404.html']);
 const isNoindex = (base) => NOINDEX_BASES.has(base) || /-hire\.html$/.test(base);
 
 const files = execSync(
@@ -93,10 +93,28 @@ for (const f of files) {
           if (post.isAccessibleForFree !== true) fail(`${f}: BlogPosting sin isAccessibleForFree`);
         }
       }
-      if (/^(sessions|sesiones)\.html$/.test(base)) {
+      if (canonicalFile(base) === 'sessions.html') {
         const course = graph.find((n) => n['@type'] === 'Course');
         if (!course) fail(`${f}: falta Course`);
         else if (!course.hasCourseInstance) fail(`${f}: Course sin hasCourseInstance`);
+      }
+
+      /* Idioma del JSON-LD: cada nodo debe declarar el idioma de SU página y
+         ningún nodo propio puede colgar de la URL del otro idioma. */
+      const pageLang = langForPath(f);
+      const idPrefix = SEO.canonicalUrl(f) + '#';   // '…/' (home) o '….html#'
+      const SHARED = new Set(['#organization', '#person', '#website', '#logo']);
+      for (const n of graph) {
+        if (n.inLanguage && n.inLanguage !== pageLang) {
+          fail(`${f}: nodo ${n['@type']} declara inLanguage "${n.inLanguage}" (la página es "${pageLang}")`);
+        }
+        const ownId = n['@id'];
+        if (typeof ownId !== 'string' || !ownId.startsWith(SEO.SITE.origin)) continue;
+        const hash = ownId.slice(ownId.indexOf('#'));
+        if (SHARED.has(hash)) continue;                       // entidades del sitio, compartidas
+        if (!ownId.startsWith(idPrefix)) {
+          fail(`${f}: @id "${ownId}" no cuelga del canonical de la página (${idPrefix})`);
+        }
       }
     } catch (e) { fail(`${f}: JSON-LD inválido (${e.message})`); }
   } else if (!noindex) {

@@ -106,7 +106,7 @@
           '<p>' + s.cardDesc + '</p>' +
           '<div class="cat-card-foot">' +
             '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
-            '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '">' + L.hire + arrow() + '</a>' +
+            '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '">' + L.hireShort + ' ' + s.category + arrow() + '</a>' +
           '</div>' +
           '<span class="label">' + s.tags + '</span>' +
         '</article>'
@@ -114,12 +114,12 @@
     }
     return (
       '<article class="cap-card cat-card">' +
-        '<a class="cat-card-link" href="' + s.file + '"><span class="cap-num">' + s.num + ' / ' + s.category + '</span></a>' +
+        '<span class="cat-card-link"><span class="cap-num">' + s.num + ' / ' + s.category + '</span></span>' +
         '<h3 class="cat-card-title"><a href="' + s.file + '">' + s.cardTitle + '</a></h3>' +
         '<p class="cat-card-desc">' + s.cardDesc + '</p>' +
         '<div class="cat-card-foot">' +
           '<div class="cat-card-price"><b>' + fmt(s.price) + '</b><span>' + L.priceMonth + '</span>' + AX(s.price) + '</div>' +
-          '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '" aria-label="' + L.hire + ' ' + s.category + '">' + L.hire + arrow() + '</a>' +
+          '<a class="btn btn--hire" href="' + s.file + '" data-hire-goto="' + s.id + '" aria-label="' + L.hire + ' ' + s.category + '">' + L.hireShort + ' ' + s.category + arrow() + '</a>' +
         '</div>' +
         '<span class="label cat-card-tags">' + s.tags + '</span>' +
       '</article>'

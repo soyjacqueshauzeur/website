@@ -40,22 +40,18 @@
   <style>/* Crítico (generado por tools/build-critical.mjs — no editar a mano). */
 
 /* ============================================================================
-   SoyJacquesHauzeur — Modern Photography Studio HTML Template
-   Free template by html.design.
-   Visual direction: editorial-brutalist photography studio. Near-black ground
-   throughout (#0A0A0C), paper-ivory text (#F4F4F0), one electric lime accent
-   (#D4FF3D) used sparingly on tags, hover states, and signature micro-elements.
-   Display in Boldonse (heavy condensed display, line-height 1.25), body in
-   Inter Tight, captions in Geist Mono. Designed for commercial photographers,
-   editorial studios, documentary teams, and visual-arts producers.
-   No editorial serif, no cream zone, no warm earth — palette is intentionally
-   cool-dark with one saturated accent.
+   SoyJacquesHauzeur — design system
+   Dark-only palette: charcoal ground (#0A0A0C), paper-ivory text (#F4F4F0)
+   and one electric lime accent (#D4FF3D) on tags, hover states and signature
+   micro-elements. Display in Boldonse (heavy condensed, line-height 1.25),
+   body in Inter Tight, captions in Geist Mono.
+   Every colour, size and radius is a token in :root — components never
+   hardcode a value.
    ============================================================================ */
 
 /* ---------- 1. Tokens ---------------------------------------------------- */
 :root {
-  /* Palette — charcoal ground + electric lime accent.
-     Distinct from every shipped html.design template. */
+  /* Palette — charcoal ground + electric lime accent. */
   --ink-000:        #050507;          /* deepest — used behind hero photo */
   --ink-deep:       #0A0A0C;          /* primary surface, body bg */
   --ink:            #111114;          /* default cards / sections */
@@ -654,14 +650,16 @@ a.lang-flag:hover { opacity: 1; transform: translateY(-1px); }
 }
 
 @media (max-width: 420px) {
-  h1, h2, .section-head h2 { font-size: var(--text-3xl); }
-  .hero-headline { font-size: var(--text-3xl); }
-  .closing-cta h2 { font-size: var(--text-3xl); }
-  .brand { font-size: 1rem; }
-  h1, h2, h3, p, .lede { overflow-wrap: break-word; }
-  .btn { white-space: normal; text-align: center; }
-  .btn .arrow { flex: 0 0 auto; }
-  .closing-cta .container, .closing-cta h2, .closing-cta .lede { max-width: 100%; overflow-wrap: break-word; }
+  .clients-grid:not(.clients-grid--compact) .client-card {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+  .clients-grid:not(.clients-grid--compact) .client-logo { width: 56px; height: 56px; }
+  .clients-grid:not(.clients-grid--compact) .client-name { font-size: var(--text-sm); }
+  .clients-grid:not(.clients-grid--compact) .client-top { flex-wrap: wrap; row-gap: 2px; }
+  .clients-grid:not(.clients-grid--compact) .client-id,
+  .clients-grid:not(.clients-grid--compact) .client-country { font-size: 10px; letter-spacing: 0.06em; }
+  .clients-grid:not(.clients-grid--compact) .client-tag { font-size: 10px; padding: 2px 6px; gap: 4px; }
 }
 
 /* Tablet nav: when there is too much content the links drop to a second row
@@ -750,7 +748,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
           <nav class="lang-switch" aria-label="Idioma">
             <a class="flag lang-flag" href="/" hreflang="en" lang="en" data-lang="en" title="English"><img src="../assets/img/flags/us.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></a>
             <span class="flag is-active" title="Español"><img src="../assets/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></span>
-            <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="../assets/img/flags/ru.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
           </nav>
           <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer"><span aria-hidden="true"></span></button>
         </div>
@@ -770,7 +767,6 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
       <span class="lang-label">Idioma</span>
             <a class="flag lang-flag" href="/" hreflang="en" lang="en" data-lang="en" title="English"><img src="../assets/img/flags/us.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">English</span></a>
             <span class="flag is-active" title="Español"><img src="../assets/img/flags/co.svg" alt="Español" width="24" height="16" loading="lazy" /><span class="visually-hidden">Español</span></span>
-            <a class="flag lang-flag" href="/" hreflang="ru" lang="ru" data-lang="ru" title="Русский"><img src="../assets/img/flags/ru.svg" alt="" width="24" height="16" loading="lazy" /><span class="visually-hidden">Русский</span></a>
     </div>
   </div>
 
@@ -938,7 +934,52 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
         </div>
 
         <div class="fx-anchor-row" data-fx-anchor></div>
-        <div class="cap-bento" data-hire-catalogue data-variant="third"></div>
+        <div class="cap-bento" data-hire-catalogue data-variant="third">
+          <!-- il:cards:start -->
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">01 / Marketing</span>
+            <h3><a href="marketing.html">Marketing online<br/>(Estrategia según tus objetivos).</a></h3>
+            <p>Estrategia de redes, email y contenido para que tus clientes te encuentren solos — sin que tú publiques a ciegas.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$597</b><span>/mes</span></div><a class="btn btn--hire" href="marketing.html">Contratar Marketing</a></div>
+            <span class="label">Redes · email · contenido</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">02 / Campañas</span>
+            <h3><a href="campaigns.html">Campañas<br/>(con objetivos claros).</a></h3>
+            <p>Publicidad construida sobre un objetivo, no sobre una corazonada — audiencias, presupuestos y medición que puedes leer a fin de mes.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$397</b><span>/mes</span></div><a class="btn btn--hire" href="campaigns.html">Contratar Campañas</a></div>
+            <span class="label">Anuncios · medición · embudos</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">03 / Chatbots</span>
+            <h3><a href="chatbots.html">Chatbots<br/>(para cerrar ventas<br/>o responder consultas).</a></h3>
+            <p>Flujos conversacionales que responden, califican y agendan mientras duermes — en los canales que tus clientes ya usan.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$597</b><span>/mes</span></div><a class="btn btn--hire" href="chatbots.html">Contratar Chatbots</a></div>
+            <span class="label">Chat en vivo · mensajeros · reservas</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">04 / IA</span>
+            <h3><a href="ai.html">Inteligencia artificial<br/>(en el negocio).</a></h3>
+            <p>Responde correos, agenda reuniones y llena tus reportes — horas que recuperas esta misma semana.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$796</b><span>/mes</span></div><a class="btn btn--hire" href="ai.html">Contratar IA</a></div>
+            <span class="label">Asistentes · automatizaciones · flujos</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">05 / Planificación financiera</span>
+            <h3><a href="financial-planning.html">Análisis de datos<br/>y métricas.</a></h3>
+            <p>Los fundadores casi nunca quiebran por mal producto — quiebran por números a ciegas. Presupuestos, flujo de caja y proyecciones que mantienen la parte del dinero honesta.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$197</b><span>/mes</span></div><a class="btn btn--hire" href="financial-planning.html">Contratar Planificación financiera</a></div>
+            <span class="label">Flujo de caja · presupuestos · proyecciones</span>
+          </article>
+          <article class="cap-card cap-card--third">
+            <span class="cap-num">06 / Web y e-commerce</span>
+            <h3><a href="ecommerce.html">Páginas web<br/>y tiendas online.</a></h3>
+            <p>Webs y e-commerce hechos para convertir — diseño, fichas de producto y analítica que te dicen qué mueve el número.</p>
+            <div class="cat-card-foot"><div class="cat-card-price"><b>$297</b><span>/mes</span></div><a class="btn btn--hire" href="ecommerce.html">Contratar Web y e-commerce</a></div>
+            <span class="label">Webs · tiendas · analítica</span>
+          </article>
+          <!-- il:cards:end -->
+          </div>
         <!-- Disabled: duplicate CTA to services.html
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <a class="btn btn--ghost btn--lg" href="services.html">Empieza por una de estas
@@ -1103,16 +1144,13 @@ html[data-theme="light"] .theme-toggle .icon-moon{ display:block; }
             <li><a href="services.html">Servicios</a></li>
             <li><a href="index.html#about">Sobre mí</a></li>
             <li><a href="blog.html">Blog</a></li>
-            <li><a href="https://soyjacqueshauzeur.github.io/sparrow/" target="_blank" rel="noopener">sparrow</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span class="footer-copy"><span class="ft-sign">©</span> <span class="ft-year">2026</span> <span class="ft-month"></span> <span class="ft-code">&lt;/&gt;</span> Jacques Hauzeur · SoyJacquesHauzeur</span>
         <div class="footer-meta-links">
-          <a href="#">Privacidad</a>
-          <a href="#">Aviso legal</a>
-          <a href="#">Mapa del sitio</a>
+          <a href="../sitemap.xml">Mapa del sitio</a>
         </div>
       </div>
     </div>

@@ -15,7 +15,8 @@ import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { headerHTML, drawerHTML, footerHTML, faviconHTML } from './site-shell.mjs';
-import { locale, availableLangs, assetPrefix, LANG_FILES } from './locales.mjs';
+import { serviceFaqs } from './service-faq.mjs';
+import { locale, availableLangs, assetPrefix } from './locales.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
 
@@ -73,7 +74,10 @@ const COPY = {
       closeSub: 'Add this service to a monthly hire — or bundle it with others above and run them as one system. I confirm the same day and send the payment link.',
       heroPill: 'Hire this service',
       contractBullet: 'Download our work contract here',
-      contractBtn: 'Open contract'
+      contractBtn: 'Open contract',
+      faqEyebrow: 'Before you hire',
+      faqTitle: 'Straight<br/><span class="lime">answers.</span>',
+      faqLede: 'Price, what is included, minimum term and how it combines with the other services.'
     }
   },
   es: {
@@ -116,7 +120,10 @@ const COPY = {
       closeSub: 'Añade este servicio a un hire mensual — o combínalo con otros arriba y llévalos como un solo sistema. Confirmo el mismo día y te envío el link de pago.',
       heroPill: 'Contratar este servicio',
       contractBullet: 'Descarga aquí nuestro contrato de trabajo',
-      contractBtn: 'Abrir contrato'
+      contractBtn: 'Abrir contrato',
+      faqEyebrow: 'Antes de contratar',
+      faqTitle: 'Respuestas<br/><span class="lime">directas.</span>',
+      faqLede: 'Precio, qué incluye, permanencia mínima y cómo se combina con los otros servicios.'
     }
   }
 };
@@ -221,7 +228,7 @@ ${side}
         <div class="cap-bento hire-cat" data-hire-catalogue><!-- rendered by hire.js --></div>
         <div class="contract-hub">
           <span class="label">${L.contractHubLabel}</span>
-          <div class="contract-hub-links"><a class="btn btn--primary btn--sm" href="${LANG_FILES.contract[lang]}">${L.contractUnifiedLabel}</a>${data.services.map((s) => `<a class="btn btn--ghost btn--sm" href="${s.file.replace(/\.html$/, '')}-hire.html">${s.category}</a>`).join('')}</div>
+          <div class="contract-hub-links"><button type="button" class="btn btn--primary btn--sm js-hire-open" data-hire-open>${L.contractUnifiedLabel}</button>${data.services.map((s) => `<a class="btn btn--ghost btn--sm" href="${s.file}">${s.category}</a>`).join('')}</div>
         </div>
         <div class="center-row" style="margin-top: var(--space-7); justify-content: center;">
           <button type="button" class="btn btn--dark btn--lg js-hire-open" data-hire-open>${data.labels.openCart}
@@ -251,8 +258,13 @@ function serviceBody(lang, copy, data, svc) {
   const S = copy.service;
   const bullets = svc.includes.map((b) => `          <li>${b}</li>`).join('\n');
   const noteLi = svc.note ? `          <li class="hire-note">${svc.note}</li>\n` : '';
-  const contractFile = svc.file.replace(/\.html$/, '') + '-hire.html';
-  const contractLi = `          <li class="hire-contract"><a class="hire-contract-link" href="${contractFile}">${S.contractBullet}</a><a class="btn btn--hire btn--sm" href="${contractFile}">${S.contractBtn}</a></li>`;
+  const contractLi = `          <li class="hire-contract"><span class="hire-contract-note">${S.contractBullet}</span><button type="button" class="btn btn--hire btn--sm js-hire-open" data-hire-open>${S.contractBtn}</button></li>`;
+  // Misma lista que consume el JSON-LD (tools/service-faq.mjs): el marcado
+  // estructurado nunca describe contenido que no esté en la página.
+  const faqs = serviceFaqs(lang, svc, data.labels.billingNote);
+  const faqCards = faqs
+    .map((f) => `          <article class="faq-card">\n            <h3>${esc(f.q)}</h3>\n            <p>${esc(f.a)}</p>\n          </article>`)
+    .join('\n');
   return `
     <!-- Service hero + price panel -->
     <section class="hero">
@@ -308,6 +320,22 @@ ${noteLi}${contractLi}
       </div>
     </section>
 
+    <!-- FAQ (visible: sale de la misma lista que el FAQPage del JSON-LD) -->
+    <section class="snug" id="faq">
+      <div class="container container--wide">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow"><span class="dot" aria-hidden="true"></span>${S.faqEyebrow}</span>
+            <h2>${S.faqTitle}</h2>
+          </div>
+          <p class="lede">${S.faqLede}</p>
+        </div>
+        <div class="faq-grid">
+${faqCards}
+        </div>
+      </div>
+    </section>
+
     <!-- Closing CTA -->
     <section class="closing-cta">
       <div class="container container--narrow">
@@ -325,8 +353,9 @@ ${noteLi}${contractLi}
 }
 
 function servicePage(lang, copy, data, svc) {
-  const title = copy.service.metaTitle(svc);
-  const desc = svc.pageSub.slice(0, 160);
+  // Título y descripción propios por idioma (hire-data), no traducciones calcadas.
+  const title = svc.metaTitle || copy.service.metaTitle(svc);
+  const desc = svc.metaDescription || svc.pageSub.slice(0, 160);
   return shell(lang, copy, data, title, desc, 'services.html', svc.file, serviceBody(lang, copy, data, svc));
 }
 

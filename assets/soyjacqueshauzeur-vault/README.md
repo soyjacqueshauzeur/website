@@ -26,6 +26,23 @@ Una nota por página + reglas + índice con diagrama y checklist:
 - [[01 · Reglas de enlazado]] — profundidad, anclas, cantidad, destinos prohibidos.
 - `interlink/paginas/` — home, hubs (servicios, clientes, 1:1, blog) y los 6 servicios.
 
+## Keywords
+`keywords/` es el plan de palabras clave por servicio (long-tail, no head terms):
+
+- [[00 · Plan de keywords (MOC)]] — estrategia, 4 leyes, orden de ataque a 90 días.
+- `keywords/01…06` — un cluster por servicio, con keywords, formato y primer artículo.
+- [[07 · English long-tail]] — las keywords en inglés **no son las españolas traducidas**.
+
+## Plan de ejecución
+`plan/` registra los arreglos de la auditoría de Search Console:
+
+- [[00 · Ejecución SEO (MOC)]] — estado de la semana 1.
+- [[01 · F — FAQPage sin contenido visible]] · [[02 · G — hreflang de ruso falso]] · [[03 · H — duplicados de host]]
+- [[04 · Roadmap 90 días]] · [[05 · Cambios aplicados]] (qué se tocó y por qué).
+
+## Idiomas
+[[Idiomas]] — regla 8 · Bilingüe, estado auditado EN/ES y sugerencias.
+
 El grafo está preconfigurado en `.obsidian/graph.json` con filtro, flechas y colores por tipo
 (lima = home, azul = hubs, ámbar = servicios, verde = artículos).
 

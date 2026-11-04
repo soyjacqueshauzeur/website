@@ -19,7 +19,8 @@ import { execSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, posix } from 'node:path';
-import { locale, langForPath, availableLangs, DEFAULT_LANG } from './locales.mjs';
+import { locale, langForPath, availableLangs, DEFAULT_LANG, canonicalFile } from './locales.mjs';
+import { serviceFaqs } from './service-faq.mjs';
 import * as SEO from './seo.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -60,24 +61,12 @@ const SESSION_PRICE = Number((readFileSync(join(ROOT, 'assets/js/class-booking.j
 
 /* ---------------- labels ---------------- */
 const T = {
-  en: { home: 'Home', services: 'Services', sessions: 'Sessions', clients: 'Clients', blog: 'Blog', month: 'month',
-    faqMin: 'No lock-in. Choose 1, 3, 6 or 12 months and pause or cancel anytime.',
-    faqBundle: 'Yes — hire several services and run them as one monthly system.',
-    faqInclude: (cat) => `What does ${cat} include each month?`,
-    faqCost: (cat) => `How much does ${cat} cost?`,
-    faqMinQ: 'Is there a minimum contract?',
-    faqBundleQ: 'Can I combine it with other services?' },
-  es: { home: 'Inicio', services: 'Servicios', sessions: 'Sesiones', clients: 'Clientes', blog: 'Blog', month: 'mes',
-    faqMin: 'Sin permanencia. Elige 1, 3, 6 o 12 meses y pausa o cancela cuando quieras.',
-    faqBundle: 'Sí — contrata varios servicios y llévalos como un solo sistema mensual.',
-    faqInclude: (cat) => `¿Qué incluye ${cat} cada mes?`,
-    faqCost: (cat) => `¿Cuánto cuesta ${cat}?`,
-    faqMinQ: '¿Hay contrato mínimo?',
-    faqBundleQ: '¿Puedo combinarlo con otros servicios?' }
+  en: { home: 'Home', services: 'Services', sessions: 'Sessions', clients: 'Clients', blog: 'Blog', month: 'month' },
+  es: { home: 'Inicio', services: 'Servicios', sessions: 'Sesiones', clients: 'Clientes', blog: 'Blog', month: 'mes' }
 };
 
 /* ---------------- per-page config ---------------- */
-const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html']);
+const NOINDEX_BASES = new Set(['contract.html', 'contrato.html', 'gallery.html', 'blog-t.html', 'price-t.html', '404.html']);
 const isNoindex = (base) => NOINDEX_BASES.has(base) || /-hire\.html$/.test(base);
 
 const RE_MANAGED = /[ \t]*<!-- seo:start -->[\s\S]*?<!-- seo:end -->\n?/;
@@ -192,14 +181,7 @@ function pageNodes(page, html, info) {
   const svc = SERVICE_BY_BASE[lang][base];
   if (svc) {
     const url = SEO.canonicalUrl(page);
-    const includes = svc.includes.join('; ');
-    const faqs = [
-      { q: t.faqInclude(svc.category), a: includes },
-      { q: t.faqCost(svc.category), a: `USD $${svc.price}/${t.month}. ${HIRE[lang].labels.billingNote}` },
-      ...(svc.noteFaq ? [{ q: svc.noteFaq, a: svc.noteFaqA }] : []),
-      { q: t.faqMinQ, a: t.faqMin },
-      { q: t.faqBundleQ, a: t.faqBundle }
-    ];
+    const faqs = serviceFaqs(lang, svc, HIRE[lang].labels.billingNote);
     return [
       wp(),
       SEO.breadcrumb(lang, page, [{ name: t.home, path: 'index.html' }, { name: t.services, path: 'services.html' }, { name: svc.category }]),
@@ -208,7 +190,7 @@ function pageNodes(page, html, info) {
     ];
   }
 
-  if (/^(sessions|sesiones)\.html$/.test(base)) {
+  if (canonicalFile(base) === 'sessions.html') {
     return [wp(), SEO.breadcrumb(lang, page, [{ name: t.home, path: 'index.html' }, { name: t.sessions }]),
       SEO.course(lang, page, { title, description: desc, price: SESSION_PRICE })];
   }
