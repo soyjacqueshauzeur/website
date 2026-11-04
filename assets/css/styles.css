@@ -1296,10 +1296,26 @@ p:last-child { margin-bottom: 0; }
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   overflow: hidden;
+  margin-top: 2em;
 }
 /* Home only: compact horizontal cards (logo + name, no tags) */
 .clients-grid--compact {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-top: 0; /* la home ya trae su propio espaciado de sección */
+}
+
+/* Leyenda de servicios sobre la tabla de clientes */
+.client-services {
+  margin-bottom: var(--space-6);
+}
+.client-services .label {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+.client-services .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 .clients-grid--compact .client-card {
   flex-direction: row;
