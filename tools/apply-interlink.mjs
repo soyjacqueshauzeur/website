@@ -103,7 +103,9 @@ function setMarkedBlock(html, marker, body, anchor) {
   if (at === -1) return html;
   const lineStart = html.lastIndexOf('\n', at) + 1;
   const ind = lineIndent(html, at);
-  return html.slice(0, lineStart) + renderBlock(ind, marker, body) + '\n' + ind + html.slice(at);
+  // Se inserta ANTES de la línea completa del ancla: nunca se recorta el texto
+  // que la precede (si el ancla es un atributo, el `<div ` sigue ahí).
+  return html.slice(0, lineStart) + renderBlock(ind, marker, body) + '\n' + html.slice(lineStart);
 }
 
 /* ---------- tarjetas de servicio ---------- */
@@ -333,12 +335,12 @@ function applyClientTags(file, lang) {
   ];
   const indent = '        ';
   const legend = [
-    `<div class="client-services">`,
+    `${indent}<div class="client-services">`,
     `${indent}  <span class="label">${lang === 'es' ? 'Servicios que han contratado estos clientes' : 'Services these clients have hired'}</span>`,
     `${indent}  <div class="cta-row">`,
     relatedRow(items.map(([t, label]) => [path.posix.join(LOCALES[lang].dir, t), label]), file, `${indent}    `),
     `${indent}  </div>`,
-    `</div>`,
+    `${indent}</div>`,
   ].join('\n');
 
   html = setMarkedBlock(html, 'il:links', legend, 'class="clients-grid"');
@@ -455,7 +457,7 @@ function applyArticleSidebar(file, lang, serviceFile) {
   const blocks = html.indexOf('<!-- il:links:start -->');
   const indent = '            ';
   const card = [
-    `<div class="sidebar-card">`,
+    `${indent}<div class="sidebar-card">`,
     `${indent}  <h3>${esc(copy.title)}</h3>`,
     `${indent}  <a class="sidebar-link" href="${rel(file, serviceFile)}">`,
     `${indent}    <span class="sidebar-title">${esc(serviceLabel(path.posix.basename(serviceFile), lang))}</span>`,
@@ -465,7 +467,7 @@ function applyArticleSidebar(file, lang, serviceFile) {
     `${indent}    <span class="sidebar-title">${esc(copy.listing)}</span>`,
     `${indent}    <span class="sidebar-meta">${esc(copy.listingMeta)}</span>`,
     `${indent}  </a>`,
-    `</div>`,
+    `${indent}</div>`,
   ].join('\n');
 
   const before = html;

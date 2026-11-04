@@ -377,6 +377,20 @@ for (const p of pages) {
   }
 }
 
+/* ---------- integridad estructural mínima ---------- */
+/* Detecta el bug de insertar HTML partiendo una etiqueta por la mitad
+   (`class="clients-grid">` huérfano) y divs desbalanceados. */
+const STRUCTURE = [];
+for (const p of pages) {
+  const html = stripNoise(read(p));
+  const open = (html.match(/<div\b/gi) || []).length;
+  const close = (html.match(/<\/div>/gi) || []).length;
+  if (open !== close) STRUCTURE.push(`${p}: ${open} <div> y ${close} </div>`);
+  if (/^\s*(class|id|style|data-[\w-]+)="/m.test(html)) {
+    STRUCTURE.push(`${p}: atributo huérfano fuera de una etiqueta`);
+  }
+}
+
 /* ---------- evaluación ---------- */
 
 for (const p of pages) {
@@ -414,6 +428,7 @@ for (const s of SLUG_MISMATCH) errors.push(`slug de artículo sin pareja: ${s}`)
 for (const c of CALQUES) errors.push(`ancla sin traducir en ES: ${c}`);
 for (const a of ABSOLUTE) errors.push(`enlace absoluto en el cuerpo (usar ruta relativa): ${a}`);
 for (const x of PARITY) errors.push(`paridad EN/ES: ${x}`);
+for (const x of STRUCTURE) errors.push(`estructura HTML: ${x}`);
 
 // regla 9
 for (const h of RULE9.hidden) errors.push(`enlace oculto: ${h}`);
