@@ -216,7 +216,7 @@ const SESSIONS_COPY = {
   es: {
     eyebrow: 'En qué podemos trabajar',
     title: 'Elige el tema<br/>antes de la llamada.',
-    lede: 'Una sesión rinde más cuando llegas con un problema concreto. Estas son las áreas en las que trabajo cada semana — si necesitas el mes completo en vez de una hora, el mismo trabajo está dentro de un hire mensual.',
+    lede: 'Una sesión rinde más cuando llegas con un problema concreto. Estas son las áreas en las que trabajo cada semana — si necesitas el mes completo en vez de una hora, el mismo trabajo está dentro de una contratación mensual.',
     items: [
       ['marketing.html', 'Marketing y contenido', 'Canales, calendario, mensaje'],
       ['campaigns.html', 'Campañas de pago', 'Audiencia, presupuesto, medición'],
@@ -245,7 +245,7 @@ const BLOG_COPY = {
 /* copia de la tarjeta lateral de los artículos */
 const ARTICLE_COPY = {
   en: { title: 'Need this done?', meta: 'Monthly hire', listing: 'All articles', listingMeta: 'Blog' },
-  es: { title: '¿Lo quieres hecho?', meta: 'Hire mensual', listing: 'Todos los artículos', listingMeta: 'Blog' },
+  es: { title: '¿Lo quieres hecho?', meta: 'Servicio mensual', listing: 'Todos los artículos', listingMeta: 'Blog' },
 };
 
 /* ---------- builders de bloque ---------- */
@@ -431,7 +431,7 @@ function applyBlogBlock(file, lang) {
 /* servicio → 1:1: cierre de "no estoy listo para un hire mensual" */
 const SERVICE_SESSIONS_COPY = {
   en: 'Not ready for a monthly hire?',
-  es: '¿Aún no quieres un hire mensual?',
+  es: '¿Aún no quieres contratar por mes?',
 };
 
 function applyServiceSessionsLink(file, lang) {

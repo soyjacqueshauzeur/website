@@ -22,7 +22,7 @@
         cardDesc: 'Estrategia de redes, email y contenido para que tus clientes te encuentren solos — sin que tú publiques a ciegas.',
         tags: 'Redes · email · contenido',
         pageTitle: 'Marketing que<br/><span class="lime">aparece</span>, mes<br/>tras mes.',
-        pageSub: 'Un hire mensual de marketing para fundadores sin equipo de marketing — o sin tiempo para serlo. Yo manejo los canales que tus clientes sí usan: el mensaje, el calendario y el contenido. Tu negocio sigue apareciendo sin que tú lo persigas.',
+        pageSub: 'Un servicio de marketing mensual para fundadores sin equipo de marketing — o sin tiempo para serlo. Yo manejo los canales que tus clientes sí usan: el mensaje, el calendario y el contenido. Tu negocio sigue apareciendo sin que tú lo persigas.',
         pageMeta: 'Prepago · un solo pago por los meses que elijas',
         includes: [
           'Estrategia de audiencia y canales sobre tus clientes reales',
