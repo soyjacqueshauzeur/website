@@ -107,6 +107,7 @@ Ninguno de estos cambios genera tráfico por sí solo: **quitan el freno técnic
 | [[02 · Regla 9 — que no hacer]] · [[03 · Regla 10 — mantenimiento]] | operativa |
 | [[01 · F — FAQPage sin contenido visible]] · [[02 · G — hreflang de ruso falso]] · [[03 · H — duplicados de host]] | los tres problemas concretos |
 | [[04 · Roadmap 90 días]] | contenido, enlaces y expectativas |
+| [[06 · Diagnóstico y plan de posicionamiento]] | **qué hacer con 0 visitas**: diagnóstico, 3 motores y plan de 12 semanas con KPIs |
 | [[00 · Plan de keywords (MOC)]] · [[07 · English long-tail]] | qué escribir y para quién |
 | [[Idiomas]] | regla bilingüe y estado EN/ES |
 

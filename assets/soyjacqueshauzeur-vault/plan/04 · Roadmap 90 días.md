@@ -64,3 +64,6 @@ Cualquier promesa de "primera página en 30 días" con este punto de partida es 
 | Backlinks | 0 | 5 | 15 |
 
 Ver también [[00 · Plan de keywords (MOC)]] y [[00 · Índice interlink]].
+
+> [!info] Plan detallado
+> Este documento es el resumen. El plan operativo —diagnóstico en Search Console, cola de 8 artículos, rutina semanal, backlinks y puertas de decisión— está en [[06 · Diagnóstico y plan de posicionamiento]].

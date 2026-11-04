@@ -31,7 +31,8 @@ Estado de los arreglos de la auditoría de Search Console. Cada nota tiene el pr
 
 ## Después de la semana 1
 
-- [[04 · Roadmap 90 días]] — contenido long-tail, enlaces, ongoing y expectativas.
+- [[06 · Diagnóstico y plan de posicionamiento]] — qué hacer cuando la web ya está sana y aún no hay visitas: diagnóstico en Search Console, los tres motores y plan de 12 semanas.
+- [[04 · Roadmap 90 días]] — versión resumida: contenido, enlaces y expectativas.
 
 ## Comandos
 
