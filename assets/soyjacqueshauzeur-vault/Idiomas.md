@@ -12,6 +12,8 @@ tags: [idiomas, seo]
 >
 > Implementación: `tools/locales.mjs` es la única fuente de verdad. `tools/link-check.mjs` verifica la regla en cada build.
 
+**Cómo quedó de verdad:** [[04 · Mapa EN]] · [[05 · Mapa ES]] — los dos mapas se generan desde el HTML construido, así que lo que ves es el sitio, no la intención.
+
 ## Estado auditado hoy
 
 | Comprobación | Resultado |

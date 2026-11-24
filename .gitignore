@@ -3,3 +3,7 @@
 graphify-out/
 # Hojas de cálculo internas (planificación, no publicar)
 *.xlsx
+# Configuración local del editor (Obsidian)
+.obsidian/
+# Notas internas de operación (no publicar)
+controlSim.md

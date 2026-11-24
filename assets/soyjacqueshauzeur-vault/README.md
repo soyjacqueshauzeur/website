@@ -1,65 +1,77 @@
-# Vault de Obsidian — Blog SoyJacquesHauzeur
+---
+title: "README — cómo funciona este vault"
+tags: [readme, moc]
+---
 
-Este es el vault de Obsidian para escribir, vincular y mantener el blog **bilingüe (EN/ES)** de SoyJacquesHauzeur.
+# 📚 Vault de SoyJacquesHauzeur
+
+Todo lo que hay que saber sobre **`soyjacqueshauzeur.dev`**: cómo está construida la web, cómo se escriben los artículos, cómo se enlazan las páginas y qué falta.
+
+> [!tip] Empezar aquí
+> **[[index]]** — el índice general: arquitectura SEO, archivos y cómo se relacionan.
+> **[[resumen]]** — qué se hizo y en qué estado quedó el sitio.
+> **[[04 · Mapa EN]]** / **[[05 · Mapa ES]]** — cómo quedó la web, página por página.
+> **[[Plan de posicionamiento]]** — qué hacer ahora que no hay visitas.
 
 ## Cómo abrirlo
-1. Abre Obsidian → **Open folder as vault** → selecciona esta carpeta: `assets/blog-vault/`.
-2. Empieza por [[Blog]] (el índice / MOC con todas las notas).
+
+1. Obsidian → **Open folder as vault** → `assets/soyjacqueshauzeur-vault/`.
+2. `Ctrl/Cmd + G` para el grafo. Ya viene configurado: filtro, flechas y colores por tipo.
+3. `Ctrl/Cmd + O` para buscar cualquier nota por nombre.
 
 ## Estructura
+
 ```
-assets/blog-vault/
-├── Blog.md                    ← índice (MOC): todas las notas, por año/mes
-├── interlink/                 ← estructura de enlaces internos de la web (ver abajo)
-├── _templates/
-│   └── Blog post.md           ← plantilla de nota (estructura de blog-t.html)
-├── blog/
-│   └── <año>/<mes>/<slug>.md  ← una nota por artículo (espeja la web)
-└── .obsidian/                 ← configuración del vault
+soyjacqueshauzeur-vault/
+├── resumen.md                    ← qué se hizo (puerta de entrada)
+├── Plan de posicionamiento.md    ← plan de 12 semanas (contenido y enlaces)
+├── Pendientes.md                 ← lo que no se resuelve desde el repo
+├── Idiomas.md                    ← regla bilingüe EN/ES y estado
+├── Blog.md                       ← índice de las notas de artículo
+├── youtube.md                    ← inventario del canal y qué aporta al SEO
+│
+├── interlink/                    ← cómo se enlaza la web
+│   ├── 00 · Índice interlink     ← mapa y estado por página
+│   ├── 01 · Reglas de enlazado   ← las 10 reglas
+│   ├── 02 · Regla 9              ← qué no hacer
+│   ├── 03 · Regla 10             ← mantenimiento
+│   ├── 04 · Mapa EN              ← la web en inglés, generada del HTML
+│   ├── 05 · Mapa ES              ← la web en español, generada del HTML
+│   └── paginas/                  ← una nota por página (EN y ES a la vez)
+│
+├── keywords/                     ← qué escribir y para quién
+│   ├── 00 · Plan de keywords (MOC)
+│   ├── 01…06                     ← un cluster por servicio (ES)
+│   └── 07 · English long-tail    ← clusters en inglés
+│
+├── blog/<año>/<mes>/<slug>.md    ← una nota por artículo (espeja la web)
+├── _templates/Blog post.md       ← plantilla de artículo
+└── Backend de pagos (MercadoPago).md
 ```
 
-## Interlink (enlazado interno de la web)
-`interlink/` es el mapa de **qué página debe enlazar a cuál** en `soyjacqueshauzeur.dev`.
-Una nota por página + reglas + índice con diagrama y checklist:
+## Las tres reglas del vault
 
-- [[00 · Índice interlink]] — el mapa (abre el grafo: `Ctrl/Cmd + G`).
-- [[01 · Reglas de enlazado]] — profundidad, anclas, cantidad, destinos prohibidos.
-- `interlink/paginas/` — home, hubs (servicios, clientes, 1:1, blog) y los 6 servicios.
+1. **Una nota = una página** (no un idioma). La nota `marketing` describe `/marketing.html` y `/es/marketing.html`; el frontmatter lleva las dos URLs.
+2. **Los mapas se generan, no se escriben a mano.** `node tools/vault-maps.mjs` reescribe `04 · Mapa EN` y `05 · Mapa ES` desde el HTML construido.
+3. **Si una nota de este vault contradice el repo, manda el repo.** El repo se verifica con `link-check`; las notas son el mapa, no la fuente.
 
-## Keywords
-`keywords/` es el plan de palabras clave por servicio (long-tail, no head terms):
+## Convenciones de las notas
 
-- [[00 · Plan de keywords (MOC)]] — estrategia, 4 leyes, orden de ataque a 90 días.
-- `keywords/01…06` — un cluster por servicio, con keywords, formato y primer artículo.
-- [[07 · English long-tail]] — las keywords en inglés **no son las españolas traducidas**.
+- **Frontmatter**: `title`, `tipo`, `tags`.
+- **Wikilinks** `[[nota]]` para lo interno; enlaces markdown para lo externo.
+- **Tags por tipo**: `il/*` (interlink), `kw/*` (keywords), `mapa/en`, `mapa/es`.
+- **Nombres de archivo con prefijo numérico** (`00 ·`, `01 ·`) para que el orden de lectura sea el del flujo.
 
-## Plan de ejecución
-`plan/` registra los arreglos de la auditoría de Search Console:
+## Comandos que mantienen esto verdadero
 
-- [[00 · Ejecución SEO (MOC)]] — estado de la semana 1.
-- [[01 · F — FAQPage sin contenido visible]] · [[02 · G — hreflang de ruso falso]] · [[03 · H — duplicados de host]]
-- [[04 · Roadmap 90 días]] · [[05 · Cambios aplicados]] (qué se tocó y por qué).
-
-## Idiomas
-[[Idiomas]] — regla 8 · Bilingüe, estado auditado EN/ES y sugerencias.
-
-El grafo está preconfigurado en `.obsidian/graph.json` con filtro, flechas y colores por tipo
-(lima = home, azul = hubs, ámbar = servicios, verde = artículos).
-
-## Convenciones
-- **Una nota por artículo**, mismo `slug` que la web. Ruta espejo: `blog/<año>/<mes>/<slug>.md`.
-- **Interlinks** (notas relacionadas) con wikilinks: `[[slug]]`.
-- **Outlinks** (fuentes / bibliografía) como enlaces markdown externos.
-- **Tags** en el frontmatter (`tags: [...]`) → aparecen en el panel de tags de Obsidian.
-- **Donde antes decía “Del archivo”**, ahora van los canales propios: `telegram`, `youtube` y `meet` (agenda con Google Meet).
+```bash
+node tools/vault-maps.mjs        # regenera los mapas EN/ES
+node tools/link-check.mjs        # reglas 3, 4, 6, 7, 8, 9
+node tools/seo-check.mjs         # canonical, hreflang, JSON-LD
+node tools/i18n-sync-check.mjs   # paridad EN/ES
+```
 
 ## Referente de escritura
-La estructura y el flujo de un post salen del generador:
-[blog-t.html](http://localhost:8080/blog-t.html) (herramienta interna, `noindex`).
-La plantilla [[Blog post]] replica sus secciones **1 · Contenido, 2 · Imagen, 3 · Taxonomía, 4 · Meta** (el punto 5 —temas relacionados— ya no existe aquí: los relacionados se crean en Obsidian con wikilinks).
 
-## Publicar
-Cuando una nota esté lista, se escribe el artículo en la web siguiendo la estructura de `AGENTS.md` (sección Blog) y se registra en `assets/js/blog-data*.js`.
-
-## Otras notas (no-blog)
-- [[Backend de pagos (MercadoPago)]] — tutorial del backend de pagos (con checklist de pasos).
+La estructura de un artículo sale de `blog-t.html` (herramienta interna, `noindex`).
+La plantilla [[Blog post]] replica sus secciones: **1 · Contenido · 2 · Imagen · 3 · Taxonomía · 4 · Meta**. Los temas relacionados se resuelven con wikilinks.

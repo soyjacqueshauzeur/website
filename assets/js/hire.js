@@ -416,13 +416,22 @@
 
   /* ---------------- MercadoPago Checkout Pro ---------------- */
   function isMP() { return state.payId === 'mercadopago'; }
-  function loadCheckout(cb) {
-    if (window.JH_CHECKOUT) { cb(); return; }
+  function loadScript(src, onload, onerror) {
     var s = document.createElement('script');
-    s.src = '/assets/js/checkout.js';
-    s.onload = function () { cb(); };
-    s.onerror = function () { toast('No se pudo cargar el checkout'); };
+    s.src = src;
+    s.onload = onload;
+    s.onerror = onerror;
     document.head.appendChild(s);
+  }
+  function loadCheckout(cb) {
+    var needCheckout = !window.JH_CHECKOUT;
+    var needForm = !window.JH_PAYMENT_FORM;
+    var pending = (needCheckout ? 1 : 0) + (needForm ? 1 : 0);
+    if (!pending) { cb(); return; }
+    function done() { if (--pending === 0) cb(); }
+    function fail() { toast('No se pudo cargar el checkout'); }
+    if (needCheckout) loadScript('/assets/js/checkout.js', done, fail);
+    if (needForm) loadScript('/assets/js/payment-form.js', done, fail);
   }
   function updatePayButtons() {
     var wa = document.querySelector('[data-wa-send]');
@@ -436,12 +445,28 @@
     loadCheckout(function () {
       var es = D.lang === 'es';
       var items = state.cart.map(function (l) { return { id: l.id, qty: l.months }; });
-      window.JH_CHECKOUT.pay({
-        area: 'services',
-        items: items,
-        back: es ? '/es/services.html?pago=ok' : '/services.html?pago=ok',
-        backFail: es ? '/es/services.html?pago=error' : '/services.html?pago=error'
-      }).catch(function (err) { toast(err.message || 'No se pudo iniciar el pago'); });
+      var btn = document.querySelector('[data-wa-send]');
+      var names = state.cart.map(function (l) {
+        var s = svc(l.id);
+        if (!s) return '';
+        return s.category + ' × ' + l.months + (es ? (l.months === 1 ? ' mes' : ' meses') : (l.months === 1 ? ' mo' : ' mos'));
+      }).filter(Boolean).join(' + ');
+      window.JH_PAYMENT_FORM.open({
+        lang: es ? 'es' : 'en',
+        summary: names + ' · ' + fmt(total())
+      }).then(function (data) {
+        return window.JH_CHECKOUT.pay({
+          area: 'services',
+          items: items,
+          customer: data.customer,
+          consent: data.consent,
+          back: es ? '/es/services.html?pago=ok' : '/services.html?pago=ok',
+          backFail: es ? '/es/services.html?pago=error' : '/services.html?pago=error',
+          button: btn
+        });
+      }).catch(function (err) {
+        if (!err || !err.cancelled) toast((err && err.message) || 'No se pudo iniciar el pago');
+      });
     });
   }
 

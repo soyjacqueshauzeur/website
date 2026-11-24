@@ -1,5 +1,18 @@
 /* Entradas de blog (ES) — fuente compartida para listado y portada */
 window.BLOG_POSTS_ES = [
+{
+  "slug": "paginas-web-con-ia",
+  "category": "web",
+  "date": "03 Nov 2026",
+  "author": "Jacques Hauzeur",
+  "readTime": "9 min",
+  "url": "blog/2026/11/paginas-web-con-ia.html",
+  "title": "Páginas web con IA para negocios pequeños: guía 2026",
+  "titleHtml": "Páginas web con IA <span class=\"lime\">para negocios pequeños</span>",
+  "excerpt": "Qué hace bien la IA en la web de un negocio, qué arruina, cuánto cuesta de verdad en 2026 y el checklist de 12 puntos antes de publicar.",
+  "image": "../assets/img/blog/2026/11/paginas-web-con-ia/2026-11-paginas-web-con-ia-thumbnail.avif",
+  "featured": false
+},
   {
     "slug": "ia-en-el-trabajo",
     "title": "Inteligencia artificial en el trabajo: ¿cómo está transformando tu profesión?",

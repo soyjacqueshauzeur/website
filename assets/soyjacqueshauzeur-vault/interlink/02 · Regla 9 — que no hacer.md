@@ -100,4 +100,4 @@ Cada prohibición con **cómo se detecta**, **cómo se arregla hoy** y **qué ha
 
 Extra del checker (mismo espíritu): **`href="#"`** en página indexable y **enlaces a archivos que no existen** → error.
 
-Ver también [[01 · Reglas de enlazado]] (regla 9 completa) y [[00 · Ejecución SEO (MOC)]].
+Ver también [[01 · Reglas de enlazado]] (regla 9 completa) y [[04 · Mapa EN]] / [[05 · Mapa ES]] (cómo quedó el sitio).

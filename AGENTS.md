@@ -152,14 +152,15 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - Para preguntas de pagos/checkout (Checkout Pro, preferencias, webhooks, credenciales, pruebas) usar las tools del MCP **`mercadopago`** (p. ej. `search-documentation`) en lugar de inventar endpoints, campos o flujos.
 - Config **personal, no va al repo**: `~/.config/opencode/opencode.jsonc` con `"mercadopago"` (`type: remote`, `url: https://mcp.mercadopago.com/mcp`, `oauth: false`) y el Access Token en `~/.config/opencode/mercadopago.token` (`chmod 600`), leído con `{file:…}`. Nunca commitear el token.
 - Con Access Token **no** están disponibles `application_list`, `create_application`, `get_credentials` (requieren OAuth).
-- El backend de ejemplo del store (`es/tienda/soy/server/`) es solo demo (`example-server.js` + `.env.example`).
+- El backend real es el Worker compartido de lemonshake (`~/opencode/lemonshake/soy/server/cloudflare/`); no hay carpeta de servidor dentro de este repo.
 
-## Pagos reales (Checkout Pro) — backend serverless multi-área
-- La web es estática (GitHub Pages): **el Access Token NUNCA va en el repo/HTML/JS**. Vive como secreto en un backend serverless.
-- Backend genérico listo para desplegar: `es/tienda/soy/server/cloudflare/` (`worker.js` + `catalog.json` + `wrangler.toml` + `README.md`). Soporta áreas `tienda`, `services`, `sessions`; los precios salen del **catálogo del servidor** (no del navegador).
-- Cliente compartido: `assets/js/checkout.js` (`window.JH_CHECKOUT.pay({ area, items:[{id,qty}], payer?, back?, backFail? })`); se carga de forma perezosa desde `hire.js` (servicios), `class-booking.js` (1:1) y las páginas de la tienda (`product.html` / `index.html`). Edita su `BACKEND` (o define `window.JH_CHECKOUT_BACKEND`).
-- Desplegar: `wrangler secret put MP_ACCESS_TOKEN` + `wrangler deploy`. En producción, `accountCurrency` COP y los precios USD de servicios/1:1 se convierten a COP (tasa `USD_COP` o Frankfurter).
-- Endpoints: `POST /crear-preferencia` (**pago único del total**, sin suscripciones). **Idempotencia** vía `X-Idempotency-Key` (el cliente la manda; anti doble-clic).
-- Webhook `POST /webhook/mercadopago`: responde **200 al instante** y procesa con `ctx.waitUntil`; persiste el pago en KV si el binding `PAYMENTS` está configurado (si no, loguea).
-- Estado/avance y pendientes: `es/tienda/soy/server/cloudflare/STATUS.md`.
+## Pagos reales (Checkout Pro) — backend compartido con lemonshake
+- La web es estática (GitHub Pages): **el Access Token NUNCA va en el repo/HTML/JS**. Vive como secreto en el backend serverless (Cloudflare Worker).
+- El backend es **el mismo Worker de lemonshake** (`lemonshake-payments`), que ya tiene el token de producción y la base D1. Se le añadieron las áreas `services` y `sessions` en `catalog.json`; los precios salen del **catálogo del servidor** (USD → COP).
+- Cada área define su `baseUrl` y sus rutas de retorno: `services`/`sessions` vuelven a `https://soyjacqueshauzeur.dev` (EN/ES, la ruta la manda el cliente). El descriptor de tarjeta es `JACQUES HAUZEUR`.
+- Orígenes permitidos en el Worker: `soyjacqueshauzeur.dev`, `www.soyjacqueshauzeur.dev` y localhost de desarrollo.
+- Cliente: `assets/js/checkout.js` (pago único del total) + `assets/js/payment-form.js` (nombre, correo, WhatsApp y consentimiento; reutiliza `jh-contract-profile`). `hire.js` (servicios) y `class-booking.js` (1:1) los cargan de forma perezosa.
+- Endpoints: `POST /api/orders` (`/crear-preferencia` por compatibilidad), `GET /api/orders/:id?token=…` y webhook `POST /api/webhook/mercadopago` (valida firma).
+- Código del Worker: `~/opencode/lemonshake/soy/server/cloudflare/` (esa carpeta está **ignorada por git**; mantener un respaldo privado).
+- Pendiente: dominio propio verificado en Resend para los correos de soyjacques (hoy salen desde `pedidos@lemonshake.shop`) y la **prueba con un pago real**.
 

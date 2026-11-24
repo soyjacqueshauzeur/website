@@ -10,6 +10,13 @@ tags: [backend, pagos, mercadopago, tutorial, cloudflare]
 > (GitHub Pages); el cobro seguro lo hace un **backend serverless** (Cloudflare
 > Worker). Esta nota NO contiene tokens ni credenciales.
 
+> **Estado actual (2026-11-24):** el backend **ya está desplegado** en el Worker
+> compartido de lemonshake (`lemonshake-payments`), con las áreas `services` y
+> `sessions`, retorno a `soyjacqueshauzeur.dev` y descriptor `JACQUES HAUZEUR`.
+> El cliente ya pide nombre, correo, WhatsApp y consentimiento
+> (`assets/js/payment-form.js`). Pendiente: **probar un pago real** y, si se
+> quiere marca propia, verificar el dominio en Resend.
+
 ---
 
 ## ✅ Ya completado (código, sin desplegar)

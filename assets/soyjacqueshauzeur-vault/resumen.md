@@ -6,7 +6,7 @@ tags: [resumen, seo]
 
 # 📌 Resumen de la intervención
 
-Todo lo hecho sobre `soyjacqueshauzeur.dev` a partir de la auditoría de Search Console. Esta nota es la puerta de entrada; el detalle está en [[05 · Cambios aplicados]] y en las notas de [[00 · Ejecución SEO (MOC)]].
+Todo lo hecho sobre `soyjacqueshauzeur.dev` a partir de la auditoría de Search Console. Esta nota es la puerta de entrada; el estado actual de la web está en [[04 · Mapa EN]] y [[05 · Mapa ES]]; lo que queda por hacer, en [[Pendientes]] y [[Plan de posicionamiento]].
 
 > [!success] Estado final verificado
 > ```
@@ -71,9 +71,9 @@ Se les había puesto `index, follow` y entraban al sitemap (32 URLs). Excluidos 
 
 | Tarea | Por qué no se hizo |
 |---|---|
-| **301 de `www` y `http`** | Requiere GitHub Settings → *Enforce HTTPS* + CNAME de `www`. No se puede desde el repo. Ver [[03 · H — duplicados de host]]. |
+| **301 de `www` y `http`** | Requiere GitHub Settings → *Enforce HTTPS* + CNAME de `www`. No se puede desde el repo. Ver [[Pendientes]]. |
 | **Páginas legales** (`privacy`, `imprint`) | Una política de privacidad debe describir lo que el sitio hace de verdad. El footer ya las enlazará solo cuando existan. |
-| **Contenido long-tail** | Es el motor, no un arreglo. Ver [[04 · Roadmap 90 días]]. |
+| **Contenido long-tail** | Es el motor, no un arreglo. Ver [[Plan de posicionamiento]]. |
 | **`gallery.html`** | Demo de fotografía, `noindex` y sin enlaces entrantes. Pendiente de decidir si se borra. |
 
 ## Antes y después
@@ -100,14 +100,11 @@ Ninguno de estos cambios genera tráfico por sí solo: **quitan el freno técnic
 
 | Nota | Contenido |
 |---|---|
-| [[00 · Ejecución SEO (MOC)]] | estado de los arreglos, comando a comando |
-| [[05 · Cambios aplicados]] | el detalle técnico de cada cambio |
 | [[00 · Índice interlink]] | el grafo de enlaces internos |
 | [[01 · Reglas de enlazado]] | las 10 reglas |
 | [[02 · Regla 9 — que no hacer]] · [[03 · Regla 10 — mantenimiento]] | operativa |
-| [[01 · F — FAQPage sin contenido visible]] · [[02 · G — hreflang de ruso falso]] · [[03 · H — duplicados de host]] | los tres problemas concretos |
-| [[04 · Roadmap 90 días]] | contenido, enlaces y expectativas |
-| [[06 · Diagnóstico y plan de posicionamiento]] | **qué hacer con 0 visitas**: diagnóstico, 3 motores y plan de 12 semanas con KPIs |
+| [[Plan de posicionamiento]] | **qué hacer con 0 visitas**: diagnóstico, 3 motores y plan de 12 semanas con KPIs |
+| [[Pendientes]] | lo que no se puede resolver desde el repo |
 | [[00 · Plan de keywords (MOC)]] · [[07 · English long-tail]] | qué escribir y para quién |
 | [[Idiomas]] | regla bilingüe y estado EN/ES |
 

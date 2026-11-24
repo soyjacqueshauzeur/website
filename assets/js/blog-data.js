@@ -1,5 +1,18 @@
 /* Blog posts data (EN) — source of truth shared by blog list and home */
 window.BLOG_POSTS = [
+{
+  "slug": "paginas-web-con-ia",
+  "category": "web",
+  "date": "03 Nov 2026",
+  "author": "Jacques Hauzeur",
+  "readTime": "9 min",
+  "url": "blog/2026/11/paginas-web-con-ia.html",
+  "title": "AI websites for small business: a 2026 build guide",
+  "titleHtml": "AI websites <span class=\"lime\">for small businesses</span>",
+  "excerpt": "What AI does well on a small business website, what it ruins, what it really costs in 2026, and the 12-point checklist before you publish.",
+  "image": "assets/img/blog/2026/11/paginas-web-con-ia/2026-11-paginas-web-con-ia-thumbnail.avif",
+  "featured": false
+},
   {
     "slug": "ia-en-el-trabajo",
     "title": "Artificial intelligence at work: how is it transforming your profession?",

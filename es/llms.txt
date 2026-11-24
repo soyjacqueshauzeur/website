@@ -1,12 +1,12 @@
 # Jacques Hauzeur (SoyJacquesHauzeur)
 
-> Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son USD $20 por clase de 90 min. El sitio está en inglés (/) y español (/es/).
+> Jacques Hauzeur (SoyJacquesHauzeur) es educador tecnológico y mentor de fundadores y equipos — web, marketing, automatización e IA. Los servicios son contrataciones mensuales con precios en USD (cobrables en moneda local, p. ej. COP); las sesiones 1:1 son COP $85.000 por clase de 90 min. El sitio está en inglés (/) y español (/es/).
 
 ## Páginas
 
 - [Inicio](https://soyjacqueshauzeur.dev/es/): Quién soy y qué hago
 - [Clientes](https://soyjacqueshauzeur.dev/es/clients.html): Clientes y los resultados que consiguen
-- [1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): Agenda sesiones 1:1 de pago (USD $20 / 90 min)
+- [1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): Agenda sesiones 1:1 de pago (COP $85.000 / 90 min)
 - [Servicios](https://soyjacqueshauzeur.dev/es/services.html): Los seis servicios mensuales y sus tarifas
 - [Sobre mí](https://soyjacqueshauzeur.dev/es/#about): Mi trayectoria y enfoque
 - [Blog](https://soyjacqueshauzeur.dev/es/blog.html): Notas sobre IA, web, marketing y chatbots
@@ -22,10 +22,11 @@
 
 ## Sesiones 1:1
 
-- [Sesiones 1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): USD $20 / sesión de 90 min
+- [Sesiones 1:1](https://soyjacqueshauzeur.dev/es/sesiones.html): COP $85.000 / sesión de 90 min
 
 ## Blog
 
+- [Páginas web con IA para negocios pequeños: guía 2026](https://soyjacqueshauzeur.dev/es/blog/2026/11/paginas-web-con-ia.html): Qué hace bien la IA en la web de un negocio, qué arruina, cuánto cuesta de verdad en 2026 y el checklist de 12 puntos antes de publicar.
 - [Inteligencia artificial en el trabajo: ¿cómo está transformando tu profesión?](https://soyjacqueshauzeur.dev/es/blog/2026/10/ia-en-el-trabajo.html): Internet entra en pánico con la IA y el empleo, pero los datos dicen otra cosa: 13% de refuerzo frente a 2,3% de automatización. Lo que cambia es el…
 - [La IA en la vida moderna (escrito 100% con IA)](https://soyjacqueshauzeur.dev/es/blog/2026/09/ia-vida-moderna.html): La inteligencia artificial ya está en tu bolsillo, tu estudio, tu casa y tu salud. Una mirada práctica a lo que cambia, lo que no, y los riesgos — y…
 - [Por qué tu negocio necesita una web en 2026](https://soyjacqueshauzeur.dev/es/blog/2026/09/webs-2026.html): En la era de la IA es tentador llevar el negocio solo desde redes sociales. Por qué una web propia sigue siendo tu activo central y qué debe tener pa…

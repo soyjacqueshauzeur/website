@@ -9,7 +9,7 @@
 
   var D = window.JH_HIRE;
   var ES = D.lang === 'es';
-  var PRICE = 20;           // USD per hour
+  var PRICE = 85000;        // COP por sesión de 90 min
   var MAX_HOURS = 48;       // monthly cap (Mon–Thu × 3/day × ~4 weeks)
 
   var T = {
@@ -19,8 +19,8 @@
     perHour: '/90 min',
     totalLabel: ES ? 'Total a pagar' : 'Total to pay',
     footNote: ES
-      ? 'Precios en USD. Máximo 3 sesiones de 90 min por día, lunes a jueves. Los viernes la clase es gratis.'
-      : 'Prices in USD. Max 3 sessions a day (90 min each), Monday to Thursday. Fridays are free.',
+      ? 'Precios en COP. Máximo 3 sesiones de 90 min por día, lunes a jueves. Los viernes la clase es gratis.'
+      : 'Prices in COP. Max 3 sessions a day (90 min each), Monday to Thursday. Fridays are free.',
     payTitle: ES ? '¿Cómo quieres pagar?' : 'How do you want to pay?',
     waSend: ES ? 'Enviar y pagar por WhatsApp' : 'Send and pay via WhatsApp',
     tgSend: ES ? 'Enviar por Telegram' : 'Send via Telegram',
@@ -50,12 +50,7 @@
     payId: D.payments[0] ? D.payments[0].id : null
   };
 
-  function fmt(n) { return 'USD $' + n.toLocaleString('en-US'); }
-  function AX(n) { return (window.JH_FX && window.JH_FX.approxNode) ? window.JH_FX.approxNode(n) : ''; }
-  function AXID(n, id) {
-    if (!(window.JH_FX && window.JH_FX.approxNode)) return '';
-    return '<span class="price-approx" data-approx="' + n + '" data-approx-id="' + id + '"></span>';
-  }
+  function fmt(n) { return 'COP $' + n.toLocaleString(ES ? 'es-CO' : 'en-US'); }
   function renderFX() {
     if (window.JH_FX && window.JH_FX.renderApproxNodes) window.JH_FX.renderApproxNodes();
   }
@@ -73,8 +68,7 @@
   }
 
   function saveQuoteFX() {
-    if (!window.JH_FX || !window.JH_FX.saveQuote) return;
-    window.JH_FX.saveQuote([{ id: 'class-1to1', name: T.lineTitle, qty: state.hours, usdTotal: total() }]);
+    /* Las sesiones ya se cobran en COP; el cotizador FX en USD no aplica. */
   }
 
   function ready(fn) {
@@ -181,9 +175,9 @@
         '</div>' +
         '<div class="hire-line-dur" role="group" aria-label="' + T.stepperLabel + '">' + chipsHTML('cart-') + '</div>' +
         '<div class="hire-line-meta">' +
-          '<span class="hlm-rate">' + fmt(PRICE) + '<i>' + T.perHour + '</i>' + AX(PRICE) + '</span>' +
+          '<span class="hlm-rate">' + fmt(PRICE) + '<i>' + T.perHour + '</i></span>' +
           '<span class="hlm-mid">' + h + '</span>' +
-          '<b class="hlm-total">' + fmt(total()) + AXID(total(), 'class-total') + '</b>' +
+          '<b class="hlm-total">' + fmt(total()) + '</b>' +
         '</div>' +
       '</div>' +
       '<div class="hire-summary-total">' +
@@ -273,11 +267,9 @@
 
   function buildMessage() {
     var lines = [];
-    var loc = (window.JH_FX && window.JH_FX.fmtLocal) ? window.JH_FX.fmtLocal(total()) : null;
     lines.push(T.msgHi);
     lines.push('- ' + hourLabel(state.hours) + T.msgTotal + fmt(PRICE) + T.msgPerH + fmt(total()));
     lines.push(T.msgTotalPay + fmt(total()));
-    if (loc) lines.push('\u2248 ' + loc + (ES ? ' (referencia)' : ' (reference)'));
     lines.push(T.msgPay + payLabel());
     lines.push(T.msgProof);
     return lines.join('\n');
@@ -292,13 +284,22 @@
 
   /* ---------------- MercadoPago Checkout Pro ---------------- */
   function isMP() { return state.payId === 'mercadopago'; }
-  function loadCheckout(cb) {
-    if (window.JH_CHECKOUT) { cb(); return; }
+  function loadScript(src, onload, onerror) {
     var s = document.createElement('script');
-    s.src = '/assets/js/checkout.js';
-    s.onload = function () { cb(); };
-    s.onerror = function () { toast('No se pudo cargar el checkout'); };
+    s.src = src;
+    s.onload = onload;
+    s.onerror = onerror;
     document.head.appendChild(s);
+  }
+  function loadCheckout(cb) {
+    var needCheckout = !window.JH_CHECKOUT;
+    var needForm = !window.JH_PAYMENT_FORM;
+    var pending = (needCheckout ? 1 : 0) + (needForm ? 1 : 0);
+    if (!pending) { cb(); return; }
+    function done() { if (--pending === 0) cb(); }
+    function fail() { toast('No se pudo cargar el checkout'); }
+    if (needCheckout) loadScript('/assets/js/checkout.js', done, fail);
+    if (needForm) loadScript('/assets/js/payment-form.js', done, fail);
   }
   function updatePayButtons() {
     var wa = document.querySelector('[data-class-wa]');
@@ -310,12 +311,26 @@
   function payWithMP() {
     if (!state.hours) return;
     loadCheckout(function () {
-      window.JH_CHECKOUT.pay({
-        area: 'sessions',
-        items: [{ id: 'session-90', qty: state.hours }],
-        back: ES ? '/es/sesiones.html?pago=ok' : '/sessions.html?pago=ok',
-        backFail: ES ? '/es/sesiones.html?pago=error' : '/sessions.html?pago=error'
-      }).catch(function (err) { toast(err.message || 'No se pudo iniciar el pago'); });
+      var btn = document.querySelector('[data-class-wa]');
+      var label = ES
+        ? state.hours + (state.hours === 1 ? ' sesión' : ' sesiones') + ' de 90 min'
+        : state.hours + (state.hours === 1 ? ' session' : ' sessions') + ' × 90 min';
+      window.JH_PAYMENT_FORM.open({
+        lang: ES ? 'es' : 'en',
+        summary: label + ' · ' + fmt(total())
+      }).then(function (data) {
+        return window.JH_CHECKOUT.pay({
+          area: 'sessions',
+          items: [{ id: 'session-90', qty: state.hours }],
+          customer: data.customer,
+          consent: data.consent,
+          back: ES ? '/es/sesiones.html?pago=ok' : '/sessions.html?pago=ok',
+          backFail: ES ? '/es/sesiones.html?pago=error' : '/sessions.html?pago=error',
+          button: btn
+        });
+      }).catch(function (err) {
+        if (!err || !err.cancelled) toast((err && err.message) || (ES ? 'No se pudo iniciar el pago' : 'Could not start the payment'));
+      });
     });
   }
 

@@ -94,4 +94,4 @@ Las reglas 3, 4, 6, 7, 8 y 9 están implementadas en `tools/link-check.mjs`. El 
 node tools/link-check.mjs
 ```
 
-Ver el registro de cambios en [[05 · Cambios aplicados]].
+El estado actual de la web, página por página: [[04 · Mapa EN]] · [[05 · Mapa ES]].

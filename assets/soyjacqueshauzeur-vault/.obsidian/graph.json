@@ -1,12 +1,19 @@
 {
   "collapse-filter": false,
-  "search": "path:interlink OR path:blog OR path:keywords OR path:plan OR file:Idiomas",
+  "search": "path:interlink OR path:blog OR path:keywords OR file:index OR file:resumen OR file:Idiomas OR file:Pendientes OR file:Plan OR file:Blog OR file:youtube",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": true,
   "colorGroups": [
+    {
+      "query": "tag:#indice",
+      "color": {
+        "a": 1,
+        "rgb": 14221118
+      }
+    },
     {
       "query": "tag:#il/raiz",
       "color": {
@@ -54,6 +61,20 @@
       "color": {
         "a": 1,
         "rgb": 14221118
+      }
+    },
+    {
+      "query": "tag:#mapa/en",
+      "color": {
+        "a": 1,
+        "rgb": 3381759
+      }
+    },
+    {
+      "query": "tag:#mapa/es",
+      "color": {
+        "a": 1,
+        "rgb": 13975823
       }
     }
   ],
