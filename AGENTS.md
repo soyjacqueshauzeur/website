@@ -148,6 +148,16 @@ La barra de nav canónica es: `Home · Clients · 1:1 · Services · About me ·
 - Quote estructurado para futuras pasarelas en `localStorage['jh-pay-quote']` (moneda, items en USD + local, totales) — se escribe al cambiar carrito/horas/moneda. La llamada a PayPal/MercadoPago es una etapa futura; aquí solo se persiste.
 - `hire.js` y `class-booking.js` exponen helpers `AX(n)` (span approx) / `renderFX()` / `renderNodeFX(id, usd)` y escuchan `jh:fxchange`. En FX no hay textos por idioma: los nombres de moneda son nativos y el label del picker usa `<html lang>`.
 
+## Idioma y redirección EN/ES
+- La web vive en dos árboles: `/` (inglés) y `/es/` (español); `canonical`, `hreflang` y `x-default` ya están en el `<head>`.
+- `assets/js/lang-redirect.js` se carga **síncrono en el `<head>` de todas las páginas** y decide antes del primer pintado.
+- Reglas: la preferencia explícita (cookie `lang` o `sessionStorage['jh-lang-choice']`) manda en ambos sentidos; sin preferencia decide `navigator.languages` (si está en inglés, gana inglés aunque el país sea hispano); si el navegador es neutro, decide la zona horaria convertida a país (21 países hispanos).
+- Las páginas `/es/` sin preferencia guardada **nunca** redirigen a inglés (no se rompen enlaces compartidos).
+- `?lang=es|en` fuerza y guarda la preferencia; `?noredirect` desactiva la redirección; en `localhost` no se redirige (usa `127.0.0.1` para probar).
+- El mapa de equivalencias está en `PAIRS` dentro de `lang-redirect.js`. **Al añadir una página con versión en español, agrégala al mapa.**
+- El selector de banderas de `site.js` guarda cookie + `sessionStorage` y añade `?lang=` al destino como refuerzo si el navegador bloquea el almacenamiento.
+- Sin versión en español (`gallery.html`, `price-t.html`, `blog-t.html`): se quedan en inglés.
+
 ## MCP MercadoPago (dudas de checkout/pagos)
 - Para preguntas de pagos/checkout (Checkout Pro, preferencias, webhooks, credenciales, pruebas) usar las tools del MCP **`mercadopago`** (p. ej. `search-documentation`) en lugar de inventar endpoints, campos o flujos.
 - Config **personal, no va al repo**: `~/.config/opencode/opencode.jsonc` con `"mercadopago"` (`type: remote`, `url: https://mcp.mercadopago.com/mcp`, `oauth: false`) y el Access Token en `~/.config/opencode/mercadopago.token` (`chmod 600`), leído con `{file:…}`. Nunca commitear el token.

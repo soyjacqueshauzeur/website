@@ -68,7 +68,8 @@
   }
 })();
 
-/* Language preference (EN default · ES under /es/) */
+/* Language switch (EN default · ES under /es/). La redirección automática
+   vive en /assets/js/lang-redirect.js, que se carga en el <head>. */
 (function () {
   'use strict';
 
@@ -76,26 +77,23 @@
     try {
       document.cookie = 'lang=' + lang + ';path=/;max-age=31536000;SameSite=Lax';
     } catch (e) {}
+    try { sessionStorage.setItem('jh-lang-choice', lang); } catch (e) {}
+    if (window.JH_LANG && window.JH_LANG.set) window.JH_LANG.set(lang);
   }
 
   document.addEventListener('click', function (e) {
     var link = e.target && e.target.closest ? e.target.closest('.lang-switch a[data-lang]') : null;
     if (!link) return;
-    setLang(link.getAttribute('data-lang'));
-  });
+    var lang = link.getAttribute('data-lang');
+    setLang(lang);
 
-  function getLang() {
-    var m = document.cookie.match(/(?:^|;\s*)lang=([^;]+)/);
-    return m ? m[1] : null;
-  }
-
-  // Remembered Spanish users landing on the EN homepage go straight to /es/.
-  if (getLang() === 'es') {
-    var path = location.pathname.replace(/\/+$/, '') || '/';
-    if (path === '/' || path === '/index.html') {
-      location.replace('/es/');
+    /* Refuerzo para navegadores con cookies y sessionStorage bloqueados:
+       la preferencia viaja también en la URL de destino. */
+    var href = link.getAttribute('href') || '';
+    if (href && !/[?&]lang=/.test(href)) {
+      link.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + 'lang=' + lang);
     }
-  }
+  });
 })();
 
 /* Hero portrait A/B toggle */
