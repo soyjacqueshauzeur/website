@@ -1,0 +1,71 @@
+/* time — página de hora y fecha.
+   Tema oscuro con los tokens de lemonshake.
+   Para incrustar en otra web: copia el bloque .time-clock y sus reglas. */
+
+:root {
+  color-scheme: dark;
+  --time-bg: #111114;       /* --ink */
+  --time-lime: #D4FF3D;     /* --lime */
+  --time-paper: #F4F4F0;    /* --paper */
+  --time-font: "Ubuntu", "Ubuntu Sans", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.time-page {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--time-bg);
+  color: var(--time-paper);
+  font-family: var(--time-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.time-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.4vh, 30px);
+  padding: clamp(16px, 4vw, 48px);
+  text-align: center;
+}
+
+.time-clock__time {
+  margin: 0;
+  color: var(--time-lime);
+  font-size: clamp(3.2rem, min(23.5vw, 45vh), 32.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.time-clock__date {
+  margin: 0;
+  color: var(--time-paper);
+  font-size: clamp(1rem, 3.2vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+}
+
+@media (max-width: 480px) {
+  .time-clock__date {
+    font-size: clamp(0.95rem, 4.2vw, 1.35rem);
+  }
+}
